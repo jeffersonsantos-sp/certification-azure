@@ -1,0 +1,291 @@
+{
+  "metadata": {
+    "skill_id": "ig-02",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T15:56:53.160588",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which built-in role allows read-only access to all resources in a subscription?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Reader"
+        },
+        {
+          "label": "B",
+          "text": "Contributor"
+        },
+        {
+          "label": "C",
+          "text": "Owner"
+        },
+        {
+          "label": "D",
+          "text": "ReaderWriter"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Reader built-in role provides read-only permissions across the subscription, according to the Azure documentation at docs.microsoft.com.",
+      "difficulty": "easy",
+      "tags": [
+        "roles",
+        "built-in"
+      ]
+    },
+    {
+      "question_text": "When assigning a role at a resource group scope, which statement is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The assignment applies to the resource group resource."
+        },
+        {
+          "label": "B",
+          "text": "The assignment applies to all resources within the resource group."
+        },
+        {
+          "label": "C",
+          "text": "The assignment applies to the management group."
+        },
+        {
+          "label": "D",
+          "text": "The assignment applies to the subscription root."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The role assignment at a resource group scope applies to every resource that belongs to that group, according to the Azure RBAC documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "scopes",
+        "RBAC"
+      ]
+    },
+    {
+      "question_text": "A developer needs to grant a service principal permission to read Azure Key Vault secrets but not manage the vault itself. Which built-in role should be assigned?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Key Vault Reader"
+        },
+        {
+          "label": "B",
+          "text": "Key Vault Contributor"
+        },
+        {
+          "label": "C",
+          "text": "Owner"
+        },
+        {
+          "label": "D",
+          "text": "Reader"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Key Vault Reader role grants read access to secrets while preventing management actions on the vault, which matches the requirement described in the Azure docs.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Key Vault",
+        "service principal"
+      ]
+    },
+    {
+      "question_text": "You have a subscription scoped role assignment for Reader at the subscription level. Which scope(s) will inherit this assignment?",
+      "options": [
+        {
+          "label": "A",
+          "text": "All resource groups in the subscription."
+        },
+        {
+          "label": "B",
+          "text": "All resources within the subscription."
+        },
+        {
+          "label": "C",
+          "text": "The management group."
+        },
+        {
+          "label": "D",
+          "text": "The subscription root."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A subscription-level assignment is inherited by all resources, resource groups, and other objects under that subscription, per the RBAC inheritance rules in the Azure guide.",
+      "difficulty": "intermediate",
+      "tags": [
+        "subscription",
+        "inheritance"
+      ]
+    },
+    {
+      "question_text": "An administrator wants to assign a custom role that includes the Microsoft.Authorization/roleAssignments/write permission at a management group scope. Which approach is required?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign a built-in role at the management group scope."
+        },
+        {
+          "label": "B",
+          "text": "Create a custom role that includes the required permission and assign it at the management group scope."
+        },
+        {
+          "label": "C",
+          "text": "Use Azure AD role assignment to grant the permission."
+        },
+        {
+          "label": "D",
+          "text": "Assign the Owner role at the subscription scope."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Creating a custom role that includes the specific permission and assigning it at the management group scope follows the process outlined in the Azure documentation for custom role definitions and scope assignment.",
+      "difficulty": "advanced",
+      "tags": [
+        "custom roles",
+        "permissions"
+      ]
+    },
+    {
+      "question_text": "Which statement correctly describes the precedence of role assignments when multiple assignments exist at different scopes for the same user?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The assignment with the highest level of restriction takes precedence."
+        },
+        {
+          "label": "B",
+          "text": "The assignment with the lowest level of restriction takes precedence."
+        },
+        {
+          "label": "C",
+          "text": "Assignments are merged and the most permissive wins."
+        },
+        {
+          "label": "D",
+          "text": "The most recent assignment overrides earlier ones."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "When multiple role assignments exist, the one that imposes the greatest restriction is evaluated first, which is explained in the Azure RBAC precedence guidance.",
+      "difficulty": "advanced",
+      "tags": [
+        "precedence",
+        "RBAC"
+      ]
+    },
+    {
+      "question_text": "Which Azure CLI command would you use to view effective access for a user on a specific resource?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az role assignment list"
+        },
+        {
+          "label": "B",
+          "text": "az role assignment show-effective-access"
+        },
+        {
+          "label": "C",
+          "text": "az role assignment list-effective-access"
+        },
+        {
+          "label": "D",
+          "text": "az role assignment get-effective-access"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The az role assignment show-effective-access command returns the effective permissions for the specified principal on the given resource, as detailed in the Azure CLI reference.",
+      "difficulty": "intermediate",
+      "tags": [
+        "effective access",
+        "CLI"
+      ]
+    },
+    {
+      "question_text": "Which Azure portal blade is used to manage built-in roles?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Subscriptions"
+        },
+        {
+          "label": "B",
+          "text": "Access control (IAM)"
+        },
+        {
+          "label": "C",
+          "text": "Monitor"
+        },
+        {
+          "label": "D",
+          "text": "Cost Management"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Access control (IAM) blade in the Azure portal is where built-in role management is performed, according to the Azure portal navigation guide.",
+      "difficulty": "easy",
+      "tags": [
+        "portal",
+        "IAM"
+      ]
+    },
+    {
+      "question_text": "A company wants to assign a role to a user such that the user can manage virtual machines within a specific resource group. Which scope should be used?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Subscription"
+        },
+        {
+          "label": "B",
+          "text": "Resource group"
+        },
+        {
+          "label": "C",
+          "text": "Virtual machine"
+        },
+        {
+          "label": "D",
+          "text": "Management group"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Assigning a role at the resource group scope limits the permissions to resources inside that group, which aligns with the RBAC scoping recommendations in the Azure docs.",
+      "difficulty": "intermediate",
+      "tags": [
+        "resource group",
+        "least privilege"
+      ]
+    },
+    {
+      "question_text": "You need to assign a role to a user that includes the Microsoft.Resources/deployments/write permission for a specific resource group. Which approach ensures least privilege?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the built-in Contributor role at the subscription scope."
+        },
+        {
+          "label": "B",
+          "text": "Create a custom role that includes the permission and assign it at the resource group scope."
+        },
+        {
+          "label": "C",
+          "text": "Assign the Owner role at the resource group scope."
+        },
+        {
+          "label": "D",
+          "text": "Assign the Reader role at the resource group scope."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Creating a custom role that includes the specific permission and assigning it at the resource group scope limits the scope to that group, following the least‑privilege guidance in the Azure documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "custom role",
+        "least privilege"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T15:54:51.530644",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to create a new Microsoft Entra ID user for a new employee. Which method should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "In the Azure portal, go to Users > New user"
+        },
+        {
+          "label": "B",
+          "text": "Run PowerShell Set-MgUser with the user's ID"
+        },
+        {
+          "label": "C",
+          "text": "Execute az ad user create in Azure CLI"
+        },
+        {
+          "label": "D",
+          "text": "Call the Graph API POST /users with a JSON payload"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Azure portal includes a 'New user' blade where administrators can create a Microsoft Entra ID user by providing the required information. This process is described in the Microsoft Entra ID creation documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "identity",
+        "user creation"
+      ]
+    },
+    {
+      "question_text": "An administrator wants to add a user to an existing Microsoft Entra ID group. Which built‑in role can perform this task?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Global Administrator"
+        },
+        {
+          "label": "B",
+          "text": "User Administrator"
+        },
+        {
+          "label": "C",
+          "text": "Directory Reader"
+        },
+        {
+          "label": "D",
+          "text": "Compliance Administrator"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The User Administrator role grants permissions to manage users and groups, allowing them to add members to a group. This capability is detailed in the role-based access control article.",
+      "difficulty": "easy",
+      "tags": [
+        "identity",
+        "group management"
+      ]
+    },
+    {
+      "question_text": "Which PowerShell cmdlet updates a user's telephone number in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Set-AzureADUser"
+        },
+        {
+          "label": "B",
+          "text": "Set-MgUser"
+        },
+        {
+          "label": "C",
+          "text": "Update-MgUser"
+        },
+        {
+          "label": "D",
+          "text": "New-MgUser"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Set-MgUser cmdlet updates user properties such as telephoneNumber. The PowerShell cmdlet reference confirms this functionality.",
+      "difficulty": "intermediate",
+      "tags": [
+        "identity",
+        "PowerShell",
+        "user properties"
+      ]
+    },
+    {
+      "question_text": "To enable self‑service password reset for a user, which license must be assigned?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Microsoft Entra ID Free"
+        },
+        {
+          "label": "B",
+          "text": "Microsoft Entra ID P1"
+        },
+        {
+          "label": "C",
+          "text": "Azure AD Premium P1"
+        },
+        {
+          "label": "D",
+          "text": "Azure AD Premium P2"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Self-service password reset is included with Microsoft Entra ID P1 and P2 licenses; assigning P1 enables the feature for cloud‑only users. The licensing guidance states this requirement.",
+      "difficulty": "intermediate",
+      "tags": [
+        "licensing",
+        "self-service password reset"
+      ]
+    },
+    {
+      "question_text": "How can you invite a B2B guest user to a Microsoft Entra ID tenant?",
+      "options": [
+        {
+          "label": "A",
+          "text": "In the Azure portal, select New user and choose Guest as the user type."
+        },
+        {
+          "label": "B",
+          "text": "Run az ad user create --account-type guest in Azure CLI."
+        },
+        {
+          "label": "C",
+          "text": "Use PowerShell New-MgUser with -UserPrincipalName."
+        },
+        {
+          "label": "D",
+          "text": "Assign a license to an existing user."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Inviting a B2B guest is performed through the portal's New user blade where you select Guest as the user type. The B2B collaboration article outlines this workflow.",
+      "difficulty": "advanced",
+      "tags": [
+        "B2B",
+        "guest user",
+        "invitation"
+      ]
+    },
+    {
+      "question_text": "What is the correct way to modify the membership rule of a dynamic group in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Edit the rule in the Azure portal UI"
+        },
+        {
+          "label": "B",
+          "text": "Run az group update in Azure CLI"
+        },
+        {
+          "label": "C",
+          "text": "Use PowerShell Set-AzGroup"
+        },
+        {
+          "label": "D",
+          "text": "Send a PATCH request to /groups/{id}/membershipRule via Microsoft Graph"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Dynamic group membership rules are updated by sending a PATCH request to the membershipRule property via Microsoft Graph. The Graph API documentation explains how to modify the rule.",
+      "difficulty": "advanced",
+      "tags": [
+        "group management",
+        "dynamic groups",
+        "graph API"
+      ]
+    },
+    {
+      "question_text": "Which setting needs to be enabled to allow users to reset their passwords without admin assistance?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Password reset registration"
+        },
+        {
+          "label": "B",
+          "text": "Self-service password reset"
+        },
+        {
+          "label": "C",
+          "text": "Password writeback"
+        },
+        {
+          "label": "D",
+          "text": "Authentication methods"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Self-service password reset needs to be enabled in the Authentication methods section of the Microsoft Entra ID portal. The SSPR configuration guide describes this setting.",
+      "difficulty": "intermediate",
+      "tags": [
+        "self-service password reset",
+        "authentication",
+        "Microsoft Entra ID"
+      ]
+    },
+    {
+      "question_text": "Which license type can be assigned to a B2B guest to provide access to Microsoft Entra ID resources?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure AD Free"
+        },
+        {
+          "label": "B",
+          "text": "Microsoft Entra ID Free"
+        },
+        {
+          "label": "C",
+          "text": "Microsoft Entra ID P1"
+        },
+        {
+          "label": "D",
+          "text": "Microsoft Entra ID P2"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "B2B guests can be assigned the Microsoft Entra ID Free license, which provides the necessary permissions for collaboration. The licensing overview specifies this option.",
+      "difficulty": "easy",
+      "tags": [
+        "licensing",
+        "B2B",
+        "guest user"
+      ]
+    },
+    {
+      "question_text": "When a user is disabled in Microsoft Entra ID, what happens to their group memberships?",
+      "options": [
+        {
+          "label": "A",
+          "text": "They remain members of all groups"
+        },
+        {
+          "label": "B",
+          "text": "They are automatically removed from all groups"
+        },
+        {
+          "label": "C",
+          "text": "They lose access to resources but stay in groups"
+        },
+        {
+          "label": "D",
+          "text": "Their account is deleted from the directory"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Disabling a user removes their ability to sign in but does not alter their group memberships; they retain their group assignments while losing access to resources. This behavior is explained in the user lifecycle documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "user lifecycle",
+        "disable user",
+        "group membership"
+      ]
+    },
+    {
+      "question_text": "How can you remove a B2B guest user's access while keeping their account in Microsoft Entra ID for future reuse?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Delete the user account"
+        },
+        {
+          "label": "B",
+          "text": "Assign the Guest role removal"
+        },
+        {
+          "label": "C",
+          "text": "Revoke the user's refresh token"
+        },
+        {
+          "label": "D",
+          "text": "Convert the user to a Member account"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Revoking the user's refresh token ends their active sessions and removes access, yet the user object remains in the directory for future reuse. The sign‑out and token revocation article describes this action.",
+      "difficulty": "advanced",
+      "tags": [
+        "B2B",
+        "token revocation",
+        "access management"
+      ]
+    }
+  ]
+}

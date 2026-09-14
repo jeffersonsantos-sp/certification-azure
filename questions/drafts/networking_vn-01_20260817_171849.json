@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "skill_id": "vn-01",
+    "domain_id": "networking",
+    "generated_at": "2026-08-17T17:18:49.413024",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "In the Azure portal, which blade do you select to add a new subnet to an existing virtual network?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Subnets"
+        },
+        {
+          "label": "B",
+          "text": "Resource groups"
+        },
+        {
+          "label": "C",
+          "text": "Deployment groups"
+        },
+        {
+          "label": "D",
+          "text": "Network security groups"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "According to Microsoft Docs, you open the virtual network resource and then choose the Subnets blade to create or add a subnet (https://learn.microsoft.com/azure/virtual-networks/create-subnet).",
+      "difficulty": "easy",
+      "tags": [
+        "subnet",
+        "virtual-network"
+      ]
+    },
+    {
+      "question_text": "You need to create a peering connection between two virtual networks so that resources in each can communicate via the Microsoft backbone. Which setting should be enabled on both virtual networks to allow traffic from one address space to reach subnets in the other that are not directly advertised?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Allow gateway transit"
+        },
+        {
+          "label": "B",
+          "text": "Enable proxy"
+        },
+        {
+          "label": "C",
+          "text": "Use the same address space"
+        },
+        {
+          "label": "D",
+          "text": "Set peering direction to Inbound only"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "According to Microsoft Docs, the ‘Allow gateway transit’ setting needs to be enabled on both virtual networks so that traffic from one address space can reach subnets in the other that are not directly advertised (https://learn.microsoft.com/azure/virtual-networks/peering-overview).",
+      "difficulty": "intermediate",
+      "tags": [
+        "peering",
+        "virtual-network"
+      ]
+    },
+    {
+      "question_text": "You want to configure a user‑defined route that directs traffic destined for the 10.20.0.0/16 CIDR block through a network virtual appliance. Which combination of settings should you configure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Route table, next hop type = Internet"
+        },
+        {
+          "label": "B",
+          "text": "Route table, next hop type = Virtual appliance"
+        },
+        {
+          "label": "C",
+          "text": "Route table, next hop type = Load balancer"
+        },
+        {
+          "label": "D",
+          "text": "Route table, next hop type = None"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Microsoft Docs explains that to route traffic via a virtual appliance you create a route table and set the next hop type to Virtual appliance, specifying the appliance's IP address (https://learn.microsoft.com/azure/virtual-network/route-tables-overview).",
+      "difficulty": "advanced",
+      "tags": [
+        "udr",
+        "routes"
+      ]
+    },
+    {
+      "question_text": "When deploying a public IP address for an Azure Load Balancer that needs to be accessible from the internet and also support zone‑redundant deployments, which type of public IP address should you create?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Static public IP with zone‑redundant"
+        },
+        {
+          "label": "B",
+          "text": "Dynamic public IP with zone‑redundant"
+        },
+        {
+          "label": "C",
+          "text": "Static public IP without zone‑redundancy"
+        },
+        {
+          "label": "D",
+          "text": "Dynamic public IP without zone‑redundancy"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Azure documentation indicates that a Standard SKU public IP (static) is required for zone‑redundant load balancers and to be reachable from the internet (https://learn.microsoft.com/azure/load-balancer/public-ip-address).",
+      "difficulty": "intermediate",
+      "tags": [
+        "public-ip",
+        "load-balancer"
+      ]
+    },
+    {
+      "question_text": "Two virtual machines in separate subnets within the same virtual network cannot ping each other. Which Azure feature should you verify first to ensure the traffic is allowed?",
+      "options": [
+        {
+          "label": "A",
+          "text": "DNS resolution settings"
+        },
+        {
+          "label": "B",
+          "text": "Network security group (NSG) rules"
+        },
+        {
+          "label": "C",
+          "text": "Route table default route"
+        },
+        {
+          "label": "D",
+          "text": "VPN gateway connection"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Microsoft Docs notes that NSG rules control inbound and outbound traffic between subnets, so checking the associated NSG rules is the first step when connectivity fails (https://learn.microsoft.com/azure/virtual-network/security-rules).",
+      "difficulty": "advanced",
+      "tags": [
+        "troubleshooting",
+        "network"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,295 @@
+{
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T16:21:11.614130",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which blade in the Azure portal is used to create a new user in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Users"
+        },
+        {
+          "label": "B",
+          "text": "Groups"
+        },
+        {
+          "label": "C",
+          "text": "Devices"
+        },
+        {
+          "label": "D",
+          "text": "Roles"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Azure portal provides a Users blade where you can select New user to create a Microsoft Entra ID user. Documentation states this process in the user management guide.",
+      "difficulty": "easy",
+      "tags": [
+        "User Management",
+        "Microsoft Entra ID"
+      ]
+    },
+    {
+      "question_text": "Which PowerShell cmdlet is used to create a new user in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "New-AzureADUser"
+        },
+        {
+          "label": "B",
+          "text": "New-MgUser"
+        },
+        {
+          "label": "C",
+          "text": "Set-AzureADUser"
+        },
+        {
+          "label": "D",
+          "text": "Get-AzureADUser"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The New-MgUser cmdlet, part of the Microsoft Graph PowerShell SDK, creates a user object in Microsoft Entra ID. The official docs describe its usage for user provisioning.",
+      "difficulty": "easy",
+      "tags": [
+        "PowerShell",
+        "User Creation"
+      ]
+    },
+    {
+      "question_text": "Which method supports bulk creation of user accounts in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure portal UI"
+        },
+        {
+          "label": "B",
+          "text": "Azure AD Connect sync"
+        },
+        {
+          "label": "C",
+          "text": "Microsoft Graph API"
+        },
+        {
+          "label": "D",
+          "text": "Azure Automation runbooks"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Microsoft Graph API provides endpoints such as /users for bulk user creation, while the portal and other tools are not designed for bulk operations. Docs detail the Graph API capabilities.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Bulk Operations",
+        "Microsoft Graph"
+      ]
+    },
+    {
+      "question_text": "To enable self-service password reset for a user, which setting must be configured in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Password protection"
+        },
+        {
+          "label": "B",
+          "text": "Authentication methods"
+        },
+        {
+          "label": "C",
+          "text": "Identity protection"
+        },
+        {
+          "label": "D",
+          "text": "Conditional Access"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Self-service password reset is enabled under Authentication methods in the Self-service password reset blade. The documentation explains the required configuration steps.",
+      "difficulty": "intermediate",
+      "tags": [
+        "SSPR",
+        "Authentication"
+      ]
+    },
+    {
+      "question_text": "A user is marked as External in Microsoft Entra ID. Which statement is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "They can be assigned Azure AD roles"
+        },
+        {
+          "label": "B",
+          "text": "They cannot be assigned licenses"
+        },
+        {
+          "label": "C",
+          "text": "They must be invited via Azure AD B2B"
+        },
+        {
+          "label": "D",
+          "text": "They are automatically assigned the Global Administrator role"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "External users are guest accounts that are invited through Azure AD B2B collaboration. The documentation specifies that external user provisioning requires invitation.",
+      "difficulty": "advanced",
+      "tags": [
+        "External Users",
+        "B2B"
+      ]
+    },
+    {
+      "question_text": "Which API version is the current recommended version for Microsoft Entra ID operations?",
+      "options": [
+        {
+          "label": "A",
+          "text": "v1.0"
+        },
+        {
+          "label": "B",
+          "text": "v2.0"
+        },
+        {
+          "label": "C",
+          "text": "v3.0"
+        },
+        {
+          "label": "D",
+          "text": "v4.0"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Microsoft recommends using the v2.0 endpoint for new developments, as indicated in the Microsoft Entra ID API reference.",
+      "difficulty": "easy",
+      "tags": [
+        "API Version",
+        "Microsoft Entra ID"
+      ]
+    },
+    {
+      "question_text": "When managing group membership, which action ensures that changes to group membership are reflected for all members?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Refresh group cache"
+        },
+        {
+          "label": "B",
+          "text": "Recalculate group membership"
+        },
+        {
+          "label": "C",
+          "text": "Sync directory"
+        },
+        {
+          "label": "D",
+          "text": "Invalidate token"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Synchronizing the directory updates the cached group membership across services, ensuring all members see the latest changes. The docs describe the sync process.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Group Management",
+        "Directory Sync"
+      ]
+    },
+    {
+      "question_text": "A tenant wants to allow users to reset their passwords without admin assistance, but only if they belong to a specific department. Which feature should be configured?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Self-service password reset with custom policies"
+        },
+        {
+          "label": "B",
+          "text": "Identity protection"
+        },
+        {
+          "label": "C",
+          "text": "Conditional Access"
+        },
+        {
+          "label": "D",
+          "text": "Azure AD Connect sync"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Self-service password reset supports custom authentication methods and registration policies, enabling department‑specific reset capabilities. The documentation outlines how to configure these policies.",
+      "difficulty": "advanced",
+      "tags": [
+        "SSPR",
+        "Custom Policies"
+      ]
+    },
+    {
+      "question_text": "Which requirement must be met before assigning a license to a user in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The user must be assigned to a role"
+        },
+        {
+          "label": "B",
+          "text": "The user must have a valid Azure AD object ID"
+        },
+        {
+          "label": "C",
+          "text": "The user must be a member of a specific group"
+        },
+        {
+          "label": "D",
+          "text": "The user must have an active subscription"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A user must exist in Microsoft Entra ID with a valid object ID to receive a license. The licensing guide states that the object ID is required for assignment.",
+      "difficulty": "easy",
+      "tags": [
+        "Licensing",
+        "User Object ID"
+      ]
+    },
+    {
+      "question_text": "You need to remove a user from all groups while keeping the user account active. Which operation should you perform?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Delete the user"
+        },
+        {
+          "label": "B",
+          "text": "Remove the user from each group individually"
+        },
+        {
+          "label": "C",
+          "text": "Deactivate the user"
+        },
+        {
+          "label": "D",
+          "text": "Convert the user to a guest"
+        },
+        {
+          "label": "E",
+          "text": "Remove the user from the directory"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Removing the user from each group individually clears membership without deleting the account. The documentation explains that group membership can be managed per group.",
+      "difficulty": "advanced",
+      "tags": [
+        "Group Membership",
+        "User Management"
+      ]
+    }
+  ]
+}

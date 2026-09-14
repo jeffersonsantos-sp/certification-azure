@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "Which of the following is NOT a required field when creating a new Azure virtual machine via the portal?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Subscription"
+        },
+        {
+          "label": "B",
+          "text": "Resource group"
+        },
+        {
+          "label": "C",
+          "text": "Public IP address"
+        },
+        {
+          "label": "D",
+          "text": "Storage account"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "A storage account is not required; the portal creates a default storage account automatically.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "When enabling Azure Disk Encryption on a Windows VM, which statement is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "It requires the VM to be stopped before encryption can be enabled."
+        },
+        {
+          "label": "B",
+          "text": "It can only be enabled for data disks, not the OS disk."
+        },
+        {
+          "label": "C",
+          "text": "It uses the platform's keys by default unless a customer\u2011managed key is specified."
+        },
+        {
+          "label": "D",
+          "text": "It requires the VM to have a Premium SSD for encryption to work."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Disk Encryption can be enabled while the VM is running and uses platform-managed keys unless a customer\u2011managed key is explicitly provided.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "You need to move an existing VM from Resource Group A to Resource Group B. Which Azure feature supports this operation?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Site Recovery"
+        },
+        {
+          "label": "B",
+          "text": "Move resource"
+        },
+        {
+          "label": "C",
+          "text": "Azure Backup"
+        },
+        {
+          "label": "D",
+          "text": "VM Export/Import"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure provides a 'Move resource' operation that lets you relocate a VM (and its associated resources) to a different resource group or subscription.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which statement about changing the size of a running Azure VM is accurate?",
+      "options": [
+        {
+          "label": "A",
+          "text": "You must deallocate the VM before resizing."
+        },
+        {
+          "label": "B",
+          "text": "Resizing is only possible for certain VM sizes."
+        },
+        {
+          "label": "C",
+          "text": "You can resize a running VM without any downtime."
+        },
+        {
+          "label": "D",
+          "text": "Resizing requires the VM to be in a stopped state."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "For most VM sizes, you can change the SKU while the VM is running, and the operation completes without stopping the VM.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which type of disk is recommended for high IOPS workloads?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Standard HDD"
+        },
+        {
+          "label": "B",
+          "text": "Standard SSD"
+        },
+        {
+          "label": "C",
+          "text": "Premium SSD"
+        },
+        {
+          "label": "D",
+          "text": "Ultra Disk"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Premium SSD disks provide higher IOPS and lower latency, making them suitable for demanding workloads.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "To improve VM availability, which Azure feature should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Availability Zones"
+        },
+        {
+          "label": "B",
+          "text": "Load Balancer"
+        },
+        {
+          "label": "C",
+          "text": "Azure Front Door"
+        },
+        {
+          "label": "D",
+          "text": "Virtual Network"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Availability Zones spread VMs across physically separate locations within a region, enhancing fault tolerance and availability.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "You have a VM Scale Set configured with 3 instances. How can you automatically add a fourth instance when CPU utilization exceeds 70%?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a new VM manually"
+        },
+        {
+          "label": "B",
+          "text": "Configure autoscale settings"
+        },
+        {
+          "label": "C",
+          "text": "Enable VM backup"
+        },
+        {
+          "label": "D",
+          "text": "Use Azure Policy"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Autoscale rules can increase the number of VM instances in a scale set based on performance metrics such as CPU utilization.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "When creating a VM using an ARM template, which parameter must be specified to enable encryption with a customer\u2011provided key?",
+      "options": [
+        {
+          "label": "A",
+          "text": "keyVaultSecretUri"
+        },
+        {
+          "label": "B",
+          "text": "encryptionSettings"
+        },
+        {
+          "label": "C",
+          "text": "diskEncryptionSettings"
+        },
+        {
+          "label": "D",
+          "text": "identity"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The diskEncryptionSettings parameter in an ARM template includes the reference to the key vault and the key identifier for customer\u2011managed encryption.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which of the following actions will NOT affect the availability of a VM?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Moving the VM to a different availability zone"
+        },
+        {
+          "label": "B",
+          "text": "Changing the VM size"
+        },
+        {
+          "label": "C",
+          "text": "Deleting the associated storage account"
+        },
+        {
+          "label": "D",
+          "text": "Adding a load balancer"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Adding a load balancer changes networking configuration but does not directly impact the VM's availability state.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "You need to move a VM from one Azure region to another. Which service would you use to capture the VM and import it into the target region?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Migrate"
+        },
+        {
+          "label": "B",
+          "text": "Azure Site Recovery"
+        },
+        {
+          "label": "C",
+          "text": "Azure Backup"
+        },
+        {
+          "label": "D",
+          "text": "Azure Storage Explorer"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Site Recovery replicates VMs to a secondary region, enabling migration by failing over or copying the VM to the target region.",
+      "difficulty": "intermediate",
+      "tags": []
+    }
+  ]
+}

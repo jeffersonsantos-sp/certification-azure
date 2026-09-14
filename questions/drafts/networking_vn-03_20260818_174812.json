@@ -1,0 +1,280 @@
+{
+  "questions": [
+    {
+      "question_text": "Which Azure DNS zone type is used for internal name resolution within a virtual network?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Public"
+        },
+        {
+          "label": "B",
+          "text": "Private"
+        },
+        {
+          "label": "C",
+          "text": "Root"
+        },
+        {
+          "label": "D",
+          "text": "External"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A Private DNS zone is linked to a virtual network and provides internal name resolution for resources inside that network.",
+      "difficulty": "easy",
+      "tags": [
+        "Azure DNS"
+      ]
+    },
+    {
+      "question_text": "Which type of Azure Load Balancer supports floating IPs?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Basic"
+        },
+        {
+          "label": "B",
+          "text": "Standard"
+        },
+        {
+          "label": "C",
+          "text": "Application Gateway"
+        },
+        {
+          "label": "D",
+          "text": "None"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Only the Standard SKU of Azure Load Balancer provides floating IPs for additional scenarios such as on\u2011premises hybrid connectivity.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Load balancer"
+      ]
+    },
+    {
+      "question_text": "Your Azure Load Balancer health probe is configured to port 80 with path '/'. Clients experience intermittent connectivity. What is the most likely cause?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Health probe protocol mismatch"
+        },
+        {
+          "label": "B",
+          "text": "NSG blocking the probe"
+        },
+        {
+          "label": "C",
+          "text": "Incorrect probe path"
+        },
+        {
+          "label": "D",
+          "text": "All of the above"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "If the probe uses the wrong protocol (e.g., TCP instead of HTTP) the backend may appear unhealthy, causing intermittent client connections.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Load balancer",
+        "Troubleshoot"
+      ]
+    },
+    {
+      "question_text": "When configuring DNS for a load balancer, which DNS record type should you create to point a custom domain to the load balancer's public IP?",
+      "options": [
+        {
+          "label": "A",
+          "text": "MX"
+        },
+        {
+          "label": "B",
+          "text": "CNAME"
+        },
+        {
+          "label": "C",
+          "text": "A"
+        },
+        {
+          "label": "D",
+          "text": "TXT"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "An A record directly maps a domain name to the IPv4 address of the load balancer's public IP, enabling name resolution to the load balancer.",
+      "difficulty": "easy",
+      "tags": [
+        "Azure DNS",
+        "Load balancer"
+      ]
+    },
+    {
+      "question_text": "To enable DNS resolution for a VM without a public IP using Azure Private DNS Zone, which step is required?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Associate the VM's virtual network with the private DNS zone"
+        },
+        {
+          "label": "B",
+          "text": "Create a public DNS zone"
+        },
+        {
+          "label": "C",
+          "text": "Enable Azure AD DS"
+        },
+        {
+          "label": "D",
+          "text": "None"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Linking the VM's virtual network to the Private DNS Zone allows the VM to resolve names within that zone without a public IP.",
+      "difficulty": "easy",
+      "tags": [
+        "Azure DNS"
+      ]
+    },
+    {
+      "question_text": "An Azure Load Balancer is configured with a floating IP, but after enabling it, connections are still failing. What is the most likely reason?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Floating IP must be associated with a network interface"
+        },
+        {
+          "label": "B",
+          "text": "Health probe misconfiguration"
+        },
+        {
+          "label": "C",
+          "text": "Backend pool has no healthy instances"
+        },
+        {
+          "label": "D",
+          "text": "All of the above"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "A floating IP must be explicitly associated with a network interface; otherwise traffic cannot reach the load balancer.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Load balancer",
+        "Troubleshoot"
+      ]
+    },
+    {
+      "question_text": "Which Azure DNS feature allows you to override the default name resolution for a specific subscription?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Conditional forwarders"
+        },
+        {
+          "label": "B",
+          "text": "DNS policies"
+        },
+        {
+          "label": "C",
+          "text": "Private endpoints"
+        },
+        {
+          "label": "D",
+          "text": "Azure Traffic Manager"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "DNS policies let you create custom resolution rules scoped to subscriptions, zones, or subdomains, overriding default behavior.",
+      "difficulty": "easy",
+      "tags": [
+        "Azure DNS"
+      ]
+    },
+    {
+      "question_text": "You have an Azure Load Balancer with session affinity set to 'Client IP and protocol'. After a client reboots, their connection is dropped. Which setting should you change?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Set to 'Client IP affinity'"
+        },
+        {
+          "label": "B",
+          "text": "Set to 'DSCP hash'"
+        },
+        {
+          "label": "C",
+          "text": "Set to 'None'"
+        },
+        {
+          "label": "D",
+          "text": "Set to 'Idle timeout'"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Changing to 'Client IP affinity' removes the protocol component, allowing the session to survive IP changes after a reboot.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Load balancer",
+        "Troubleshoot"
+      ]
+    },
+    {
+      "question_text": "Which of the following is NOT a valid health probe configuration for an Azure Load Balancer?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Protocol: HTTP"
+        },
+        {
+          "label": "B",
+          "text": "Protocol: TCP"
+        },
+        {
+          "label": "C",
+          "text": "Protocol: HTTPS"
+        },
+        {
+          "label": "D",
+          "text": "Protocol: DNS"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Health probes support HTTP, TCP, or HTTPS only; DNS is not a supported protocol for load balancer health probes.",
+      "difficulty": "easy",
+      "tags": [
+        "Load balancer",
+        "Troubleshoot"
+      ]
+    },
+    {
+      "question_text": "You need to troubleshoot why a load balancer returns 502 Bad Gateway. Which log should you examine first?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Load Balancer diagnostics logs"
+        },
+        {
+          "label": "B",
+          "text": "Application Gateway logs"
+        },
+        {
+          "label": "C",
+          "text": "Azure Monitor metrics"
+        },
+        {
+          "label": "D",
+          "text": "NSG flow logs"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The 502 error originates from the load balancer contacting unhealthy backend servers, so its diagnostics logs contain the relevant information.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Load balancer",
+        "Troubleshoot"
+      ]
+    }
+  ]
+}

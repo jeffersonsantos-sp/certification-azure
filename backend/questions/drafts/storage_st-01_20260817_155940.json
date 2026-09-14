@@ -1,0 +1,294 @@
+{
+  "metadata": {
+    "skill_id": "st-01",
+    "domain_id": "storage",
+    "generated_at": "2026-08-17T15:59:40.844153",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to configure Azure Storage firewall to allow traffic only from a specific virtual network subnet. Which setting should you use in the Azure portal?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable 'Allow trusted Microsoft services' in the firewall settings"
+        },
+        {
+          "label": "B",
+          "text": "Enable 'Allow access from selected networks' and specify the virtual network and subnet"
+        },
+        {
+          "label": "C",
+          "text": "Disable the firewall entirely"
+        },
+        {
+          "label": "D",
+          "text": "Enable 'Allow public access (no firewall)'"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "In the Azure portal, under Storage account > Networking > Firewalls and virtual networks, you enable 'Allow access from selected networks' and then choose the virtual network and subnet. This configures the firewall to permit traffic only from the selected subnet, as described in the Azure documentation on storage firewall configuration.",
+      "difficulty": "easy",
+      "tags": [
+        "firewall",
+        "virtual network"
+      ]
+    },
+    {
+      "question_text": "You want to generate a SAS token for a storage container that follows a stored access policy defined in the portal. Which Azure CLI command correctly applies the stored access policy?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az storage container generate-sas --account-name <name> --name <container> --key <key> --permissions rw --expiry 2025-01-01T00:00:00Z"
+        },
+        {
+          "label": "B",
+          "text": "az storage container generate-sas --account-name <name> --name <container> --key <key> --permissions rw --start-time <start> --expiry <expiry> --policy <policy-id>"
+        },
+        {
+          "label": "C",
+          "text": "az storage container generate-sas --account-name <name> --name <container> --permissions rw --expiry <expiry>"
+        },
+        {
+          "label": "D",
+          "text": "az storage container generate-sas --account-name <name> --name <container> --permissions rw"
+        },
+        {
+          "label": "E",
+          "text": "Not answerable"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Azure CLI `az storage container generate-sas` command supports the `--policy` parameter to reference a stored access policy. This is detailed in the Azure CLI storage SAS generation documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "sas",
+        "stored access policy"
+      ]
+    },
+    {
+      "question_text": "Which action is recommended for rotating access keys in Azure Storage to improve security?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Store keys in source code repository for easy retrieval"
+        },
+        {
+          "label": "B",
+          "text": "Rotate keys by regenerating them in the Azure portal"
+        },
+        {
+          "label": "C",
+          "text": "Use the same key for all services to simplify management"
+        },
+        {
+          "label": "D",
+          "text": "Share keys via email with team members"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure documentation advises rotating access keys periodically by regenerating them in the portal or via CLI, which reduces the risk of key exposure.",
+      "difficulty": "intermediate",
+      "tags": [
+        "access keys"
+      ]
+    },
+    {
+      "question_text": "To enable identity-based access for Azure Files using Microsoft Entra ID, which step is required?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable Azure AD DS on the storage account and map users to file share permissions"
+        },
+        {
+          "label": "B",
+          "text": "Assign Azure RBAC role 'Storage File Data Access Operator' to a Microsoft Entra ID user"
+        },
+        {
+          "label": "C",
+          "text": "Create a SAS token for the file share"
+        },
+        {
+          "label": "D",
+          "text": "Use Azure AD authentication for Azure Files via Azure AD DS"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Files supports RBAC integration with Microsoft Entra ID; you assign the appropriate storage role to the user or group in Entra ID, as outlined in the Azure documentation on identity-based access for Azure Files.",
+      "difficulty": "advanced",
+      "tags": [
+        "identity-based access",
+        "Microsoft Entra ID",
+        "Azure Files"
+      ]
+    },
+    {
+      "question_text": "What is the primary purpose of a stored access policy when creating a SAS token?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Define the SAS token's encryption algorithm"
+        },
+        {
+          "label": "B",
+          "text": "Specify default permissions that can be reused across multiple SAS tokens"
+        },
+        {
+          "label": "C",
+          "text": "Configure firewall rules for the storage account"
+        },
+        {
+          "label": "D",
+          "text": "Set the storage account's redundancy type"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A stored access policy defines the permissions, start and expiry times, and IP restrictions that can be referenced by multiple SAS tokens, allowing consistent policy enforcement. This is explained in the Azure Storage documentation on stored access policies.",
+      "difficulty": "easy",
+      "tags": [
+        "stored access policy"
+      ]
+    },
+    {
+      "question_text": "Which sequence of actions in the Azure portal correctly configures the storage firewall to allow traffic from a specific virtual network subnet?",
+      "options": [
+        {
+          "label": "A",
+          "text": "In the Azure portal, go to Storage account > Settings > Firewalls and virtual networks > Add existing virtual network"
+        },
+        {
+          "label": "B",
+          "text": "In the Azure portal, go to Storage account > Settings > Firewalls and virtual networks > Select 'Allow trusted Microsoft services' and then add subnet"
+        },
+        {
+          "label": "C",
+          "text": "In the Azure portal, go to Storage account > Settings > Firewalls and virtual networks > Enable 'Allow access from selected networks' and then select the virtual network and subnet"
+        },
+        {
+          "label": "D",
+          "text": "In the Azure portal, go to Storage account > Settings > Firewalls and virtual networks > Enable 'Public network access' and then specify subnet"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "To restrict traffic to a specific subnet, you enable 'Allow access from selected networks' and then choose the virtual network and subnet under the firewall settings. This approach is described in the Azure portal navigation for storage firewall configuration.",
+      "difficulty": "intermediate",
+      "tags": [
+        "firewall",
+        "virtual network"
+      ]
+    },
+    {
+      "question_text": "You need to generate a SAS token that uses a stored access policy allowing read and write access for 24 hours. Which Azure CLI command correctly includes the policy reference?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az storage container generate-sas --account-name <name> --name <container> --key <key> --permissions rw --expiry 2025-01-01T00:00:00Z"
+        },
+        {
+          "label": "B",
+          "text": "az storage container generate-sas --account-name <name> --name <container> --key <key> --permissions rw --start-time <start> --expiry <expiry> --policy <policy-id>"
+        },
+        {
+          "label": "C",
+          "text": "az storage container generate-sas --account-name <name> --name <container> --permissions rw --expiry <expiry>"
+        },
+        {
+          "label": "D",
+          "text": "az storage container generate-sas --account-name <name> --name <container> --permissions rw"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The `--policy` parameter in the Azure CLI `az storage container generate-sas` command references a stored access policy, enabling reuse of defined permissions and time constraints. This is covered in the Azure CLI storage SAS generation reference.",
+      "difficulty": "advanced",
+      "tags": [
+        "sas",
+        "azure cli"
+      ]
+    },
+    {
+      "question_text": "Which practice is recommended to improve security when managing Azure Storage access keys?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Store keys in source code repository for easy retrieval"
+        },
+        {
+          "label": "B",
+          "text": "Rotate keys periodically"
+        },
+        {
+          "label": "C",
+          "text": "Use the same key for all services to simplify management"
+        },
+        {
+          "label": "D",
+          "text": "Share keys via email with team members"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Periodic key rotation reduces the window of exposure if a key is compromised, a recommendation found in Azure Security best practices documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "access keys"
+      ]
+    },
+    {
+      "question_text": "Which step is required to enable Microsoft Entra ID authentication for Azure Files?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable Azure AD DS on the storage account and map users to file share permissions"
+        },
+        {
+          "label": "B",
+          "text": "Register the storage account as a resource in Microsoft Entra ID and grant the 'Storage Blob Data Contributor' role"
+        },
+        {
+          "label": "C",
+          "text": "Enable Azure AD authentication on the storage account and then assign a role to the user"
+        },
+        {
+          "label": "D",
+          "text": "Use a SAS token with Azure AD identity"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Files supports Azure AD authentication; you enable it on the storage account and then assign a role (e.g., Storage File Data Access Operator) to the user or group in Microsoft Entra ID, as described in the Azure documentation on Azure Files authentication.",
+      "difficulty": "advanced",
+      "tags": [
+        "Microsoft Entra ID",
+        "Azure Files",
+        "identity-based access"
+      ]
+    },
+    {
+      "question_text": "What is the main purpose of a stored access policy when creating a SAS token?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Define the SAS token's encryption algorithm"
+        },
+        {
+          "label": "B",
+          "text": "Specify default permissions that can be reused across multiple SAS tokens"
+        },
+        {
+          "label": "C",
+          "text": "Configure firewall rules for the storage account"
+        },
+        {
+          "label": "D",
+          "text": "Set the storage account's redundancy type"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A stored access policy defines the permissions, start and expiry times, and other parameters that can be referenced by multiple SAS tokens, enabling consistent policy enforcement. This is detailed in the Azure Storage documentation on stored access policies.",
+      "difficulty": "easy",
+      "tags": [
+        "stored access policy",
+        "sas"
+      ]
+    }
+  ]
+}

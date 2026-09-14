@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "Which Azure service provides managed file shares in the cloud?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Blob Storage"
+        },
+        {
+          "label": "B",
+          "text": "Azure Files"
+        },
+        {
+          "label": "C",
+          "text": "Azure Disk Storage"
+        },
+        {
+          "label": "D",
+          "text": "Azure Table Storage"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Files is a fully managed service that provides SMB file shares in the cloud.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which access level provides anonymous read access to the container and its blobs?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Private (Blob) access \u2013 no anonymous access"
+        },
+        {
+          "label": "B",
+          "text": "Public (Blob) access \u2013 anonymous read for blobs only"
+        },
+        {
+          "label": "C",
+          "text": "Public (Container) access \u2013 anonymous read for containers and blobs"
+        },
+        {
+          "label": "D",
+          "text": "Private (Container) access \u2013 no anonymous access"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Public (Container) access allows anyone to read data in the container and its blobs without authentication.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which storage tier in Azure Blob Storage is optimized for data that is accessed less than once per month?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Hot"
+        },
+        {
+          "label": "B",
+          "text": "Cool"
+        },
+        {
+          "label": "C",
+          "text": "Archive"
+        },
+        {
+          "label": "D",
+          "text": "Premium"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Archive tier is designed for infrequently accessed data with the lowest storage cost.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "What is the purpose of soft delete for Azure Files?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Encrypts data at rest"
+        },
+        {
+          "label": "B",
+          "text": "Reduces storage costs"
+        },
+        {
+          "label": "C",
+          "text": "Retains deleted files for a specified period before permanent deletion"
+        },
+        {
+          "label": "D",
+          "text": "Increases read performance"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Soft delete keeps a deleted file for a configurable retention period, allowing recovery before permanent removal.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "How many snapshots can be taken for an Azure Blob?",
+      "options": [
+        {
+          "label": "A",
+          "text": "5"
+        },
+        {
+          "label": "B",
+          "text": "10"
+        },
+        {
+          "label": "C",
+          "text": "50"
+        },
+        {
+          "label": "D",
+          "text": "100"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Blob Storage allows up to 50 snapshots per blob.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which lifecycle management action can be used to transition blobs from the hot tier to the cool tier after 30 days?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Delete"
+        },
+        {
+          "label": "B",
+          "text": "Move"
+        },
+        {
+          "label": "C",
+          "text": "Transition"
+        },
+        {
+          "label": "D",
+          "text": "Copy"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Lifecycle management rules with a transition action move blobs between tiers after a specified number of days.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "When configuring versioning for an Azure File share, which statement is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Versioning is enabled per file, not per share."
+        },
+        {
+          "label": "B",
+          "text": "Versioning retains multiple versions of a file within the same share."
+        },
+        {
+          "label": "C",
+          "text": "Versioning can only be disabled, not enabled."
+        },
+        {
+          "label": "D",
+          "text": "Versioning stores versions in a separate container."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "File versioning keeps a history of multiple versions of each file inside the same file share.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which of the following best describes the purpose of a blob snapshot?",
+      "options": [
+        {
+          "label": "A",
+          "text": "It encrypts the blob."
+        },
+        {
+          "label": "B",
+          "text": "It creates a read\u2011only copy of the blob at a point in time."
+        },
+        {
+          "label": "C",
+          "text": "It compresses the blob."
+        },
+        {
+          "label": "D",
+          "text": "It moves the blob to a different storage account."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A snapshot is a read\u2011only point\u2011in\u2011time copy of a blob, useful for backup and recovery.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "In Azure Files, what is the recommended practice for enabling soft delete?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable it only for premium files."
+        },
+        {
+          "label": "B",
+          "text": "Enable it at the storage account level."
+        },
+        {
+          "label": "C",
+          "text": "Disable it to improve performance."
+        },
+        {
+          "label": "D",
+          "text": "Enable it per file share."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Soft delete is a setting applied to the storage account, protecting all file shares within it.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which storage tier is most cost\u2011effective for rarely accessed data that does not require high performance?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Hot"
+        },
+        {
+          "label": "B",
+          "text": "Cool"
+        },
+        {
+          "label": "C",
+          "text": "Archive"
+        },
+        {
+          "label": "D",
+          "text": "Premium"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Archive tier offers the lowest cost for data that is accessed very infrequently.",
+      "difficulty": "easy",
+      "tags": []
+    }
+  ]
+}

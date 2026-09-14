@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "skill_id": "st-02",
+    "domain_id": "storage",
+    "generated_at": "2026-08-17T16:27:16.256297",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to create a new storage account that will be used for storing static website files. Which combination of settings is required to meet the minimal configuration?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Storage account kind: StorageV2 (general-purpose v2), Replication: Locally-redundant storage (LRS), Access tier: Hot"
+        },
+        {
+          "label": "B",
+          "text": "Storage account kind: BlobStorage, Replication: Geo-redundant storage (GRS), Access tier: Cool"
+        },
+        {
+          "label": "C",
+          "text": "Storage account kind: General-purpose v1, Replication: LRS, Access tier: Archive"
+        },
+        {
+          "label": "D",
+          "text": "Storage account kind: StorageV2, Replication: Zone-redundant storage (ZRS), Access tier: Hot"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The minimal configuration for a static website requires a StorageV2 (general-purpose v2) account because it supports the static website feature, LRS provides the least redundancy needed for a single region, and the hot access tier is appropriate for frequently accessed files. This combination matches the guidance in the Azure documentation on creating a storage account for static website hosting.",
+      "difficulty": "easy",
+      "tags": [
+        "storage",
+        "static website"
+      ]
+    },
+    {
+      "question_text": "An organization wants to ensure that data in a storage account is protected against regional outages while minimizing cost. Which redundancy option should they choose?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Locally-redundant storage (LRS)"
+        },
+        {
+          "label": "B",
+          "text": "Zone-redundant storage (ZRS)"
+        },
+        {
+          "label": "C",
+          "text": "Geo-redundant storage (GRS)"
+        },
+        {
+          "label": "D",
+          "text": "Read-access geo-redundant storage (RA-GRS)"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Zone-redundant storage stores copies of data across availability zones within the same region, offering protection from regional outages while incurring lower cost than geo-redundant options. Azure documentation describes ZRS as the appropriate choice for balancing durability and cost.",
+      "difficulty": "intermediate",
+      "tags": [
+        "redundancy",
+        "cost optimization"
+      ]
+    },
+    {
+      "question_text": "You need to replicate blobs from a production storage account in the East US region to a secondary storage account in the West US region for disaster recovery. Which feature should you enable?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Storage account firewall settings"
+        },
+        {
+          "label": "B",
+          "text": "Azure Storage lifecycle management policies"
+        },
+        {
+          "label": "C",
+          "text": "Object replication"
+        },
+        {
+          "label": "D",
+          "text": "Azure Backup vault"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Object replication is the Azure feature that asynchronously copies blobs between storage accounts in different regions. The Azure documentation on object replication explains that it requires source and destination accounts in separate regions and is intended for disaster recovery scenarios.",
+      "difficulty": "intermediate",
+      "tags": [
+        "object replication",
+        "disaster recovery"
+      ]
+    },
+    {
+      "question_text": "Which step should be performed first to use a customer‑managed key for encrypting blobs in a storage account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable “Encryption” under the storage account settings and select “Customer-managed key”."
+        },
+        {
+          "label": "B",
+          "text": "Create a key in Azure Key Vault and grant the storage account’s managed identity permission to use the key."
+        },
+        {
+          "label": "C",
+          "text": "Set the storage account’s default encryption algorithm to AES‑256."
+        },
+        {
+          "label": "D",
+          "text": "Upload the key file to the storage account’s root directory."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "To enable customer‑managed keys, you first create the key in Azure Key Vault and assign the storage account’s managed identity (Microsoft Entra ID) permissions to access the key. The Azure documentation on customer‑managed keys outlines this prerequisite before enabling encryption in the storage account settings.",
+      "difficulty": "advanced",
+      "tags": [
+        "encryption",
+        "customer-managed key"
+      ]
+    },
+    {
+      "question_text": "An administrator wants to copy a large amount of data from an on‑premises file share to a blob container in a storage account using AzCopy. Which command correctly accomplishes this?",
+      "options": [
+        {
+          "label": "A",
+          "text": "azcopy copy \"C:\\Data\" \"https://storageaccount.blob.core.windows.net/container\" --recursive"
+        },
+        {
+          "label": "B",
+          "text": "azcopy sync \"C:\\Data\" \"https://storageaccount.blob.core.windows.net/container\" --overwrite"
+        },
+        {
+          "label": "C",
+          "text": "azcopy copy \"C:\\Data\" \"https://storageaccount.blob.core.windows.net/container\" --from-to=local=blob"
+        },
+        {
+          "label": "D",
+          "text": "azcopy transfer \"C:\\Data\" \"https://storageaccount.blob.core.windows.net/container\" --upload"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The azcopy copy command with the --recursive flag copies all files and subfolders from a local path to a blob container, which is the recommended method for bulk uploads. This aligns with the AzCopy documentation on copying data to Azure Blob Storage.",
+      "difficulty": "advanced",
+      "tags": [
+        "azcopy",
+        "data migration"
+      ]
+    }
+  ]
+}

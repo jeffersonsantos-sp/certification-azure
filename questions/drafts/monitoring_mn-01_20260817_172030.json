@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "skill_id": "mn-01",
+    "domain_id": "monitoring",
+    "generated_at": "2026-08-17T17:20:30.254077",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You notice that the 'Percentage CPU' metric for an Azure virtual machine has been above 80% for the past 10 minutes. Which action should you take to proactively address potential performance issues?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Ignore it, it's normal."
+        },
+        {
+          "label": "B",
+          "text": "Create an alert rule based on this metric."
+        },
+        {
+          "label": "C",
+          "text": "Delete the metric."
+        },
+        {
+          "label": "D",
+          "text": "Change the metric source."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "According to Azure Monitor documentation, you can create an alert rule using the metric in the Azure portal or via ARM templates to trigger actions when thresholds are crossed.",
+      "difficulty": "easy",
+      "tags": [
+        "monitoring",
+        "metrics"
+      ]
+    },
+    {
+      "question_text": "Your team needs to retain diagnostic logs from a storage account for 365 days and send them to a Log Analytics workspace. Where do you configure the retention period?",
+      "options": [
+        {
+          "label": "A",
+          "text": "In the storage account's access tier settings."
+        },
+        {
+          "label": "B",
+          "text": "In the Azure portal under Monitoring > Diagnostic settings."
+        },
+        {
+          "label": "C",
+          "text": "In the Azure Policy definition for the storage account."
+        },
+        {
+          "label": "D",
+          "text": "In the resource group's network security group."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Retention and routing of diagnostic logs are configured in the Diagnostic settings blade of the storage account, as described in the Azure Monitor documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "diagnostic-settings",
+        "log-retention"
+      ]
+    },
+    {
+      "question_text": "You need to write a Kusto query to identify all failed VM boot events in the last 7 days from the AzureActivity table. Which query is correct?",
+      "options": [
+        {
+          "label": "A",
+          "text": "AzureActivity | where Status == \"Failed\" | where OperationName == \"Microsoft.Compute/virtualMachines/start\" | project TimeGenerated, OperationName, Status, ResourceGroup | order by TimeGenerated desc;"
+        },
+        {
+          "label": "B",
+          "text": "AzureActivity | where OperationName == \"Microsoft.Compute/virtualMachines/start\" | where Status == \"Failed\" | where TimeGenerated > ago(7d) | project TimeGenerated, ResourceGroup, Status;"
+        },
+        {
+          "label": "C",
+          "text": "AzureActivity | where Status == \"Failed\" | where TimeGenerated > ago(7d) | summarize count() by ResourceGroup;"
+        },
+        {
+          "label": "D",
+          "text": "AzureActivity | where TimeGenerated > ago(7d) | where OperationName == \"Microsoft.Compute/virtualMachines/start\" | summarize count() by Status."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The query must filter on both the operation name for VM start and the failed status, and restrict the time range to the past 7 days, which is exactly what option B does.",
+      "difficulty": "advanced",
+      "tags": [
+        "kusto",
+        "log-analytics",
+        "vm"
+      ]
+    },
+    {
+      "question_text": "You are configuring an alert rule for a production web app. The alert should trigger when the request count exceeds 10,000 per minute, and you need to send an email to the operations team and create a work item in Azure DevOps. Which combination of actions should you include?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Email notification via action group and Azure DevOps webhook."
+        },
+        {
+          "label": "B",
+          "text": "Email notification via action group and Azure Function."
+        },
+        {
+          "label": "C",
+          "text": "SMS notification via action group and Logic App."
+        },
+        {
+          "label": "D",
+          "text": "Email notification via action group and Azure DevOps service hook."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "An action group can include an email notification and a webhook action that points to an Azure DevOps service hook, enabling creation of work items as described in the Azure Monitor alert documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "alerts",
+        "action-groups",
+        "devops"
+      ]
+    },
+    {
+      "question_text": "You want to test network connectivity from an on-premises data center to an Azure virtual network subnet using Azure Network Watcher. Which feature should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Connection Monitor"
+        },
+        {
+          "label": "B",
+          "text": "NSG Flow Logs"
+        },
+        {
+          "label": "C",
+          "text": "Traffic Manager"
+        },
+        {
+          "label": "D",
+          "text": "Azure Front Door"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Network Watcher's Connection Monitor evaluates end-to-end connectivity between on-premises resources and Azure subnets, as detailed in the Network Watcher documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "network-watcher",
+        "connection-monitor"
+      ]
+    }
+  ]
+}

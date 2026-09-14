@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "skill_id": "vn-03",
+    "domain_id": "networking",
+    "generated_at": "2026-08-17T17:20:11.634777",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to configure DNS within a single Azure virtual network so that resources can resolve each other by name. Which type of DNS zone should you create?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Public DNS zone"
+        },
+        {
+          "label": "B",
+          "text": "Private DNS zone"
+        },
+        {
+          "label": "C",
+          "text": "Global DNS zone"
+        },
+        {
+          "label": "D",
+          "text": "Virtual network link"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "According to Azure documentation, a private DNS zone provides name resolution within a virtual network and across peered virtual networks, enabling internal hostnames to be resolved without exposing them to the internet.",
+      "difficulty": "easy",
+      "tags": [
+        "DNS",
+        "Name Resolution"
+      ]
+    },
+    {
+      "question_text": "When configuring an internal load balancer for internal traffic, which IP address type is typically used for its frontend IP configuration?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Public IP address"
+        },
+        {
+          "label": "B",
+          "text": "Private IP address"
+        },
+        {
+          "label": "C",
+          "text": "NAT IP address"
+        },
+        {
+          "label": "D",
+          "text": "Virtual IP address"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Azure Load Balancer documentation states that the frontend IP configuration of an internal load balancer references a private IP address from the subnet, allowing traffic to be balanced without a public endpoint.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Load Balancer",
+        "Private IP"
+      ]
+    },
+    {
+      "question_text": "You notice that a public-facing application behind a standard load balancer is returning HTTP 502 errors. Which log should you examine first to verify the health probe status?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Activity Log"
+        },
+        {
+          "label": "B",
+          "text": "NSG Flow Logs"
+        },
+        {
+          "label": "C",
+          "text": "Load Balancer diagnostics logs"
+        },
+        {
+          "label": "D",
+          "text": "Azure Monitor metrics"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Load Balancer diagnostics logs capture health probe results and backend pool health, helping to identify probe failures that can cause 502 errors.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Load Balancer",
+        "Troubleshooting"
+      ]
+    },
+    {
+      "question_text": "You need to expose a service hosted behind an internal load balancer using a custom domain name that resolves within your virtual network. Which DNS record type should you create in Azure DNS to map the custom domain to the internal load balancer's hostname?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A record"
+        },
+        {
+          "label": "B",
+          "text": "CNAME record"
+        },
+        {
+          "label": "C",
+          "text": "MX record"
+        },
+        {
+          "label": "D",
+          "text": "TXT record"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure DNS documentation explains that an A record is used to map a hostname directly to an IP address, which is appropriate for pointing a custom domain to the internal IP address of the load balancer.",
+      "difficulty": "advanced",
+      "tags": [
+        "DNS",
+        "Load Balancer"
+      ]
+    },
+    {
+      "question_text": "A user needs to create and manage internal load balancers in a subscription. Which built‑in Azure role should be assigned to grant the necessary permissions?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Contributor"
+        },
+        {
+          "label": "B",
+          "text": "Load Balancer Contributor"
+        },
+        {
+          "label": "C",
+          "text": "Network Contributor"
+        },
+        {
+          "label": "D",
+          "text": "Virtual Machine Contributor"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Network Contributor built‑in role includes permissions to create and modify load balancers, as described in Azure RBAC documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "RBAC",
+        "Networking"
+      ]
+    }
+  ]
+}

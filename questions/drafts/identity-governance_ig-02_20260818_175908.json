@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "What is the built-in role that grants read-only access to all resources in a subscription?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Contributor"
+        },
+        {
+          "label": "B",
+          "text": "Reader"
+        },
+        {
+          "label": "C",
+          "text": "Owner"
+        },
+        {
+          "label": "D",
+          "text": "User Access Administrator"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Reader role provides read\u2011only permissions across the entire subscription.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which built-in role allows management of access to Azure resources but not to the subscription itself?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Owner"
+        },
+        {
+          "label": "B",
+          "text": "User Access Administrator"
+        },
+        {
+          "label": "C",
+          "text": "Contributor"
+        },
+        {
+          "label": "D",
+          "text": "Reader"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "User Access Administrator can assign roles to users and groups but cannot modify subscription settings.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "How do you assign a custom role to a resource group?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Through Azure portal > Access control (IAM) > Add role assignment > select custom role > assign to resource group"
+        },
+        {
+          "label": "B",
+          "text": "Via Azure CLI using az role assignment create with --assignee and --role"
+        },
+        {
+          "label": "C",
+          "text": "By editing the resource group's ARM template"
+        },
+        {
+          "label": "D",
+          "text": "Not possible, built-in roles only"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "In the portal you navigate to the resource group\u2019s IAM, click Add role assignment, choose the custom role, and assign it to the resource group.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which PowerShell cmdlet is used to assign a role at the subscription scope?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Set-AzContext"
+        },
+        {
+          "label": "B",
+          "text": "New-AzRoleAssignment"
+        },
+        {
+          "label": "C",
+          "text": "Remove-AzRoleAssignment"
+        },
+        {
+          "label": "D",
+          "text": "Get-AzRoleDefinition"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "New\u2011AzRoleAssignment creates a role assignment at the specified scope (subscription, resource group, or resource).",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "If a user has the 'User Access Administrator' role, what can they do that the 'Contributor' role cannot?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign roles to other users"
+        },
+        {
+          "label": "B",
+          "text": "Modify role definitions"
+        },
+        {
+          "label": "C",
+          "text": "Delete resources"
+        },
+        {
+          "label": "D",
+          "text": "Read all resources"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "User Access Administrator can assign roles; Contributor cannot perform role assignments.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What does the 'Effective permissions' blade show?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Only the permissions of the selected role"
+        },
+        {
+          "label": "B",
+          "text": "Permissions after considering all role assignments and inheritance"
+        },
+        {
+          "label": "C",
+          "text": "The permissions of the user's Azure AD account only"
+        },
+        {
+          "label": "D",
+          "text": "The permissions of the resource provider"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Effective permissions combine the user's role assignments, inheritance, and any denied permissions to show the final rights.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which scenario illustrates an inherited role assignment?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assigning a role at the subscription level and having it apply to all resource groups"
+        },
+        {
+          "label": "B",
+          "text": "Assigning a role directly to a resource"
+        },
+        {
+          "label": "C",
+          "text": "Using Azure AD Conditional Access"
+        },
+        {
+          "label": "D",
+          "text": "Enabling Just-In-Time access"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "A role assigned at the subscription level cascades down to all child scopes, providing inheritance.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "How can you verify which roles are assigned to a specific user?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure portal > Users > select user > View assigned roles"
+        },
+        {
+          "label": "B",
+          "text": "Azure CLI: az role assignment list --assignee <userId>"
+        },
+        {
+          "label": "C",
+          "text": "Azure Monitor > Logs"
+        },
+        {
+          "label": "D",
+          "text": "Resource Graph query"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The az role assignment list command filters by the assignee to show all role assignments for that user.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What is the difference between 'AssignableScopes' of a built-in role and a custom role?",
+      "options": [
+        {
+          "label": "A",
+          "text": "AssignableScopes defines where the role can be assigned; built\u2011in roles have fixed scopes, custom roles can define assignable scopes."
+        },
+        {
+          "label": "B",
+          "text": "Only custom roles have AssignableScopes; built\u2011in roles do not have this property."
+        },
+        {
+          "label": "C",
+          "text": "AssignableScopes are used only for resource\u2011level assignments."
+        },
+        {
+          "label": "D",
+          "text": "There is no difference between built\u2011in and custom roles regarding AssignableScopes."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "AssignableScopes determines the scope levels at which a role can be assigned; built\u2011in roles have predefined scopes while custom roles can specify their own assignable scopes.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "When interpreting role assignments, which of the following is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A role assignment can be scoped to a management group, subscription, resource group, or resource"
+        },
+        {
+          "label": "B",
+          "text": "Role assignments are only effective at the resource level"
+        },
+        {
+          "label": "C",
+          "text": "A user can have multiple role assignments that conflict, but the most restrictive applies"
+        },
+        {
+          "label": "D",
+          "text": "Role assignments are immutable once created"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Role assignments can be applied at various scopes\u2014management group, subscription, resource group, or individual resource.",
+      "difficulty": "intermediate",
+      "tags": []
+    }
+  ]
+}

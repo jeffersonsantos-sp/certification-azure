@@ -1,0 +1,274 @@
+{
+  "questions": [
+    {
+      "question_text": "In the following ARM template snippet, which resource group is being created?\n```json\n{\n  \"type\": \"Microsoft.Resources/resourceGroups\",\n  \"apiVersion\": \"2021-04-01\",\n  \"name\": \"rg-prod\",\n  \"location\": \"EastUS\"\n}\n```",
+      "options": [
+        {
+          "label": "A",
+          "text": "rg-prod"
+        },
+        {
+          "label": "B",
+          "text": "rg-dev"
+        },
+        {
+          "label": "C",
+          "text": "rg-test"
+        },
+        {
+          "label": "D",
+          "text": "rg-uat"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The \"name\" property defines the resource group name. In the snippet it is \"rg-prod\", so option A is correct.",
+      "difficulty": "intermediate",
+      "tags": [
+        "interpret-templates"
+      ]
+    },
+    {
+      "question_text": "Which section of an ARM template is used to declare parameters that can be supplied during deployment?",
+      "options": [
+        {
+          "label": "A",
+          "text": "resources"
+        },
+        {
+          "label": "B",
+          "text": "parameters"
+        },
+        {
+          "label": "C",
+          "text": "variables"
+        },
+        {
+          "label": "D",
+          "text": "metadata"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The \"parameters\" section defines input parameters that users can provide values for when deploying the template. It is not the resources, variables, or metadata sections.",
+      "difficulty": "easy",
+      "tags": [
+        "interpret-templates"
+      ]
+    },
+    {
+      "question_text": "You need to add a new property to the virtual machine resource in an existing Bicep file. Which part of the file should you edit?",
+      "options": [
+        {
+          "label": "A",
+          "text": "parameters"
+        },
+        {
+          "label": "B",
+          "text": "resources"
+        },
+        {
+          "label": "C",
+          "text": "outputs"
+        },
+        {
+          "label": "D",
+          "text": "functions"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The \"resources\" block contains the definitions of the Azure resources. To modify a VM, you edit the VM resource definition inside the resources block.",
+      "difficulty": "intermediate",
+      "tags": [
+        "modify-templates"
+      ]
+    },
+    {
+      "question_text": "Which Azure CLI command correctly deploys a Bicep file named deploy.bicep to a resource group?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az deployment group create --template-file deploy.bicep"
+        },
+        {
+          "label": "B",
+          "text": "az bicep deploy --file deploy.bicep"
+        },
+        {
+          "label": "C",
+          "text": "az deployment sub create --template-file deploy.bicep"
+        },
+        {
+          "label": "D",
+          "text": "az resource create --file deploy.bicep"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Azure CLI command `az deployment group create` with the `--template-file` argument is used to deploy a Bicep (or ARM JSON) template to a specified resource group.",
+      "difficulty": "easy",
+      "tags": [
+        "deploy-resources"
+      ]
+    },
+    {
+      "question_text": "Which of the following is NOT a valid method to export an ARM template from the Azure portal?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Use the \"Export template\" button on the resource group"
+        },
+        {
+          "label": "B",
+          "text": "Use Azure PowerShell Export-AzResourceGroupTemplate"
+        },
+        {
+          "label": "C",
+          "text": "Use Azure CLI az deployment group export"
+        },
+        {
+          "label": "D",
+          "text": "Use the \"Download\" option on a resource in the portal"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure CLI does not provide a direct `az deployment group export` command for exporting templates. Export is performed via the portal's Export template button, PowerShell cmdlet, or manual download of the JSON.",
+      "difficulty": "intermediate",
+      "tags": [
+        "export-convert"
+      ]
+    },
+    {
+      "question_text": "What is the purpose of the \"dependsOn\" property in an ARM template?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Specifies resource ordering and constraints"
+        },
+        {
+          "label": "B",
+          "text": "Defines default values for parameters"
+        },
+        {
+          "label": "C",
+          "text": "Sets the location of the resource"
+        },
+        {
+          "label": "D",
+          "text": "Indicates the resource type"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "\"dependsOn\" tells Azure Resource Manager the order in which resources should be deployed, ensuring that a resource is created only after its dependencies are available.",
+      "difficulty": "easy",
+      "tags": [
+        "interpret-templates"
+      ]
+    },
+    {
+      "question_text": "Which statement about using modules in a Bicep file is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Modules cannot be reused across multiple templates"
+        },
+        {
+          "label": "B",
+          "text": "The module path must be an absolute file system path"
+        },
+        {
+          "label": "C",
+          "text": "Parameters can be passed to a module"
+        },
+        {
+          "label": "D",
+          "text": "Outputs of a module are not accessible to the parent template"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Bicep modules accept parameters, allowing them to be reused with different inputs. The path can be relative, and module outputs are available to the calling template.",
+      "difficulty": "intermediate",
+      "tags": [
+        "modify-templates"
+      ]
+    },
+    {
+      "question_text": "Which Azure CLI command exports an existing resource group as an ARM template to a local file?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az group export --resource-group RG1 --file rg1.json"
+        },
+        {
+          "label": "B",
+          "text": "az deployment group create --template-file rg1.json --resource-group RG1"
+        },
+        {
+          "label": "C",
+          "text": "az resource export --resource-group RG1 --output rg1.json"
+        },
+        {
+          "label": "D",
+          "text": "az group show --resource-group RG1 --query \"[].{id:id}\" > rg1.json"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The `az group export` command creates an ARM template representing the specified resource group and writes it to the given file path.",
+      "difficulty": "intermediate",
+      "tags": [
+        "export-convert"
+      ]
+    },
+    {
+      "question_text": "In an Azure DevOps pipeline, which task should you use to deploy an ARM template?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure CLI task"
+        },
+        {
+          "label": "B",
+          "text": "Azure Resource Manager deployment task"
+        },
+        {
+          "label": "C",
+          "text": "Azure Blob Storage task"
+        },
+        {
+          "label": "D",
+          "text": "Azure Function task"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Azure Resource Manager deployment task in Azure DevOps is specifically designed to deploy ARM templates (including Bicep) to Azure.",
+      "difficulty": "easy",
+      "tags": [
+        "deploy-resources"
+      ]
+    },
+    {
+      "question_text": "A Bicep file defines a parameter named location with a default value of \"eastus\". If you run the deployment without specifying a location, what happens?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Deployment fails because location is mandatory"
+        },
+        {
+          "label": "B",
+          "text": "The default value \"eastus\" is used"
+        },
+        {
+          "label": "C",
+          "text": "Location is automatically set to the resource group's location"
+        },
+        {
+          "label": "D",
+          "text": "Location defaults to \"westus\" regardless of the template"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "When a parameter has a default value and the user does not provide a value during deployment, the default is applied. Hence, \"eastus\" will be used.",
+      "difficulty": "easy",
+      "tags": [
+        "interpret-templates"
+      ]
+    }
+  ]
+}

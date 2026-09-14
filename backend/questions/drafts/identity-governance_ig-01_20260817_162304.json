@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T16:23:04.376335",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to create a new Microsoft Entra user and assign a license in the same step. Which approach should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Use the Azure portal to create the user and assign a license during the creation wizard."
+        },
+        {
+          "label": "B",
+          "text": "Use PowerShell to create the user without assigning a license."
+        },
+        {
+          "label": "C",
+          "text": "Use Microsoft Graph API to create a group without assigning a user."
+        },
+        {
+          "label": "D",
+          "text": "Use Azure AD Connect to sync on-premises users only."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "According to Microsoft Entra ID documentation, you can create a user and assign a license directly in the Azure portal, which simplifies the process and ensures the user has the required permissions. The other options either omit license assignment or use services that do not support direct license assignment during creation.",
+      "difficulty": "easy",
+      "tags": [
+        "User Creation",
+        "Licensing"
+      ]
+    },
+    {
+      "question_text": "An administrator wants to change a user's department property and add the user to an existing security group. Which method allows both actions to be performed programmatically?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Use the Azure portal to edit the department and then manually add the user to the group."
+        },
+        {
+          "label": "B",
+          "text": "Use Azure CLI to set the department property via the Set-MgUser cmdlet."
+        },
+        {
+          "label": "C",
+          "text": "Use Microsoft Graph API to update the department property and add the user to a group via the membership endpoint."
+        },
+        {
+          "label": "D",
+          "text": "Use Azure AD Connect to sync changes from on-premises."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Microsoft Graph API provides endpoints to modify user properties and manage group membership, as described in the Microsoft Entra ID Graph API reference. The portal and CLI can edit properties, but only the Graph API lets you perform both updates in a single programmatic operation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "User Properties",
+        "Group Membership"
+      ]
+    },
+    {
+      "question_text": "A company needs to assign a Microsoft 365 E3 license to a user in Microsoft Entra ID and verify that the license is correctly applied. Which sequence of actions is recommended?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the license through the Azure portal, then verify the assignment using the Get-MgUserLicense PowerShell cmdlet."
+        },
+        {
+          "label": "B",
+          "text": "Assign the license via Azure CLI and then run Get-AzureADUser to confirm the license status."
+        },
+        {
+          "label": "C",
+          "text": "Use Microsoft Graph API to assign the license via the /users/{id}/assignLicense endpoint and verify with a GET request to /users/{id}."
+        },
+        {
+          "label": "D",
+          "text": "Use Azure AD Connect to assign the license to the user."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Azure portal includes a license blade that lets you assign licenses and then verify the assignment via the Get-MgUserLicense cmdlet, which is documented in the Microsoft Entra ID PowerShell guide. The other methods either lack verification steps or are not supported for direct license assignment.",
+      "difficulty": "advanced",
+      "tags": [
+        "Licensing",
+        "Microsoft Graph"
+      ]
+    },
+    {
+      "question_text": "A guest user from another organization needs to access resources in your Microsoft Entra tenant. Which approach should you use to invite and manage this external user?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Invite the guest user as a member using the Azure portal and assign a role."
+        },
+        {
+          "label": "B",
+          "text": "Create a new Azure AD tenant for the guest and then add them as a guest."
+        },
+        {
+          "label": "C",
+          "text": "Use Azure AD B2B to invite the external user as a guest and set appropriate permissions."
+        },
+        {
+          "label": "D",
+          "text": "Disable the guest user account until they authenticate."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure AD B2B (Business-to-Business) collaboration allows you to invite external users as guests and configure their access permissions, as explained in the Azure AD B2B documentation. The other options either create separate tenants or disable accounts, which do not meet the requirement for external access.",
+      "difficulty": "intermediate",
+      "tags": [
+        "External Users",
+        "B2B"
+      ]
+    },
+    {
+      "question_text": "To enable self-service password reset for a specific group of users, which configuration step is required?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable self-service password reset tenant-wide in the Azure portal, then assign the feature to the target group."
+        },
+        {
+          "label": "B",
+          "text": "Enable self-service password reset only for the group using PowerShell Set-MgIdentityConditionalAccessPolicy."
+        },
+        {
+          "label": "C",
+          "text": "Enable self-service password reset for the group using an Azure AD registration campaign."
+        },
+        {
+          "label": "D",
+          "text": "Enable self-service password reset for the group by configuring a custom policy in Azure AD."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Self-service password reset can be turned on at the tenant level and then scoped to specific groups via the Azure portal, as detailed in the Microsoft Entra ID SSPR article. This approach allows you to control who can reset passwords while keeping the feature available organization‑wide.",
+      "difficulty": "advanced",
+      "tags": [
+        "Self-service Password Reset",
+        "Conditional Access"
+      ]
+    }
+  ]
+}

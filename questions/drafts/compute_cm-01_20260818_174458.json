@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "In an ARM template, which section defines the list of parameters that can be passed during deployment?",
+      "options": [
+        {
+          "label": "A",
+          "text": "resources"
+        },
+        {
+          "label": "B",
+          "text": "parameters"
+        },
+        {
+          "label": "C",
+          "text": "outputs"
+        },
+        {
+          "label": "D",
+          "text": "variables"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The 'parameters' section declares parameters, their type, default values, and constraints, allowing them to be supplied at deployment time.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "In a Bicep file, which syntax correctly assigns a location value to a resource?",
+      "options": [
+        {
+          "label": "A",
+          "text": "location = 'eastus'"
+        },
+        {
+          "label": "B",
+          "text": "location: 'eastus'"
+        },
+        {
+          "label": "C",
+          "text": "location 'eastus'"
+        },
+        {
+          "label": "D",
+          "text": "location: eastus"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Bicep uses the colon (:) to assign values, so 'location: 'eastus'' is the proper syntax.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which Azure CLI command deploys a Bicep file named main.bicep to a resource group called rg1?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az deployment group create --resource-group rg1 --template-file main.bicep"
+        },
+        {
+          "label": "B",
+          "text": "az bicep deploy --resource-group rg1 --file main.bicep"
+        },
+        {
+          "label": "C",
+          "text": "az deployment sub create --resource-group rg1 --template-file main.bicep"
+        },
+        {
+          "label": "D",
+          "text": "az resource create --resource-group rg1 --file main.bicep"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The az deployment group create command with --template-file is used to deploy a Bicep or ARM template to a specified resource group.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "How can you export an existing Azure resource to an ARM template using Azure CLI?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az resource export --name <name> --resource-group <RG> --output template.json"
+        },
+        {
+          "label": "B",
+          "text": "az deployment export --resource-group <RG> --output template.json"
+        },
+        {
+          "label": "C",
+          "text": "az resource convert --name <name> --resource-group <RG> --output template.json"
+        },
+        {
+          "label": "D",
+          "text": "az template export --resource <name> --output template.json"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The az resource export command exports the specified resource and its dependencies into an ARM template file.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "In a Bicep file, which keyword is used to reference a parameter's value?",
+      "options": [
+        {
+          "label": "A",
+          "text": "param"
+        },
+        {
+          "label": "B",
+          "text": "parameters"
+        },
+        {
+          "label": "C",
+          "text": "@parameters"
+        },
+        {
+          "label": "D",
+          "text": "paramName"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The @ symbol prefixes a parameter name to reference its value within expressions, e.g., @parameters.location.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "You need to change the SKU of a virtual machine resource from 'Standard_B1s' to 'Standard_D2s' in a Bicep file. Which line should you edit?",
+      "options": [
+        {
+          "label": "A",
+          "text": "resource 'Microsoft.Compute/virtualMachines' = { ... sku: 'Standard_B1s' }"
+        },
+        {
+          "label": "B",
+          "text": "sku = 'Standard_D2s'"
+        },
+        {
+          "label": "C",
+          "text": "resources = { ... sku: 'Standard_D2s' }"
+        },
+        {
+          "label": "D",
+          "text": "sku: 'Standard_D2s'"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "The SKU property within the resource definition should be updated to 'sku: 'Standard_D2s'' (or the full resource block), and option D shows the correct line to modify.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which of the following is required to successfully deploy a Bicep file that references an external module?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The module file must be in the same directory as the main Bicep file"
+        },
+        {
+          "label": "B",
+          "text": "The module must be uploaded to an Azure Storage account and referenced by its blob URL"
+        },
+        {
+          "label": "C",
+          "text": "The module must be included in the same Bicep file"
+        },
+        {
+          "label": "D",
+          "text": "The module must be defined as a parameter"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "External modules are typically stored in a storage account and referenced via a blob URL, allowing reuse across deployments.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What does the 'outputs' section of an ARM template define?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Resources to be created"
+        },
+        {
+          "label": "B",
+          "text": "Parameters that can be passed"
+        },
+        {
+          "label": "C",
+          "text": "Values that are returned after deployment"
+        },
+        {
+          "label": "D",
+          "text": "Dependencies between resources"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Outputs expose values (such as resource IDs or IPs) after deployment, making them available to downstream processes or users.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "When using Bicep, how can you conditionally create a resource based on a boolean parameter named 'enableLogging'?",
+      "options": [
+        {
+          "label": "A",
+          "text": "if (enableLogging) { resource ... }"
+        },
+        {
+          "label": "B",
+          "text": "conditional resource if enableLogging { ... }"
+        },
+        {
+          "label": "C",
+          "text": "resource 'Microsoft.Whatever' = if (enableLogging) { ... }"
+        },
+        {
+          "label": "D",
+          "text": "resource 'Microsoft.Whatever' = enableLogging ? { ... } : { ... }"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Bicep supports conditional resource creation using the 'if' keyword directly after the resource type, e.g., resource 'Microsoft.Whatever' = if (enableLogging) { ... }.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which Azure CLI command deploys an ARM template stored in a GitHub repository to a resource group?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az deployment group create --resource-group rg1 --template-uri https://github.com/.../template.json"
+        },
+        {
+          "label": "B",
+          "text": "az bicep deploy --resource-group rg1 --file https://github.com/.../main.bicep"
+        },
+        {
+          "label": "C",
+          "text": "az resource create --resource-group rg1 --template-uri https://github.com/.../template.json"
+        },
+        {
+          "label": "D",
+          "text": "az deployment sub create --resource-group rg1 --template-uri https://github.com/.../template.json"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The az deployment group create command with --template-uri points to a remote template (e.g., a GitHub URL) and deploys it to the specified resource group.",
+      "difficulty": "intermediate",
+      "tags": []
+    }
+  ]
+}

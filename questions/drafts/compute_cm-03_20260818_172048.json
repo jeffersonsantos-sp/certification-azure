@@ -1,0 +1,299 @@
+{
+  "metadata": {
+    "skill_id": "cm-03",
+    "domain_id": "compute",
+    "generated_at": "2026-08-18T17:20:48.033503",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to store container images for deployment in Azure. Which Azure service is designed for this purpose?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Container Registry"
+        },
+        {
+          "label": "B",
+          "text": "Azure Storage Account"
+        },
+        {
+          "label": "C",
+          "text": "Azure Virtual Machine"
+        },
+        {
+          "label": "D",
+          "text": "Azure Kubernetes Service"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Container Registry (ACR) is the service that stores container images, as described in the Azure documentation for container registries.",
+      "difficulty": "easy",
+      "tags": [
+        "container-registry",
+        "easy"
+      ]
+    },
+    {
+      "question_text": "A developer wants to run a quick diagnostic container that will be executed once and then deleted. Which billing model applies to Azure Container Instances?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Pay-as-you-go (per second)"
+        },
+        {
+          "label": "B",
+          "text": "Reserved Instances (one-year commitment)"
+        },
+        {
+          "label": "C",
+          "text": "Spot Instances (discounted)"
+        },
+        {
+          "label": "D",
+          "text": "Azure Hybrid Benefit (license conversion)"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Container Instances are billed per second based on the resources used, which is part of the pay-as-you-go model according to Azure pricing documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "aci",
+        "billing",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "Which scaling capability is natively supported in Azure Container Apps?",
+      "options": [
+        {
+          "label": "A",
+          "text": "CPU-based autoscale"
+        },
+        {
+          "label": "B",
+          "text": "Custom metrics"
+        },
+        {
+          "label": "C",
+          "text": "Scale to 0"
+        },
+        {
+          "label": "D",
+          "text": "None"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Container Apps support scale to 0, allowing the service to automatically shut down when no traffic is present, as outlined in the Azure Container Apps scaling documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "container-apps",
+        "scaling",
+        "advanced"
+      ]
+    },
+    {
+      "question_text": "Which Azure service enables you to run a container without provisioning or managing underlying compute infrastructure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Kubernetes Service"
+        },
+        {
+          "label": "B",
+          "text": "Azure Container Instances"
+        },
+        {
+          "label": "C",
+          "text": "Azure Virtual Machines"
+        },
+        {
+          "label": "D",
+          "text": "Azure Batch"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Container Instances lets you run containers directly without managing VMs or clusters, as described in the ACI overview.",
+      "difficulty": "easy",
+      "tags": [
+        "aci",
+        "easy"
+      ]
+    },
+    {
+      "question_text": "When configuring Azure Container Apps, you need to set a minimum of one replica and a maximum of five replicas. Which setting controls the replica count range?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Min/Max instance count"
+        },
+        {
+          "label": "B",
+          "text": "Min/Max CPU"
+        },
+        {
+          "label": "C",
+          "text": "Min/Max memory"
+        },
+        {
+          "label": "D",
+          "text": "Min/Max storage"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The replica count range is defined by the min and max instance count setting in Azure Container Apps, referenced in the Azure Container Apps scaling guide.",
+      "difficulty": "intermediate",
+      "tags": [
+        "container-apps",
+        "scaling",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "To authenticate to Azure Container Registry from an Azure App Service, which identity type is supported?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Service principal"
+        },
+        {
+          "label": "B",
+          "text": "Managed identity"
+        },
+        {
+          "label": "C",
+          "text": "Personal access token"
+        },
+        {
+          "label": "D",
+          "text": "Username/password"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Container Registry supports authentication using a managed identity, as detailed in the ACR authentication documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "acr",
+        "microsoft-entra-id",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "Which Azure CLI command creates a new Azure Container Registry?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az acr"
+        },
+        {
+          "label": "B",
+          "text": "az container"
+        },
+        {
+          "label": "C",
+          "text": "az storage"
+        },
+        {
+          "label": "D",
+          "text": "az vm"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The az acr command is used to create and manage container registries, according to the Azure CLI documentation for ACR.",
+      "difficulty": "easy",
+      "tags": [
+        "acr",
+        "cli",
+        "easy"
+      ]
+    },
+    {
+      "question_text": "You need to configure Azure Container Instances to automatically scale based on CPU usage. Which Azure feature enables this?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Autoscale"
+        },
+        {
+          "label": "B",
+          "text": "Scale sets"
+        },
+        {
+          "label": "C",
+          "text": "Virtual machine scale set"
+        },
+        {
+          "label": "D",
+          "text": "None"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Container Instances support autoscale based on metrics such as CPU, as described in the ACI scaling documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "aci",
+        "autoscale",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "To enable a custom domain with TLS for a Container App, which step must be performed first?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a custom domain in Azure DNS"
+        },
+        {
+          "label": "B",
+          "text": "Upload a TLS certificate to Key Vault"
+        },
+        {
+          "label": "C",
+          "text": "Configure Azure Front Door"
+        },
+        {
+          "label": "D",
+          "text": "Enable Azure AD authentication"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The first step is to create a custom domain mapping for the Container App, which is then associated with a TLS certificate, per the Azure Container Apps custom domain guide.",
+      "difficulty": "advanced",
+      "tags": [
+        "container-apps",
+        "custom-domain",
+        "advanced"
+      ]
+    },
+    {
+      "question_text": "Which Azure policy type would you use to limit the maximum CPU cores a container can consume in Azure Container Instances?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy for resource limits"
+        },
+        {
+          "label": "B",
+          "text": "Azure Advisor"
+        },
+        {
+          "label": "C",
+          "text": "Azure Blueprints"
+        },
+        {
+          "label": "D",
+          "text": "Azure Monitor"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Policy can enforce resource limits such as maximum CPU cores for containers, as explained in the Azure Policy documentation for container resource governance.",
+      "difficulty": "easy",
+      "tags": [
+        "acr",
+        "policy",
+        "easy"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,291 @@
+{
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T16:12:52.779138",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "How do you create a new user in Microsoft Entra ID using the Azure portal?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Go to Azure AD > Users > New user"
+        },
+        {
+          "label": "B",
+          "text": "Go to Azure AD > Groups > New user"
+        },
+        {
+          "label": "C",
+          "text": "Use PowerShell Set-AzureADUser"
+        },
+        {
+          "label": "D",
+          "text": "Use Azure CLI az ad user create"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "According to Microsoft Entra ID documentation, users are created via the Azure portal under Azure AD > Users > New user.",
+      "difficulty": "easy",
+      "tags": [
+        "Identity",
+        "Portal"
+      ]
+    },
+    {
+      "question_text": "Which PowerShell cmdlet adds a user to an existing group in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Add-AzureADGroupMember"
+        },
+        {
+          "label": "B",
+          "text": "New-AzureADGroupMember"
+        },
+        {
+          "label": "C",
+          "text": "Add-AzureADUserToGroup"
+        },
+        {
+          "label": "D",
+          "text": "Set-AzureADUser"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Add-AzureADGroupMember cmdlet is described in the Microsoft Entra ID PowerShell documentation for managing group membership.",
+      "difficulty": "intermediate",
+      "tags": [
+        "GroupManagement",
+        "PowerShell"
+      ]
+    },
+    {
+      "question_text": "Which action allows you to assign a license to a group in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign license directly to a user"
+        },
+        {
+          "label": "B",
+          "text": "Use Azure AD Premium P1"
+        },
+        {
+          "label": "C",
+          "text": "Use Azure AD Premium P2"
+        },
+        {
+          "label": "D",
+          "text": "Assign license to a security group"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Microsoft Entra ID documentation states that licenses can be assigned to groups, and a security group is a valid target for license assignment.",
+      "difficulty": "advanced",
+      "tags": [
+        "Licensing",
+        "Groups"
+      ]
+    },
+    {
+      "question_text": "Which setting enables B2B collaboration with external organizations in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Guest user access"
+        },
+        {
+          "label": "B",
+          "text": "External user access"
+        },
+        {
+          "label": "C",
+          "text": "B2B collaboration"
+        },
+        {
+          "label": "D",
+          "text": "Partner access"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Microsoft Entra ID documentation describes B2B collaboration as the feature that allows external users to be invited as guests.",
+      "difficulty": "easy",
+      "tags": [
+        "B2B",
+        "ExternalUsers"
+      ]
+    },
+    {
+      "question_text": "Which blade in the Azure portal enables self-service password reset for users?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Identity protection"
+        },
+        {
+          "label": "B",
+          "text": "Security defaults"
+        },
+        {
+          "label": "C",
+          "text": "Self-service password reset"
+        },
+        {
+          "label": "D",
+          "text": "Password writeback"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Self-service password reset blade is documented under Azure AD > Password reset in the Microsoft Entra ID portal.",
+      "difficulty": "intermediate",
+      "tags": [
+        "SSPR",
+        "Security"
+      ]
+    },
+    {
+      "question_text": "Which user attribute stores the user's department information?",
+      "options": [
+        {
+          "label": "A",
+          "text": "jobTitle"
+        },
+        {
+          "label": "B",
+          "text": "department"
+        },
+        {
+          "label": "C",
+          "text": "companyName"
+        },
+        {
+          "label": "D",
+          "text": "organizationUnit"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The department attribute is defined in the Microsoft Entra ID user object schema and is used to store department information.",
+      "difficulty": "intermediate",
+      "tags": [
+        "UserProperties",
+        "Attributes"
+      ]
+    },
+    {
+      "question_text": "Which group type is required to assign Microsoft 365 licenses in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Microsoft 365 group"
+        },
+        {
+          "label": "B",
+          "text": "Security group"
+        },
+        {
+          "label": "C",
+          "text": "Distribution group"
+        },
+        {
+          "label": "D",
+          "text": "Dynamic group"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "According to Microsoft Entra ID documentation, Microsoft 365 licenses can be assigned to Microsoft 365 groups.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Licensing",
+        "Groups"
+      ]
+    },
+    {
+      "question_text": "When a user is removed from the source directory, what happens to the corresponding Microsoft Entra ID account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Their Entra ID account is automatically deleted"
+        },
+        {
+          "label": "B",
+          "text": "Their Entra ID account remains but is disabled"
+        },
+        {
+          "label": "C",
+          "text": "Their Entra ID account remains but is marked as external"
+        },
+        {
+          "label": "D",
+          "text": "Their Entra ID account is deleted after 30 days"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Microsoft Entra ID documentation explains that cloud user accounts are retained for 30 days after source deletion before being permanently removed.",
+      "difficulty": "easy",
+      "tags": [
+        "ExternalUsers",
+        "Lifecycle"
+      ]
+    },
+    {
+      "question_text": "Which feature allows administrators to add multiple users to a group in a single operation in the Azure portal?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure AD Graph API endpoint /users/{id}/members"
+        },
+        {
+          "label": "B",
+          "text": "Azure AD PowerShell cmdlet Add-AzureADGroupMember"
+        },
+        {
+          "label": "C",
+          "text": "Azure AD portal bulk edit feature"
+        },
+        {
+          "label": "D",
+          "text": "Azure CLI az ad group member add"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Azure portal includes a bulk edit capability for managing group memberships, as described in the Microsoft Entra ID documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Portal",
+        "BulkOperations"
+      ]
+    },
+    {
+      "question_text": "Which feature must be enabled to allow on-premises password writeback for self-service password reset?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure AD Connect sync"
+        },
+        {
+          "label": "B",
+          "text": "Password writeback"
+        },
+        {
+          "label": "C",
+          "text": "Identity Protection"
+        },
+        {
+          "label": "D",
+          "text": "Conditional Access"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Microsoft Entra ID documentation specifies that password writeback must be enabled in Azure AD Connect to support on-premises password writeback.",
+      "difficulty": "advanced",
+      "tags": [
+        "SSPR",
+        "Hybrid"
+      ]
+    }
+  ]
+}

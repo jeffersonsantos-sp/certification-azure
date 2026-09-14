@@ -1,0 +1,278 @@
+{
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-18T17:38:28.280895",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which blade in the Azure portal should you navigate to in order to create a new Microsoft Entra user?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Active Directory > Users > New user"
+        },
+        {
+          "label": "B",
+          "text": "Azure Active Directory > Groups > New group"
+        },
+        {
+          "label": "C",
+          "text": "Azure Active Directory > Enterprise applications > New application"
+        },
+        {
+          "label": "D",
+          "text": "Azure Active Directory > Device settings"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "In the Azure portal, go to Azure Active Directory and select Users, then click + New user to create a user. This is described in the Microsoft Entra ID documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "user-management"
+      ]
+    },
+    {
+      "question_text": "Which attribute can be set to enable a user to be assigned a license?",
+      "options": [
+        {
+          "label": "A",
+          "text": "AccountEnabled"
+        },
+        {
+          "label": "B",
+          "text": "isLicensed"
+        },
+        {
+          "label": "C",
+          "text": "AssignedLicenses"
+        },
+        {
+          "label": "D",
+          "text": "UserPrincipalName"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The AssignedLicenses property is used to assign or remove licenses for a user. The documentation states that licenses are attached to this attribute.",
+      "difficulty": "easy",
+      "tags": [
+        "licensing"
+      ]
+    },
+    {
+      "question_text": "You need to allow a group of external partners to access a resource using their own Microsoft accounts, without creating guest accounts in your tenant. Which feature should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure AD B2B collaboration"
+        },
+        {
+          "label": "B",
+          "text": "Azure AD external identities"
+        },
+        {
+          "label": "C",
+          "text": "Azure AD self-service sign-up"
+        },
+        {
+          "label": "D",
+          "text": "Azure AD dynamic groups"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure AD external identities lets users sign in with any identity provider while keeping them as external users, avoiding the creation of guest accounts. This is explained in the external identities documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "external-users"
+      ]
+    },
+    {
+      "question_text": "Which Azure AD license includes the Self-service password reset capability for users?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Microsoft Entra ID Free"
+        },
+        {
+          "label": "B",
+          "text": "Microsoft Entra ID Premium P1"
+        },
+        {
+          "label": "C",
+          "text": "Microsoft Entra ID Premium P2"
+        },
+        {
+          "label": "D",
+          "text": "Microsoft 365 E5"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Self-service password reset is available with Microsoft Entra ID Free for cloud‑only users, as stated in the licensing documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "self-service-password-reset",
+        "licensing"
+      ]
+    },
+    {
+      "question_text": "You have a group named \"Developers\" in Microsoft Entra ID. You need to add a new user to this group, but you want to ensure the user's membership is not removed when the group's membership type changes from Assigned to Dynamic. Which group membership type should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assigned"
+        },
+        {
+          "label": "B",
+          "text": "Dynamic 365"
+        },
+        {
+          "label": "C",
+          "text": "Dynamic M365"
+        },
+        {
+          "label": "D",
+          "text": "Assigned with Azure AD role"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Assigned groups allow manual membership changes; dynamic groups are populated automatically based on a rule, so adding a user to a dynamic group would be overwritten if the rule changes. This is covered in the group management documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "group-management"
+      ]
+    },
+    {
+      "question_text": "In Microsoft Entra ID, you need to configure a condition that allows members of the \"Contractors\" group to access a specific Azure resource only if they are signing in from a trusted location. Which feature should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Conditional Access policies"
+        },
+        {
+          "label": "B",
+          "text": "Identity Protection risk-based policies"
+        },
+        {
+          "label": "C",
+          "text": "Azure AD B2B collaboration"
+        },
+        {
+          "label": "D",
+          "text": "Group lifecycle management"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Conditional Access policies let you create sign‑in location conditions to restrict access to resources, which is described in the conditional access documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "conditional-access",
+        "security"
+      ]
+    },
+    {
+      "question_text": "You are tasked with assigning a license to a user in Microsoft Entra ID that includes both Microsoft 365 E3 and an additional Azure AD Premium P2 license. Which action should you take?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the Azure AD Premium P2 license via the Azure portal, then assign the Microsoft 365 E3 license via the Microsoft 365 admin center."
+        },
+        {
+          "label": "B",
+          "text": "Assign a single combined license called \"E3 + P2\" from the licensing blade."
+        },
+        {
+          "label": "C",
+          "text": "Assign the Microsoft 365 E3 license which automatically includes P2."
+        },
+        {
+          "label": "D",
+          "text": "Use the Azure AD PowerShell cmdlet Set-MsolUser -AddLicenses to add both SKUs in one command."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Licenses are assigned per SKU; you must assign each license separately through the appropriate portal or admin center as outlined in the licensing guidance.",
+      "difficulty": "advanced",
+      "tags": [
+        "licensing",
+        "user-management"
+      ]
+    },
+    {
+      "question_text": "Which of the following is required before you can enable Self-service password reset for a user?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The user must have an Azure AD Premium P1 license"
+        },
+        {
+          "label": "B",
+          "text": "The user must be in the same organization as the administrator enabling SSPR"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A role such as Password Administrator (or Global Administrator) is required to enable Self-service password reset. This requirement is documented in the Self-service password reset overview.",
+      "difficulty": "intermediate",
+      "tags": [
+        "self-service-password-reset",
+        "roles"
+      ]
+    },
+    {
+      "question_text": "To delete a user from a Microsoft Entra ID group, which action should you perform?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Remove the user from the group via the Azure portal"
+        },
+        {
+          "label": "B",
+          "text": "Delete the user account entirely"
+        },
+        {
+          "label": "C",
+          "text": "Revoke the user's refresh token"
+        },
+        {
+          "label": "D",
+          "text": "Change the user's password"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Removing the user from the group via the Azure portal is the correct way to delete a user from a group while keeping the account intact. This process is described in the group management article.",
+      "difficulty": "easy",
+      "tags": [
+        "group-management"
+      ]
+    },
+    {
+      "question_text": "You need to assign a license to a guest user (B2B) in Microsoft Entra ID. Which of the following statements is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Guest users can be assigned any Azure AD license directly in the portal"
+        },
+        {
+          "label": "B",
+          "text": "Guest users must be assigned a license through the Azure AD B2B invitation process"
+        },
+        {
+          "label": "C",
+          "text": "Guest users cannot be assigned licenses unless they are converted to a member account"
+        },
+        {
+          "label": "D",
+          "text": "Guest users automatically inherit all licenses from the inviting tenant"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Guest users can receive Azure AD licenses directly, as outlined in the B2B collaboration documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "external-users",
+        "licensing"
+      ]
+    }
+  ]
+}

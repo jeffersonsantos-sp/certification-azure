@@ -1,0 +1,300 @@
+{
+  "metadata": {
+    "skill_id": "cm-04",
+    "domain_id": "compute",
+    "generated_at": "2026-08-18T17:21:28.068622",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which Azure App Service plan type is best suited for a new web app that requires a pay-as-you-go pricing model and can scale to zero instances?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Consumption (F1) plan"
+        },
+        {
+          "label": "B",
+          "text": "Premium (P1V2) plan"
+        },
+        {
+          "label": "C",
+          "text": "Dedicated (D2v3) plan"
+        },
+        {
+          "label": "D",
+          "text": "Isolated (I2) plan"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Consumption plan (F1) charges per vCPU-second and instance hour and automatically scales to zero when idle, as described in the Azure documentation (https://learn.microsoft.com/azure/app-service/overview-hosting-plan).",
+      "difficulty": "easy",
+      "tags": [
+        "App Service",
+        "Pricing plan"
+      ]
+    },
+    {
+      "question_text": "You need to configure autoscale for an App Service plan so that the number of instances increases when CPU usage exceeds 70% and decreases when it drops below 30%. Which setting should you adjust?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Set the scale rule metric to CPU percentage with thresholds 70% (scale out) and 30% (scale in)"
+        },
+        {
+          "label": "B",
+          "text": "Set the scale rule metric to HTTP queue length with thresholds 1000 (scale out) and 500 (scale in)"
+        },
+        {
+          "label": "C",
+          "text": "Set the scale rule metric to memory consumption with thresholds 80% (scale out) and 20% (scale in)"
+        },
+        {
+          "label": "D",
+          "text": "Set the scale rule metric to request count with thresholds 5000 (scale out) and 2500 (scale in)"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Autoscale rules can be defined using CPU percentage as the metric, with defined thresholds for scaling out and in, according to the Azure documentation (https://learn.microsoft.com/azure/app-service/manage-scale).",
+      "difficulty": "intermediate",
+      "tags": [
+        "App Service",
+        "Scaling",
+        "Autoscale"
+      ]
+    },
+    {
+      "question_text": "Which Azure CLI command creates a .NET 6 web app named 'myapp' in the resource group 'rg1'?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az webapp create --runtime \"DOTNET|6.0\" --resource-group rg1 --name myapp"
+        },
+        {
+          "label": "B",
+          "text": "az webapp create --runtime \"Node|14\" --resource-group rg1 --name myapp"
+        },
+        {
+          "label": "C",
+          "text": "az webapp create --runtime \"JAVA|11\" --resource-group rg1 --name myapp"
+        },
+        {
+          "label": "D",
+          "text": "az webapp create --runtime \"PHP|7.4\" --resource-group rg1 --name myapp"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The command az webapp create with the DOTNET|6.0 runtime creates a .NET 6 web app, as detailed in the Azure CLI reference (https://learn.microsoft.com/cli/azure/webapp/create).",
+      "difficulty": "intermediate",
+      "tags": [
+        "App Service",
+        "CLI",
+        ".NET"
+      ]
+    },
+    {
+      "question_text": "To bind a custom TLS certificate to a custom domain of an App Service, what is the required first step?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Upload the certificate to the App Service and then bind it to the domain"
+        },
+        {
+          "label": "B",
+          "text": "Purchase a certificate from Azure Front Door and associate it with the domain"
+        },
+        {
+          "label": "C",
+          "text": "Enable HTTPS only in the app settings and the certificate will be applied automatically"
+        },
+        {
+          "label": "D",
+          "text": "Create a new App Service plan with TLS enabled"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "You must first upload the certificate to the App Service, then bind it to the custom domain, as explained in the TLS configuration guide (https://learn.microsoft.com/azure/app-service/configure-ssl-certificate).",
+      "difficulty": "advanced",
+      "tags": [
+        "App Service",
+        "TLS",
+        "Custom domain"
+      ]
+    },
+    {
+      "question_text": "You have an existing custom domain 'app.example.com' that you want to map to an App Service named 'mywebapp'. Which DNS record type should you configure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A record pointing to 10.0.0.1"
+        },
+        {
+          "label": "B",
+          "text": "CNAME record pointing to mywebapp.azurewebsites.net"
+        },
+        {
+          "label": "C",
+          "text": "TXT record pointing to mywebapp.azurewebsites.net"
+        },
+        {
+          "label": "D",
+          "text": "NS record pointing to mywebapp.azurewebsites.net"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A CNAME record that points to the <appname>.azurewebsites.net hostname is the standard way to map a custom domain to an App Service, per the DNS configuration documentation (https://learn.microsoft.com/azure/app-service/configure-custom-dns).",
+      "difficulty": "intermediate",
+      "tags": [
+        "App Service",
+        "Custom domain",
+        "DNS"
+      ]
+    },
+    {
+      "question_text": "Which setting enables daily backup of an App Service to an Azure Storage account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable Backup under Settings > Backup"
+        },
+        {
+          "label": "B",
+          "text": "Enable Export under Deployment slots"
+        },
+        {
+          "label": "C",
+          "text": "Enable Snapshot in the App Service plan"
+        },
+        {
+          "label": "D",
+          "text": "Enable Automatic scaling"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Backup feature in the App Service settings allows you to schedule daily backups to a storage account, as described in the backup documentation (https://learn.microsoft.com/azure/app-service/manage-backups).",
+      "difficulty": "intermediate",
+      "tags": [
+        "App Service",
+        "Backup",
+        "Storage"
+      ]
+    },
+    {
+      "question_text": "To restrict outbound traffic from an App Service to a specific virtual network, which feature should you enable?",
+      "options": [
+        {
+          "label": "A",
+          "text": "VNet Integration"
+        },
+        {
+          "label": "B",
+          "text": "Private Endpoint"
+        },
+        {
+          "label": "C",
+          "text": "Service Endpoints"
+        },
+        {
+          "label": "D",
+          "text": "App Service Environment"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "VNet Integration allows an App Service to connect to a virtual network and restrict outbound traffic, as outlined in the networking documentation (https://learn.microsoft.com/azure/app-service/web-sites-configure-vnet-integration).",
+      "difficulty": "intermediate",
+      "tags": [
+        "App Service",
+        "Networking",
+        "VNet Integration"
+      ]
+    },
+    {
+      "question_text": "You need to test a new version of your web app while keeping the production site live. What is the recommended approach?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a staging slot and perform a swap after validation"
+        },
+        {
+          "label": "B",
+          "text": "Deploy the new version to a separate App Service plan"
+        },
+        {
+          "label": "C",
+          "text": "Use deployment slots only for backup purposes"
+        },
+        {
+          "label": "D",
+          "text": "Use the 'Preview' feature to test changes"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Creating a staging slot provides an isolated environment for testing, and a swap can be performed once validation is complete, per the deployment slots documentation (https://learn.microsoft.com/azure/app-service/deploy-staging-slots).",
+      "difficulty": "advanced",
+      "tags": [
+        "App Service",
+        "Deployment slots",
+        "Testing"
+      ]
+    },
+    {
+      "question_text": "For a web app that experiences moderate traffic and requires SSL support, which App Service plan tier is most appropriate?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Free (F1)"
+        },
+        {
+          "label": "B",
+          "text": "Shared (D1)"
+        },
+        {
+          "label": "C",
+          "text": "Standard (S1)"
+        },
+        {
+          "label": "D",
+          "text": "Premium V2"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Standard (S1) tier offers sufficient resources for moderate traffic and includes SSL support, as detailed in the pricing guide (https://learn.microsoft.com/azure/app-service/overview-hosting-plan).",
+      "difficulty": "easy",
+      "tags": [
+        "App Service",
+        "Pricing plan",
+        "SSL"
+      ]
+    },
+    {
+      "question_text": "When configuring autoscale based on CPU utilization, which metric should you select?",
+      "options": [
+        {
+          "label": "A",
+          "text": "CPU Percentage"
+        },
+        {
+          "label": "B",
+          "text": "Memory Working Set"
+        },
+        {
+          "label": "C",
+          "text": "Network Inbound"
+        },
+        {
+          "label": "D",
+          "text": "Disk Queue Length"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "CPU Percentage is the metric used for scaling based on processor utilization, as explained in the autoscale documentation (https://learn.microsoft.com/azure/app-service/manage-scale).",
+      "difficulty": "advanced",
+      "tags": [
+        "App Service",
+        "Scaling",
+        "Autoscale"
+      ]
+    }
+  ]
+}

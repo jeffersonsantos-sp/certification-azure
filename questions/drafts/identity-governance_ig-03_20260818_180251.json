@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "What is the primary purpose of Azure Policy?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enforce compliance and governance across resources"
+        },
+        {
+          "label": "B",
+          "text": "Manage virtual machine scaling"
+        },
+        {
+          "label": "C",
+          "text": "Create new storage accounts"
+        },
+        {
+          "label": "D",
+          "text": "Monitor network traffic"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Policy evaluates resource properties against defined rules to enforce compliance and governance.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which Azure feature allows you to lock a resource to prevent accidental deletion or modification?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Tags"
+        },
+        {
+          "label": "B",
+          "text": "Resource lock"
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy"
+        },
+        {
+          "label": "D",
+          "text": "Management group"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Resource locks (CanNotDelete or ReadOnly) protect resources from being deleted or altered.",
+      "difficulty": "basic",
+      "tags": []
+    },
+    {
+      "question_text": "How do tags help with cost management in Azure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "By applying access control permissions"
+        },
+        {
+          "label": "B",
+          "text": "By grouping resources for reporting and cost allocation"
+        },
+        {
+          "label": "C",
+          "text": "By encrypting data at rest"
+        },
+        {
+          "label": "D",
+          "text": "By defining the VM size"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Tags enable grouping and categorization of resources, making cost analysis and allocation easier.",
+      "difficulty": "basic",
+      "tags": []
+    },
+    {
+      "question_text": "Which of the following is NOT a recommended practice for organizing resources into resource groups?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Group by application lifecycle (dev, test, prod)"
+        },
+        {
+          "label": "B",
+          "text": "Group by department or business unit"
+        },
+        {
+          "label": "C",
+          "text": "Use a single group for all resources"
+        },
+        {
+          "label": "D",
+          "text": "Align groups with subscription boundaries"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "A single group defeats the purpose of segmentation, hindering management, access control, and cost tracking.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What is the main purpose of Management Groups in Azure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enforce Azure Policy across multiple subscriptions"
+        },
+        {
+          "label": "B",
+          "text": "Create new subscriptions automatically"
+        },
+        {
+          "label": "C",
+          "text": "Generate cost alerts"
+        },
+        {
+          "label": "D",
+          "text": "Assign tags to resources"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Management Groups provide a hierarchical scope to apply governance, such as Azure Policy, across many subscriptions.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which Azure service provides recommendations for cost optimization?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Monitor"
+        },
+        {
+          "label": "B",
+          "text": "Azure Advisor"
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy"
+        },
+        {
+          "label": "D",
+          "text": "Azure Resource Manager"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Advisor analyzes usage and offers actionable recommendations to reduce costs.",
+      "difficulty": "basic",
+      "tags": []
+    },
+    {
+      "question_text": "To restrict the creation of new resources in a subscription, which Azure feature should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Tags"
+        },
+        {
+          "label": "B",
+          "text": "Resource lock"
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy"
+        },
+        {
+          "label": "D",
+          "text": "Management group"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Policy can deny or audit the creation of resources, effectively restricting what can be deployed.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What is the effect of applying a 'ReadOnly' resource lock?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Prevents deletion but allows updates"
+        },
+        {
+          "label": "B",
+          "text": "Prevents both deletion and update"
+        },
+        {
+          "label": "C",
+          "text": "Allows both deletion and update"
+        },
+        {
+          "label": "D",
+          "text": "Only restricts tagging"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A ReadOnly lock blocks any write operations, including updates and deletions, on the locked resource.",
+      "difficulty": "basic",
+      "tags": []
+    },
+    {
+      "question_text": "Which statement about Azure subscriptions is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "All resources must belong to a management group"
+        },
+        {
+          "label": "B",
+          "text": "A subscription can have multiple resource groups"
+        },
+        {
+          "label": "C",
+          "text": "Subscriptions cannot be linked to multiple management groups"
+        },
+        {
+          "label": "D",
+          "text": "Subscriptions are only used for billing, not governance"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A subscription can contain many resource groups, which help organize resources within that subscription.",
+      "difficulty": "basic",
+      "tags": []
+    },
+    {
+      "question_text": "How do you assign a tag to multiple resources at once?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Using Azure portal bulk edit"
+        },
+        {
+          "label": "B",
+          "text": "Using Azure CLI script"
+        },
+        {
+          "label": "C",
+          "text": "Using Azure Policy definition"
+        },
+        {
+          "label": "D",
+          "text": "Using Azure Resource Manager template"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Azure portal provides a bulk edit feature that lets you apply the same tag to several resources simultaneously.",
+      "difficulty": "intermediate",
+      "tags": []
+    }
+  ]
+}

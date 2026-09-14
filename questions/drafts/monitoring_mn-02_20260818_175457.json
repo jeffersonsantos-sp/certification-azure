@@ -1,0 +1,276 @@
+{
+  "questions": [
+    {
+      "question_text": "What is the primary purpose of a Recovery Services vault in Azure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Store only backup policies"
+        },
+        {
+          "label": "B",
+          "text": "Store recovery points for Azure VMs and other resources"
+        },
+        {
+          "label": "C",
+          "text": "Manage Azure Site Recovery failover operations"
+        },
+        {
+          "label": "D",
+          "text": "Host backup server instances"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A Recovery Services vault holds backup items and recovery points for Azure VMs, Azure SQL databases, and other protected resources, enabling restore operations.",
+      "difficulty": "easy",
+      "tags": [
+        "Recovery Services vault",
+        "backup"
+      ]
+    },
+    {
+      "question_text": "Which of the following best describes a backup policy?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A set of settings that define what is backed up, backup frequency, and retention"
+        },
+        {
+          "label": "B",
+          "text": "A vault that stores backup data"
+        },
+        {
+          "label": "C",
+          "text": "The process of failover between sites"
+        },
+        {
+          "label": "D",
+          "text": "A report that shows backup usage"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "A backup policy specifies the items to protect, the schedule, and how long recovery points are retained.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Backup policy"
+      ]
+    },
+    {
+      "question_text": "When creating a backup vault, which type of storage account redundancy is recommended for geo\u2011redundant protection?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Standard_LRS"
+        },
+        {
+          "label": "B",
+          "text": "Standard_GRS"
+        },
+        {
+          "label": "C",
+          "text": "Premium_LRS"
+        },
+        {
+          "label": "D",
+          "text": "Standard_RAGS"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Standard_GRS provides geo\u2011redundant storage, which is recommended for backup vaults to ensure data resilience across regions.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Backup vault"
+      ]
+    },
+    {
+      "question_text": "During the restore process of an Azure virtual machine, which blade allows you to select the specific recovery point to restore?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Backup vault > Backup policies"
+        },
+        {
+          "label": "B",
+          "text": "Recovery Services vault > Backup items"
+        },
+        {
+          "label": "C",
+          "text": "Backup vault > Backup items > Restore point"
+        },
+        {
+          "label": "D",
+          "text": "Site Recovery > Failover"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "In the backup vault, under the selected VM's backup items, you choose the desired restore point from the list of available recovery points.",
+      "difficulty": "advanced",
+      "tags": [
+        "Backup/restore"
+      ]
+    },
+    {
+      "question_text": "What is the main purpose of Azure Site Recovery's failover operation?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a new backup policy"
+        },
+        {
+          "label": "B",
+          "text": "Test replication without impacting production"
+        },
+        {
+          "label": "C",
+          "text": "Switch a VM from its source location to a target location"
+        },
+        {
+          "label": "D",
+          "text": "Delete old recovery points"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Failover moves a replicated VM from the source (primary) site to the target (secondary) site, enabling disaster recovery.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Site Recovery",
+        "failover"
+      ]
+    },
+    {
+      "question_text": "Before you can perform a failover test in Azure Site Recovery, which prerequisite must be met?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable Azure Backup"
+        },
+        {
+          "label": "B",
+          "text": "Register the VM with Site Recovery"
+        },
+        {
+          "label": "C",
+          "text": "Create a Recovery Services vault"
+        },
+        {
+          "label": "D",
+          "text": "Set up a backup policy"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The VM must be registered with Site Recovery so that replication and failover actions are available.",
+      "difficulty": "easy",
+      "tags": [
+        "Site Recovery"
+      ]
+    },
+    {
+      "question_text": "Which Azure Monitor report provides details on backup health and alerts?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Backup alerts"
+        },
+        {
+          "label": "B",
+          "text": "Backup usage reports"
+        },
+        {
+          "label": "C",
+          "text": "Backup health reports"
+        },
+        {
+          "label": "D",
+          "text": "Backup activity log"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Monitor includes built\u2011in alerts for backup, which surface health and issue notifications for backup jobs and items.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Reports and alerts"
+      ]
+    },
+    {
+      "question_text": "When configuring a backup policy for Azure Files, which setting controls how often snapshots are taken?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Backup schedule"
+        },
+        {
+          "label": "B",
+          "text": "Snapshot frequency"
+        },
+        {
+          "label": "C",
+          "text": "Retention range"
+        },
+        {
+          "label": "D",
+          "text": "Encryption"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Snapshot frequency determines the interval at which Azure Files creates point\u2011in\u2011time copies for backup.",
+      "difficulty": "advanced",
+      "tags": [
+        "Backup policy"
+      ]
+    },
+    {
+      "question_text": "To copy an existing backup policy from Resource Group A to Resource Group B, which approach is appropriate?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Use az backup policy copy command"
+        },
+        {
+          "label": "B",
+          "text": "Clone the policy via the portal"
+        },
+        {
+          "label": "C",
+          "text": "Export and import the policy using ARM templates"
+        },
+        {
+          "label": "D",
+          "text": "Reassign the policy to the new resource group"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Backup policies are ARM resources; exporting from Resource Group A and importing into Resource Group B via an ARM template enables copying the policy.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Backup policy"
+      ]
+    },
+    {
+      "question_text": "Which of the following can be monitored via Azure Monitor alerts related to backup?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Backup job success/failure"
+        },
+        {
+          "label": "B",
+          "text": "Disk encryption status"
+        },
+        {
+          "label": "C",
+          "text": "VM CPU usage"
+        },
+        {
+          "label": "D",
+          "text": "Network security group rules"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Monitor alerts can be configured to notify on backup job outcomes, such as success or failure of backup jobs.",
+      "difficulty": "easy",
+      "tags": [
+        "Reports and alerts"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "metadata": {
+    "skill_id": "ig-03",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T16:25:13.151203",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to prevent the accidental deletion of a production virtual machine while still allowing updates to its configuration. Which type of Azure resource lock should you apply?",
+      "options": [
+        {
+          "label": "A",
+          "text": "ReadOnly"
+        },
+        {
+          "label": "B",
+          "text": "CanNotDelete"
+        },
+        {
+          "label": "C",
+          "text": "Edit"
+        },
+        {
+          "label": "D",
+          "text": "NoLock"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "According to Azure documentation, a CanNotDelete lock prevents deletion operations while allowing other updates.",
+      "difficulty": "easy",
+      "tags": [
+        "resource-lock"
+      ]
+    },
+    {
+      "question_text": "Which Azure management feature enables you to apply tags to a subscription so that they are automatically applied to resources created under that subscription?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy"
+        },
+        {
+          "label": "B",
+          "text": "Azure Blueprint"
+        },
+        {
+          "label": "C",
+          "text": "Azure Resource Manager"
+        },
+        {
+          "label": "D",
+          "text": "Azure Monitor"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Resource Manager (ARM) supports tagging at subscription scope, and tags propagate to resources created via ARM templates.",
+      "difficulty": "easy",
+      "tags": [
+        "tags"
+      ]
+    },
+    {
+      "question_text": "You want to create an Azure Policy definition that blocks the creation of resources lacking a required 'Environment' tag. Which policy effect should you select?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Audit"
+        },
+        {
+          "label": "B",
+          "text": "Deny"
+        },
+        {
+          "label": "C",
+          "text": "DeployIfNotExists"
+        },
+        {
+          "label": "D",
+          "text": "EffectAllowed"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Deny effect in Azure Policy prevents creation of resources that do not meet the compliance criteria, as described in the Azure Policy documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "policy"
+      ]
+    },
+    {
+      "question_text": "A company wants to ensure that all resources in a specific resource group have a 'CostCenter' tag and cannot be deleted. Which combination of Azure features should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy with audit effect and a ReadOnly lock"
+        },
+        {
+          "label": "B",
+          "text": "Azure Blueprint with tagging and a CanNotDelete lock"
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy with deny effect and a CanNotDelete lock"
+        },
+        {
+          "label": "D",
+          "text": "Azure Advisor recommendations and Azure Monitor alerts"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Policy with a Deny effect enforces the tag requirement, while a CanNotDelete lock stops deletion, matching the scenario described in Azure governance guidance.",
+      "difficulty": "advanced",
+      "tags": [
+        "resource-group",
+        "lock"
+      ]
+    },
+    {
+      "question_text": "To set up a budget alert that emails the finance team when spending exceeds 80% of the budget, which Azure service provides the alert capability?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy"
+        },
+        {
+          "label": "B",
+          "text": "Azure Resource Locks"
+        },
+        {
+          "label": "C",
+          "text": "Azure Cost Management (Budgets)"
+        },
+        {
+          "label": "D",
+          "text": "Microsoft Entra ID"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Cost Management (Budgets) lets you create alerts that trigger when spending reaches a defined percentage of the budget, per the Azure documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "cost-management",
+        "budget",
+        "alert"
+      ]
+    }
+  ]
+}

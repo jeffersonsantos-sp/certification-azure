@@ -1,0 +1,275 @@
+{
+  "questions": [
+    {
+      "question_text": "Which Azure portal option is used to create a new virtual machine?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Virtual Networks"
+        },
+        {
+          "label": "B",
+          "text": "Resource Groups"
+        },
+        {
+          "label": "C",
+          "text": "Create a resource > Compute > Virtual Machine"
+        },
+        {
+          "label": "D",
+          "text": "Cloud Shell"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The 'Create a resource' blade leads to Compute > Virtual Machine, which is the correct path to provision a new VM.",
+      "difficulty": "intermediate",
+      "tags": [
+        "create-vm"
+      ]
+    },
+    {
+      "question_text": "What Azure feature provides encryption at rest for managed disks?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Disk Encryption"
+        },
+        {
+          "label": "B",
+          "text": "Azure Storage Service Encryption"
+        },
+        {
+          "label": "C",
+          "text": "Azure VM Encryption"
+        },
+        {
+          "label": "D",
+          "text": "Azure AD Encryption"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Disk Encryption allows you to encrypt OS and data disks using BitLocker or DM-Crypt with keys stored in Azure Key Vault.",
+      "difficulty": "intermediate",
+      "tags": [
+        "encryption"
+      ]
+    },
+    {
+      "question_text": "Which blade allows you to move a VM to a different resource group?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Overview"
+        },
+        {
+          "label": "B",
+          "text": "Settings > Move"
+        },
+        {
+          "label": "C",
+          "text": "Properties"
+        },
+        {
+          "label": "D",
+          "text": "Backup"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Settings blade contains the 'Move' option that lets you select a new resource group or subscription for the VM.",
+      "difficulty": "intermediate",
+      "tags": [
+        "move-vm"
+      ]
+    },
+    {
+      "question_text": "Which operation enables you to change the VM size of a running virtual machine without deallocating it?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Stop (deallocate) then start"
+        },
+        {
+          "label": "B",
+          "text": "Resize"
+        },
+        {
+          "label": "C",
+          "text": "Redeploy"
+        },
+        {
+          "label": "D",
+          "text": "Restart"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Resize operation changes the VM size while the VM remains running, provided the new size is compatible with the hardware.",
+      "difficulty": "intermediate",
+      "tags": [
+        "manage-sizes"
+      ]
+    },
+    {
+      "question_text": "What type of disk is used for the OS disk by default when creating a VM?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Premium SSD"
+        },
+        {
+          "label": "B",
+          "text": "Standard HDD"
+        },
+        {
+          "label": "C",
+          "text": "Standard SSD"
+        },
+        {
+          "label": "D",
+          "text": "Ultra Disk"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The default OS disk type for a newly created VM is Standard HDD unless you specifically choose another type.",
+      "difficulty": "intermediate",
+      "tags": [
+        "disks"
+      ]
+    },
+    {
+      "question_text": "Which Azure feature ensures a VM is placed in a zone that protects against datacenter failures?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Availability Set"
+        },
+        {
+          "label": "B",
+          "text": "Availability Zone"
+        },
+        {
+          "label": "C",
+          "text": "Load Balancer"
+        },
+        {
+          "label": "D",
+          "text": "Traffic Manager"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Availability Zones provide zone\u2011redundant placement for a single VM, protecting it from a single datacenter outage.",
+      "difficulty": "intermediate",
+      "tags": [
+        "availability"
+      ]
+    },
+    {
+      "question_text": "What does VMSS stand for in Azure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Virtual Machine Scale Set"
+        },
+        {
+          "label": "B",
+          "text": "Virtual Machine Service"
+        },
+        {
+          "label": "C",
+          "text": "Virtual Machine Single"
+        },
+        {
+          "label": "D",
+          "text": "Virtual Machine Server"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "VMSS is the abbreviation for Virtual Machine Scale Set, which enables management of multiple VM instances.",
+      "difficulty": "intermediate",
+      "tags": [
+        "vmss"
+      ]
+    },
+    {
+      "question_text": "When creating a VM, which setting enables encryption of the OS disk using a customer\u2011managed key?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Encryption at host"
+        },
+        {
+          "label": "B",
+          "text": "Azure Disk Encryption"
+        },
+        {
+          "label": "C",
+          "text": "OS Disk Encryption"
+        },
+        {
+          "label": "D",
+          "text": "VM Encryption"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Disk Encryption can be enabled during VM creation and uses keys stored in Azure Key Vault for customer\u2011managed encryption.",
+      "difficulty": "intermediate",
+      "tags": [
+        "encryption",
+        "create-vm"
+      ]
+    },
+    {
+      "question_text": "Which Azure CLI command is used to move a VM to another resource group?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az vm move"
+        },
+        {
+          "label": "B",
+          "text": "az resource move"
+        },
+        {
+          "label": "C",
+          "text": "az vm stop"
+        },
+        {
+          "label": "D",
+          "text": "az vm deallocate"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The az resource move command allows you to specify the source and destination resource IDs, moving the VM (and its associated resources) to a new resource group.",
+      "difficulty": "intermediate",
+      "tags": [
+        "move-vm"
+      ]
+    },
+    {
+      "question_text": "In the Azure portal, where can you view recommended VM sizes for a running VM?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Overview blade"
+        },
+        {
+          "label": "B",
+          "text": "Settings > Size"
+        },
+        {
+          "label": "C",
+          "text": "Cost Management"
+        },
+        {
+          "label": "D",
+          "text": "Disks"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Size blade under Settings displays current VM size options and any recommended sizes based on utilization metrics.",
+      "difficulty": "intermediate",
+      "tags": [
+        "manage-sizes"
+      ]
+    }
+  ]
+}

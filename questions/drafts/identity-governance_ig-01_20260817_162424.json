@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T16:24:24.719478",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "A small nonprofit wants to add a new employee to Microsoft Entra ID. Which approach is the most straightforward for creating the user account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Using the Azure portal's \"Create user\" blade"
+        },
+        {
+          "label": "B",
+          "text": "Running the Azure CLI command `az ad user create`"
+        },
+        {
+          "label": "C",
+          "text": "Executing a PowerShell script with New-AzureADUser"
+        },
+        {
+          "label": "D",
+          "text": "Calling the Microsoft Graph API endpoint /users"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "According to Microsoft documentation, the Azure portal provides a guided UI for creating users, which is the typical method for small organizations; CLI, PowerShell, and Graph are also possible but require additional setup.",
+      "difficulty": "easy",
+      "tags": [
+        "user-creation",
+        "easy"
+      ]
+    },
+    {
+      "question_text": "An administrator needs to add a custom attribute named 'Department' to user profiles and then use it to create a dynamic group. Which Azure feature should they use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure portal's custom user attributes"
+        },
+        {
+          "label": "B",
+          "text": "Azure AD Connect synchronization settings"
+        },
+        {
+          "label": "C",
+          "text": "Azure AD B2C user attributes"
+        },
+        {
+          "label": "D",
+          "text": "Azure Policy definitions"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The portal allows administrators to add custom attributes to user objects, which can then be referenced in dynamic group rules; other options do not provide this capability.",
+      "difficulty": "intermediate",
+      "tags": [
+        "custom-attributes",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "A company wants to assign a Microsoft 365 E3 license to a group of 50 users in Microsoft Entra ID. Which step must be performed?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the license directly to each user individually"
+        },
+        {
+          "label": "B",
+          "text": "Create a security group and assign the license to the group"
+        },
+        {
+          "label": "C",
+          "text": "Enable Azure AD Premium P1 before licensing"
+        },
+        {
+          "label": "D",
+          "text": "Sync the users from an on-premises Active Directory"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Microsoft documentation states that licenses can be assigned to groups, allowing all members to receive the license without individual assignments; this is the recommended approach for efficiency.",
+      "difficulty": "advanced",
+      "tags": [
+        "licensing",
+        "advanced"
+      ]
+    },
+    {
+      "question_text": "A partner organization needs temporary access to an Azure resource for a project lasting two weeks. What is the appropriate way to provide this access in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Add the partner as a member of the resource's Azure AD tenant"
+        },
+        {
+          "label": "B",
+          "text": "Invite the partner as a guest user with appropriate role assignment"
+        },
+        {
+          "label": "C",
+          "text": "Create a new service principal for the partner"
+        },
+        {
+          "label": "D",
+          "text": "Disable the partner's existing account and reactivate later"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Azure AD B2B collaboration feature lets you invite external users as guests and assign them the needed roles; this provides limited-time access without creating a new tenant or altering the partner's account.",
+      "difficulty": "advanced",
+      "tags": [
+        "external-users",
+        "b2b"
+      ]
+    },
+    {
+      "question_text": "An organization wants to enable self-service password reset for a specific group of employees while keeping other users on the default password reset policy. Which configuration should the administrator use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Turn on SSPR tenant-wide and rely on Azure AD's built-in filtering"
+        },
+        {
+          "label": "B",
+          "text": "Configure SSPR per individual user based on their department"
+        },
+        {
+          "label": "C",
+          "text": "Enable SSPR and specify authentication methods for the target group only"
+        },
+        {
+          "label": "D",
+          "text": "Use Azure AD Connect to sync password reset settings from on-premises"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The SSPR settings can be applied to selected groups by enabling the feature and then choosing the authentication methods for those groups; this allows targeted deployment without affecting other users.",
+      "difficulty": "advanced",
+      "tags": [
+        "sspr",
+        "advanced"
+      ]
+    }
+  ]
+}

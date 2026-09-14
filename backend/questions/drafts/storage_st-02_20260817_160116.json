@@ -1,0 +1,256 @@
+{
+  "metadata": {
+    "skill_id": "st-02",
+    "domain_id": "storage",
+    "generated_at": "2026-08-17T16:01:16.961022",
+    "count": 9,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which setting must be enabled during storage account creation to use hierarchical namespace for blobs and files?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable Azure AD DS"
+        },
+        {
+          "label": "B",
+          "text": "Enable Data Lake Storage Gen2"
+        },
+        {
+          "label": "C",
+          "text": "Enable Blob versioning"
+        },
+        {
+          "label": "D",
+          "text": "Enable soft delete"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "According to the Azure portal documentation, enabling Data Lake Storage Gen2 activates hierarchical namespace for blobs and files. This setting is required to use the hierarchical structure described in the storage account creation guide.",
+      "difficulty": "easy",
+      "tags": [
+        "storage-accounts"
+      ]
+    },
+    {
+      "question_text": "Which redundancy option provides storage copies in the same datacenter?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Locally redundant"
+        },
+        {
+          "label": "B",
+          "text": "Zone redundant"
+        },
+        {
+          "label": "C",
+          "text": "Geo redundant"
+        },
+        {
+          "label": "D",
+          "text": "Asynchronous replicated"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Locally redundant storage (LRS) stores copies of data in the same datacenter, as described in the Azure storage redundancy overview. The other options provide copies across zones or regions.",
+      "difficulty": "easy",
+      "tags": [
+        "redundancy"
+      ]
+    },
+    {
+      "question_text": "When enabling customer-managed keys for a storage account, which of the following is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The key is stored in the same region as the storage account"
+        },
+        {
+          "label": "B",
+          "text": "The key is of type RSA"
+        },
+        {
+          "label": "C",
+          "text": "The key is created in Azure Key Vault"
+        },
+        {
+          "label": "D",
+          "text": "The key is symmetric"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Customer-managed keys are stored in Azure Key Vault; the key must be created there before it can be referenced by the storage account for encryption, according to the storage account encryption documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "encryption"
+      ]
+    },
+    {
+      "question_text": "Which Azure feature supports replicating objects from a source storage account in region East US to a destination account in West US?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Storage object replication"
+        },
+        {
+          "label": "B",
+          "text": "Azure Data Factory"
+        },
+        {
+          "label": "C",
+          "text": "Azure Site Recovery"
+        },
+        {
+          "label": "D",
+          "text": "Azure Storage Sync"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Storage object replication is a feature that enables asynchronous copying of blobs between source and destination storage accounts in different regions, as detailed in the object replication documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "object-replication"
+      ]
+    },
+    {
+      "question_text": "When using AzCopy to copy data to a storage account with soft delete enabled, which additional parameter should you include to ensure the copy operation respects soft delete retention?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Automatically overwrite existing files without prompting"
+        },
+        {
+          "label": "B",
+          "text": "Skip files that already exist"
+        },
+        {
+          "label": "C",
+          "text": "Prompt the user before overwriting existing files"
+        },
+        {
+          "label": "D",
+          "text": "Delete existing files before copying"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "AzCopy's --overwrite=prompt option forces a confirmation before overwriting existing files, which is explained in the AzCopy command-line reference.",
+      "difficulty": "intermediate",
+      "tags": [
+        "azcopy"
+      ]
+    },
+    {
+      "question_text": "You need to manage large amounts of data using Azure Storage Explorer. Which of the following actions can you perform directly within Storage Explorer without leaving the tool?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a new container"
+        },
+        {
+          "label": "B",
+          "text": "Set access tier"
+        },
+        {
+          "label": "C",
+          "text": "Apply lifecycle management policies"
+        },
+        {
+          "label": "D",
+          "text": "Enable soft delete"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Storage Explorer provides a graphical interface to create containers, view blobs, and manage metadata directly, as described in the Storage Explorer capabilities page.",
+      "difficulty": "intermediate",
+      "tags": [
+        "storage-explorer"
+      ]
+    },
+    {
+      "question_text": "A storage account has been configured with zone-redundant storage (ZRS). Which of the following statements is true regarding its availability?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Data is stored in a single region but replicated across availability zones within that region"
+        },
+        {
+          "label": "B",
+          "text": "Data is stored in multiple regions"
+        },
+        {
+          "label": "C",
+          "text": "Data is stored locally without any redundancy"
+        },
+        {
+          "label": "D",
+          "text": "Data is stored in a different subscription"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Zone-redundant storage (ZRS) replicates data across availability zones within the same region to provide high availability, as described in the ZRS redundancy documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "redundancy",
+        "zone-redundant"
+      ]
+    },
+    {
+      "question_text": "When configuring object replication between two storage accounts, which of the following blob types are supported for replication?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Block blobs"
+        },
+        {
+          "label": "B",
+          "text": "Page blobs"
+        },
+        {
+          "label": "C",
+          "text": "Append blobs"
+        },
+        {
+          "label": "D",
+          "text": "All blob types"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Object replication supports only block blobs; this limitation is mentioned in the object replication feature overview.",
+      "difficulty": "advanced",
+      "tags": [
+        "object-replication",
+        "blob-types"
+      ]
+    },
+    {
+      "question_text": "Which of the following is NOT a valid redundancy option for a standard storage account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Locally redundant storage (LRS)"
+        },
+        {
+          "label": "B",
+          "text": "Zone-redundant storage (ZRS)"
+        },
+        {
+          "label": "C",
+          "text": "Geo-redundant storage (GRS)"
+        },
+        {
+          "label": "D",
+          "text": "Hot-redundant storage (HRS)"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "The defined redundancy options for standard storage accounts are LRS, ZRS, and GRS; Hot-redundant storage (HRS) is not a recognized option in Azure documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "redundancy"
+      ]
+    }
+  ]
+}

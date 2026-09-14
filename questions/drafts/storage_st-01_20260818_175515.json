@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "Which Azure resource allows you to restrict storage account access to specific subnets?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Access key"
+        },
+        {
+          "label": "B",
+          "text": "Firewall (network rules)"
+        },
+        {
+          "label": "C",
+          "text": "SAS token"
+        },
+        {
+          "label": "D",
+          "text": "Stored access policy"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Network rules (firewall) let you allow or deny traffic based on subnet, IP range, or Azure service, enabling subnet\u2011level access control.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What is the purpose of a stored access policy?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Generate a shared access signature"
+        },
+        {
+          "label": "B",
+          "text": "Define network firewall rules"
+        },
+        {
+          "label": "C",
+          "text": "Set default access key permissions"
+        },
+        {
+          "label": "D",
+          "text": "Provide time\u2011bounded permissions for blobs, queues, etc."
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "A stored access policy defines reusable, time\u2011bounded SAS token parameters, simplifying management of multiple SAS tokens.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which of the following cannot be used to grant access to a storage account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Identity-based access (Azure AD)"
+        },
+        {
+          "label": "B",
+          "text": "Access key"
+        },
+        {
+          "label": "C",
+          "text": "Network security groups"
+        },
+        {
+          "label": "D",
+          "text": "SAS token"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Network security groups apply to Azure resources like VMs and subnets, not directly to storage accounts; storage access is controlled via keys, SAS, or RBAC.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "When configuring identity-based access to a storage account, which role assignment must be performed?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Storage Account Contributor"
+        },
+        {
+          "label": "B",
+          "text": "Owner"
+        },
+        {
+          "label": "C",
+          "text": "Storage Blob Data Contributor"
+        },
+        {
+          "label": "D",
+          "text": "Network Contributor"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Identity-based access uses Azure RBAC; the Storage Blob Data Contributor role grants permissions to blobs, queues, and tables without using keys.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which setting must be enabled to allow traffic from a specific virtual network to bypass Azure firewall rules for a storage account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Allow trusted Microsoft services"
+        },
+        {
+          "label": "B",
+          "text": "Enable private endpoint"
+        },
+        {
+          "label": "C",
+          "text": "Add VNet rule to firewall"
+        },
+        {
+          "label": "D",
+          "text": "Set default action to Deny"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Adding a virtual network rule to the storage account firewall permits traffic from that VNet regardless of the default firewall rules.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What is the default expiration time for a SAS token that does not have an explicit start or expiration time set?",
+      "options": [
+        {
+          "label": "A",
+          "text": "1 hour"
+        },
+        {
+          "label": "B",
+          "text": "24 hours"
+        },
+        {
+          "label": "C",
+          "text": "7 days"
+        },
+        {
+          "label": "D",
+          "text": "No expiration (infinite)"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "If no expiration is defined, the SAS token is considered valid indefinitely until revoked or its associated stored access policy expires.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which of the following statements about access keys is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Access keys are rotated automatically every 30 days."
+        },
+        {
+          "label": "B",
+          "text": "Access keys can be used to grant full control to a storage account."
+        },
+        {
+          "label": "C",
+          "text": "Access keys cannot be used with Azure AD authentication."
+        },
+        {
+          "label": "D",
+          "text": "Access keys are only available for Blob storage."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Access keys provide full control (or read/write) access to a storage account and are not limited to a single service type.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which feature allows you to grant time\u2011bounded access to a container without generating a SAS token manually?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure AD authentication"
+        },
+        {
+          "label": "B",
+          "text": "Stored access policy"
+        },
+        {
+          "label": "C",
+          "text": "Network security group"
+        },
+        {
+          "label": "D",
+          "text": "Access key"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A stored access policy defines reusable SAS parameters, enabling quick creation of time\u2011bounded access to containers, queues, or blobs.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "To restrict a storage account to only allow traffic from a specific Azure region, which configuration should you modify?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Firewall (network rules) with IP ranges"
+        },
+        {
+          "label": "B",
+          "text": "Virtual network service endpoint"
+        },
+        {
+          "label": "C",
+          "text": "Private endpoint"
+        },
+        {
+          "label": "D",
+          "text": "Azure AD conditional access"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Firewall/network rules let you specify allowed IP ranges (e.g., the virtual IP ranges of a region), thereby restricting traffic to that region.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which of the following is required to enable Azure AD authentication for a storage account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable \u201cMicrosoft Entra ID\u201d in the storage account settings"
+        },
+        {
+          "label": "B",
+          "text": "Assign a role to the user"
+        },
+        {
+          "label": "C",
+          "text": "Generate a SAS token"
+        },
+        {
+          "label": "D",
+          "text": "Create a storage account with hierarchical namespace"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure AD authentication is enabled by default, but you must assign the appropriate RBAC role (e.g., Storage Blob Data Contributor) to the user or group.",
+      "difficulty": "intermediate",
+      "tags": []
+    }
+  ]
+}

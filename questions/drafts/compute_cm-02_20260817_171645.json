@@ -1,0 +1,157 @@
+{
+  "metadata": {
+    "skill_id": "cm-02",
+    "domain_id": "compute",
+    "generated_at": "2026-08-17T17:16:45.184940",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which blade should you use to select an operating system image when creating a new virtual machine in the Azure portal?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Resource groups"
+        },
+        {
+          "label": "B",
+          "text": "Compute > Virtual machines"
+        },
+        {
+          "label": "C",
+          "text": "Marketplace"
+        },
+        {
+          "label": "D",
+          "text": "Settings"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Azure portal's 'Create a resource' blade includes the Marketplace where you choose an OS image; see Microsoft documentation on creating a VM.",
+      "difficulty": "easy",
+      "tags": [
+        "VM creation",
+        "portal",
+        "easy"
+      ]
+    },
+    {
+      "question_text": "When you enable encryption at host for a virtual machine, which of the following is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "It requires you to install a VM extension"
+        },
+        {
+          "label": "B",
+          "text": "It uses customer-managed keys"
+        },
+        {
+          "label": "C",
+          "text": "It is enabled by default for new VMs"
+        },
+        {
+          "label": "D",
+          "text": "It encrypts the VM's OS and data disks using platform-managed keys"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Enabling encryption at host uses platform-managed keys to protect OS and data disks; refer to Azure documentation on encryption at host.",
+      "difficulty": "intermediate",
+      "tags": [
+        "encryption",
+        "host",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "You need to move a running VM from one resource group to another in a different subscription. Which command should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az vm delete"
+        },
+        {
+          "label": "B",
+          "text": "az resource move --resource-group sourceRG --destination-group destRG --resource-name vmName --resource-type Microsoft.Compute/virtualMachines"
+        },
+        {
+          "label": "C",
+          "text": "az vm stop"
+        },
+        {
+          "label": "D",
+          "text": "az vm create"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure resource move operation allows moving a VM between resource groups, subscriptions, or regions; see Azure documentation on moving resources.",
+      "difficulty": "advanced",
+      "tags": [
+        "move",
+        "resource group",
+        "subscription",
+        "advanced"
+      ]
+    },
+    {
+      "question_text": "You have a VM sized Standard_D2s_v3 that is experiencing CPU throttling. Which action should you take to address this?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Resize the VM to a larger size"
+        },
+        {
+          "label": "B",
+          "text": "Enable auto-restart"
+        },
+        {
+          "label": "C",
+          "text": "Change the OS disk type"
+        },
+        {
+          "label": "D",
+          "text": "Add additional data disks"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "CPU throttling indicates the VM size is insufficient; resizing to a larger SKU increases CPU capacity; refer to sizing guidance in Azure documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "size",
+        "performance",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "When deploying a VM Scale Set for high availability, which configuration ensures the instances are spread across multiple availability zones?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Use a single availability set"
+        },
+        {
+          "label": "B",
+          "text": "Enable zone redundancy"
+        },
+        {
+          "label": "C",
+          "text": "Specify multiple zones in the upgrade domain"
+        },
+        {
+          "label": "D",
+          "text": "Set the platform fault domain count"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Zone redundancy in a VM Scale Set spreads instances across availability zones for higher availability; see Azure documentation on zone redundancy.",
+      "difficulty": "advanced",
+      "tags": [
+        "scale set",
+        "availability zone",
+        "advanced"
+      ]
+    }
+  ]
+}

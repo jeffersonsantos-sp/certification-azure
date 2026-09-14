@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "How can you create a new user in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Using the Azure portal"
+        },
+        {
+          "label": "B",
+          "text": "Using PowerShell cmdlets"
+        },
+        {
+          "label": "C",
+          "text": "Using Microsoft Graph API"
+        },
+        {
+          "label": "D",
+          "text": "All of the above"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Azure portal provides a user-friendly UI to create users; PowerShell and Graph API are alternative methods but the most common approach is the portal.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which PowerShell cmdlet creates a new user in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "New-AzureADUser"
+        },
+        {
+          "label": "B",
+          "text": "Add-AzureADUser"
+        },
+        {
+          "label": "C",
+          "text": "Set-AzureADUser"
+        },
+        {
+          "label": "D",
+          "text": "Remove-AzureADUser"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "New-AzureADUser creates a new user object; the other cmdlets are used for different operations such as adding an existing user or modifying properties.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "When managing user properties, which attribute determines whether a user can sign in to Azure AD?",
+      "options": [
+        {
+          "label": "A",
+          "text": "UserPrincipalName"
+        },
+        {
+          "label": "B",
+          "text": "AccountEnabled"
+        },
+        {
+          "label": "C",
+          "text": "PasswordProfile"
+        },
+        {
+          "label": "D",
+          "text": "ProxyAddresses"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The AccountEnabled property indicates if the account is active; a disabled account cannot sign in, even if other properties are correct.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "How do you assign a license to an existing user in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "In the Azure portal, go to the user and select Licenses"
+        },
+        {
+          "label": "B",
+          "text": "Use the Azure AD Connect sync tool"
+        },
+        {
+          "label": "C",
+          "text": "Edit the user's profile in Azure AD B2C"
+        },
+        {
+          "label": "D",
+          "text": "Run a PowerShell script to modify the user's email"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Licenses are managed per user via the Azure portal's Licenses blade; you select the user and assign the required license there.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "What is the primary purpose of managing external users (B2B) in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "To allow users from other organizations to access resources using their own credentials"
+        },
+        {
+          "label": "B",
+          "text": "To create internal guest accounts only"
+        },
+        {
+          "label": "C",
+          "text": "To restrict sign-in times for all users"
+        },
+        {
+          "label": "D",
+          "text": "To assign administrator roles to external users"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "B2B collaboration lets external users sign in with their own credentials while being managed in your tenant, enabling secure cross\u2011organization access.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which feature enables self-service password reset for users in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure AD Connect"
+        },
+        {
+          "label": "B",
+          "text": "Azure AD B2C"
+        },
+        {
+          "label": "C",
+          "text": "Azure AD Self-Service Password Reset (SSPR)"
+        },
+        {
+          "label": "D",
+          "text": "Azure AD Identity Protection"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Self-Service Password Reset (SSPR) allows users to reset their passwords without contacting an administrator.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "When creating a group, which type supports dynamic membership based on rule definitions?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Security group"
+        },
+        {
+          "label": "B",
+          "text": "Microsoft 365 group"
+        },
+        {
+          "label": "C",
+          "text": "Distribution group"
+        },
+        {
+          "label": "D",
+          "text": "Dynamic group"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Dynamic groups are created using membership rules; they can be security\u2011based or Microsoft 365\u2011based, but the type is called a Dynamic group.",
+      "difficulty": "medium",
+      "tags": []
+    },
+    {
+      "question_text": "Which API is used to manage external user invitations (B2B) in Microsoft Entra ID?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Microsoft Graph API"
+        },
+        {
+          "label": "B",
+          "text": "Azure AD PowerShell"
+        },
+        {
+          "label": "C",
+          "text": "Azure AD Connect"
+        },
+        {
+          "label": "D",
+          "text": "Azure portal UI only"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Microsoft Graph provides endpoints for inviting, confirming, and managing B2B external users.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Before deleting a user, what step ensures the user's license remains available for another user?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Reassign the license to another user"
+        },
+        {
+          "label": "B",
+          "text": "Delete the license from the user"
+        },
+        {
+          "label": "C",
+          "text": "Change the user's domain name"
+        },
+        {
+          "label": "D",
+          "text": "Enable self-service password reset"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Reassigning the license frees it for another user while preserving the license assignment in the tenant.",
+      "difficulty": "medium",
+      "tags": []
+    },
+    {
+      "question_text": "Which setting enables password reset without admin assistance for users?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure AD Connect"
+        },
+        {
+          "label": "B",
+          "text": "Azure AD Self-Service Password Reset"
+        },
+        {
+          "label": "C",
+          "text": "Azure AD Identity Protection"
+        },
+        {
+          "label": "D",
+          "text": "Azure AD Device Registration"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Self-Service Password Reset (SSPR) lets users reset their passwords independently of an administrator.",
+      "difficulty": "easy",
+      "tags": []
+    }
+  ]
+}

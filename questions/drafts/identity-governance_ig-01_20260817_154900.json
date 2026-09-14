@@ -1,0 +1,147 @@
+{
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T15:49:00.613516",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "In the Azure portal, which navigation path do you use to create a new Microsoft Entra user?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Active Directory > Users > New user"
+        },
+        {
+          "label": "B",
+          "text": "Resource groups > New resource > User"
+        },
+        {
+          "label": "C",
+          "text": "Azure AD Connect > Synchronize now"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "According to Microsoft Entra ID documentation, you navigate to Azure Active Directory > Users > New user in the Azure portal to create a user.",
+      "difficulty": "easy",
+      "tags": [
+        "user-creation",
+        "portal"
+      ]
+    },
+    {
+      "question_text": "You need to assign a Microsoft 365 license to a security group so that all current and future members can use the service. Which action should you take?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the license to the group from the Licenses blade in Microsoft Entra ID"
+        },
+        {
+          "label": "B",
+          "text": "Assign the license to each user individually"
+        },
+        {
+          "label": "C",
+          "text": "Use Azure AD B2B to assign the license to the group"
+        },
+        {
+          "label": "D",
+          "text": "Enable Azure AD Connect sync to propagate the license"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Documentation states that licenses can be assigned to groups from the Licenses blade, enabling centralized management.",
+      "difficulty": "intermediate",
+      "tags": [
+        "group-licensing",
+        "license-management"
+      ]
+    },
+    {
+      "question_text": "A partner organization requires temporary access to an Azure resource. What is the correct step to invite the partner as an external user?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Invite the partner as a guest user via Azure AD > New user > User type: Guest"
+        },
+        {
+          "label": "B",
+          "text": "Create a new Azure AD tenant for the partner and invite them"
+        },
+        {
+          "label": "C",
+          "text": "Sync the partner’s on‑premises accounts using Azure AD Connect"
+        },
+        {
+          "label": "D",
+          "text": "Assign the partner a built‑in Administrator role in Azure RBAC"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Azure AD B2B collaboration feature allows you to invite external users as guests, as described in the B2B article.",
+      "difficulty": "intermediate",
+      "tags": [
+        "external-users",
+        "b2b"
+      ]
+    },
+    {
+      "question_text": "An administrator wants to enable self‑service password reset for a specific set of users while keeping the rest of the tenant unchanged. Which configuration approach should be used?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable SSPR at the tenant level and then disable it for specific users via PowerShell"
+        },
+        {
+          "label": "B",
+          "text": "Configure per‑group SSPR settings in the Azure portal under Authentication methods > Self‑service password reset > Settings"
+        },
+        {
+          "label": "C",
+          "text": "Enable SSPR for all users and then use conditional access to restrict usage"
+        },
+        {
+          "label": "D",
+          "text": "Use Azure AD Identity Protection to enforce SSPR"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Azure portal provides per‑group settings for Self‑service password reset, allowing you to configure the feature for specific groups.",
+      "difficulty": "advanced",
+      "tags": [
+        "sspr",
+        "authentication-methods"
+      ]
+    },
+    {
+      "question_text": "A user is a member of a Microsoft 365 group that has a license assigned, but the user does not have the license directly assigned to their account. What is the correct behavior?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The user inherits the license from the group automatically"
+        },
+        {
+          "label": "B",
+          "text": "The user must be assigned the license individually; group membership does not grant license"
+        },
+        {
+          "label": "C",
+          "text": "The group must have the \"Assign license\" permission to propagate the license"
+        },
+        {
+          "label": "D",
+          "text": "Licenses are assigned at tenant level and are not inherited"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Licenses are not automatically granted to a user based on group membership; they must be assigned directly to the user or through a role assignment.",
+      "difficulty": "advanced",
+      "tags": [
+        "license-inheritance",
+        "entra-licensing"
+      ]
+    }
+  ]
+}

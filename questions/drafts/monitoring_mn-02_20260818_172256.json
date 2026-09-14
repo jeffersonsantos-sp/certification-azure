@@ -1,0 +1,301 @@
+{
+  "metadata": {
+    "skill_id": "mn-02",
+    "domain_id": "monitoring",
+    "generated_at": "2026-08-18T17:22:56.730996",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which Azure CLI command creates a Recovery Services vault?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az backup vault create --resource-group RG --name MyVault --location eastus"
+        },
+        {
+          "label": "B",
+          "text": "az group create --name RG --location eastus"
+        },
+        {
+          "label": "C",
+          "text": "az storage account create --name mystorage --resource-group RG --location eastus"
+        },
+        {
+          "label": "D",
+          "text": "az network vnet create --name MyVnet --resource-group RG --location eastus"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The az backup vault create command is documented for provisioning a Recovery Services vault (Microsoft Docs: Create a Recovery Services vault with Azure CLI).",
+      "difficulty": "easy",
+      "tags": [
+        "Recovery Services vault",
+        "CLI",
+        "Backup"
+      ]
+    },
+    {
+      "question_text": "In the Azure portal, where do you navigate to create a new Backup vault?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Backup vaults > + Add"
+        },
+        {
+          "label": "B",
+          "text": "Recovery services vaults > + Add"
+        },
+        {
+          "label": "C",
+          "text": "Storage accounts > + Add"
+        },
+        {
+          "label": "D",
+          "text": "Virtual machines > + Add"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The portal path to add a Backup vault is under Recovery services vaults, as described in the Azure portal backup documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "Backup",
+        "Portal",
+        "Recovery services vault"
+      ]
+    },
+    {
+      "question_text": "When configuring a backup policy for Azure VMs, which setting defines the frequency of backups?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Retention duration"
+        },
+        {
+          "label": "B",
+          "text": "Backup schedule"
+        },
+        {
+          "label": "C",
+          "text": "Snapshot frequency"
+        },
+        {
+          "label": "D",
+          "text": "Storage redundancy type"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The backup schedule determines how often snapshots are taken, per the Azure Backup policy documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Backup policy",
+        "Azure VM",
+        "Schedule"
+      ]
+    },
+    {
+      "question_text": "Which Azure Backup service component is used to protect Azure SQL databases?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Recovery Services vault"
+        },
+        {
+          "label": "B",
+          "text": "Backup vault"
+        },
+        {
+          "label": "C",
+          "text": "Site Recovery vault"
+        },
+        {
+          "label": "D",
+          "text": "Azure Disk Encryption"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Backup registers SQL databases in a Recovery Services vault, according to the Azure Backup overview.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Azure SQL",
+        "Recovery Services vault",
+        "Backup"
+      ]
+    },
+    {
+      "question_text": "To enable Azure Site Recovery for a set of virtual machines, which blade must you select after choosing the source subscription?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Recovery Services vault"
+        },
+        {
+          "label": "B",
+          "text": "Site Recovery vault"
+        },
+        {
+          "label": "C",
+          "text": "Virtual machines"
+        },
+        {
+          "label": "D",
+          "text": "Backup vault"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A Site Recovery vault is created to protect resources, as outlined in the Azure Site Recovery documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "Site Recovery",
+        "Azure Site Recovery",
+        "VM"
+      ]
+    },
+    {
+      "question_text": "During a Site Recovery failover, which option ensures minimal data loss?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Failover with no replication lag"
+        },
+        {
+          "label": "B",
+          "text": "Failover with latest replication"
+        },
+        {
+          "label": "C",
+          "text": "Failover with primary region"
+        },
+        {
+          "label": "D",
+          "text": "Failover with backup"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Failover with the latest replication uses the most recent synchronized data, minimizing data loss as described in the Site Recovery failover guide.",
+      "difficulty": "advanced",
+      "tags": [
+        "Site Recovery",
+        "Failover",
+        "Data loss"
+      ]
+    },
+    {
+      "question_text": "Which Azure Monitor metric indicates that a backup job has failed?",
+      "options": [
+        {
+          "label": "A",
+          "text": "BackupSuccess"
+        },
+        {
+          "label": "B",
+          "text": "BackupFailed"
+        },
+        {
+          "label": "C",
+          "text": "BackupPending"
+        },
+        {
+          "label": "D",
+          "text": "BackupCompleted"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The BackupFailed metric is used to trigger alerts for failed backup jobs, per Azure Monitor documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Azure Monitor",
+        "Alerts",
+        "Backup"
+      ]
+    },
+    {
+      "question_text": "Which PowerShell cmdlet creates a Recovery Services vault?",
+      "options": [
+        {
+          "label": "A",
+          "text": "New-AzRecoveryServicesVault -ResourceGroupName RG -Name MyVault -Location eastus"
+        },
+        {
+          "label": "B",
+          "text": "New-AzRecoveryServicesVaultContext -SubscriptionId <id> -ResourceGroupName RG"
+        },
+        {
+          "label": "C",
+          "text": "New-AzRecoveryServicesVault -ResourceGroupName RG -Name MyVault"
+        },
+        {
+          "label": "D",
+          "text": "New-AzRecoveryServicesVault -Name MyVault -Location eastus"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The New-AzRecoveryServicesVault cmdlet with required parameters creates the vault, as detailed in the Azure PowerShell documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "PowerShell",
+        "Recovery Services vault",
+        "CLI"
+      ]
+    },
+    {
+      "question_text": "In an Azure Backup policy, which setting controls how long recovery points are retained after creation?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Backup frequency"
+        },
+        {
+          "label": "B",
+          "text": "Retention range"
+        },
+        {
+          "label": "C",
+          "text": "Backup schedule"
+        },
+        {
+          "label": "D",
+          "text": "Storage redundancy type"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Retention range defines the duration for which recovery points are kept, according to the Azure Backup policy reference.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Backup policy",
+        "Retention",
+        "Azure Backup"
+      ]
+    },
+    {
+      "question_text": "Which Azure dashboard widget provides a summary of backup health across all vaults?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Backup items"
+        },
+        {
+          "label": "B",
+          "text": "Backup alerts"
+        },
+        {
+          "label": "C",
+          "text": "Backup usage"
+        },
+        {
+          "label": "D",
+          "text": "Backup health"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "The Backup health widget aggregates health status of backup jobs across vaults, as described in the Azure portal monitoring documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "Azure Dashboard",
+        "Reports",
+        "Alerts"
+      ]
+    }
+  ]
+}

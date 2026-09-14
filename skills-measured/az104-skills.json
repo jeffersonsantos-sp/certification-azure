@@ -1,0 +1,215 @@
+{
+  "exam": "AZ-104",
+  "title": "Microsoft Azure Administrator",
+  "version": "April 17, 2026",
+  "passing_score": 700,
+  "domains": [
+    {
+      "id": "identity-governance",
+      "name": "Manage Azure identities and governance",
+      "weight": "20-25%",
+      "skills": [
+        {
+          "id": "ig-01",
+          "name": "Manage Microsoft Entra users and groups",
+          "items": [
+            "Create users and groups",
+            "Manage user and group properties",
+            "Manage licenses in Microsoft Entra ID",
+            "Manage external users",
+            "Configure self-service password reset (SSPR)"
+          ]
+        },
+        {
+          "id": "ig-02",
+          "name": "Manage access to Azure resources",
+          "items": [
+            "Manage built-in Azure roles",
+            "Assign roles at different scopes",
+            "Interpret access assignments"
+          ]
+        },
+        {
+          "id": "ig-03",
+          "name": "Manage Azure subscriptions and governance",
+          "items": [
+            "Implement and manage Azure Policy",
+            "Configure resource locks",
+            "Apply and manage tags on resources",
+            "Manage resource groups",
+            "Manage subscriptions",
+            "Manage costs by using alerts, budgets, and Azure Advisor recommendations",
+            "Configure management groups"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "name": "Implement and manage storage",
+      "weight": "15-20%",
+      "skills": [
+        {
+          "id": "st-01",
+          "name": "Configure access to storage",
+          "items": [
+            "Configure Azure Storage firewalls and virtual networks",
+            "Create and use shared access signature (SAS) tokens",
+            "Configure stored access policies",
+            "Manage access keys",
+            "Configure identity-based access for Azure Files"
+          ]
+        },
+        {
+          "id": "st-02",
+          "name": "Configure and manage storage accounts",
+          "items": [
+            "Create and configure storage accounts",
+            "Configure Azure Storage redundancy",
+            "Configure object replication",
+            "Configure storage account encryption",
+            "Manage data by using Azure Storage Explorer and AzCopy"
+          ]
+        },
+        {
+          "id": "st-03",
+          "name": "Configure Azure Files and Azure Blob Storage",
+          "items": [
+            "Create and configure a file share in Azure Files",
+            "Create and configure a container in Azure Blob Storage",
+            "Configure storage tiers",
+            "Configure soft delete for blobs and containers",
+            "Configure snapshots and soft delete for Azure Files",
+            "Configure blob lifecycle management",
+            "Configure blob versioning"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "compute",
+      "name": "Deploy and manage Azure compute resources",
+      "weight": "20-25%",
+      "skills": [
+        {
+          "id": "cm-01",
+          "name": "Automate deployment of resources by using ARM templates or Bicep files",
+          "items": [
+            "Interpret an Azure Resource Manager template or a Bicep file",
+            "Modify an existing Azure Resource Manager template",
+            "Modify an existing Bicep file",
+            "Deploy resources by using an ARM template or Bicep file",
+            "Export a deployment as an ARM template or convert ARM template to Bicep"
+          ]
+        },
+        {
+          "id": "cm-02",
+          "name": "Create and configure virtual machines",
+          "items": [
+            "Create a virtual machine",
+            "Configure encryption at host for Azure virtual machines",
+            "Move a virtual machine to another resource group, subscription, or region",
+            "Manage virtual machine sizes",
+            "Manage virtual machine disks",
+            "Deploy virtual machines to availability zones and availability sets",
+            "Deploy and configure Azure Virtual Machine Scale Sets"
+          ]
+        },
+        {
+          "id": "cm-03",
+          "name": "Provision and manage containers in the Azure portal",
+          "items": [
+            "Create and manage Azure Container Registry",
+            "Provision a container by using Azure Container Instances",
+            "Provision a container by using Azure Container Apps",
+            "Manage sizing and scaling for containers (ACI and Container Apps)"
+          ]
+        },
+        {
+          "id": "cm-04",
+          "name": "Create and configure Azure App Service",
+          "items": [
+            "Provision an App Service plan",
+            "Configure scaling for an App Service plan",
+            "Create an App Service",
+            "Configure certificates and TLS for an App Service",
+            "Map an existing custom DNS name to an App Service",
+            "Configure backup for an App Service",
+            "Configure networking settings for an App Service",
+            "Configure deployment slots for an App Service"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "networking",
+      "name": "Implement and manage virtual networking",
+      "weight": "15-20%",
+      "skills": [
+        {
+          "id": "vn-01",
+          "name": "Configure and manage virtual networks in Azure",
+          "items": [
+            "Create and configure virtual networks and subnets",
+            "Create and configure virtual network peering",
+            "Configure public IP addresses",
+            "Configure user-defined routes",
+            "Troubleshoot network connectivity"
+          ]
+        },
+        {
+          "id": "vn-02",
+          "name": "Configure secure access to virtual networks",
+          "items": [
+            "Create and configure NSGs and application security groups",
+            "Evaluate effective security rules in NSGs",
+            "Implement Azure Bastion",
+            "Configure service endpoints for Azure PaaS",
+            "Configure private endpoints for Azure PaaS"
+          ]
+        },
+        {
+          "id": "vn-03",
+          "name": "Configure name resolution and load balancing",
+          "items": [
+            "Configure Azure DNS",
+            "Configure an internal or public load balancer",
+            "Troubleshoot load balancing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monitoring",
+      "name": "Monitor and maintain Azure resources",
+      "weight": "10-15%",
+      "skills": [
+        {
+          "id": "mn-01",
+          "name": "Monitor resources in Azure",
+          "items": [
+            "Interpret metrics in Azure Monitor",
+            "Configure log settings in Azure Monitor",
+            "Query and analyze logs in Azure Monitor",
+            "Set up alert rules, action groups, and alert processing rules in Azure Monitor",
+            "Configure and interpret monitoring of VMs, storage accounts, and networks using Azure Monitor Insights",
+            "Use Azure Network Watcher and Connection monitor"
+          ]
+        },
+        {
+          "id": "mn-02",
+          "name": "Implement backup and recovery",
+          "items": [
+            "Create a Recovery Services vault",
+            "Create an Azure Backup vault",
+            "Create and configure a backup policy",
+            "Perform backup and restore operations by using Azure Backup",
+            "Configure Azure Site Recovery for Azure resources",
+            "Perform a failover to a secondary region by using Site Recovery",
+            "Configure and interpret reports and alerts for backups"
+          ]
+        }
+      ]
+    }
+  ]
+}

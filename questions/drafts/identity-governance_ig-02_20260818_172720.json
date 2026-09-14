@@ -1,0 +1,291 @@
+{
+  "metadata": {
+    "skill_id": "ig-02",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-18T17:27:20.447241",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which built-in Microsoft Entra role provides read permissions across all resources in a subscription?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Contributor"
+        },
+        {
+          "label": "B",
+          "text": "Reader"
+        },
+        {
+          "label": "C",
+          "text": "Owner"
+        },
+        {
+          "label": "D",
+          "text": "User Access Administrator"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Reader built-in role provides read permissions across the subscription. This is described in the Microsoft Entra ID built-in roles documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "RBAC",
+        "built-in-role"
+      ]
+    },
+    {
+      "question_text": "At which scope can a role assignment be made to affect resources in multiple subscriptions?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Resource group"
+        },
+        {
+          "label": "B",
+          "text": "Subscription"
+        },
+        {
+          "label": "C",
+          "text": "Management group"
+        },
+        {
+          "label": "D",
+          "text": "Virtual network"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Management groups provide a hierarchical scope that spans subscriptions, allowing role assignments there to inherit across linked subscriptions. Documentation on Azure RBAC scope hierarchy confirms this.",
+      "difficulty": "easy",
+      "tags": [
+        "RBAC",
+        "scope"
+      ]
+    },
+    {
+      "question_text": "A developer needs permission to create and update resources within a specific resource group but should not be able to delete the group itself. Which built-in role should be assigned at the resource group scope?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Reader"
+        },
+        {
+          "label": "B",
+          "text": "Contributor"
+        },
+        {
+          "label": "C",
+          "text": "User Access Administrator"
+        },
+        {
+          "label": "D",
+          "text": "Owner"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Contributor role allows create, update, and delete actions on resources within the assigned scope, but does not grant permissions to delete the containing resource group. This is detailed in the Azure RBAC built-in roles guide.",
+      "difficulty": "intermediate",
+      "tags": [
+        "RBAC",
+        "role-assignment"
+      ]
+    },
+    {
+      "question_text": "A user assigned the User Access Administrator role at a resource group level can perform which of the following actions?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign any role to any user within the resource group"
+        },
+        {
+          "label": "B",
+          "text": "Assign the User Access Administrator role"
+        },
+        {
+          "label": "C",
+          "text": "Manage all Azure AD roles across the entire tenant"
+        },
+        {
+          "label": "D",
+          "text": "View billing information for the resource group"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The User Access Administrator built-in role permits assignment of any Azure role to any user or group within the scope where it is assigned. This capability is outlined in the Azure RBAC documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "RBAC",
+        "role-assignment"
+      ]
+    },
+    {
+      "question_text": "You need to grant a service principal permission to read logs from a specific Log Analytics workspace while restricting access to other resources. Which built-in role should be assigned at the workspace scope?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Log Analytics Reader"
+        },
+        {
+          "label": "B",
+          "text": "Contributor"
+        },
+        {
+          "label": "C",
+          "text": "Reader"
+        },
+        {
+          "label": "D",
+          "text": "Owner"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Log Analytics Reader built-in role provides read access to log data within the specified workspace. It is the appropriate role for read-only log queries and is described in the Azure Monitor built-in roles documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "RBAC",
+        "monitoring"
+      ]
+    },
+    {
+      "question_text": "A custom role has been created with the permissions Microsoft.Network/virtualNetworks/read and Microsoft.Network/virtualNetworks/write. To which scope can this custom role be assigned to provide network management capabilities?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Subscription"
+        },
+        {
+          "label": "B",
+          "text": "Resource group"
+        },
+        {
+          "label": "C",
+          "text": "Virtual network"
+        },
+        {
+          "label": "D",
+          "text": "Management group"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Assigning the custom role at the virtual network scope limits its effect to that specific network resource, allowing read and write operations on virtual networks. The Azure RBAC documentation explains scope-specific custom role assignments.",
+      "difficulty": "advanced",
+      "tags": [
+        "RBAC",
+        "custom-role"
+      ]
+    },
+    {
+      "question_text": "Which statement about role inheritance in Azure RBAC is accurate?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Roles assigned at subscription scope are not inherited by resource groups."
+        },
+        {
+          "label": "B",
+          "text": "Roles assigned at management group scope are inherited by all linked subscriptions."
+        },
+        {
+          "label": "C",
+          "text": "Roles assigned at resource group scope are inherited by all resources within that group."
+        },
+        {
+          "label": "D",
+          "text": "Roles cannot be inherited across different management groups."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "When a role is assigned at the resource group scope, the assignment applies to all resources that exist within that resource group, as explained in the Azure RBAC documentation on inheritance.",
+      "difficulty": "intermediate",
+      "tags": [
+        "RBAC",
+        "inheritance"
+      ]
+    },
+    {
+      "question_text": "Which Microsoft Entra built-in role is responsible for managing role assignments and role definitions?",
+      "options": [
+        {
+          "label": "A",
+          "text": "User Access Administrator"
+        },
+        {
+          "label": "B",
+          "text": "Privileged Role Administrator"
+        },
+        {
+          "label": "C",
+          "text": "Role Administrator"
+        },
+        {
+          "label": "D",
+          "text": "Owner"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Role Administrator built-in role allows creation, assignment, and removal of role assignments and role definitions. This is covered in the Microsoft Entra ID built-in roles reference.",
+      "difficulty": "easy",
+      "tags": [
+        "RBAC",
+        "role-management"
+      ]
+    },
+    {
+      "question_text": "To assign a role to a user for a single Azure AD tenant without affecting assignments in other tenants, which scope should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Tenant root"
+        },
+        {
+          "label": "B",
+          "text": "Management group"
+        },
+        {
+          "label": "C",
+          "text": "Subscription"
+        },
+        {
+          "label": "D",
+          "text": "Resource group"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Assigning at the tenant root scope limits the role assignment to that tenant, preventing impact on other tenants. The Azure RBAC documentation describes tenant-level scopes.",
+      "difficulty": "advanced",
+      "tags": [
+        "RBAC",
+        "tenant"
+      ]
+    },
+    {
+      "question_text": "Which built-in Microsoft Entra role allows a user to manage access to Azure resources but does not permit creation or deletion of resources?",
+      "options": [
+        {
+          "label": "A",
+          "text": "User Access Administrator"
+        },
+        {
+          "label": "B",
+          "text": "Contributor"
+        },
+        {
+          "label": "C",
+          "text": "Reader"
+        },
+        {
+          "label": "D",
+          "text": "Owner"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The User Access Administrator role enables management of role assignments and access control without granting permissions to create or delete Azure resources. This role is defined in the Microsoft Entra ID built-in roles documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "RBAC",
+        "access-management"
+      ]
+    }
+  ]
+}

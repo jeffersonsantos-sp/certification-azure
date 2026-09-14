@@ -1,0 +1,291 @@
+{
+  "metadata": {
+    "skill_id": "ig-03",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T15:57:55.763393",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "A developer attempts to delete a resource group that contains a storage account but receives an error indicating the resource group is locked. Which action will enable the deletion of the resources?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Remove the read‑only lock on the resource group, then delete the resources."
+        },
+        {
+          "label": "B",
+          "text": "Delete the storage account first, which automatically removes the lock."
+        },
+        {
+          "label": "C",
+          "text": "Change the lock scope to 'CanNotDelete' to allow deletion."
+        },
+        {
+          "label": "D",
+          "text": "Move the resources to a different subscription before deleting."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "In Azure, a read‑only lock prevents deletion of resources. You must first remove the lock (via portal, CLI, or PowerShell) before deleting the resources. See Azure documentation on resource locks: https://learn.microsoft.com/azure/role-based-access-control/lock-resources.",
+      "difficulty": "easy",
+      "tags": [
+        "resource-lock",
+        "easy"
+      ]
+    },
+    {
+      "question_text": "To ensure a tag is automatically applied to every resource created inside a specific resource group, where should the tag be defined?",
+      "options": [
+        {
+          "label": "A",
+          "text": "At the subscription level."
+        },
+        {
+          "label": "B",
+          "text": "At the resource group level."
+        },
+        {
+          "label": "C",
+          "text": "At the individual resource level."
+        },
+        {
+          "label": "D",
+          "text": "Tags cannot be inherited; each must be set separately."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Tags are inherited from the scope at which they are applied. Defining a tag on a resource group applies it to all resources within that group. See Azure documentation on tag inheritance: https://learn.microsoft.com/azure/azure-resource-manager/management/tag-resources.",
+      "difficulty": "easy",
+      "tags": [
+        "tags",
+        "easy"
+      ]
+    },
+    {
+      "question_text": "Your organization wants to enforce that all storage accounts must have a private endpoint. Which Azure Policy initiative should you assign?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable the built‑in policy 'Require private endpoint for storage accounts'."
+        },
+        {
+          "label": "B",
+          "text": "Create a custom policy that denies any storage account without encryption."
+        },
+        {
+          "label": "C",
+          "text": "Apply the 'Audit storage accounts that are not private' policy."
+        },
+        {
+          "label": "D",
+          "text": "Use Azure Blueprints to add a private endpoint to each storage account."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure provides a built‑in policy 'Require private endpoint for storage accounts' that enforces private endpoint usage. This policy is part of the Azure Policy collection for resource security. See https://learn.microsoft.com/azure/governance/policy/samples/require-private-endpoint-storage-account.",
+      "difficulty": "intermediate",
+      "tags": [
+        "policy",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "A company has three subscriptions under a single management group. To apply a policy that restricts VM sizes to B1S across all subscriptions, what is the correct step?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a new management group for each subscription."
+        },
+        {
+          "label": "B",
+          "text": "Assign the policy at the management group scope."
+        },
+        {
+          "label": "C",
+          "text": "Enable Azure Advisor recommendations for each subscription."
+        },
+        {
+          "label": "D",
+          "text": "Use Azure Policy exemption at the subscription level."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Management groups are used to apply policies and RBAC across multiple subscriptions. Assigning a policy at the management group scope propagates it to all subscriptions under that group. See Azure documentation on management groups: https://learn.microsoft.com/azure/governance/management-groups/overview.",
+      "difficulty": "intermediate",
+      "tags": [
+        "management-group",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "You need to configure an alert that triggers when the monthly cost of a specific resource group reaches 75 % of the allocated budget. Which Azure service combination should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Cost Management with Budgets and Alerts."
+        },
+        {
+          "label": "B",
+          "text": "Azure Monitor with Metrics and Action Groups."
+        },
+        {
+          "label": "C",
+          "text": "Azure Advisor with Cost Management recommendations."
+        },
+        {
+          "label": "D",
+          "text": "Resource groups + Tags."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Cost Management includes the Budgets feature, which allows you to set thresholds and configure alerts. Alerts are created through the same interface. See https://learn.microsoft.com/azure/cost-management-billing/manage/budgets.",
+      "difficulty": "advanced",
+      "tags": [
+        "cost-management",
+        "advanced"
+      ]
+    },
+    {
+      "question_text": "To assign a custom role to all users in a Microsoft Entra ID group, which approach is supported?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the role at the subscription level using the Microsoft Entra ID group."
+        },
+        {
+          "label": "B",
+          "text": "Use Azure Policy to grant the role based on group membership."
+        },
+        {
+          "label": "C",
+          "text": "Create a separate Azure AD group for each role assignment."
+        },
+        {
+          "label": "D",
+          "text": "Apply the role via Azure AD Conditional Access."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure RBAC supports assigning built‑in or custom roles to Azure AD groups at the subscription, resource group, or resource level. This enables granting permissions to all members of the group. See https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal#assign-role-to-a-group.",
+      "difficulty": "advanced",
+      "tags": [
+        "azure-entra-id",
+        "advanced"
+      ]
+    },
+    {
+      "question_text": "When moving a resource to a different resource group, which condition must be met for the operation to succeed?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The resource type must support cross‑resource‑group moves."
+        },
+        {
+          "label": "B",
+          "text": "The resource can be moved regardless of its type."
+        },
+        {
+          "label": "C",
+          "text": "Moving a resource group automatically deletes all resources inside it."
+        },
+        {
+          "label": "D",
+          "text": "Resources cannot be moved between subscriptions."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Not all resource types support moving between resource groups; the move operation is available for resource types that are listed as supported. See Azure documentation on moving resources: https://learn.microsoft.com/azure/azure-subscription-service-operator/move-resource.",
+      "difficulty": "intermediate",
+      "tags": [
+        "resource-group",
+        "intermediate"
+      ]
+    },
+    {
+      "question_text": "Which tag key is recommended for categorizing resources by department in order to improve cost reporting?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Environment (e.g., prod, dev)"
+        },
+        {
+          "label": "B",
+          "text": "Owner (e.g., team lead)"
+        },
+        {
+          "label": "C",
+          "text": "CostCenter"
+        },
+        {
+          "label": "D",
+          "text": "Project"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "CostCenter is the recommended tag key for department classification to enable cost aggregation in Cost Management. Documentation states that cost allocation uses the CostCenter tag. See https://learn.microsoft.com/azure/cost-management-billing/costs/understand-cost-mgt-tags.",
+      "difficulty": "easy",
+      "tags": [
+        "tags",
+        "easy"
+      ]
+    },
+    {
+      "question_text": "A specific Azure SQL Database must be exempt from a policy that requires all resources to have the 'Environment' tag. Which action should you take?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a policy exemption at the resource level for the SQL Database."
+        },
+        {
+          "label": "B",
+          "text": "Delete the policy that enforces the tag requirement."
+        },
+        {
+          "label": "C",
+          "text": "Move the SQL Database to a different subscription."
+        },
+        {
+          "label": "D",
+          "text": "Add an additional policy that overrides the tag requirement."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Policy allows exemptions at the resource level to override policy assignments. Creating an exemption for the specific resource lets it bypass the tag requirement. See https://learn.microsoft.com/azure/governance/policy/exemptions/overview.",
+      "difficulty": "advanced",
+      "tags": [
+        "policy",
+        "advanced"
+      ]
+    },
+    {
+      "question_text": "You want to set up a budget alert that notifies the finance team when the total spend for a department exceeds $5,000 per month. Which Azure feature provides the alert mechanism?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Cost Management – Budgets"
+        },
+        {
+          "label": "B",
+          "text": "Azure Monitor – Log Analytics"
+        },
+        {
+          "label": "C",
+          "text": "Azure Advisor – Recommendations"
+        },
+        {
+          "label": "D",
+          "text": "Azure Policy – Compliance"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Cost Management – Budgets lets you set a budget amount and configure alert thresholds, which trigger notifications via email, SMS, or webhook. See https://learn.microsoft.com/azure/cost-management-billing/manage/budgets.",
+      "difficulty": "intermediate",
+      "tags": [
+        "cost-management",
+        "intermediate"
+      ]
+    }
+  ]
+}

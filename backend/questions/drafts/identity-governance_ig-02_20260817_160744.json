@@ -1,0 +1,308 @@
+{
+  "metadata": {
+    "skill_id": "ig-02",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T16:07:44.731709",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which built-in Azure role grants read‑only access to Azure resources?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Reader"
+        },
+        {
+          "label": "B",
+          "text": "Contributor"
+        },
+        {
+          "label": "C",
+          "text": "Owner"
+        },
+        {
+          "label": "D",
+          "text": "User Access Administrator"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "According to the Azure documentation, the Reader role provides view‑only permissions for resources, allowing users to read but not modify them.",
+      "difficulty": "easy",
+      "tags": [
+        "RBAC",
+        "built-in-role",
+        "read-only"
+      ]
+    },
+    {
+      "question_text": "Which scope is the highest level at which you can assign a role assignment?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Subscription"
+        },
+        {
+          "label": "B",
+          "text": "Resource group"
+        },
+        {
+          "label": "C",
+          "text": "Individual resource"
+        },
+        {
+          "label": "D",
+          "text": "Management group"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "The Azure RBAC documentation states that role assignments can be made at the management group level, which is higher than subscription, resource group, or individual resource scopes.",
+      "difficulty": "easy",
+      "tags": [
+        "RBAC",
+        "scope",
+        "management-group"
+      ]
+    },
+    {
+      "question_text": "You have a resource group named RG-Apps and assign the Contributor role at the subscription level. Which statement accurately describes the effect?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The role applies only to resources in RG-Apps."
+        },
+        {
+          "label": "B",
+          "text": "The role applies to all resources under the subscription, including RG-Apps."
+        },
+        {
+          "label": "C",
+          "text": "The role cannot be assigned at subscription level."
+        },
+        {
+          "label": "D",
+          "text": "The role is inherited only by resource groups, not individual resources."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Role assignments at the subscription scope apply to all resources within that subscription, as described in the Azure RBAC scope hierarchy documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "RBAC",
+        "role-assignment",
+        "scope",
+        "inheritance"
+      ]
+    },
+    {
+      "question_text": "Which Azure CLI command correctly assigns the Reader role to a user at a specific resource?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az role assignment create --assignee \"user@domain.com\" --role Reader --scope ”/subscriptions/12345678-90ab-cdef-1234-567890abcdef/resourceGroups/RG-Test/providers/Microsoft.Web/sites/WebApp1”"
+        },
+        {
+          "label": "B",
+          "text": "az role assignment create --assignee \"user@domain.com\" --role Reader --scope ”/subscriptions/12345678-90ab-cdef-1234-567890abcdef”"
+        },
+        {
+          "label": "C",
+          "text": "az role assignment create --assignee \"user@domain.com\" --role Reader --resource-group RG-Test"
+        },
+        {
+          "label": "D",
+          "text": "az role assignment create --assignee \"user@domain.com\" --role Reader --management-group ”Default”"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The az role assignment create command requires the full resource identifier in the --scope parameter to target a specific resource, as outlined in the Azure CLI role assignment reference.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Azure CLI",
+        "RBAC",
+        "role-assignment",
+        "resource-scope"
+      ]
+    },
+    {
+      "question_text": "What is the least privileged built-in role that can assign the Contributor role to other users at the subscription scope?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Owner"
+        },
+        {
+          "label": "B",
+          "text": "User Access Administrator"
+        },
+        {
+          "label": "C",
+          "text": "Reader"
+        },
+        {
+          "label": "D",
+          "text": "Contributor"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Azure documentation indicates that the User Access Administrator role is the least privileged built-in role that can assign other roles, including Contributor, at the subscription scope.",
+      "difficulty": "advanced",
+      "tags": [
+        "RBAC",
+        "role-assignment",
+        "least-privilege",
+        "User Access Administrator"
+      ]
+    },
+    {
+      "question_text": "A user has the Reader role at a resource group. Which of the following actions can the user perform?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Read the resource group's properties and list its resources."
+        },
+        {
+          "label": "B",
+          "text": "Delete the resource group."
+        },
+        {
+          "label": "C",
+          "text": "Modify the role assignment for the resource group."
+        },
+        {
+          "label": "D",
+          "text": "Create a new resource within the resource group."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Reader role allows viewing and enumerating resources but does not permit deletion, role changes, or creation of new resources, per the Azure RBAC role permissions documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "RBAC",
+        "Reader",
+        "permissions",
+        "resource-group"
+      ]
+    },
+    {
+      "question_text": "Which type of Microsoft Entra ID group is supported for role assignment?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Security group"
+        },
+        {
+          "label": "B",
+          "text": "Microsoft 365 group"
+        },
+        {
+          "label": "C",
+          "text": "Distribution list"
+        },
+        {
+          "label": "D",
+          "text": "Guest user group"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Microsoft Entra ID security groups can be used as principal entities for role assignments, as described in the Azure AD documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "Microsoft Entra ID",
+        "group",
+        "role-assignment"
+      ]
+    },
+    {
+      "question_text": "When assigning a role at a resource group scope, which statement is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The assignment affects only the resource group and not its child resources."
+        },
+        {
+          "label": "B",
+          "text": "The assignment affects the resource group and all resources within it, regardless of individual role assignments."
+        },
+        {
+          "label": "C",
+          "text": "Child resources can override the role assignment at the resource group level."
+        },
+        {
+          "label": "D",
+          "text": "The assignment is ignored if a more restrictive role is assigned at the resource level."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "According to Azure RBAC documentation, role assignments at a resource group scope cascade to all resources in that group unless overridden by explicit assignments at lower scopes.",
+      "difficulty": "intermediate",
+      "tags": [
+        "RBAC",
+        "scope",
+        "resource-group",
+        "inheritance"
+      ]
+    },
+    {
+      "question_text": "Which built-in role most closely matches a custom role that has permissions to read, write, and delete virtual machines?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Contributor"
+        },
+        {
+          "label": "B",
+          "text": "Virtual Machine Contributor"
+        },
+        {
+          "label": "C",
+          "text": "Reader"
+        },
+        {
+          "label": "D",
+          "text": "User Access Administrator"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The built-in Virtual Machine Contributor role provides exactly the read, write, and delete permissions for virtual machine resources, matching the custom role's permissions.",
+      "difficulty": "advanced",
+      "tags": [
+        "RBAC",
+        "custom-role",
+        "built-in-role",
+        "virtual-machine"
+      ]
+    },
+    {
+      "question_text": "A tenant administrator assigns the Reader role at the management group level. Which statement accurately describes the resulting access?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The assignment grants read access to all subscriptions under the management group."
+        },
+        {
+          "label": "B",
+          "text": "The assignment grants read access only to the management group resource itself."
+        },
+        {
+          "label": "C",
+          "text": "The assignment is not allowed because Reader cannot be assigned at management group scope."
+        },
+        {
+          "label": "D",
+          "text": "The assignment grants read access to all resources in the tenant, regardless of subscription."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Management group scope in Azure RBAC allows role assignments that propagate to all subscriptions contained within the management group, as explained in the Azure documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "management group",
+        "RBAC",
+        "scope",
+        "role-assignment"
+      ]
+    }
+  ]
+}

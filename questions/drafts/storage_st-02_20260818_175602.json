@@ -1,0 +1,278 @@
+{
+  "questions": [
+    {
+      "question_text": "Which storage account kind supports Object Replication?",
+      "options": [
+        {
+          "label": "A",
+          "text": "StorageV1"
+        },
+        {
+          "label": "B",
+          "text": "StorageV2"
+        },
+        {
+          "label": "C",
+          "text": "BlobStorage"
+        },
+        {
+          "label": "D",
+          "text": "FileStorage"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Object Replication is only available with the StorageV2 (general purpose v2) account kind.",
+      "difficulty": "intermediate",
+      "tags": [
+        "object replication",
+        "storage account kind"
+      ]
+    },
+    {
+      "question_text": "Which redundancy option stores copies of data in multiple geographic regions?",
+      "options": [
+        {
+          "label": "A",
+          "text": "LRS (Locally Redundant Storage)"
+        },
+        {
+          "label": "B",
+          "text": "GRS (Geo\u2011Redundant Storage)"
+        },
+        {
+          "label": "C",
+          "text": "ZRS (Zone\u2011Redundant Storage)"
+        },
+        {
+          "label": "D",
+          "text": "None"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "GRS replicates data to a secondary region, providing protection against regional outages.",
+      "difficulty": "easy",
+      "tags": [
+        "redundancy"
+      ]
+    },
+    {
+      "question_text": "What is the default encryption setting for an Azure Storage account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Customer\u2011managed keys only"
+        },
+        {
+          "label": "B",
+          "text": "Service\u2011managed keys only"
+        },
+        {
+          "label": "C",
+          "text": "Both service\u2011managed and customer\u2011managed keys"
+        },
+        {
+          "label": "D",
+          "text": "No encryption"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Storage encrypts data at rest by default using Microsoft\u2011managed keys.",
+      "difficulty": "easy",
+      "tags": [
+        "encryption"
+      ]
+    },
+    {
+      "question_text": "Which Azure tool is primarily used to view and manage storage account metrics and blobs?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure CLI"
+        },
+        {
+          "label": "B",
+          "text": "Azure Storage Explorer"
+        },
+        {
+          "label": "C",
+          "text": "Azure PowerShell"
+        },
+        {
+          "label": "D",
+          "text": "Azure Portal"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Storage Explorer is a standalone client that lets you browse, edit, and monitor storage accounts.",
+      "difficulty": "easy",
+      "tags": [
+        "storage explorer"
+      ]
+    },
+    {
+      "question_text": "Which PowerShell cmdlet enables soft delete on a storage account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Set-AzStorageAccount"
+        },
+        {
+          "label": "B",
+          "text": "Enable-AzStorageAccountSoftDelete"
+        },
+        {
+          "label": "C",
+          "text": "Set-AzStorageContainer"
+        },
+        {
+          "label": "D",
+          "text": "New-AzStorageAccount"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Enable-AzStorageAccountSoftDelete cmdlet turns on soft delete for the specified storage account.",
+      "difficulty": "intermediate",
+      "tags": [
+        "soft delete"
+      ]
+    },
+    {
+      "question_text": "Which statement about storage account keys is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Keys are rotated automatically every 30 days."
+        },
+        {
+          "label": "B",
+          "text": "Keys are used for authentication and can be regenerated."
+        },
+        {
+          "label": "C",
+          "text": "Keys are not required when using Azure AD authentication."
+        },
+        {
+          "label": "D",
+          "text": "Keys are only used for read access."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Storage account keys are credentials used for authentication and can be regenerated at any time.",
+      "difficulty": "easy",
+      "tags": [
+        "storage account keys"
+      ]
+    },
+    {
+      "question_text": "When configuring a storage account for static website hosting, which setting must be enabled?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Public network access"
+        },
+        {
+          "label": "B",
+          "text": "Static website feature"
+        },
+        {
+          "label": "C",
+          "text": "Soft delete"
+        },
+        {
+          "label": "D",
+          "text": "Geo\u2011redundancy"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The static website feature must be turned on in the account settings to host a website.",
+      "difficulty": "intermediate",
+      "tags": [
+        "static website"
+      ]
+    },
+    {
+      "question_text": "Which replication type copies data asynchronously to a secondary region and is recommended for disaster recovery?",
+      "options": [
+        {
+          "label": "A",
+          "text": "LRS"
+        },
+        {
+          "label": "B",
+          "text": "GRS"
+        },
+        {
+          "label": "C",
+          "text": "ZRS"
+        },
+        {
+          "label": "D",
+          "text": "RA\u2011GRS"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "GRS (Geo\u2011Redundant Storage) asynchronously replicates data to a secondary region, suitable for DR scenarios.",
+      "difficulty": "intermediate",
+      "tags": [
+        "replication",
+        "disaster recovery"
+      ]
+    },
+    {
+      "question_text": "To configure encryption with customer\u2011managed keys, which Azure resource must be linked to the storage account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Key Vault"
+        },
+        {
+          "label": "B",
+          "text": "Azure AD"
+        },
+        {
+          "label": "C",
+          "text": "Azure Monitor"
+        },
+        {
+          "label": "D",
+          "text": "Azure Resource Manager"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Customer\u2011managed keys are stored in Azure Key Vault and must be linked to the storage account for encryption.",
+      "difficulty": "advanced",
+      "tags": [
+        "encryption",
+        "customer managed keys"
+      ]
+    },
+    {
+      "question_text": "Which Azure CLI command creates a storage account named 'mystg' with a Standard_LRS SKU in resource group 'rg'?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az storage account create --name mystg --resource-group rg --sku Standard_LRS"
+        },
+        {
+          "label": "B",
+          "text": "az storage account create --name mystg --sku Standard_LRS"
+        },
+        {
+          "label": "C",
+          "text": "az storage account create --name mystg --resource-group rg --sku Standard_GRS"
+        },
+        {
+          "label": "D",
+          "text": "az storage account create --name mystg --sku StorageV2"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The command in option A specifies the account name, resource group, and the Standard_LRS SKU.",
+      "difficulty": "intermediate",
+      "tags": [
+        "azure cli",
+        "storage account creation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "Which of the following steps is required to enable encryption for both the OS and data disks when creating a new Azure virtual machine?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Select \"Enable encryption\" checkbox in the Basics tab"
+        },
+        {
+          "label": "B",
+          "text": "Use Azure Disk Encryption with a customer-managed key for OS and data disks"
+        },
+        {
+          "label": "C",
+          "text": "Apply Azure Storage Service Encryption after deployment"
+        },
+        {
+          "label": "D",
+          "text": "Use a managed identity for the VM"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Encryption must be enabled during creation using Azure Disk Encryption with a customer-managed key; the portal checkbox alone does not cover both OS and data disks.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "You need to deploy a virtual machine that will host a database requiring 8 vCPUs and 64\u202fGB of RAM. Which VM size should you choose?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Standard_D2s_v3"
+        },
+        {
+          "label": "B",
+          "text": "Standard_E8s_v3"
+        },
+        {
+          "label": "C",
+          "text": "Standard_D4s_v3"
+        },
+        {
+          "label": "D",
+          "text": "Standard_D8s_v3"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The E8s_v3 size provides 8 vCPUs and 64\u202fGB memory, matching the required resources.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "How can you move an existing virtual machine to a different resource group while preserving its disk encryption settings?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Use the 'Move' blade in the Azure portal"
+        },
+        {
+          "label": "B",
+          "text": "Recreate the VM in the new resource group"
+        },
+        {
+          "label": "C",
+          "text": "Use the Azure CLI az vm move command"
+        },
+        {
+          "label": "D",
+          "text": "Deploy a new ARM template"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The portal's 'Move' blade allows moving a VM to another resource group while preserving its configuration, including disk encryption settings.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "After creating a VM, you want to attach a data disk and enable encryption for that disk. Which option should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Use Azure Disk Encryption in the portal"
+        },
+        {
+          "label": "B",
+          "text": "Enable Storage Service Encryption on the storage account"
+        },
+        {
+          "label": "C",
+          "text": "Use Azure AD Conditional Access"
+        },
+        {
+          "label": "D",
+          "text": "Configure a VM Scale Set"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Disk Encryption can be applied to a data disk after it's attached, using the encryption settings in the VM creation or update process.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "In a region that supports Availability Zones, what is the default zone for a newly created virtual machine?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Zone 1"
+        },
+        {
+          "label": "B",
+          "text": "Zone 2"
+        },
+        {
+          "label": "C",
+          "text": "Zone 3"
+        },
+        {
+          "label": "D",
+          "text": "No zone (regional)"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "When Availability Zones are enabled, the default placement is Zone\u202f1 unless otherwise specified.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "To create a VM Scale Set with three instances and enable automatic scaling based on CPU usage, which Azure CLI command includes the necessary parameters?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az vmss create --name myVMSS --instance-count 3"
+        },
+        {
+          "label": "B",
+          "text": "az vmss create --name myVMSS --instance-count 1"
+        },
+        {
+          "label": "C",
+          "text": "az vmss create --name myVMSS --instance-count 5"
+        },
+        {
+          "label": "D",
+          "text": "az vmss create --name myVMSS --instance-count 0"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The instance-count parameter in az vmss create sets the number of VM instances; the command in option A sets it to 3.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What is the recommended approach for selecting the appropriate VM size to balance cost and performance?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Choose the largest VM size available"
+        },
+        {
+          "label": "B",
+          "text": "Use Azure Advisor recommendations"
+        },
+        {
+          "label": "C",
+          "text": "Hardcode the size in your deployment script"
+        },
+        {
+          "label": "D",
+          "text": "Use the default size for the selected image"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Advisor analyzes your workload and suggests the optimal VM size for cost and performance.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "When you delete a virtual machine (not deallocate) in Azure, what happens to its OS disk?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The OS disk is retained and can be reattached"
+        },
+        {
+          "label": "B",
+          "text": "The OS disk is automatically deleted"
+        },
+        {
+          "label": "C",
+          "text": "The OS disk is converted to a snapshot"
+        },
+        {
+          "label": "D",
+          "text": "The OS disk is moved to the resource group's default storage account"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Deleting a VM (not deallocating) removes the associated OS disk unless you explicitly choose to keep it.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which method enables encryption of a premium SSD data disk attached to a VM?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Use Azure Disk Encryption with a platform-managed key"
+        },
+        {
+          "label": "B",
+          "text": "Use Azure Disk Encryption with a customer-managed key"
+        },
+        {
+          "label": "C",
+          "text": "Use Azure Storage Service Encryption"
+        },
+        {
+          "label": "D",
+          "text": "Use a VMSS to apply encryption"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Customer-managed keys allow you to control encryption keys for premium SSD data disks via Azure Disk Encryption.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What is the primary purpose of the 'Provisioned IOPS' SKU for Azure managed disks?",
+      "options": [
+        {
+          "label": "A",
+          "text": "To provide a fixed amount of IOPS for predictable performance"
+        },
+        {
+          "label": "B",
+          "text": "To automatically compress stored data"
+        },
+        {
+          "label": "C",
+          "text": "To enable encryption at rest"
+        },
+        {
+          "label": "D",
+          "text": "To support virtual machine scale sets"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Provisioned IOPS SKU lets you specify a guaranteed level of IOPS, providing predictable performance for demanding workloads.",
+      "difficulty": "easy",
+      "tags": []
+    }
+  ]
+}

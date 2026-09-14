@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "What is the default collection interval for metrics in Azure Monitor?",
+      "options": [
+        {
+          "label": "A",
+          "text": "1 minute"
+        },
+        {
+          "label": "B",
+          "text": "5 minutes"
+        },
+        {
+          "label": "C",
+          "text": "10 minutes"
+        },
+        {
+          "label": "D",
+          "text": "30 minutes"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Monitor collects most metrics at a default interval of 5 minutes.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which setting controls how long diagnostic logs are retained in Azure Monitor?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Log Analytics workspace retention"
+        },
+        {
+          "label": "B",
+          "text": "Diagnostic settings retention"
+        },
+        {
+          "label": "C",
+          "text": "Log settings retention"
+        },
+        {
+          "label": "D",
+          "text": "Alert rule retention"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Retention of diagnostic logs is defined in the log settings configuration.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which query language is used to query Azure log data in Log Analytics?",
+      "options": [
+        {
+          "label": "A",
+          "text": "SQL"
+        },
+        {
+          "label": "B",
+          "text": "KQL"
+        },
+        {
+          "label": "C",
+          "text": "REST"
+        },
+        {
+          "label": "D",
+          "text": "JSON"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Kusto Query Language (KQL) is the language used for querying log data in Azure Monitor.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "When creating an alert rule based on a metric, which of the following must be specified?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Resource group"
+        },
+        {
+          "label": "B",
+          "text": "Metric name"
+        },
+        {
+          "label": "C",
+          "text": "Email notification"
+        },
+        {
+          "label": "D",
+          "text": "All of the above"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "An alert rule requires the target resource group, the metric name, and a notification action such as email.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What is the primary purpose of Azure Monitor Insights?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Visualize application performance"
+        },
+        {
+          "label": "B",
+          "text": "Manage network security groups"
+        },
+        {
+          "label": "C",
+          "text": "Provision VMs"
+        },
+        {
+          "label": "D",
+          "text": "Configure storage accounts"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Monitor Insights provides visualizations and analytics to monitor application performance and health.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which Azure service is specifically designed for network diagnostics and performance monitoring?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Network Security Group"
+        },
+        {
+          "label": "B",
+          "text": "Azure Monitor"
+        },
+        {
+          "label": "C",
+          "text": "Network Watcher"
+        },
+        {
+          "label": "D",
+          "text": "Azure Load Balancer"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Network Watcher is a regional service that enables network monitoring, diagnostics, and performance analysis.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "How can you view real-time metric values for a resource in the Azure portal?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Via the 'Metrics' blade"
+        },
+        {
+          "label": "B",
+          "text": "Via the 'Logs' blade"
+        },
+        {
+          "label": "C",
+          "text": "Via Azure CLI"
+        },
+        {
+          "label": "D",
+          "text": "Via Azure Resource Manager templates"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Metrics blade in the Azure portal shows live metric values for the selected resource.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "What is the purpose of diagnostic settings in Azure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "To capture metrics and logs for monitoring"
+        },
+        {
+          "label": "B",
+          "text": "To define alert rules"
+        },
+        {
+          "label": "C",
+          "text": "To manage access control"
+        },
+        {
+          "label": "D",
+          "text": "To deploy resources"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Diagnostic settings enable the collection of metrics and logs from Azure resources into a Log Analytics workspace or storage account.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Which action enables exporting Azure Monitor logs to a Log Analytics workspace?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable Azure Policy"
+        },
+        {
+          "label": "B",
+          "text": "Create a diagnostic setting"
+        },
+        {
+          "label": "C",
+          "text": "Configure an alert rule"
+        },
+        {
+          "label": "D",
+          "text": "Set up a recovery services vault"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Creating a diagnostic setting links the resource to a Log Analytics workspace, allowing logs to be exported there.",
+      "difficulty": "easy",
+      "tags": []
+    },
+    {
+      "question_text": "Network Watcher can be used to perform which of the following tasks?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Create VMs"
+        },
+        {
+          "label": "B",
+          "text": "Monitor CPU usage"
+        },
+        {
+          "label": "C",
+          "text": "Perform packet capture"
+        },
+        {
+          "label": "D",
+          "text": "Manage Azure AD identities"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Network Watcher includes the Packet Capture feature, which lets you capture network traffic for analysis.",
+      "difficulty": "intermediate",
+      "tags": []
+    }
+  ]
+}

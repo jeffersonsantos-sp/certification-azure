@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "skill_id": "ig-02",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T16:24:54.374131",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "A developer needs to be granted permission to create and update resources within a specific resource group, but should not be allowed to modify access controls or delete the resource group itself. Which built‑in Azure role should be assigned at the resource group scope?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Contributor"
+        },
+        {
+          "label": "B",
+          "text": "Owner"
+        },
+        {
+          "label": "C",
+          "text": "Reader"
+        },
+        {
+          "label": "D",
+          "text": "User Access Administrator"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "According to Microsoft documentation, the Contributor role can create, update, and delete resources within the assigned scope but cannot assign roles or modify the scope. See https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#contributor.",
+      "difficulty": "easy",
+      "tags": [
+        "RBAC",
+        "resource-group"
+      ]
+    },
+    {
+      "question_text": "A project manager wants to manage access to an entire subscription, including creating resource groups and assigning roles, without needing to modify individual resources. Which scope should the Contributor role be assigned to in order to meet this requirement?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Management group"
+        },
+        {
+          "label": "B",
+          "text": "Resource group"
+        },
+        {
+          "label": "C",
+          "text": "Subscription"
+        },
+        {
+          "label": "D",
+          "text": "Individual resource"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Documentation states that assigning roles at the subscription scope grants the permissions to all resource groups and resources within that subscription. See https://learn.microsoft.com/azure/role-based-access-control/role-assignments#scope.",
+      "difficulty": "intermediate",
+      "tags": [
+        "RBAC",
+        "subscription"
+      ]
+    },
+    {
+      "question_text": "A custom role is defined with the actions 'Microsoft.Network/virtualNetworks/read' and 'Microsoft.Compute/virtualMachines/write'. What permissions does this role grant to a user who is assigned it at any scope?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The user can read virtual networks and write to virtual machines."
+        },
+        {
+          "label": "B",
+          "text": "The user can delete virtual networks and write to virtual machines."
+        },
+        {
+          "label": "C",
+          "text": "The user can read virtual networks and write to virtual machines."
+        },
+        {
+          "label": "D",
+          "text": "The user can read virtual networks and delete virtual machines."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "In Azure RBAC, the 'read' action allows viewing resources, while 'write' allows creating or updating resources. Therefore the role provides read access to virtual networks and write access to virtual machines. Reference: https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#virtual-machine-operator.",
+      "difficulty": "advanced",
+      "tags": [
+        "custom-role",
+        "permissions"
+      ]
+    },
+    {
+      "question_text": "What is the recommended method in Microsoft Entra ID for assigning a built‑in Azure role to multiple users at the same time?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the role directly to each user individually."
+        },
+        {
+          "label": "B",
+          "text": "Create a security group in Microsoft Entra ID and assign the role to the group."
+        },
+        {
+          "label": "C",
+          "text": "Use a dynamic group based on user attributes."
+        },
+        {
+          "label": "D",
+          "text": "Assign the role to the subscription root."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Microsoft recommends using security groups to assign roles to multiple users, as it simplifies management. See https://learn.microsoft.com/azure/role-based-access-control/role-assignments#assign-to-a-group.",
+      "difficulty": "easy",
+      "tags": [
+        "Microsoft Entra ID",
+        "group"
+      ]
+    },
+    {
+      "question_text": "A custom role is assigned at the resource group level. Which statement accurately describes how the permissions are applied to resources within that resource group?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The permissions are inherited by all child resources within the resource group."
+        },
+        {
+          "label": "B",
+          "text": "The permissions are applied to the resource group itself and not to its child resources."
+        },
+        {
+          "label": "C",
+          "text": "The permissions are applied to child resources if the role definition includes 'Microsoft.Authorization/roleAssignments/write'."
+        },
+        {
+          "label": "D",
+          "text": "The role assignment is ignored for child resources unless the scope is explicitly set to each child resource."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "RBAC role assignments are inherited down the hierarchy, so a role assigned at the resource group scope applies to the group and all resources it contains unless a more specific scope is used. See https://learn.microsoft.com/azure/role-based-access-control/role-hierarchy.",
+      "difficulty": "advanced",
+      "tags": [
+        "RBAC",
+        "inheritance"
+      ]
+    }
+  ]
+}

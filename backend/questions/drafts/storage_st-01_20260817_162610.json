@@ -1,0 +1,156 @@
+{
+  "metadata": {
+    "skill_id": "st-01",
+    "domain_id": "storage",
+    "generated_at": "2026-08-17T16:26:10.751278",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to configure the Azure Storage firewall so that only resources within a specific subnet can access the storage account while blocking all other traffic.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Set the firewall to allow all traffic from any IP address."
+        },
+        {
+          "label": "B",
+          "text": "Add a virtual network rule that specifies the subnet CIDR and enable the \"Allow trusted Microsoft services\" option."
+        },
+        {
+          "label": "C",
+          "text": "Disable the firewall and enable public network access."
+        },
+        {
+          "label": "D",
+          "text": "Turn on the \"Allow access from any Azure service\" setting."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Azure portal and Azure CLI support adding virtual network rules to the firewall. According to the Azure documentation, you can restrict access to a subnet by creating a firewall rule that references the subnet CIDR, and you can enable \"Allow trusted Microsoft services\" to permit traffic from Azure services.",
+      "difficulty": "easy",
+      "tags": [
+        "firewall",
+        "network",
+        "storage"
+      ]
+    },
+    {
+      "question_text": "A developer must grant a temporary, read‑only permission to a specific blob container for a partner application. Which approach should be used to create this access?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Provide the partner with the storage account key and instruct them to use it directly."
+        },
+        {
+          "label": "B",
+          "text": "Generate a SAS token with read permission and an indefinite expiration period."
+        },
+        {
+          "label": "C",
+          "text": "Create a stored access policy on the container that defines read permission and a limited time span, then generate a SAS token based on that policy."
+        },
+        {
+          "label": "D",
+          "text": "Assign the partner the Azure AD role of Storage Blob Data Reader at the storage account level."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Stored access policies let you define permission scopes and expiration times for SAS tokens. The Azure documentation states that a SAS token should be generated from a stored access policy to enforce time‑bounded, limited‑scope access.",
+      "difficulty": "intermediate",
+      "tags": [
+        "SAS",
+        "shared-access-signature",
+        "storage"
+      ]
+    },
+    {
+      "question_text": "Your organization wants to rotate the primary access key of a storage account to reduce the risk of key exposure. Which action should be performed to rotate the key and update dependent services?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Regenerate the primary key in the Azure portal and manually edit connection strings in each application."
+        },
+        {
+          "label": "B",
+          "text": "Use Azure PowerShell to delete the current key and create a new one, then redeploy the updated connection string."
+        },
+        {
+          "label": "C",
+          "text": "Use the Azure CLI to regenerate the key and then update the connection string in the storage account’s configuration settings."
+        },
+        {
+          "label": "D",
+          "text": "Use Microsoft Entra ID to generate a new key and assign it to the storage account."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Azure CLI command az storage account keys regenerate can create a new key, and the connection string must be updated in any client configuration. The documentation describes this process for rotating keys.",
+      "difficulty": "intermediate",
+      "tags": [
+        "access-keys",
+        "security",
+        "storage"
+      ]
+    },
+    {
+      "question_text": "A company needs to provide a user with access to a specific Azure Files share without using storage account keys or SAS tokens. Which role-based access control method should be used?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the user the Storage Blob Data Contributor role at the storage account level."
+        },
+        {
+          "label": "B",
+          "text": "Grant the user the \"Storage File Data Owner\" role on the file share using Microsoft Entra ID."
+        },
+        {
+          "label": "C",
+          "text": "Create a SAS token with the user’s email address and distribute it securely."
+        },
+        {
+          "label": "D",
+          "text": "Enable Azure AD DS and map the user’s identity to the file share permissions."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Files supports identity‑based access through Microsoft Entra ID. The documentation indicates that assigning the Storage File Data Owner role to a user via Entra ID provides key‑less access to a specific share.",
+      "difficulty": "advanced",
+      "tags": [
+        "azure-files",
+        "identity",
+        "microsoft-entra-id"
+      ]
+    },
+    {
+      "question_text": "You must configure the storage account firewall to allow traffic only from a specific virtual network while preventing any internet access. Which configuration step accomplishes this?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable the \"Allow trusted Microsoft services\" option and disable all inbound IP rules."
+        },
+        {
+          "label": "B",
+          "text": "Add a virtual network rule for the subnet and enable the \"Allow Azure services to bypass this firewall\" setting."
+        },
+        {
+          "label": "C",
+          "text": "Set the firewall to permit all IP addresses and then apply a network security group to the subnet."
+        },
+        {
+          "label": "D",
+          "text": "Create a private endpoint for the storage account and turn off the firewall."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Configuring a firewall rule that references a virtual network subnet, combined with the \"Allow Azure services to bypass this firewall\" option, restricts traffic to the specified VNet and blocks external internet traffic. This approach is described in the Azure documentation on configuring storage firewall and virtual networks.",
+      "difficulty": "advanced",
+      "tags": [
+        "firewall",
+        "virtual-network",
+        "storage"
+      ]
+    }
+  ]
+}

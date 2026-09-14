@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "skill_id": "cm-01",
+    "domain_id": "compute",
+    "generated_at": "2026-08-17T17:16:15.239032",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You receive an ARM template that creates a storage account. Which property in the template ensures that the storage account is deployed with a specific redundancy type?",
+      "options": [
+        {
+          "label": "A",
+          "text": "\"sku.name\" property"
+        },
+        {
+          "label": "B",
+          "text": "\"tags\" property"
+        },
+        {
+          "label": "C",
+          "text": "\"properties\" property"
+        },
+        {
+          "label": "D",
+          "text": "\"location\" property"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The sku.name property defines the SKU, which includes the redundancy configuration as described in the Azure documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "ARM-templates",
+        "storage"
+      ]
+    },
+    {
+      "question_text": "Your existing ARM template creates a virtual machine. To add an Azure managed disk as a separate resource, which modification should you make?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Add a new resource with type \"Microsoft.Compute/disks\" to the resources array."
+        },
+        {
+          "label": "B",
+          "text": "Modify the existing virtual machine resource and add a \"disks\" property."
+        },
+        {
+          "label": "C",
+          "text": "Insert a new \"dependsOn\" entry for the disk resource."
+        },
+        {
+          "label": "D",
+          "text": "Change the \"apiVersion\" of the virtual machine resource to a newer version."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "To create a managed disk, you add a separate resource of type Microsoft.Compute/disks, as explained in the Azure documentation for resource types.",
+      "difficulty": "intermediate",
+      "tags": [
+        "ARM-templates",
+        "compute"
+      ]
+    },
+    {
+      "question_text": "You have an ARM template in JSON format and want to convert it to Bicep. Which Azure CLI command performs this conversion?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az bicep build"
+        },
+        {
+          "label": "B",
+          "text": "az deployment sub create"
+        },
+        {
+          "label": "C",
+          "text": "az arm template convert"
+        },
+        {
+          "label": "D",
+          "text": "az bicep decompile"
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "The az bicep decompile command converts an ARM template to Bicep, according to the Azure CLI documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Bicep",
+        "conversion"
+      ]
+    },
+    {
+      "question_text": "When deploying a resource that requires a secret value, such as a SQL server admin password, which parameter type should you use in a Bicep file?",
+      "options": [
+        {
+          "label": "A",
+          "text": "string"
+        },
+        {
+          "label": "B",
+          "text": "int"
+        },
+        {
+          "label": "C",
+          "text": "secureString"
+        },
+        {
+          "label": "D",
+          "text": "bool"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Bicep supports secureString parameters that are encrypted in the template and not exposed in logs, as detailed in the Azure documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "Bicep",
+        "parameters",
+        "security"
+      ]
+    },
+    {
+      "question_text": "To export a deployment that created a resource group, storage account, and virtual machine as an ARM template using Azure CLI, which command should you run?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az deployment group export --resource-group MyRG --template-file exported.json"
+        },
+        {
+          "label": "B",
+          "text": "az deployment group create --template-file template.json --output json"
+        },
+        {
+          "label": "C",
+          "text": "az deployment group export --name MyDeployment --resource-group MyRG --output json"
+        },
+        {
+          "label": "D",
+          "text": "az deployment group show --resource-group MyRG --query \"properties.template\" > exported.json"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The az deployment group export command creates a template file representing the deployment, as described in the Azure CLI reference.",
+      "difficulty": "advanced",
+      "tags": [
+        "ARM-templates",
+        "deployment",
+        "cli"
+      ]
+    }
+  ]
+}

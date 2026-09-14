@@ -1,0 +1,248 @@
+{
+  "questions": [
+    {
+      "question_text": "You need to create a subnet that spans the entire 10.0.0.0/8 address space. Which of the following is the most appropriate CIDR notation for the subnet mask?",
+      "options": [
+        {
+          "label": "A",
+          "text": "10.0.0.0/8"
+        },
+        {
+          "label": "B",
+          "text": "10.0.0.0/16"
+        },
+        {
+          "label": "C",
+          "text": "10.0.0.0/24"
+        },
+        {
+          "label": "D",
+          "text": "10.0.0.0/20"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "A /8 mask (255.0.0.0) allows the full 10.0.0.0/8 address space to be used for the subnet, covering all 16,777,216 addresses.",
+      "difficulty": "easy",
+      "tags": [
+        "VNets and subnets"
+      ]
+    },
+    {
+      "question_text": "You have a virtual network (VNet) with subnets 10.1.0.0/16 and 10.2.0.0/16. You want to enable communication between resources in these subnets without using a VPN or ExpressRoute. Which Azure feature should you configure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Public IP address"
+        },
+        {
+          "label": "B",
+          "text": "Network Security Group (NSG)"
+        },
+        {
+          "label": "C",
+          "text": "VNet peering"
+        },
+        {
+          "label": "D",
+          "text": "Azure Firewall"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "VNet peering connects two virtual networks (or subnets) directly, allowing private traffic to flow between them without traversing the internet or additional services.",
+      "difficulty": "intermediate",
+      "tags": [
+        "VNet peering"
+      ]
+    },
+    {
+      "question_text": "A public IP address is required for an Azure virtual machine that must be reachable from the internet. Which type of public IP should you create?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Static public IP with a DNS name"
+        },
+        {
+          "label": "B",
+          "text": "Ephemeral public IP"
+        },
+        {
+          "label": "C",
+          "text": "Internal public IP"
+        },
+        {
+          "label": "D",
+          "text": "Dynamic public IP"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "A static public IP provides a permanent address that can be associated with a DNS name, ensuring the VM remains reachable by name from the internet.",
+      "difficulty": "easy",
+      "tags": [
+        "Public IPs"
+      ]
+    },
+    {
+      "question_text": "You have an Azure virtual network with a subnet 10.0.0.0/24. You need to route all traffic destined for the 192.168.0.0/16 address space through a user-defined route (UDR) that points to a Network Virtual Appliance (NVA). Which field in the UDR should you set to achieve this?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Next hop type = Virtual appliance"
+        },
+        {
+          "label": "B",
+          "text": "Next hop IP address = 10.0.0.5"
+        },
+        {
+          "label": "C",
+          "text": "Next hop type = Internet"
+        },
+        {
+          "label": "D",
+          "text": "Next hop type = Virtual network gateway"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "To route traffic to a specific address space via a Network Virtual Appliance, the next hop type must be set to 'Virtual appliance', which then requires the appliance's internal IP address.",
+      "difficulty": "intermediate",
+      "tags": [
+        "UDR"
+      ]
+    },
+    {
+      "question_text": "Two virtual networks, VNetA and VNetB, are peered. Resources in VNetA can reach resources in VNetB, but resources in VNetB cannot reach resources in VNetA. What is the most likely cause?",
+      "options": [
+        {
+          "label": "A",
+          "text": "VNet peering is not enabled on VNetB side"
+        },
+        {
+          "label": "B",
+          "text": "A Network Security Group (NSG) on VNetA blocks outbound traffic to VNetB"
+        },
+        {
+          "label": "C",
+          "text": "The peering connection is in the same region only"
+        },
+        {
+          "label": "D",
+          "text": "A route table overrides the peering route"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "VNet peering must be provisioned on both virtual networks; if it is missing on VNetB, traffic can flow one way but not the other.",
+      "difficulty": "intermediate",
+      "tags": [
+        "VNet peering"
+      ]
+    },
+    {
+      "question_text": "An Azure virtual machine has a public IP address (Standard) and is part of a subnet with a route table that has a default route (0.0.0.0/0) pointing to the internet via a NAT gateway. What is the expected behavior for outbound traffic from the VM?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Traffic is NAT\u2011ed to the public IP of the NAT gateway and leaves the Azure backbone"
+        },
+        {
+          "label": "B",
+          "text": "Traffic is directly exposed to the internet using the VM's public IP"
+        },
+        {
+          "label": "C",
+          "text": "Traffic is blocked because a NAT gateway only handles inbound traffic"
+        },
+        {
+          "label": "D",
+          "text": "Traffic is routed to the Azure Load Balancer, not the internet"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "A Standard public IP together with a NAT gateway enables outbound internet access while keeping the VM's private IP hidden; traffic is NAT\u2011ed at the gateway before leaving Azure.",
+      "difficulty": "easy",
+      "tags": [
+        "Public IPs",
+        "UDR"
+      ]
+    },
+    {
+      "question_text": "You need to troubleshoot why a VM cannot reach a specific Azure storage account (storage account is reachable via its private endpoint). Which Azure tool provides the most detailed connectivity insights?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Monitor metrics"
+        },
+        {
+          "label": "B",
+          "text": "Azure Network Watcher \u2013 Connection Troubleshoot"
+        },
+        {
+          "label": "C",
+          "text": "Azure Advisor"
+        },
+        {
+          "label": "D",
+          "text": "Azure Policy"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Network Watcher\u2019s Connection Troubleshoot simulates traffic flow and shows where a packet is dropped, making it ideal for diagnosing VNet\u2011to\u2011private\u2011endpoint connectivity issues.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Troubleshoot connectivity"
+      ]
+    },
+    {
+      "question_text": "A subnet contains the address range 10.2.0.0/22. Which of the following CIDR blocks can be used to create a subnet that accommodates at least 1,000 VMs while minimizing wasted IP addresses?",
+      "options": [
+        {
+          "label": "A",
+          "text": "10.2.0.0/21"
+        },
+        {
+          "label": "B",
+          "text": "10.2.0.0/20"
+        },
+        {
+          "label": "C",
+          "text": "10.2.0.0/22"
+        },
+        {
+          "label": "D",
+          "text": "10.2.0.0/23"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "A /21 provides 2,048 IP addresses (2^(32\u201121)), enough for 1,000 VMs, while a /22 only offers 512 addresses, which is insufficient.",
+      "difficulty": "easy",
+      "tags": [
+        "VNets and subnets"
+      ]
+    },
+    {
+      "question_text": "You have a virtual network peering between VNet1 (regional) and VNet2 (global). Which statement accurately describes the routing behavior between these peered networks?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Only traffic from VNet1 to VNet2 is allowed; VNet2 cannot initiate traffic back."
+        },
+        {
+          "label": "B",
+          "text": "Bidirectional traffic is automatically allowed once peering is established."
+        },
+        {
+          "label": "C",
+          "text": "Traffic must be explicitly allowed by adding a route in each VNet's route table."
+        },
+        {
+          "label": "D",
+          "text": "Peering only works within the same Azure region."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "VNet peering creates a bidirectional link; once established, traffic can flow in both directions without additional route configuration (unless overridden by custom route tables).",
+      "difficulty": "intermediate",
+      "tags": [
+        "VNet peering"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "questions": [
+    {
+      "question_text": "Which Azure DNS zone type is used for private name resolution within a virtual network?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Public"
+        },
+        {
+          "label": "B",
+          "text": "Private"
+        },
+        {
+          "label": "C",
+          "text": "Public Reserved"
+        },
+        {
+          "label": "D",
+          "text": "Azure DNS managed"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A Private DNS zone provides name resolution only within a specified Azure virtual network, enabling private IP address mapping without exposing the names to the internet.",
+      "difficulty": "easy",
+      "tags": [
+        "DNS"
+      ]
+    },
+    {
+      "question_text": "You need to create a DNS record that maps `app1.contoso.com` to the private IP address `10.0.0.5`. Which record type should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "CNAME"
+        },
+        {
+          "label": "B",
+          "text": "A"
+        },
+        {
+          "label": "C",
+          "text": "MX"
+        },
+        {
+          "label": "D",
+          "text": "TXT"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "An A record directly maps a hostname to an IPv4 address, which is appropriate for pointing a domain to a private IP.",
+      "difficulty": "easy",
+      "tags": [
+        "DNS"
+      ]
+    },
+    {
+      "question_text": "When configuring an Azure Load Balancer, which of the following must be assigned a public IP address?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Frontend IP configuration"
+        },
+        {
+          "label": "B",
+          "text": "Backend pool"
+        },
+        {
+          "label": "C",
+          "text": "Health probe"
+        },
+        {
+          "label": "D",
+          "text": "Load balancing rule"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The frontend IP configuration of a public load balancer requires a public IP address to be reachable from the internet.",
+      "difficulty": "intermediate",
+      "tags": [
+        "LoadBalancer"
+      ]
+    },
+    {
+      "question_text": "What is the primary difference between an Azure Public Load Balancer and an Azure Internal Load Balancer?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Public LB can be accessed from the internet, Internal LB cannot."
+        },
+        {
+          "label": "B",
+          "text": "Public LB uses UDP, Internal LB uses TCP."
+        },
+        {
+          "label": "C",
+          "text": "Public LB supports IPv6 only, Internal LB supports IPv4 only."
+        },
+        {
+          "label": "D",
+          "text": "Public LB requires a NAT gateway, Internal LB does not."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Public Load Balancers have a public IP address and are reachable from the internet, while Internal Load Balancers have a private IP address and are only reachable from within the virtual network.",
+      "difficulty": "intermediate",
+      "tags": [
+        "LoadBalancer"
+      ]
+    },
+    {
+      "question_text": "Which of the following settings is required to enable health probing for an Azure Load Balancer?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable TCP reset"
+        },
+        {
+          "label": "B",
+          "text": "Specify a port number"
+        },
+        {
+          "label": "C",
+          "text": "Define a protocol (HTTP/TCP)"
+        },
+        {
+          "label": "D",
+          "text": "All of the above"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Health probes must specify the protocol (HTTP or TCP) and the port to use for checking the health of backend instances.",
+      "difficulty": "intermediate",
+      "tags": [
+        "LoadBalancer"
+      ]
+    },
+    {
+      "question_text": "Which load balancing rule configuration allows for session affinity (sticky sessions)?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Disable floating IP"
+        },
+        {
+          "label": "B",
+          "text": "Set session persistence to 'None'"
+        },
+        {
+          "label": "C",
+          "text": "Set session persistence to 'Client IP and protocol'"
+        },
+        {
+          "label": "D",
+          "text": "Set session persistence to 'Time-based'"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Configuring session persistence as 'Client IP and protocol' enables the load balancer to maintain the same client connection to the same backend VM for the duration of the session.",
+      "difficulty": "intermediate",
+      "tags": [
+        "LoadBalancer"
+      ]
+    },
+    {
+      "question_text": "A virtual machine cannot be reached via the load balancer\u2019s public IP, but can be accessed directly via its private IP. Which is the most likely cause?",
+      "options": [
+        {
+          "label": "A",
+          "text": "DNS resolution issue"
+        },
+        {
+          "label": "B",
+          "text": "Health probe failing"
+        },
+        {
+          "label": "C",
+          "text": "Load balancer rule not associated with the VM's NIC"
+        },
+        {
+          "label": "D",
+          "text": "Subnet network security group blocking inbound traffic"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "If the VM is reachable directly but not through the load balancer, the most common cause is that the load balancer rule is not linked to the VM's network interface or backend pool.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Troubleshooting",
+        "LoadBalancer"
+      ]
+    },
+    {
+      "question_text": "Which DNS record type is used to alias a domain name to another Azure resource, such as a Cloud Service or App Service?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A"
+        },
+        {
+          "label": "B",
+          "text": "CNAME"
+        },
+        {
+          "label": "C",
+          "text": "MX"
+        },
+        {
+          "label": "D",
+          "text": "SRV"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A CNAME (canonical name) record points one domain name to another, allowing aliasing of a hostname to an Azure resource.",
+      "difficulty": "easy",
+      "tags": [
+        "DNS"
+      ]
+    },
+    {
+      "question_text": "You need to configure Azure Load Balancer to distribute traffic evenly across all VMs regardless of their IP address. Which load balancing algorithm should you select?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Source IP hash"
+        },
+        {
+          "label": "B",
+          "text": "Destination IP hash"
+        },
+        {
+          "label": "C",
+          "text": "Round Robin"
+        },
+        {
+          "label": "D",
+          "text": "Weighted Round Robin"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Round Robin distributes incoming requests sequentially across all backend instances, providing even traffic distribution without considering IP addresses.",
+      "difficulty": "intermediate",
+      "tags": [
+        "LoadBalancer"
+      ]
+    },
+    {
+      "question_text": "When troubleshooting DNS resolution issues for a VM, which Azure tool provides detailed query logs?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Monitor"
+        },
+        {
+          "label": "B",
+          "text": "Azure DNS Analytics"
+        },
+        {
+          "label": "C",
+          "text": "Azure Network Watcher"
+        },
+        {
+          "label": "D",
+          "text": "Azure Resource Manager"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure DNS Analytics (preview) captures and visualizes DNS query logs, helping to diagnose resolution problems for virtual machines.",
+      "difficulty": "advanced",
+      "tags": [
+        "DNS",
+        "Troubleshooting"
+      ]
+    }
+  ]
+}

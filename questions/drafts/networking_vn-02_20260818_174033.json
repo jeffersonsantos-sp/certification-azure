@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "What is the primary purpose of a Network Security Group (NSG) in Azure?",
+      "options": [
+        {
+          "label": "A",
+          "text": "To define IP address ranges for load balancing."
+        },
+        {
+          "label": "B",
+          "text": "To enforce inbound and outbound traffic rules for subnets and NICs."
+        },
+        {
+          "label": "C",
+          "text": "To assign role-based access control to resources."
+        },
+        {
+          "label": "D",
+          "text": "To route traffic between virtual networks."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "NSGs contain security rules that allow or deny traffic to and from Azure resources, providing network-level protection.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Azure Application Security Groups (ASGs) are used to:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Tag resources for cost tracking."
+        },
+        {
+          "label": "B",
+          "text": "Group virtual machines for applying network security rules based on their role."
+        },
+        {
+          "label": "C",
+          "text": "Encrypt data at rest."
+        },
+        {
+          "label": "D",
+          "text": "Provide DNS resolution for private endpoints."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "ASGs let you group VMs so that NSG rules can target them by role, simplifying security rule management.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which Azure service enables secure remote desktop access to VMs without exposing public IPs?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Load Balancer"
+        },
+        {
+          "label": "B",
+          "text": "Azure Bastion"
+        },
+        {
+          "label": "C",
+          "text": "Azure VPN Gateway"
+        },
+        {
+          "label": "D",
+          "text": "Azure Front Door"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Bastion offers HTML5-based remote access over TLS, eliminating the need for a public IP on the VM.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "To expose a service hosted in a virtual network to other Azure services without traversing the public internet, you should configure:",
+      "options": [
+        {
+          "label": "A",
+          "text": "A public IP address"
+        },
+        {
+          "label": "B",
+          "text": "A service endpoint"
+        },
+        {
+          "label": "C",
+          "text": "A NAT rule"
+        },
+        {
+          "label": "D",
+          "text": "A load balancer rule"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Service endpoints provide private connectivity to Azure services over the Microsoft backbone, keeping traffic off the public internet.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What is required to allow a private endpoint to access a service in a different virtual network?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Add a route in the virtual network's route table."
+        },
+        {
+          "label": "B",
+          "text": "Enable peering between the two virtual networks."
+        },
+        {
+          "label": "C",
+          "text": "Use Azure Firewall to allow traffic."
+        },
+        {
+          "label": "D",
+          "text": "No additional configuration; the private endpoint automatically routes traffic."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "VNet peering (or a virtual network link) connects the two networks, allowing the private endpoint's traffic to reach resources in the other VNet.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which of the following statements about NSG rule priority is correct?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Lower priority number means lower precedence."
+        },
+        {
+          "label": "B",
+          "text": "Rules are evaluated in order of creation."
+        },
+        {
+          "label": "C",
+          "text": "The default allow rule has the highest priority."
+        },
+        {
+          "label": "D",
+          "text": "Rules with more specific source/destination have higher priority than generic rules."
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "NSG evaluates rules by priority number; more specific match conditions are considered first, giving them higher precedence.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which of the following is NOT a benefit of using Azure Private Endpoints for Azure SQL Database?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Traffic never traverses the public internet."
+        },
+        {
+          "label": "B",
+          "text": "Provides a public IP address for the service."
+        },
+        {
+          "label": "C",
+          "text": "Reduces exposure to inbound attacks."
+        },
+        {
+          "label": "D",
+          "text": "Enables private DNS resolution for the service."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Private endpoints use a private IP address; they do not expose a public IP, which is a security advantage.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "When configuring Azure Bastion, which prerequisite must be met before deployment?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A public subnet with at least /27 address space in each virtual network."
+        },
+        {
+          "label": "B",
+          "text": "An Azure Load Balancer must be attached to the bastion host."
+        },
+        {
+          "label": "C",
+          "text": "The virtual network must have a subnet named \"AzureBastionSubnet\" with an address prefix of /27 or larger."
+        },
+        {
+          "label": "D",
+          "text": "The bastion host must be assigned a public IP address."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Bastion requires a dedicated subnet named \"AzureBastionSubnet\" with a subnet prefix of at least /27 to host the service.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which configuration step is essential to enable service endpoints for a virtual network?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Deploy an Azure VPN gateway."
+        },
+        {
+          "label": "B",
+          "text": "Add a service endpoint resource in the subnet's service endpoint list."
+        },
+        {
+          "label": "C",
+          "text": "Enable Azure Firewall NAT rules."
+        },
+        {
+          "label": "D",
+          "text": "Create a public IP address for the virtual network."
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Service endpoints are added as entries in the subnet's service endpoint list, which activates private connectivity to the service.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "To restrict access to a set of virtual machines using Azure ASGs, which of the following actions must you perform?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the ASG to the network security group's outbound rules only."
+        },
+        {
+          "label": "B",
+          "text": "Create a custom DNS zone for the ASG."
+        },
+        {
+          "label": "C",
+          "text": "Reference the ASG in NSG rules to target the VMs."
+        },
+        {
+          "label": "D",
+          "text": "Place the VMs in a separate resource group."
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "NSG rules can specify an application security group as source or destination, enabling traffic filtering based on grouped VMs.",
+      "difficulty": "intermediate",
+      "tags": []
+    }
+  ]
+}

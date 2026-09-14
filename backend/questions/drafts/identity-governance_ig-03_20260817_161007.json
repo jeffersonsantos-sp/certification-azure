@@ -1,0 +1,283 @@
+{
+  "metadata": {
+    "skill_id": "ig-03",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T16:10:07.899702",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "A developer attempts to delete a resource group but receives an error because the group is locked. Which action should be taken to prevent accidental deletion of the resources inside the group?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Apply a lock at subscription level"
+        },
+        {
+          "label": "B",
+          "text": "Apply a lock at resource group level"
+        },
+        {
+          "label": "C",
+          "text": "Apply a lock at individual resource level"
+        },
+        {
+          "label": "D",
+          "text": "No lock needed"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "In Azure, a lock can be applied at the resource group scope to prevent deletion or modification of its contained resources; see Azure documentation on resource locks.",
+      "difficulty": "easy",
+      "tags": [
+        "resource-locks"
+      ]
+    },
+    {
+      "question_text": "To enable cost analysis across all resources in a subscription, where should a tag be applied?",
+      "options": [
+        {
+          "label": "A",
+          "text": "At the subscription level"
+        },
+        {
+          "label": "B",
+          "text": "At the resource level"
+        },
+        {
+          "label": "C",
+          "text": "At the management group level"
+        },
+        {
+          "label": "D",
+          "text": "Tags are not required to view cost analysis"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Subscription‑level tags are inherited by all resources within the subscription, making them suitable for cost analysis; refer to Azure docs on tagging resources.",
+      "difficulty": "easy",
+      "tags": [
+        "tags"
+      ]
+    },
+    {
+      "question_text": "Your organization wants to prevent the creation of virtual machines using the DS2_v2 SKU. Which Azure Policy definition should you assign?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Deny VMs with specific SKU"
+        },
+        {
+          "label": "B",
+          "text": "Allow VMs with specific SKU"
+        },
+        {
+          "label": "C",
+          "text": "Audit VMs with specific SKU"
+        },
+        {
+          "label": "D",
+          "text": "Deploy VMs with specific SKU"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Policy includes a 'Deny' effect that can restrict creation of VM sizes matching a specific SKU; see the built‑in policy definition 'Deny VMs with specific SKU' in the Azure Policy gallery.",
+      "difficulty": "intermediate",
+      "tags": [
+        "azure-policy"
+      ]
+    },
+    {
+      "question_text": "A company wants to ensure that a subscription cannot be deleted accidentally. Which lock scope should be configured?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Apply a lock at each resource"
+        },
+        {
+          "label": "B",
+          "text": "Apply a lock at the subscription level"
+        },
+        {
+          "label": "C",
+          "text": "Apply a lock at the management group level"
+        },
+        {
+          "label": "D",
+          "text": "No lock is needed"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Applying a lock at the subscription level prevents the entire subscription from being deleted, which is described in the Azure documentation on resource locks.",
+      "difficulty": "intermediate",
+      "tags": [
+        "resource-locks"
+      ]
+    },
+    {
+      "question_text": "You have a management group hierarchy where 'Finance' is a child of 'Department'. To apply a policy that only affects resources in the Finance group, what is the best approach?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Apply the policy at the Finance management group"
+        },
+        {
+          "label": "B",
+          "text": "Apply the policy at the Department management group"
+        },
+        {
+          "label": "C",
+          "text": "Apply the policy at the subscription level"
+        },
+        {
+          "label": "D",
+          "text": "Apply the policy at the resource group level"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Management groups inherit policies from their parent; assigning a policy to the Finance group ensures the policy affects resources under that group, as explained in the Azure documentation on management groups.",
+      "difficulty": "advanced",
+      "tags": [
+        "management-groups"
+      ]
+    },
+    {
+      "question_text": "You need to tag a resource so that it can be identified as belonging to the 'Project Phoenix' initiative. Which tag key/value pair should you use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Project=Project Phoenix"
+        },
+        {
+          "label": "B",
+          "text": "Initiative=Project Phoenix"
+        },
+        {
+          "label": "C",
+          "text": "Department=Project Phoenix"
+        },
+        {
+          "label": "D",
+          "text": "Tag=Project Phoenix"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Tags are applied at the resource level; adding a tag with the key 'Project' and value 'Project Phoenix' allows cost reporting to group resources by project, per Azure documentation on tagging.",
+      "difficulty": "easy",
+      "tags": [
+        "tags"
+      ]
+    },
+    {
+      "question_text": "Azure Advisor recommends resizing a virtual machine that shows low CPU utilization. What action should you take to optimize cost?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Resize the VM"
+        },
+        {
+          "label": "B",
+          "text": "Delete the resource"
+        },
+        {
+          "label": "C",
+          "text": "Enable Azure Policy to shut down the VM"
+        },
+        {
+          "label": "D",
+          "text": "Ignore the recommendation"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Advisor provides cost optimization recommendations such as resizing under‑utilized VMs; see the Advisor documentation on cost management.",
+      "difficulty": "intermediate",
+      "tags": [
+        "cost-management"
+      ]
+    },
+    {
+      "question_text": "A resource group must be made read‑only for a period, and all resources in the group need an 'owner' tag. Which sequence of actions correctly implements this governance requirement?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Apply a read‑only lock at the resource group level, then add the owner tag to each resource"
+        },
+        {
+          "label": "B",
+          "text": "Add the owner tag first, then apply a read‑only lock at the subscription level"
+        },
+        {
+          "label": "C",
+          "text": "Apply a read‑only lock at each resource level, then add the owner tag"
+        },
+        {
+          "label": "D",
+          "text": "Apply a read‑only lock at the management group level and add the owner tag at the subscription level"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "First applying a read‑only lock at the resource group level prevents changes, and then adding the owner tag to each resource ensures governance and traceability; this sequence follows best practices in Azure governance documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "locks",
+        "tags"
+      ]
+    },
+    {
+      "question_text": "To view the list of subscriptions you have access to in the Azure portal, which blade should you select?",
+      "options": [
+        {
+          "label": "A",
+          "text": "All resources"
+        },
+        {
+          "label": "B",
+          "text": "Subscriptions"
+        },
+        {
+          "label": "C",
+          "text": "Resource groups"
+        },
+        {
+          "label": "D",
+          "text": "Monitor"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Subscriptions blade in the Azure portal lists all subscriptions you have access to; navigate there to view them, as described in the Azure portal navigation guide.",
+      "difficulty": "easy",
+      "tags": [
+        "subscriptions"
+      ]
+    },
+    {
+      "question_text": "You need to enforce a tagging compliance policy across two subscriptions that are both under the 'Finance' management group. Which step ensures the policy is applied to all subscriptions in the group?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign the policy at the management group level"
+        },
+        {
+          "label": "B",
+          "text": "Assign the policy at the subscription level for each subscription"
+        },
+        {
+          "label": "C",
+          "text": "Deploy a script that loops through subscriptions"
+        },
+        {
+          "label": "D",
+          "text": "Use Azure Blueprint"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Assigning a policy to a management group propagates the policy to all subscriptions within that group, according to Azure documentation on policy assignment at the management group level.",
+      "difficulty": "advanced",
+      "tags": [
+        "management-groups",
+        "azure-policy"
+      ]
+    }
+  ]
+}

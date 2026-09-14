@@ -1,0 +1,287 @@
+{
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-08-17T16:04:47.327325",
+    "count": 10,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to create a new Microsoft Entra user for an employee. Which blade should you select in the Microsoft Entra ID portal?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Users > All users > Add"
+        },
+        {
+          "label": "B",
+          "text": "Groups > New group"
+        },
+        {
+          "label": "C",
+          "text": "Devices > Add device"
+        },
+        {
+          "label": "D",
+          "text": "Applications > New application"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "In the Microsoft Entra ID portal, you create a user by selecting Users, then All users, and then Add. See Microsoft Entra ID documentation: Create a user.",
+      "difficulty": "easy",
+      "tags": [
+        "entra-users"
+      ]
+    },
+    {
+      "question_text": "An administrator wants to add a custom attribute 'Department' to a user in Microsoft Entra ID. Which method should they use?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Edit the user in the Azure AD portal and type the attribute directly"
+        },
+        {
+          "label": "B",
+          "text": "Use Azure AD Graph API to update the user's extension attribute"
+        },
+        {
+          "label": "C",
+          "text": "Create a new group with the department name"
+        },
+        {
+          "label": "D",
+          "text": "Assign the user to a role that includes the attribute"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Custom attributes are set via the Azure AD Graph API (or Microsoft Graph) using extensions. See Microsoft Entra ID documentation on user attributes.",
+      "difficulty": "intermediate",
+      "tags": [
+        "entra-users",
+        "custom-attributes"
+      ]
+    },
+    {
+      "question_text": "A user is assigned a Microsoft 365 E3 license, but the license is not available because the tenant has reached its maximum license count. Which action should the administrator take to resolve this?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Remove an existing user to free a license"
+        },
+        {
+          "label": "B",
+          "text": "Purchase additional licenses from the admin center"
+        },
+        {
+          "label": "C",
+          "text": "Change the user's license type to a different SKU without affecting availability"
+        },
+        {
+          "label": "D",
+          "text": "Use the License management blade to increase the tenant's license limit"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "When the tenant license count is reached, you need to purchase additional licenses via the Microsoft 365 admin center. See Microsoft Entra ID licensing documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "licensing"
+      ]
+    },
+    {
+      "question_text": "To invite a partner organization’s user as a guest to Microsoft Entra ID, which option should you select in the 'New user' blade?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Select 'User' and set account type to 'Member'"
+        },
+        {
+          "label": "B",
+          "text": "Select 'Guest' and provide the email address"
+        },
+        {
+          "label": "C",
+          "text": "Select 'B2B collaboration' and enter the user's tenant ID"
+        },
+        {
+          "label": "D",
+          "text": "Select 'External Identity' and upload a CSV file"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "In the New user blade, you choose 'Guest user' to invite external users. Refer to Microsoft Entra ID B2B collaboration documentation.",
+      "difficulty": "easy",
+      "tags": [
+        "external-users"
+      ]
+    },
+    {
+      "question_text": "An organization wants to enable self-service password reset for its users while restricting it to members of a specific Azure AD group. Which configuration step is required?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable SSPR in the Microsoft Entra ID portal and then assign the 'Password Reset' role to the group"
+        },
+        {
+          "label": "B",
+          "text": "Turn on 'Authentication methods' in Azure AD and then manually reset passwords for group members"
+        },
+        {
+          "label": "C",
+          "text": "Configure Conditional Access to block SSPR for non‑group members"
+        },
+        {
+          "label": "D",
+          "text": "Create a new authentication method specifically for the group"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Enable SSPR in the Microsoft Entra ID portal, then assign the 'Password Reset' role to the desired security group. See Microsoft Entra ID SSPR documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "sspr",
+        "group-management"
+      ]
+    },
+    {
+      "question_text": "A company uses a dynamic group in Microsoft Entra ID that includes users whose job title contains 'Developer'. After a user changes their job title to 'Senior Developer', the user remains in the group. Which statement best describes why this occurs?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Dynamic groups evaluate membership only when the user is added"
+        },
+        {
+          "label": "B",
+          "text": "The group's rule uses the 'contains' operator which matches 'Senior Developer'"
+        },
+        {
+          "label": "C",
+          "text": "The user's object ID was manually added to the group"
+        },
+        {
+          "label": "D",
+          "text": "The group is set to 'User-based' instead of dynamic"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Dynamic groups are evaluated based on the rule expression; the 'contains' operator matches any title that includes the specified string, so 'Senior Developer' still satisfies the rule. Refer to Microsoft Entra ID documentation on dynamic group rules.",
+      "difficulty": "advanced",
+      "tags": [
+        "group-management",
+        "dynamic-groups"
+      ]
+    },
+    {
+      "question_text": "Which PowerShell cmdlet can be used to view all properties of a specific Microsoft Entra user?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Get-MgUser -UserId <user> -Property *"
+        },
+        {
+          "label": "B",
+          "text": "Get-AzureADUser -ObjectId <user>"
+        },
+        {
+          "label": "C",
+          "text": "Get-MgUser -UserId <user>"
+        },
+        {
+          "label": "D",
+          "text": "Get-EntraUser -TenantId <tenant>"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The Get-MgUser cmdlet with the -Property * parameter retrieves all user properties. See Microsoft Entra ID PowerShell guide.",
+      "difficulty": "easy",
+      "tags": [
+        "powershell",
+        "user-management"
+      ]
+    },
+    {
+      "question_text": "A guest user from a partner company has been assigned a Microsoft 365 license, but the license is not active. What is the most likely cause?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Guest users are not directly assigned licenses; they are assigned through their home tenant"
+        },
+        {
+          "label": "B",
+          "text": "The license was assigned before the guest accepted the invitation"
+        },
+        {
+          "label": "C",
+          "text": "Licenses are not available for guest accounts"
+        },
+        {
+          "label": "D",
+          "text": "The tenant's license count was exceeded for guest accounts"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Guest users are typically managed in their home tenant; licenses are assigned via the home tenant or through the Azure AD B2B collaboration settings. See Microsoft Entra ID external identities documentation.",
+      "difficulty": "intermediate",
+      "tags": [
+        "external-users",
+        "licensing"
+      ]
+    },
+    {
+      "question_text": "An administrator wants to enable self-service password reset for all users but exclude users in a specific Azure AD group. Which combination of settings achieves this?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable SSPR for all users, then disable the 'Password Reset' role for the excluded group"
+        },
+        {
+          "label": "B",
+          "text": "Create a separate SSPR policy for the excluded group and assign it to all users except that group"
+        },
+        {
+          "label": "C",
+          "text": "Turn on SSPR at the tenant level, then use Conditional Access to block SSPR for the excluded group"
+        },
+        {
+          "label": "D",
+          "text": "Use the 'Authentication methods' blade to remove the excluded group from the SSPR registration"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Enable SSPR tenant-wide, then configure a Conditional Access policy that denies SSPR access for the specific group. Refer to Microsoft Entra ID Conditional Access documentation.",
+      "difficulty": "advanced",
+      "tags": [
+        "sspr",
+        "conditional-access"
+      ]
+    },
+    {
+      "question_text": "To create a new Microsoft Entra group for project team members, which blade should you select?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Users > Groups > New group"
+        },
+        {
+          "label": "B",
+          "text": "Devices > Groups > New group"
+        },
+        {
+          "label": "C",
+          "text": "Applications > Groups > New group"
+        },
+        {
+          "label": "D",
+          "text": "Roles > Groups > New group"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "In the Microsoft Entra ID portal, you create a group by selecting Users, then Groups, then New group. See Microsoft Entra ID documentation on creating groups.",
+      "difficulty": "easy",
+      "tags": [
+        "group-management"
+      ]
+    }
+  ]
+}

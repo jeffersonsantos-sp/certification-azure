@@ -1,0 +1,280 @@
+{
+  "questions": [
+    {
+      "question_text": "Which Azure resource defines a subnet?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Virtual network"
+        },
+        {
+          "label": "B",
+          "text": "Network interface"
+        },
+        {
+          "label": "C",
+          "text": "Subnet"
+        },
+        {
+          "label": "D",
+          "text": "Public IP"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "A subnet is a subdivision of a virtual network that specifies a range of IP addresses.",
+      "difficulty": "easy",
+      "tags": [
+        "VNets",
+        "Subnets"
+      ]
+    },
+    {
+      "question_text": "Which statement is true regarding subnet address space?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Subnet address space must be a superset of the virtual network address space"
+        },
+        {
+          "label": "B",
+          "text": "Subnet address space must be a subset of the virtual network address space"
+        },
+        {
+          "label": "C",
+          "text": "Subnet can use any private IP range regardless of VNet"
+        },
+        {
+          "label": "D",
+          "text": "Subnet address space cannot overlap with any other subnet in the same VNet"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A subnet's address range must be within the address space of its parent virtual network.",
+      "difficulty": "easy",
+      "tags": [
+        "VNets",
+        "Subnets"
+      ]
+    },
+    {
+      "question_text": "What is required for two VNets to communicate via VNet peering?",
+      "options": [
+        {
+          "label": "A",
+          "text": "They must be in the same region"
+        },
+        {
+          "label": "B",
+          "text": "They must have a shared key"
+        },
+        {
+          "label": "C",
+          "text": "They must have non-overlapping IP address spaces"
+        },
+        {
+          "label": "D",
+          "text": "They must be linked via a VPN gateway"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "VNet peering requires non-overlapping IP address spaces in the connected virtual networks.",
+      "difficulty": "intermediate",
+      "tags": [
+        "VNets",
+        "Peering"
+      ]
+    },
+    {
+      "question_text": "When peering is established, which traffic flows are enabled by default?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Inbound only"
+        },
+        {
+          "label": "B",
+          "text": "Outbound only"
+        },
+        {
+          "label": "C",
+          "text": "Bidirectional"
+        },
+        {
+          "label": "D",
+          "text": "None"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "VNet peering enables bidirectional traffic between the peered virtual networks.",
+      "difficulty": "intermediate",
+      "tags": [
+        "VNets",
+        "Peering"
+      ]
+    },
+    {
+      "question_text": "Which SKU of Public IP is required for a public IP address that can be used with an Azure Load Balancer?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Basic"
+        },
+        {
+          "label": "B",
+          "text": "Standard"
+        },
+        {
+          "label": "C",
+          "text": "Regional"
+        },
+        {
+          "label": "D",
+          "text": "Internal"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Only the Standard SKU supports load balancers; Basic SKU is not compatible.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Public IPs"
+      ]
+    },
+    {
+      "question_text": "What happens to the public IP address when the associated VM is deallocated (stop)?",
+      "options": [
+        {
+          "label": "A",
+          "text": "It is released automatically"
+        },
+        {
+          "label": "B",
+          "text": "It remains assigned and retains its configuration"
+        },
+        {
+          "label": "C",
+          "text": "It changes to a new address"
+        },
+        {
+          "label": "D",
+          "text": "It becomes a private IP"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A public IP address remains allocated to the resource until explicitly released, even if the VM is stopped.",
+      "difficulty": "easy",
+      "tags": [
+        "Public IPs"
+      ]
+    },
+    {
+      "question_text": "Which statement about User Defined Routes (UDRs) is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "UDRs can only be configured at the subnet level"
+        },
+        {
+          "label": "B",
+          "text": "UDRs can override the default system routes"
+        },
+        {
+          "label": "C",
+          "text": "UDRs are applied only to Azure Firewall"
+        },
+        {
+          "label": "D",
+          "text": "UDRs are not supported in Azure Virtual WAN"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "UDRs allow you to specify custom routes that override Azure\u2019s default system routes.",
+      "difficulty": "intermediate",
+      "tags": [
+        "UDR"
+      ]
+    },
+    {
+      "question_text": "If two UDRs are defined for the same destination prefix, which factor determines which route is applied?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The order in which they were created"
+        },
+        {
+          "label": "B",
+          "text": "The route metric (priority)"
+        },
+        {
+          "label": "C",
+          "text": "The protocol type"
+        },
+        {
+          "label": "D",
+          "text": "The virtual network gateway SKU"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "UDR priority is determined by the route metric; lower metric routes are applied first.",
+      "difficulty": "intermediate",
+      "tags": [
+        "UDR"
+      ]
+    },
+    {
+      "question_text": "Which Azure tool would you use first to verify NSG rules affecting a VM?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Network Watcher"
+        },
+        {
+          "label": "B",
+          "text": "Azure Monitor"
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy"
+        },
+        {
+          "label": "D",
+          "text": "Azure Resource Graph"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Network Watcher includes features like NSG flow logs and the Connectivity+ test to troubleshoot network issues.",
+      "difficulty": "easy",
+      "tags": [
+        "Troubleshoot",
+        "Connectivity"
+      ]
+    },
+    {
+      "question_text": "Which of the following must be verified if VNet peering is not working?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Both VNets have the same subscription"
+        },
+        {
+          "label": "B",
+          "text": "Both VNets have non-overlapping IP address spaces"
+        },
+        {
+          "label": "C",
+          "text": "Both VNets have the same resource group"
+        },
+        {
+          "label": "D",
+          "text": "Both VNets have the same region"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Peering requires non-overlapping IP address spaces; overlapping ranges prevent traffic flow.",
+      "difficulty": "intermediate",
+      "tags": [
+        "Troubleshoot",
+        "Peering"
+      ]
+    }
+  ]
+}

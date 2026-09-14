@@ -1,0 +1,254 @@
+{
+  "questions": [
+    {
+      "question_text": "What does the 'type' property in an ARM template resource definition specify?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The API version of the resource provider"
+        },
+        {
+          "label": "B",
+          "text": "The resource provider namespace"
+        },
+        {
+          "label": "C",
+          "text": "The specific resource type within the provider"
+        },
+        {
+          "label": "D",
+          "text": "The deployment mode for the resource"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The 'type' defines the resource type, e.g., 'Microsoft.Compute/virtualMachines', which tells Azure what kind of resource to create.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "You need to change the SKU of a VM from 'Standard_B1s' to 'Standard_D2s_v3'. Which part of the template should you edit?",
+      "options": [
+        {
+          "label": "A",
+          "text": "parameters"
+        },
+        {
+          "label": "B",
+          "text": "variables"
+        },
+        {
+          "label": "C",
+          "text": "resources"
+        },
+        {
+          "label": "D",
+          "text": "outputs"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The SKU is part of the VM resource definition under 'resources', so you modify the 'sku' property there.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which command deploys a Bicep file named 'main.bicep' to a resource group called 'rg1'?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az deployment group create --template-file main.bicep --resource-group rg1"
+        },
+        {
+          "label": "B",
+          "text": "az bicep deploy --file main.bicep --resource-group rg1"
+        },
+        {
+          "label": "C",
+          "text": "az deployment sub create --template main.bicep --resource-group rg1"
+        },
+        {
+          "label": "D",
+          "text": "az resource create --bicep main.bicep --resource-group rg1"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The az deployment group create command with --template-file points to the Bicep file and specifies the target resource group.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "How can you convert an existing ARM JSON template into a Bicep file?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Use 'az bicep convert' command"
+        },
+        {
+          "label": "B",
+          "text": "Use 'az deployment sub create'"
+        },
+        {
+          "label": "C",
+          "text": "Use 'az resource export'"
+        },
+        {
+          "label": "D",
+          "text": "Use 'az bicep build'"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The az bicep convert command reads an ARM JSON template and outputs the equivalent Bicep source file.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "In an ARM template, what is the purpose of a 'defaultValue' for a parameter?",
+      "options": [
+        {
+          "label": "A",
+          "text": "It defines the data type of the parameter"
+        },
+        {
+          "label": "B",
+          "text": "It specifies the value used when the parameter is omitted"
+        },
+        {
+          "label": "C",
+          "text": "It sets the minimum allowed value for the parameter"
+        },
+        {
+          "label": "D",
+          "text": "It determines the deployment order of resources"
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "If a parameter is not supplied during deployment, Azure uses the defaultValue to provide a value.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which syntax is required to reference a parameter named 'vmName' inside a resource's 'name' property in an ARM template?",
+      "options": [
+        {
+          "label": "A",
+          "text": "parameters('vmName')"
+        },
+        {
+          "label": "B",
+          "text": "vmName"
+        },
+        {
+          "label": "C",
+          "text": "[parameters('vmName')]"
+        },
+        {
+          "label": "D",
+          "text": "${parameters('vmName')}"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "In ARM JSON, parameters are referenced with the brackets syntax: [parameters('vmName')].",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "What flag in 'az deployment group create' ensures that the deployment is rolled back if any resource fails?",
+      "options": [
+        {
+          "label": "A",
+          "text": "--mode Complete"
+        },
+        {
+          "label": "B",
+          "text": "--mode Lost"
+        },
+        {
+          "label": "C",
+          "text": "--mode OnError"
+        },
+        {
+          "label": "D",
+          "text": "--mode Default"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The --mode OnError flag tells Azure to roll back the entire deployment when any resource provisioning fails.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which command exports the definition of an existing resource into an ARM template?",
+      "options": [
+        {
+          "label": "A",
+          "text": "az resource export"
+        },
+        {
+          "label": "B",
+          "text": "az deployment group create"
+        },
+        {
+          "label": "C",
+          "text": "az bicep decompile"
+        },
+        {
+          "label": "D",
+          "text": "az resource show"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "az resource export captures the current state of a resource and generates an ARM JSON template representing it.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "When a Bicep file is compiled, which of the following statements is true?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The compiler validates the template against the Azure resource provider API versions"
+        },
+        {
+          "label": "B",
+          "text": "The compiler only checks syntax"
+        },
+        {
+          "label": "C",
+          "text": "The compiler generates PowerShell scripts"
+        },
+        {
+          "label": "D",
+          "text": "The compiler directly creates resources"
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "During compilation, Bicep validates the template against the latest API versions of the target resource providers.",
+      "difficulty": "intermediate",
+      "tags": []
+    },
+    {
+      "question_text": "Which top-level property defines output values in an ARM template?",
+      "options": [
+        {
+          "label": "A",
+          "text": "resources"
+        },
+        {
+          "label": "B",
+          "text": "parameters"
+        },
+        {
+          "label": "C",
+          "text": "outputs"
+        },
+        {
+          "label": "D",
+          "text": "variables"
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Outputs are declared under the 'outputs' top-level property, allowing you to expose values after deployment.",
+      "difficulty": "intermediate",
+      "tags": []
+    }
+  ]
+}
