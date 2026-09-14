@@ -12,6 +12,7 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Docker Hub](https://img.shields.io/badge/Docker%20Hub-updateinformatica-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
@@ -279,7 +280,32 @@ Before you begin, ensure you have the following installed:
 
 ## 🚀 Installation
 
-### Option 1: Docker (Recommended)
+### Option 0: Docker Hub (Quickest)
+
+Pull pre-built images directly from Docker Hub:
+
+```bash
+# Pull images
+docker pull updateinformatica/az104-frontend:latest
+docker pull updateinformatica/az104-backend:latest
+
+# Run frontend
+docker run -d -p 3000:80 updateinformatica/az104-frontend:latest
+
+# Run backend (requires PostgreSQL and Redis)
+docker run -d -p 8000:8000 \
+  -e DATABASE_URL=postgresql+asyncpg://postgres:postgres@host:5432/az104_trainer \
+  -e REDIS_URL=redis://host:6379/0 \
+  updateinformatica/az104-backend:latest
+```
+
+**Docker Hub Repositories:**
+| Image | Size | Link |
+|-------|------|------|
+| `az104-frontend` | ~94MB | [Docker Hub](https://hub.docker.com/r/updateinformatica/az104-frontend) |
+| `az104-backend` | ~539MB | [Docker Hub](https://hub.docker.com/r/updateinformatica/az104-backend) |
+
+### Option 1: Docker Compose (Recommended)
 
 This is the easiest way to run the entire application:
 
