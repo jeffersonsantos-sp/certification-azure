@@ -1,13 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Dashboard from './pages/Dashboard'
 import Practice from './pages/Practice'
 import MockExam from './pages/MockExam'
 import QuestionView from './pages/QuestionView'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import { User, logout } from './services/api'
 import { LanguageProvider, useLanguage } from './context/LanguageContext'
 import { languages, Language } from './i18n'
 
@@ -122,23 +119,6 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 function AppLayout() {
   const { t } = useLanguage()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [user, setUser] = useState<User | null>(null)
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user')
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser))
-      } catch {
-        localStorage.removeItem('user')
-      }
-    }
-  }, [])
-
-  const handleLogout = () => {
-    logout()
-    setUser(null)
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
@@ -197,27 +177,6 @@ function AppLayout() {
               </div>
 
               <LanguageSelector />
-
-              {user ? (
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-[#0078D4] to-[#00BCF2] rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20">
-                    {user.full_name?.charAt(0) || user.email.charAt(0).toUpperCase()}
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="text-sm text-gray-500 hover:text-gray-700 hidden sm:block"
-                  >
-                    {t('header.logout')}
-                  </button>
-                </div>
-              ) : (
-                <NavLink
-                  to="/login"
-                  className="btn-primary text-sm"
-                >
-                  {t('header.signIn')}
-                </NavLink>
-              )}
             </div>
           </div>
         </div>
@@ -232,8 +191,6 @@ function AppLayout() {
           <Route path="/practice/:domainId" element={<Practice />} />
           <Route path="/question/:questionId" element={<QuestionView />} />
           <Route path="/mock-exam" element={<MockExam />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
         </Routes>
       </main>
 
