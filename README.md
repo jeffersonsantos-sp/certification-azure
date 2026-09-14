@@ -1,983 +1,660 @@
+<div align="center">
+
 # ☁️ AZ-104 Trainer
 
-> **An intelligent web platform for practicing questions, simulating exams, analyzing performance, and preparing for the Microsoft Azure Administrator Associate (AZ-104) certification.**
+### Intelligent Web Platform for Microsoft Azure Administrator Associate Certification
 
-![Azure](https://img.shields.io/badge/Microsoft-Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
-![Python](https://img.shields.io/badge/Python-FastAPI-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![Docker](https://img.shields.io/badge/Container-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Terraform](https://img.shields.io/badge/IaC-Terraform-844FBA?style=for-the-badge&logo=terraform&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/Orchestration-Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Azure](https://img.shields.io/badge/Microsoft%20Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
----
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-# 🎯 Project Overview
-
-**AZ-104 Trainer** is a web application designed to help Azure professionals, Cloud Engineers, DevOps Engineers, and students prepare for the **Microsoft Azure Administrator Associate (AZ-104)** certification.
-
-The application goes beyond a traditional question bank by providing:
-
-- 📝 Practice questions
-- 🧪 Mock exams
-- 🤖 AI-powered explanations
-- 📊 Performance analytics
-- 🎯 Knowledge-gap detection
-- 🔄 Smart review and spaced repetition
-- 🗺️ Personalized study recommendations
-- 🏆 Gamification and achievements
-
-The main goal is to answer one important question:
-
-> **Am I really ready to take the AZ-104 certification exam?**
+</div>
 
 ---
 
-# 💡 The Idea
+## 📋 Table of Contents
 
-The user answers questions related to Azure administration and receives immediate feedback.
-
-Example:
-
-```text
-❌ Your answer: C
-
-✅ Correct answer: B
-
-Explanation:
-
-Azure RBAC is used to manage access to Azure resources.
-It allows permissions to be assigned to users, groups,
-managed identities, and service principals.
-
-Domain:
-Identity and Governance
-
-Your current performance:
-62%
-
-Recommended topics:
-- Azure RBAC
-- Azure Policy
-- Management Groups
-```
-
-Over time, the platform builds a **knowledge profile** for each user.
+- [About](#-about)
+- [Key Features](#-key-features)
+- [Tech Stack](#-tech-stack)
+- [Architecture](#-architecture)
+- [Project Structure](#-project-structure)
+- [Prerequisites](#-prerequisites)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Running the Application](#-running-the-application)
+- [API Documentation](#-api-documentation)
+- [AZ-104 Certification Domains](#-az-104-certification-domains)
+- [Contributing](#-contributing)
+- [Author](#-author)
 
 ---
 
-# 🚀 Core Features
+## 🎯 About
 
-## 1. 📝 Question Bank
+**AZ-104 Trainer** is a full-stack web application designed to help IT professionals prepare for the **Microsoft Azure Administrator Associate (AZ-104)** certification exam.
 
-Questions organized by AZ-104 domains and topics.
+This platform goes beyond a traditional question bank by providing:
 
-Possible categories:
+- **293+ Practice Questions** across 5 certification domains
+- **AI-Powered Explanations** for every answer
+- **Mock Exams** that simulate the real certification experience
+- **Performance Analytics** with domain-specific insights
+- **Internationalization (i18n)** supporting English and Portuguese (PT-BR)
 
-- Identity and Governance
-- Compute
-- Storage
-- Virtual Networking
-- Monitoring
-- Backup and Recovery
-- Security
-- Resource Management
-
-Each question may contain:
-
-```text
-Question
-Multiple-choice options
-Correct answer
-Detailed explanation
-Difficulty level
-Certification domain
-Tags
-Reference documentation
-User answer history
-```
+The project demonstrates practical skills in **Cloud Architecture**, **DevOps**, **Full-Stack Development**, and **AI Integration**.
 
 ---
 
-## 2. 🎯 Training Mode
+## ✨ Key Features
 
-Users can create customized study sessions.
+### 📝 Question Bank
+- 293+ carefully crafted questions
+- Organized by 5 AZ-104 certification domains
+- Multiple difficulty levels (Easy, Intermediate, Advanced)
+- Detailed explanations for every answer
+- Tags and references to official documentation
 
-Example:
+### 🎯 Practice Mode
+- Study by domain with targeted questions
+- Choose difficulty level
+- Select number of questions (5-30)
+- Learning mode (see answers immediately) or Exam mode (answers at the end)
+- Real-time score tracking
 
-```text
-Choose a topic:
+### 🧪 Mock Exam
+- Timed exams (60/90/120 minutes)
+- Configurable number of questions (40/50/60)
+- Randomized question order
+- Question navigator for easy navigation
+- Detailed performance breakdown by skill
+- Pass/fail scoring (70% threshold)
 
-[ Azure Networking ]
-[ Azure Storage ]
-[ Identity & Governance ]
-[ Azure Compute ]
-[ Monitoring ]
-[ Mixed Questions ]
-```
-
-Configuration:
-
-```text
-Number of questions: 10
-
-Difficulty:
-○ Beginner
-○ Intermediate
-○ Advanced
-
-Mode:
-○ Learning
-○ Exam
-```
-
----
-
-## 3. 🧪 Mock Exam Mode
-
-A dedicated mode that simulates a certification exam.
-
-Features:
-
-- ⏱️ Timer
-- 🔀 Randomized questions
-- 📊 Final score
-- 🎯 Performance by domain
-- 📈 Historical comparison
-- 🧠 Review of incorrect answers
-
-Example:
-
-```text
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-        AZ-104 RESULT
-
-        Score: 78%
-
-        READINESS: GOOD 🚀
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Identity & Governance      ████████░░ 80%
-Storage                    ██████░░░░ 65%
-Compute                    █████████░ 90%
-Networking                 █████░░░░░ 50%
-Monitoring                 ████████░░ 82%
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Main improvement area:
-
-Azure Networking
-```
-
----
-
-## 4. 🤖 AI Explanation Engine
-
-The user can request an AI explanation for each question.
-
-The AI can explain:
-
-- Why the correct answer is correct
-- Why other alternatives are incorrect
-- Which Azure concept is being tested
-- Practical examples
-- Best practices
-- Related Azure services
-
-Example:
-
-```text
-🤖 Explain with AI
-
-Azure RBAC should be used because it provides
-role-based access control for Azure resources.
-
-Example:
-
-DevOps Team
-      ↓
-Contributor Role
-      ↓
-Resource Group
-```
-
----
-
-## 5. 📊 Performance Dashboard
-
-Each user has a personalized dashboard.
-
-Metrics:
-
+### 📊 Performance Dashboard
 - Total questions answered
-- Accuracy rate
-- Questions answered per day
-- Study streak
-- Average response time
-- Performance evolution
-- Results by certification domain
-- Exam readiness score
+- Domain-specific progress bars
+- Approved questions count
+- Quick action buttons for Practice and Mock Exam
 
-Example:
+### 🌍 Internationalization
+- Full EN/PT-BR support
+- Language selector in header
+- Persistent language preference (localStorage)
+- All UI elements translated
 
-```text
-┌─────────────────────────────────────┐
-│          AZ-104 PROGRESS            │
-├─────────────────────────────────────┤
-│ Questions Answered       1,248      │
-│ Accuracy                 74%        │
-│ Study Streak             🔥 12 days │
-│                                     │
-│ Estimated Readiness      78%        │
-└─────────────────────────────────────┘
+### 🔐 Authentication
+- User registration and login
+- JWT-based authentication
+- Secure password hashing
+- Protected API routes
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | 18.2 | UI Framework |
+| TypeScript | 5.9 | Type Safety |
+| Tailwind CSS | 3.4 | Styling |
+| Vite | 5.0 | Build Tool |
+| React Router | 6.21 | Routing |
+| Axios | 1.6 | HTTP Client |
+| Recharts | 2.10 | Charts |
+
+### Backend
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Python | 3.11 | Runtime |
+| FastAPI | 0.109+ | API Framework |
+| SQLAlchemy | 2.0 | ORM |
+| Alembic | 1.13 | Migrations |
+| Pydantic | 2.0 | Data Validation |
+| JWT (python-jose) | 3.3 | Authentication |
+| Passlib | 1.7 | Password Hashing |
+
+### Database & Cache
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| PostgreSQL | 16 | Primary Database |
+| Redis | 7 | Caching & Sessions |
+
+### DevOps
+| Technology | Purpose |
+|------------|---------|
+| Docker | Containerization |
+| Docker Compose | Multi-container Orchestration |
+| Nginx | Frontend Serving & Reverse Proxy |
+
+---
+
+## 🏗️ Architecture
+
+```
+                    ┌─────────────────────────────────┐
+                    │           USER                  │
+                    │        Web Browser              │
+                    └───────────────┬─────────────────┘
+                                    │
+                                    ▼
+                    ┌─────────────────────────────────┐
+                    │        FRONTEND                 │
+                    │   React + TypeScript + Vite     │
+                    │        Port: 3000               │
+                    └───────────────┬─────────────────┘
+                                    │
+                                    ▼
+                    ┌─────────────────────────────────┐
+                    │         BACKEND                 │
+                    │       FastAPI + Python          │
+                    │        Port: 8000               │
+                    └───────┬───────────────┬─────────┘
+                            │               │
+                ┌───────────┴───┐   ┌───────┴─────────┐
+                ▼               ▼   ▼                  ▼
+        ┌──────────────┐ ┌──────────────┐    ┌──────────────┐
+        │  PostgreSQL  │ │    Redis     │    │  Azure OpenAI│
+        │  Database    │ │    Cache     │    │  AI Engine   │
+        │  Port: 5432  │ │  Port: 6379  │    │  (Optional)  │
+        └──────────────┘ └──────────────┘    └──────────────┘
+```
+
+### Request Flow
+
+```
+Client Request → Nginx (Port 80) → Frontend Static Files
+                                  → /api/* → FastAPI (Port 8000)
+                                           → PostgreSQL
+                                           → Redis Cache
 ```
 
 ---
 
-## 6. 🧠 Knowledge Gap Detection
+## 📁 Project Structure
 
-The platform analyzes the user's answers and identifies weak areas.
-
-Example:
-
-```text
-⚠️ Knowledge Gaps Detected
-
-1. Azure Networking
-   Accuracy: 48%
-
-2. Azure Storage
-   Accuracy: 56%
-
-3. Identity and Governance
-   Accuracy: 61%
 ```
-
-The application can then recommend:
-
-```text
-🎯 Next Study Session
-
-1. Review Azure Virtual Networks
-2. Practice NSG questions
-3. Review Azure Load Balancer
-4. Study Azure DNS
-5. Take a Networking Quiz
-```
-
----
-
-## 7. 🔄 Smart Review System
-
-The project can implement **Spaced Repetition**.
-
-Questions answered incorrectly return for review at strategic intervals.
-
-Example:
-
-```text
-❌ Incorrect Answer
-
-Review Schedule:
-
-1st review → Tomorrow
-2nd review → 3 days
-3rd review → 7 days
-4th review → 14 days
-```
-
----
-
-## 8. 🏆 Gamification
-
-Users can unlock achievements and maintain study streaks.
-
-Examples:
-
-```text
-🥉 Azure Beginner
-Complete 100 questions
-
-🥈 Cloud Explorer
-Complete 500 questions
-
-🥇 Azure Administrator
-Complete 1,000 questions
-
-🔥 7 Day Streak
-Study for 7 consecutive days
-
-🧠 Networking Master
-Achieve 90%+ in Azure Networking
-```
-
----
-
-# 🗺️ Study Roadmap
-
-```text
-START
-  │
-  ▼
-Identity & Governance
-  ├── Microsoft Entra ID
-  ├── Azure RBAC
-  ├── Azure Policy
-  └── Management Groups
-  │
-  ▼
-Storage
-  ├── Storage Accounts
-  ├── Blob Storage
-  ├── Azure Files
-  └── Storage Security
-  │
-  ▼
-Compute
-  ├── Virtual Machines
-  ├── App Services
-  ├── Containers
-  └── VM Availability
-  │
-  ▼
-Networking
-  ├── Virtual Networks
-  ├── NSG
-  ├── Load Balancer
-  ├── Application Gateway
-  ├── Azure DNS
-  └── Azure Firewall
-  │
-  ▼
-Monitoring & Backup
-  │
-  ▼
-🎯 EXAM READY
-```
-
----
-
-# 🏗️ Proposed Architecture
-
-```text
-                    ┌───────────────────┐
-                    │       USER        │
-                    │    Web Browser    │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │     FRONTEND      │
-                    │ React / Next.js   │
-                    └─────────┬─────────┘
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │      BACKEND      │
-                    │      FastAPI      │
-                    └─────────┬─────────┘
-                              │
-          ┌───────────────────┼───────────────────┐
-          │                   │                   │
-          ▼                   ▼                   ▼
-┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-│ Question Engine │ │ Analytics Engine│ │    AI Engine    │
-└────────┬────────┘ └────────┬────────┘ └────────┬────────┘
-         │                   │                   │
-         └───────────────────┼───────────────────┘
-                             │
-                             ▼
-                    ┌───────────────────┐
-                    │    PostgreSQL     │
-                    └───────────────────┘
-```
-
----
-
-# ⚙️ Technology Stack
-
-## Frontend
-
-- React or Next.js
-- TypeScript
-- Tailwind CSS
-- Recharts or Chart.js
-- React Query
-
-## Backend
-
-- Python
-- FastAPI
-- Pydantic
-- SQLAlchemy
-- JWT Authentication
-- Alembic
-
-## Database
-
-- PostgreSQL
-- Redis
-
-## AI Layer
-
-Possible providers:
-
-- Azure OpenAI
-- OpenRouter
-- Other LLM APIs
-
-AI use cases:
-
-- Personalized explanations
-- Feedback generation
-- Study recommendations
-- Knowledge-gap analysis
-- Question generation for practice
-
----
-
-# ☁️ Azure Architecture
-
-The project itself can serve as a complete Cloud and DevOps portfolio project.
-
-```text
-                         INTERNET
-                             │
-                             ▼
-                    Azure Front Door
-                             │
-                             ▼
-                  Azure Kubernetes Service
-                            AKS
-                             │
-          ┌──────────────────┼──────────────────┐
-          │                  │                  │
-          ▼                  ▼                  ▼
-       Frontend           Backend           AI Service
-        Pods               Pods
-          │                  │
-          └──────────┬───────┘
-                     │
-                     ▼
-              Azure Database
-              for PostgreSQL
-                     │
-          ┌──────────┴──────────┐
-          ▼                     ▼
-     Azure Cache            Key Vault
-      for Redis
-```
-
----
-
-# 🔄 DevOps Workflow
-
-```text
-Developer
-    │
-    ▼
-GitHub
-    │
-    ▼
-GitHub Actions
-    │
-    ├── Lint
-    ├── Unit Tests
-    ├── Security Scan
-    ├── Build
-    └── Docker Image
-            │
-            ▼
-    Azure Container Registry
-            │
-            ▼
-         Terraform
-            │
-            ▼
-    Azure Infrastructure
-            │
-            ▼
-            AKS
-            │
-            ▼
-       Argo CD / GitOps
-            │
-            ▼
-        Production
-```
-
----
-
-# 🏗️ Infrastructure as Code
-
-Infrastructure can be provisioned with **Terraform**.
-
-Possible resources:
-
-```text
-Azure Resource Group
-Azure Kubernetes Service
-Azure Container Registry
-Azure Database for PostgreSQL
-Azure Key Vault
-Azure Application Insights
-Azure Monitor
-Azure Storage Account
-Azure Front Door
-Azure Cache for Redis
-```
-
-Suggested repository structure:
-
-```text
-infrastructure/
-├── modules/
-│   ├── aks/
-│   ├── acr/
-│   ├── postgres/
-│   ├── key-vault/
-│   └── monitoring/
+certification-azure/
 │
-├── environments/
-│   ├── dev/
-│   ├── staging/
-│   └── prod/
-│
-├── providers.tf
-├── variables.tf
-├── outputs.tf
-└── main.tf
-```
-
----
-
-# 🔐 Security and DevSecOps
-
-Recommended security practices:
-
-- GitHub Secrets or OIDC authentication
-- Azure Key Vault
-- Managed Identities
-- Secret rotation
-- RBAC
-- Least privilege
-- Container image scanning
-- Infrastructure scanning
-- Dependency scanning
-
-Possible tools:
-
-- Trivy
-- Checkov
-- GitHub CodeQL
-- SonarQube
-- Kyverno
-
----
-
-# 📁 Project Structure
-
-```text
-az104-trainer/
-│
-├── frontend/
+├── frontend/                          # React Frontend
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   └── types/
-│   │
-│   └── package.json
+│   │   ├── components/               # Reusable components
+│   │   ├── context/                  # React contexts
+│   │   │   └── LanguageContext.tsx   # i18n context provider
+│   │   ├── i18n/                     # Internationalization
+│   │   │   ├── en.ts                 # English translations
+│   │   │   ├── pt.ts                 # Portuguese translations
+│   │   │   └── index.ts              # i18n utilities
+│   │   ├── pages/                    # Page components
+│   │   │   ├── Dashboard.tsx         # Main dashboard
+│   │   │   ├── Login.tsx             # Login page
+│   │   │   ├── Register.tsx          # Registration page
+│   │   │   ├── Practice.tsx          # Practice mode
+│   │   │   ├── MockExam.tsx          # Mock exam mode
+│   │   │   └── QuestionView.tsx      # Single question view
+│   │   ├── services/                 # API services
+│   │   │   └── api.ts                # Axios API client
+│   │   ├── App.tsx                   # Main app with routing
+│   │   ├── main.tsx                  # Entry point
+│   │   └── index.css                 # Global styles
+│   ├── Dockerfile                    # Multi-stage Docker build
+│   ├── nginx.conf                    # Nginx configuration
+│   ├── package.json                  # Node.js dependencies
+│   ├── tailwind.config.js            # Tailwind configuration
+│   ├── tsconfig.json                 # TypeScript configuration
+│   └── vite.config.ts                # Vite configuration
 │
-├── backend/
+├── backend/                           # FastAPI Backend
 │   ├── app/
-│   │   ├── api/
-│   │   ├── core/
-│   │   ├── models/
-│   │   ├── schemas/
-│   │   ├── services/
-│   │   └── database/
-│   │
-│   ├── tests/
-│   └── requirements.txt
+│   │   ├── api/                      # API routes
+│   │   │   ├── auth.py               # Authentication endpoints
+│   │   │   └── questions.py          # Questions endpoints
+│   │   ├── core/                     # Core configuration
+│   │   │   ├── config.py             # App settings
+│   │   │   └── database.py           # Database connection
+│   │   ├── models/                   # SQLAlchemy models
+│   │   │   └── models.py             # Database models
+│   │   └── main.py                   # FastAPI app entry
+│   ├── questions/                    # Question data (JSON)
+│   ├── Dockerfile                    # Backend Docker image
+│   └── requirements.txt              # Python dependencies
 │
-├── infrastructure/
-│   └── terraform/
+├── scripts/                           # Utility scripts
+│   ├── generate.py                   # AI question generation
+│   ├── generate-batch.sh             # Batch generation script
+│   ├── import_questions.py           # Question importer
+│   └── validate.py                   # Question validator
 │
-├── kubernetes/
-│   ├── frontend/
-│   ├── backend/
-│   ├── ingress/
-│   └── monitoring/
+├── skills-measured/                   # AZ-104 exam data
+│   ├── az104-skills.json             # Official skills breakdown
+│   └── PIPELINE.md                   # Generation pipeline docs
 │
-├── .github/
-│   └── workflows/
-│       ├── frontend-ci.yml
-│       ├── backend-ci.yml
-│       ├── infrastructure-ci.yml
-│       └── deploy.yml
+├── questions/                         # Generated questions
+│   └── drafts/                       # Draft questions by domain
 │
-├── docker-compose.yml
-├── README.md
-└── LICENSE
+├── docker-compose.yml                 # Multi-container setup
+├── .env.example                       # Environment template
+├── .gitignore                         # Git ignore rules
+└── README.md                          # This file
 ```
 
 ---
 
-# 📡 API Design
+## ⚠️ Prerequisites
 
-## Get Questions
+Before you begin, ensure you have the following installed:
 
-```http
-GET /api/v1/questions
+- **Docker** (v20.10+) and **Docker Compose** (v2.0+)
+- **Node.js** (v18+) and **npm** (v9+) — for local frontend development
+- **Python** (v3.11+) — for local backend development
+- **Git** (v2.30+)
+
+---
+
+## 🚀 Installation
+
+### Option 1: Docker (Recommended)
+
+This is the easiest way to run the entire application:
+
+```bash
+# Clone the repository
+git clone git@github.com:jeffersonsantos-sp/certification-azure.git
+cd certification-azure
+
+# Start all services
+docker compose up -d
+
+# Access the application
+open http://localhost:3000
 ```
 
-Example response:
+**Services will be available at:**
+- Frontend: `http://localhost:3000`
+- Backend API: `http://localhost:8000`
+- API Docs (Swagger): `http://localhost:8000/docs`
+- PostgreSQL: `localhost:5432`
+- Redis: `localhost:6379`
 
-```json
-{
-  "id": "az104-001",
-  "question": "Which Azure service should you use to manage access to Azure resources?",
-  "options": [
-    "Azure Monitor",
-    "Azure RBAC",
-    "Azure Backup",
-    "Azure Advisor"
-  ],
-  "category": "Identity and Governance",
-  "difficulty": "Intermediate"
-}
+### Option 2: Local Development
+
+#### Backend Setup
+
+```bash
+# Navigate to backend
+cd backend
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate   # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp ../.env.example .env
+# Edit .env with your settings
+
+# Run the server
+uvicorn app.main:app --reload --port 8000
+```
+
+#### Frontend Setup
+
+```bash
+# Navigate to frontend
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
 ---
 
-## Submit Answer
+## ⚙️ Configuration
 
-```http
-POST /api/v1/questions/{id}/answer
+### Environment Variables
+
+Create a `.env` file in the project root (see `.env.example`):
+
+```env
+# OpenRouter / AI Configuration
+OPENAI_API_KEY=your-api-key-here
+OPENAI_BASE_URL=https://openrouter.ai/api/v1
+OPENAI_MODEL=nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free
+
+# PostgreSQL
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/az104_trainer
+
+# Redis
+REDIS_URL=redis://localhost:6379/0
+
+# JWT Authentication
+JWT_SECRET_KEY=your-secret-key-here
+JWT_ALGORITHM=HS256
+JWT_EXPIRE_MINUTES=1440
+
+# Environment
+ENVIRONMENT=development
+DEBUG=true
 ```
 
-Request:
+### Backend Configuration
 
-```json
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DATABASE_URL` | `postgresql+asyncpg://...` | PostgreSQL connection string |
+| `REDIS_URL` | `redis://localhost:6379/0` | Redis connection URL |
+| `JWT_SECRET_KEY` | `change-this-in-production` | Secret key for JWT tokens |
+| `JWT_ALGORITHM` | `HS256` | JWT signing algorithm |
+| `JWT_EXPIRE_MINUTES` | `1440` | Token expiration (24h) |
+| `CORS_ORIGINS` | `["http://localhost:3000"]` | Allowed CORS origins |
+
+---
+
+## 🏃 Running the Application
+
+### Docker Compose Commands
+
+```bash
+# Start all services (detached)
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# View specific service logs
+docker compose logs -f backend
+docker compose logs -f frontend
+
+# Stop all services
+docker compose down
+
+# Stop and remove volumes
+docker compose down -v
+
+# Rebuild images
+docker compose build --no-cache
+
+# Check service status
+docker compose ps
+```
+
+### Development Commands
+
+```bash
+# Frontend
+cd frontend
+npm run dev          # Start dev server (port 5173)
+npm run build        # Production build
+npm run lint         # Run ESLint
+npm run preview      # Preview production build
+
+# Backend
+cd backend
+uvicorn app.main:app --reload     # Hot reload
+python -m pytest                  # Run tests
+ruff check .                      # Lint Python code
+```
+
+---
+
+## 📡 API Documentation
+
+### Interactive Docs
+
+Once the backend is running, access the interactive API documentation:
+
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
+
+### API Endpoints
+
+#### Authentication
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/v1/auth/register` | Register new user |
+| `POST` | `/api/v1/auth/login` | Login user |
+| `GET` | `/api/v1/auth/me` | Get current user |
+
+#### Questions
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/v1/questions/` | List questions (with filters) |
+| `GET` | `/api/v1/questions/random` | Get random questions |
+| `GET` | `/api/v1/questions/{id}` | Get single question |
+| `POST` | `/api/v1/questions/{id}/answer` | Submit answer |
+| `GET` | `/api/v1/questions/stats` | Get statistics |
+
+### Request/Response Examples
+
+#### Submit Answer
+
+**Request:**
+```http
+POST /api/v1/questions/ig-01-001/answer
+Content-Type: application/json
+Authorization: Bearer <token>
+
 {
-  "answer": "Azure RBAC"
+  "answer": "B"
 }
 ```
 
-Response:
-
+**Response:**
 ```json
 {
   "correct": true,
-  "explanation": "Azure RBAC provides role-based access control for Azure resources.",
-  "category": "Identity and Governance",
-  "user_accuracy": 78
+  "correct_answer": "B",
+  "explanation": "Azure RBAC provides role-based access control for Azure resources. It allows permissions to be assigned to users, groups, managed identities, and service principals."
 }
 ```
 
 ---
 
-## Dashboard
+## 📚 AZ-104 Certification Domains
 
-```http
-GET /api/v1/dashboard
-```
+The application covers all 5 domains of the Microsoft Azure Administrator Associate exam:
 
-Possible response:
+### 1. Identity and Governance (20-25%)
+- Microsoft Entra ID (users, groups, licenses)
+- Azure RBAC and access management
+- Azure Policy and resource locks
+- Subscriptions and management groups
+- Cost management
 
-```json
-{
-  "questions_answered": 1248,
-  "accuracy": 74,
-  "study_streak": 12,
-  "estimated_readiness": 78,
-  "weakest_domains": [
-    "Networking",
-    "Storage"
-  ]
-}
+### 2. Storage (15-20%)
+- Storage accounts configuration
+- Blob Storage and Azure Files
+- Storage security (firewalls, SAS tokens)
+- Data redundancy and replication
+- Lifecycle management
+
+### 3. Compute (20-25%)
+- Virtual Machines deployment and management
+- ARM templates and Bicep
+- Azure Container Instances and Container Apps
+- App Service configuration
+- VM Scale Sets
+
+### 4. Networking (15-20%)
+- Virtual Networks and subnets
+- Network Security Groups (NSGs)
+- Load Balancers and Application Gateway
+- Azure DNS
+- Private Endpoints
+
+### 5. Monitoring (10-15%)
+- Azure Monitor metrics and logs
+- Alert rules and action groups
+- Azure Backup and Recovery Services
+- Azure Site Recovery
+- Network Watcher
+
+---
+
+## 🤖 AI Question Generation
+
+The project includes scripts for AI-powered question generation:
+
+```bash
+# Generate questions for a specific skill
+python scripts/generate.py --skill ig-01 --count 10
+
+# Batch generate for multiple skills
+bash scripts/generate-batch.sh
+
+# Validate generated questions
+python scripts/validate.py --file questions/drafts/ig-01.json
+
+# Import questions to database
+python scripts/import_questions.py --file questions/drafts/ig-01.json
 ```
 
 ---
 
-# 🗄️ Suggested Data Model
+## 🌍 Internationalization (i18n)
 
-Core entities:
+The application supports multiple languages:
 
-```text
-User
-Question
-Answer
-Category
-Exam
-ExamAttempt
-StudySession
-ReviewSchedule
-Achievement
-UserAchievement
-```
+- **English (EN)** — Default
+- **Português (PT-BR)**
 
-Basic relationship:
+### Adding a New Language
 
-```text
-User
- ├── Answers
- ├── Exam Attempts
- ├── Study Sessions
- ├── Review Schedule
- └── Achievements
+1. Create a new translation file in `frontend/src/i18n/`:
+   ```typescript
+   // frontend/src/i18n/es.ts
+   import type { Translations } from './en'
+   
+   const es: Translations = {
+     lang: 'es',
+     langLabel: 'Español',
+     langFlag: '🇪🇸',
+     // ... translations
+   }
+   
+   export default es
+   ```
 
-Question
- ├── Category
- ├── Options
- ├── Correct Answer
- └── Explanations
+2. Register the language in `frontend/src/i18n/index.ts`:
+   ```typescript
+   import es from './es'
+   
+   export const languages = {
+     en,
+     'pt-BR': pt,
+     es,  // Add here
+   } as const
+   ```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Backend tests
+cd backend
+python -m pytest tests/ -v
+
+# Frontend lint
+cd frontend
+npm run lint
+
+# Type checking
+cd frontend
+npx tsc --noEmit
 ```
 
 ---
 
-# 🎯 MVP Scope
+## 🚢 Deployment
 
-The first version should focus on delivering a usable product.
-
-## Phase 1 — Foundation
-
-- [ ] Create Git repository
-- [ ] Define application architecture
-- [ ] Configure Docker Compose
-- [ ] Configure PostgreSQL
-- [ ] Create FastAPI project
-- [ ] Create frontend project
-- [ ] Implement environment configuration
-
-## Phase 2 — Authentication
-
-- [ ] User registration
-- [ ] Login
-- [ ] JWT authentication
-- [ ] Password hashing
-- [ ] User profile
-
-## Phase 3 — Question Engine
-
-- [ ] Create question model
-- [ ] Create categories
-- [ ] Create multiple-choice questions
-- [ ] Submit answers
-- [ ] Calculate correctness
-- [ ] Display explanations
-
-## Phase 4 — Dashboard
-
-- [ ] Total questions answered
-- [ ] Accuracy rate
-- [ ] Performance by category
-- [ ] Study history
-- [ ] Basic charts
-
-## Phase 5 — Mock Exam
-
-- [ ] Random question generation
-- [ ] Timer
-- [ ] Final score
-- [ ] Detailed result
-- [ ] Incorrect-answer review
-
----
-
-# 🚀 Future Versions
-
-## Version 2
-
-- [ ] AI explanations
-- [ ] Smart study plan
-- [ ] Spaced repetition
-- [ ] Advanced analytics
-- [ ] Gamification
-- [ ] Badges
-- [ ] Daily challenges
-
-## Version 3
-
-- [ ] AI Tutor
-- [ ] Voice mode
-- [ ] Adaptive difficulty
-- [ ] Personalized certification readiness
-- [ ] Mobile application
-- [ ] Multi-certification support
-
----
-
-# 📊 Certification Readiness Score
-
-One of the main differentiators can be a calculated readiness score.
-
-Example:
+### Azure Deployment (Production)
 
 ```text
-┌─────────────────────────────────────┐
-│      CERTIFICATION READINESS        │
-│                                     │
-│              82%                    │
-│                                     │
-│         ████████░░                  │
-│                                     │
-│ 🟢 You are almost ready!            │
-│                                     │
-│ Recommended actions:                │
-│                                     │
-│ • Improve Networking                │
-│ • Review Azure Storage              │
-│ • Complete 2 mock exams             │
-└─────────────────────────────────────┘
+                    INTERNET
+                        │
+                        ▼
+              Azure Front Door
+                        │
+                        ▼
+          Azure Kubernetes Service
+                      AKS
+                        │
+        ┌───────────────┼───────────────┐
+        ▼               ▼               ▼
+     Frontend         Backend        AI Service
+      Pods             Pods
+        │               │
+        └───────┬───────┘
+                │
+                ▼
+         Azure Database
+         for PostgreSQL
+                │
+    ┌───────────┴───────────┐
+    ▼                       ▼
+Azure Cache            Key Vault
+ for Redis
 ```
 
-The score could consider:
+### Docker to Azure
 
-```text
-Accuracy
-+
-Question difficulty
-+
-Performance by domain
-+
-Recent performance
-+
-Mock exam results
-+
-Response consistency
+```bash
+# Build and tag images
+docker build -t your-registry.azurecr.io/az104-frontend:latest ./frontend
+docker build -t your-registry.azurecr.io/az104-backend:latest ./backend
+
+# Push to Azure Container Registry
+docker push your-registry.azurecr.io/az104-frontend:latest
+docker push your-registry.azurecr.io/az104-backend:latest
 ```
 
 ---
 
-# 🌍 Future Expansion
+## 📊 Project Metrics
 
-The project can evolve into a broader certification platform:
-
-```text
-CloudCert Trainer
-│
-├── Microsoft Azure
-│   ├── AZ-900
-│   ├── AZ-104
-│   ├── AZ-305
-│   └── AZ-400
-│
-├── AWS
-│   ├── Cloud Practitioner
-│   ├── Solutions Architect
-│   ├── SysOps
-│   └── DevOps Engineer
-│
-├── Kubernetes
-│   ├── CKA
-│   ├── CKAD
-│   └── CKS
-│
-└── HashiCorp
-    └── Terraform Associate
-```
+| Metric | Value |
+|--------|-------|
+| Questions | 293+ |
+| Certification Domains | 5 |
+| API Endpoints | 10+ |
+| Supported Languages | 2 (EN, PT-BR) |
+| Frontend Components | 6 pages |
+| Backend Services | FastAPI + PostgreSQL |
+| Containerization | Docker + Docker Compose |
 
 ---
 
-# 🧭 Suggested Development Roadmap
+## 🤝 Contributing
 
-## Sprint 1
+Contributions are welcome! Please follow these steps:
 
-```text
-Project setup
-Docker Compose
-FastAPI
-PostgreSQL
-Frontend
-Authentication
-```
-
-## Sprint 2
-
-```text
-Question CRUD
-Categories
-Question answering
-Result validation
-```
-
-## Sprint 3
-
-```text
-User dashboard
-Analytics
-Charts
-Performance by domain
-```
-
-## Sprint 4
-
-```text
-Mock exams
-Timer
-Exam results
-Question review
-```
-
-## Sprint 5
-
-```text
-AI integration
-Smart explanations
-Study recommendations
-Knowledge-gap detection
-```
-
-## Sprint 6
-
-```text
-Terraform
-Azure infrastructure
-CI/CD
-Kubernetes
-Monitoring
-```
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ---
 
-# 🧑‍💻 Portfolio Value
+## 📄 License
 
-This project is designed to demonstrate practical skills in:
-
-```text
-☁️ Azure Cloud
-🐳 Docker
-☸️ Kubernetes
-🏗️ Terraform
-🔄 CI/CD
-🔐 DevSecOps
-📊 Observability
-🐍 Python
-⚡ FastAPI
-🗄️ PostgreSQL
-🎨 Modern Frontend
-🤖 Artificial Intelligence
-```
-
-It can serve both as:
-
-1. **A real study platform for Azure certifications**
-2. **A complete Cloud/DevOps portfolio project**
-
----
-
-# 🎯 Final Vision
-
-> **Build. Practice. Analyze. Improve. Certify. 🚀**
-
-**AZ-104 Trainer** is not intended to be only a collection of questions.
-
-The vision is to create a **Personal Cloud Certification Coach** capable of helping users understand their current level, identify weaknesses, practice strategically, and build confidence before taking the AZ-104 exam.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -987,10 +664,19 @@ The vision is to create a **Personal Cloud Certification Coach** capable of help
 
 DevOps Engineer | Cloud Engineer | Site Reliability Engineer
 
-```text
+```
 AWS • Azure • Kubernetes • Terraform • CI/CD • GitOps • Python • AI
 ```
 
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/jeffersonsantos-sp)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/jeffersonsantos-sp)
+
 ---
 
-⭐ **If this project interests you, consider starring the repository and contributing to its evolution.**
+<div align="center">
+
+**⭐ If this project interests you, consider starring the repository!**
+
+**Build. Practice. Analyze. Improve. Certify. 🚀**
+
+</div>
