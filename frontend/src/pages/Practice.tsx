@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getRandomQuestions, submitAnswer, Question } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
-import { translateQuestionText, translateExplanation, translateDifficulty, translateOptionText } from '../i18n/questions'
+import { translateQuestionTextAsync, translateExplanationAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
 
 const domainNameKeys: Record<string, string> = {
   'identity-governance': 'practice.identityGovernance',
@@ -10,6 +10,12 @@ const domainNameKeys: Record<string, string> = {
   'compute': 'practice.compute',
   'networking': 'practice.networking',
   'monitoring': 'practice.monitoring',
+}
+
+interface TranslatedQuestion {
+  questionText: string
+  options: { label: string; text: string }[]
+  explanation: string
 }
 
 export default function Practice() {
@@ -28,6 +34,7 @@ export default function Practice() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  const [translatedQuestions, setTranslatedQuestions] = useState<Map<number, TranslatedQuestion>>(new Map())
   const [results, setResults] = useState<Array<{ questionId: string; correct: boolean; selected: string }>>([])
 
   const startPractice = async () => {
@@ -55,6 +62,7 @@ export default function Practice() {
       setSelectedAnswer(null)
       setSubmitted(false)
       setResults([])
+      setTranslatedQuestions(new Map())
     } catch (err) {
       setError(t('practice.failedLoad'))
       console.error(err)
@@ -62,6 +70,40 @@ export default function Practice() {
       setLoading(false)
     }
   }
+
+  // Translate questions when language changes
+  useEffect(() => {
+    if (questions.length === 0 || language === 'en') {
+      setTranslatedQuestions(new Map())
+      return
+    }
+
+    const translateAllQuestions = async () => {
+      const newTranslated = new Map<number, TranslatedQuestion>()
+      
+      for (let i = 0; i < questions.length; i++) {
+        const q = questions[i]
+        const [questionText, explanation, ...optionTexts] = await Promise.all([
+          translateQuestionTextAsync(q.question_text, language),
+          translateExplanationAsync(q.explanation, language),
+          ...q.options.map(opt => translateOptionTextAsync(opt.text, language))
+        ])
+        
+        newTranslated.set(i, {
+          questionText,
+          options: q.options.map((opt, idx) => ({
+            label: opt.label,
+            text: optionTexts[idx]
+          })),
+          explanation
+        })
+      }
+      
+      setTranslatedQuestions(newTranslated)
+    }
+
+    translateAllQuestions()
+  }, [questions, language])
 
   const handleSubmit = async () => {
     if (!selectedAnswer) return
@@ -96,6 +138,7 @@ export default function Practice() {
   }
 
   const currentQuestion = questions[currentIndex]
+  const translated = translatedQuestions.get(currentIndex)
   const progress = ((currentIndex + 1) / questions.length) * 100
   const correctCount = results.filter(r => r.correct).length
 
@@ -128,7 +171,7 @@ export default function Practice() {
           </div>
 
           <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
-            {translateQuestionText(currentQuestion.question_text, language)}
+            {translated?.questionText || currentQuestion.question_text}
           </h2>
 
           <div className="space-y-3 mb-8">
@@ -137,6 +180,7 @@ export default function Practice() {
               const isCorrectOpt = opt.label === currentQuestion.correct_answer
               const showCorrect = submitted && isCorrectOpt
               const showIncorrect = submitted && isSelected && !isCorrectOpt
+              const translatedOpt = translated?.options.find(o => o.label === opt.label)
 
               return (
                 <label
@@ -158,7 +202,7 @@ export default function Practice() {
                     {showCorrect ? '✓' : showIncorrect ? '✗' : opt.label}
                   </div>
                   <div className="flex-1">
-                    <span className="text-gray-700 leading-relaxed">{translateOptionText(opt.text, language)}</span>
+                    <span className="text-gray-700 leading-relaxed">{translatedOpt?.text || opt.text}</span>
                     {showCorrect && (
                       <p className="mt-2 text-sm font-medium text-emerald-600">{t('practice.correctAnswer')}</p>
                     )}
@@ -206,7 +250,7 @@ export default function Practice() {
               <h3 className="text-lg font-bold text-gray-900">{t('practice.explanation')}</h3>
             </div>
             <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-              {translateExplanation(currentQuestion.explanation, language)}
+              {translated?.explanation || currentQuestion.explanation}
             </p>
           </div>
         )}

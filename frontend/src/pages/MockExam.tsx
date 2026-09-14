@@ -2,7 +2,12 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getRandomQuestions, submitAnswer, Question } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
-import { translateQuestionText, translateDifficulty, translateOptionText } from '../i18n/questions'
+import { translateQuestionTextAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
+
+interface TranslatedQuestion {
+  questionText: string
+  options: { label: string; text: string }[]
+}
 
 export default function MockExam() {
   const { t, language } = useLanguage()
@@ -17,6 +22,7 @@ export default function MockExam() {
   const [questions, setQuestions] = useState<Question[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [translatedQuestions, setTranslatedQuestions] = useState<Map<number, TranslatedQuestion>>(new Map())
   const [results, setResults] = useState<Array<{
     question: Question
     selected: string
@@ -89,6 +95,7 @@ export default function MockExam() {
       setTimeLeft(config.time * 60)
       setStarted(true)
       setFinished(false)
+      setTranslatedQuestions(new Map())
     } catch (err) {
       setError(t('mockExam.failedLoad'))
       console.error(err)
@@ -96,6 +103,38 @@ export default function MockExam() {
       setLoading(false)
     }
   }
+
+  // Translate questions when language changes
+  useEffect(() => {
+    if (questions.length === 0 || language === 'en') {
+      setTranslatedQuestions(new Map())
+      return
+    }
+
+    const translateAllQuestions = async () => {
+      const newTranslated = new Map<number, TranslatedQuestion>()
+      
+      for (let i = 0; i < questions.length; i++) {
+        const q = questions[i]
+        const [questionText, ...optionTexts] = await Promise.all([
+          translateQuestionTextAsync(q.question_text, language),
+          ...q.options.map(opt => translateOptionTextAsync(opt.text, language))
+        ])
+        
+        newTranslated.set(i, {
+          questionText,
+          options: q.options.map((opt, idx) => ({
+            label: opt.label,
+            text: optionTexts[idx]
+          }))
+        })
+      }
+      
+      setTranslatedQuestions(newTranslated)
+    }
+
+    translateAllQuestions()
+  }, [questions, language])
 
   const selectAnswer = (questionId: string, answer: string) => {
     setAnswers({ ...answers, [questionId]: answer })
@@ -244,32 +283,40 @@ export default function MockExam() {
             </span>
           </div>
 
-          <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
-            {translateQuestionText(currentQuestion.question_text, language)}
-          </h2>
+          {(() => {
+            const translated = translatedQuestions.get(currentIndex)
+            return (
+              <>
+                <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
+                  {translated?.questionText || currentQuestion.question_text}
+                </h2>
 
-          <div className="space-y-3 mb-8">
-            {currentQuestion.options.map((opt) => {
-              const isSelected = answers[currentQuestion.id] === opt.label
-              return (
-                <label
-                  key={opt.label}
-                  className={`option ${isSelected ? 'selected' : ''}`}
-                  onClick={() => selectAnswer(currentQuestion.id, opt.label)}
-                >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all ${
-                    isSelected
-                      ? 'bg-blue-500 text-white'
-                      : 'border-2 border-gray-200 text-gray-500'
-                  }`}>
-                    {opt.label}
-                  </div>
-                  <span className="text-gray-700 leading-relaxed">{translateOptionText(opt.text, language)}</span>
-                  <input type="radio" name="answer" value={opt.label} className="sr-only" />
+                <div className="space-y-3 mb-8">
+                  {currentQuestion.options.map((opt) => {
+                    const isSelected = answers[currentQuestion.id] === opt.label
+                    const translatedOpt = translated?.options.find(o => o.label === opt.label)
+                    return (
+                      <label
+                        key={opt.label}
+                        className={`option ${isSelected ? 'selected' : ''}`}
+                        onClick={() => selectAnswer(currentQuestion.id, opt.label)}
+                      >
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all ${
+                          isSelected
+                            ? 'bg-blue-500 text-white'
+                            : 'border-2 border-gray-200 text-gray-500'
+                        }`}>
+                          {opt.label}
+                        </div>
+                        <span className="text-gray-700 leading-relaxed">{translatedOpt?.text || opt.text}</span>
+                        <input type="radio" name="answer" value={opt.label} className="sr-only" />
                 </label>
-              )
-            })}
-          </div>
+                      )
+                    })}
+                  </div>
+                </>
+            )
+          })()}
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-100">
             <button

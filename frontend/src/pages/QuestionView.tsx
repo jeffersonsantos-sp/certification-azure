@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getQuestion, submitAnswer, Question } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
-import { translateQuestionText, translateExplanation, translateDifficulty, translateOptionText } from '../i18n/questions'
+import { translateQuestionTextAsync, translateExplanationAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
+
+interface TranslatedContent {
+  questionText: string
+  options: { label: string; text: string }[]
+  explanation: string
+}
 
 export default function QuestionView() {
   const { t, language } = useLanguage()
@@ -14,6 +20,7 @@ export default function QuestionView() {
   const [selected, setSelected] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
   const [result, setResult] = useState<{ correct: boolean; explanation: string } | null>(null)
+  const [translated, setTranslated] = useState<TranslatedContent | null>(null)
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -35,6 +42,33 @@ export default function QuestionView() {
     }
     fetchQuestion()
   }, [questionId])
+
+  // Translate question when it loads or when language changes
+  useEffect(() => {
+    if (!question || language === 'en') {
+      setTranslated(null)
+      return
+    }
+
+    const translateContent = async () => {
+      const [questionText, explanation, ...optionTexts] = await Promise.all([
+        translateQuestionTextAsync(question.question_text, language),
+        translateExplanationAsync(question.explanation, language),
+        ...question.options.map(opt => translateOptionTextAsync(opt.text, language))
+      ])
+      
+      setTranslated({
+        questionText,
+        options: question.options.map((opt, idx) => ({
+          label: opt.label,
+          text: optionTexts[idx]
+        })),
+        explanation
+      })
+    }
+
+    translateContent()
+  }, [question, language])
 
   const handleSubmit = async () => {
     if (!selected || !questionId) return
@@ -94,7 +128,7 @@ export default function QuestionView() {
 
       <div className="card-elevated p-6 md:p-8">
         <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
-          {translateQuestionText(question.question_text, language)}
+          {translated?.questionText || question.question_text}
         </h2>
 
         <div className="space-y-3 mb-8">
@@ -102,6 +136,7 @@ export default function QuestionView() {
             const isSelected = selected === opt.label
             const showCorrect = submitted && opt.label === question.correct_answer
             const showIncorrect = submitted && isSelected && opt.label !== question.correct_answer
+            const translatedOpt = translated?.options.find(o => o.label === opt.label)
 
             return (
               <label
@@ -123,7 +158,7 @@ export default function QuestionView() {
                   {showCorrect ? '✓' : showIncorrect ? '✗' : opt.label}
                 </div>
                 <div className="flex-1">
-                  <span className="text-gray-700 leading-relaxed">{translateOptionText(opt.text, language)}</span>
+                  <span className="text-gray-700 leading-relaxed">{translatedOpt?.text || opt.text}</span>
                   {showCorrect && (
                     <p className="mt-2 text-sm font-medium text-emerald-600">✓ {t('practice.correctAnswer')}</p>
                   )}
@@ -192,7 +227,7 @@ export default function QuestionView() {
             <h3 className="text-lg font-bold text-gray-900">{t('questionView.explanation')}</h3>
           </div>
           <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-            {translateExplanation(result.explanation, language)}
+            {translated?.explanation || result.explanation}
           </p>
         </div>
       )}
