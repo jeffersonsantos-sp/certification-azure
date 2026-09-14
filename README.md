@@ -608,7 +608,7 @@ DevOps Engineer | Cloud Engineer | Site Reliability Engineer
 AWS • Azure • Kubernetes • Terraform • CI/CD • GitOps • Python • AI
 ```
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/jeffersonsantos-sp)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jefferson-fsantos/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/jeffersonsantos-sp)
 
 ---
