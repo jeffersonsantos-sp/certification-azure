@@ -21,6 +21,7 @@
 
 ## 📋 Table of Contents
 
+- [Screenshots](#-screenshots)
 - [About](#-about)
 - [Key Features](#-key-features)
 - [Tech Stack](#-tech-stack)
@@ -32,8 +33,24 @@
 - [Running the Application](#-running-the-application)
 - [API Documentation](#-api-documentation)
 - [AZ-104 Certification Domains](#-az-104-certification-domains)
+- [AI Question Generation](#-ai-question-generation)
+- [Internationalization](#-internationalization)
+- [Skills & Prompts](#-skills--prompts)
 - [Contributing](#-contributing)
 - [Author](#-author)
+
+---
+
+## 📸 Screenshots
+
+### Dashboard
+![Dashboard](image/1.png)
+
+### Practice Mode
+![Practice Mode](image/2.png)
+
+### Mock Exam
+![Mock Exam](image/3.png)
 
 ---
 
@@ -43,7 +60,7 @@
 
 This platform goes beyond a traditional question bank by providing:
 
-- **293+ Practice Questions** across 5 certification domains
+- **542+ Practice Questions** across 5 certification domains
 - **AI-Powered Explanations** for every answer
 - **Mock Exams** that simulate the real certification experience
 - **Performance Analytics** with domain-specific insights
@@ -56,7 +73,7 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 ## ✨ Key Features
 
 ### 📝 Question Bank
-- 293+ carefully crafted questions
+- 542+ carefully crafted questions
 - Organized by 5 AZ-104 certification domains
 - Multiple difficulty levels (Easy, Intermediate, Advanced)
 - Detailed explanations for every answer
@@ -89,12 +106,6 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 - Persistent language preference (localStorage)
 - All UI elements translated
 
-### 🔐 Authentication
-- User registration and login
-- JWT-based authentication
-- Secure password hashing
-- Protected API routes
-
 ---
 
 ## 🛠️ Tech Stack
@@ -118,8 +129,6 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 | SQLAlchemy | 2.0 | ORM |
 | Alembic | 1.13 | Migrations |
 | Pydantic | 2.0 | Data Validation |
-| JWT (python-jose) | 3.3 | Authentication |
-| Passlib | 1.7 | Password Hashing |
 
 ### Database & Cache
 | Technology | Version | Purpose |
@@ -140,40 +149,29 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 
 ```
                     ┌─────────────────────────────────┐
-                    │           USER                  │
-                    │        Web Browser              │
+                    │           USUÁRIO               │
+                    │        Navegador Web            │
                     └───────────────┬─────────────────┘
                                     │
                                     ▼
                     ┌─────────────────────────────────┐
-                    │        FRONTEND                 │
-                    │   React + TypeScript + Vite     │
-                    │        Port: 3000               │
+                    │        FRONTEND (React)         │
+                    │      Porta: 3000 (Nginx)        │
                     └───────────────┬─────────────────┘
                                     │
                                     ▼
                     ┌─────────────────────────────────┐
-                    │         BACKEND                 │
-                    │       FastAPI + Python          │
-                    │        Port: 8000               │
+                    │       BACKEND (FastAPI)         │
+                    │        Porta: 8000              │
                     └───────┬───────────────┬─────────┘
                             │               │
                 ┌───────────┴───┐   ┌───────┴─────────┐
                 ▼               ▼   ▼                  ▼
         ┌──────────────┐ ┌──────────────┐    ┌──────────────┐
-        │  PostgreSQL  │ │    Redis     │    │  Azure OpenAI│
-        │  Database    │ │    Cache     │    │  AI Engine   │
-        │  Port: 5432  │ │  Port: 6379  │    │  (Optional)  │
+        │  PostgreSQL  │ │    Redis     │    │  OpenAI API  │
+        │   (Dados)    │ │   (Cache)    │    │   (IA)       │
+        │  Porta: 5432 │ │  Porta: 6379 │    │              │
         └──────────────┘ └──────────────┘    └──────────────┘
-```
-
-### Request Flow
-
-```
-Client Request → Nginx (Port 80) → Frontend Static Files
-                                  → /api/* → FastAPI (Port 8000)
-                                           → PostgreSQL
-                                           → Redis Cache
 ```
 
 ---
@@ -194,8 +192,6 @@ certification-azure/
 │   │   │   └── index.ts              # i18n utilities
 │   │   ├── pages/                    # Page components
 │   │   │   ├── Dashboard.tsx         # Main dashboard
-│   │   │   ├── Login.tsx             # Login page
-│   │   │   ├── Register.tsx          # Registration page
 │   │   │   ├── Practice.tsx          # Practice mode
 │   │   │   ├── MockExam.tsx          # Mock exam mode
 │   │   │   └── QuestionView.tsx      # Single question view
@@ -206,10 +202,7 @@ certification-azure/
 │   │   └── index.css                 # Global styles
 │   ├── Dockerfile                    # Multi-stage Docker build
 │   ├── nginx.conf                    # Nginx configuration
-│   ├── package.json                  # Node.js dependencies
-│   ├── tailwind.config.js            # Tailwind configuration
-│   ├── tsconfig.json                 # TypeScript configuration
-│   └── vite.config.ts                # Vite configuration
+│   └── package.json                  # Node.js dependencies
 │
 ├── backend/                           # FastAPI Backend
 │   ├── app/
@@ -238,6 +231,32 @@ certification-azure/
 │
 ├── questions/                         # Generated questions
 │   └── drafts/                       # Draft questions by domain
+│
+├── .opencode/                         # OpenCode AI Skills
+│   ├── config.json                   # Project configuration
+│   └── skills/                       # AI assistant skills
+│       ├── question-generator.md     # Question generation skill
+│       ├── code-reviewer.md          # Code review skill
+│       ├── docker-expert.md          # Docker expertise
+│       ├── api-designer.md           # API design skill
+│       └── frontend-builder.md       # Frontend development
+│
+├── .claude/                           # Claude AI Skills
+│   ├── CLAUDE.md                     # Project context for Claude
+│   └── skills/                       # Claude-specific skills
+│       ├── az104-domain-expert.md    # AZ-104 domain knowledge
+│       └── database-expert.md        # Database expertise
+│
+├── brainstore/                        # Brainstorm Documents
+│   └── brainstorm.md                 # Project planning & decisions
+│
+├── prompts/                           # AI Prompts
+│   └── README.md                     # Collection of AI prompts
+│
+├── image/                             # Project Screenshots
+│   ├── 1.png                         # Dashboard screenshot
+│   ├── 2.png                         # Practice mode screenshot
+│   └── 3.png                         # Mock exam screenshot
 │
 ├── docker-compose.yml                 # Multi-container setup
 ├── .env.example                       # Environment template
@@ -340,26 +359,10 @@ DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/az104_trainer
 # Redis
 REDIS_URL=redis://localhost:6379/0
 
-# JWT Authentication
-JWT_SECRET_KEY=your-secret-key-here
-JWT_ALGORITHM=HS256
-JWT_EXPIRE_MINUTES=1440
-
 # Environment
 ENVIRONMENT=development
 DEBUG=true
 ```
-
-### Backend Configuration
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `DATABASE_URL` | `postgresql+asyncpg://...` | PostgreSQL connection string |
-| `REDIS_URL` | `redis://localhost:6379/0` | Redis connection URL |
-| `JWT_SECRET_KEY` | `change-this-in-production` | Secret key for JWT tokens |
-| `JWT_ALGORITHM` | `HS256` | JWT signing algorithm |
-| `JWT_EXPIRE_MINUTES` | `1440` | Token expiration (24h) |
-| `CORS_ORIGINS` | `["http://localhost:3000"]` | Allowed CORS origins |
 
 ---
 
@@ -399,13 +402,10 @@ cd frontend
 npm run dev          # Start dev server (port 5173)
 npm run build        # Production build
 npm run lint         # Run ESLint
-npm run preview      # Preview production build
 
 # Backend
 cd backend
 uvicorn app.main:app --reload     # Hot reload
-python -m pytest                  # Run tests
-ruff check .                      # Lint Python code
 ```
 
 ---
@@ -421,14 +421,6 @@ Once the backend is running, access the interactive API documentation:
 
 ### API Endpoints
 
-#### Authentication
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/v1/auth/register` | Register new user |
-| `POST` | `/api/v1/auth/login` | Login user |
-| `GET` | `/api/v1/auth/me` | Get current user |
-
 #### Questions
 
 | Method | Endpoint | Description |
@@ -439,70 +431,19 @@ Once the backend is running, access the interactive API documentation:
 | `POST` | `/api/v1/questions/{id}/answer` | Submit answer |
 | `GET` | `/api/v1/questions/stats` | Get statistics |
 
-### Request/Response Examples
-
-#### Submit Answer
-
-**Request:**
-```http
-POST /api/v1/questions/ig-01-001/answer
-Content-Type: application/json
-Authorization: Bearer <token>
-
-{
-  "answer": "B"
-}
-```
-
-**Response:**
-```json
-{
-  "correct": true,
-  "correct_answer": "B",
-  "explanation": "Azure RBAC provides role-based access control for Azure resources. It allows permissions to be assigned to users, groups, managed identities, and service principals."
-}
-```
-
 ---
 
 ## 📚 AZ-104 Certification Domains
 
 The application covers all 5 domains of the Microsoft Azure Administrator Associate exam:
 
-### 1. Identity and Governance (20-25%)
-- Microsoft Entra ID (users, groups, licenses)
-- Azure RBAC and access management
-- Azure Policy and resource locks
-- Subscriptions and management groups
-- Cost management
-
-### 2. Storage (15-20%)
-- Storage accounts configuration
-- Blob Storage and Azure Files
-- Storage security (firewalls, SAS tokens)
-- Data redundancy and replication
-- Lifecycle management
-
-### 3. Compute (20-25%)
-- Virtual Machines deployment and management
-- ARM templates and Bicep
-- Azure Container Instances and Container Apps
-- App Service configuration
-- VM Scale Sets
-
-### 4. Networking (15-20%)
-- Virtual Networks and subnets
-- Network Security Groups (NSGs)
-- Load Balancers and Application Gateway
-- Azure DNS
-- Private Endpoints
-
-### 5. Monitoring (10-15%)
-- Azure Monitor metrics and logs
-- Alert rules and action groups
-- Azure Backup and Recovery Services
-- Azure Site Recovery
-- Network Watcher
+| Domain | Weight | Questions | Focus |
+|--------|--------|-----------|-------|
+| Identity & Governance | 20-25% | 260 | Microsoft Entra ID, RBAC, Policy |
+| Storage | 15-20% | 88 | Storage Accounts, Blob, Azure Files |
+| Compute | 20-25% | 90 | VMs, ARM templates, Containers |
+| Networking | 15-20% | 69 | VNets, NSGs, Load Balancers |
+| Monitoring | 10-15% | 35 | Azure Monitor, Backup, Recovery |
 
 ---
 
@@ -563,66 +504,39 @@ The application supports multiple languages:
 
 ---
 
-## 🧪 Testing
+## 🧠 Skills & Prompts
 
-```bash
-# Backend tests
-cd backend
-python -m pytest tests/ -v
+### OpenCode Skills
 
-# Frontend lint
-cd frontend
-npm run lint
+The project includes AI assistant skills in `.opencode/skills/`:
 
-# Type checking
-cd frontend
-npx tsc --noEmit
-```
+| Skill | Purpose |
+|-------|---------|
+| `question-generator.md` | Generate AZ-104 certification questions |
+| `code-reviewer.md` | Review code quality and security |
+| `docker-expert.md` | Docker and containerization guidance |
+| `api-designer.md` | RESTful API design best practices |
+| `frontend-builder.md` | React frontend development |
 
----
+### Claude Skills
 
-## 🚢 Deployment
+Claude-specific skills in `.claude/skills/`:
 
-### Azure Deployment (Production)
+| Skill | Purpose |
+|-------|---------|
+| `az104-domain-expert.md` | Deep AZ-104 domain knowledge |
+| `database-expert.md` | PostgreSQL and SQLAlchemy expertise |
 
-```text
-                    INTERNET
-                        │
-                        ▼
-              Azure Front Door
-                        │
-                        ▼
-          Azure Kubernetes Service
-                      AKS
-                        │
-        ┌───────────────┼───────────────┐
-        ▼               ▼               ▼
-     Frontend         Backend        AI Service
-      Pods             Pods
-        │               │
-        └───────┬───────┘
-                │
-                ▼
-         Azure Database
-         for PostgreSQL
-                │
-    ┌───────────┴───────────┐
-    ▼                       ▼
-Azure Cache            Key Vault
- for Redis
-```
+### AI Prompts
 
-### Docker to Azure
+Collection of prompts in `prompts/README.md`:
 
-```bash
-# Build and tag images
-docker build -t your-registry.azurecr.io/az104-frontend:latest ./frontend
-docker build -t your-registry.azurecr.io/az104-backend:latest ./backend
-
-# Push to Azure Container Registry
-docker push your-registry.azurecr.io/az104-frontend:latest
-docker push your-registry.azurecr.io/az104-backend:latest
-```
+- **Question Generation**: Create certification practice questions
+- **Question Validation**: Verify question accuracy
+- **AI Explanation**: Generate student-friendly explanations
+- **Study Recommendations**: Personalized study plans
+- **Performance Analysis**: Mock exam result analysis
+- **Code Review**: Automated code quality checks
 
 ---
 
@@ -630,11 +544,11 @@ docker push your-registry.azurecr.io/az104-backend:latest
 
 | Metric | Value |
 |--------|-------|
-| Questions | 293+ |
+| Questions | 542+ |
 | Certification Domains | 5 |
 | API Endpoints | 10+ |
 | Supported Languages | 2 (EN, PT-BR) |
-| Frontend Components | 6 pages |
+| Frontend Components | 4 pages |
 | Backend Services | FastAPI + PostgreSQL |
 | Containerization | Docker + Docker Compose |
 

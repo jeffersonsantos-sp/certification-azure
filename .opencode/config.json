@@ -1,0 +1,18 @@
+{
+  "name": "AZ-104 Trainer",
+  "version": "1.0.0",
+  "description": "Intelligent web platform for Azure AZ-104 certification practice",
+  "author": "Jefferson Santos",
+  "skills": [
+    "question-generator",
+    "code-reviewer",
+    "docker-expert",
+    "api-designer",
+    "frontend-builder"
+  ],
+  "languages": ["typescript", "python", "sql"],
+  "frameworks": {
+    "frontend": ["react", "tailwindcss", "vite"],
+    "backend": ["fastapi", "sqlalchemy", "pydantic"]
+  }
+}
