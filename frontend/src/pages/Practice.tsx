@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getRandomQuestions, submitAnswer, Question } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
+import { translateQuestionText, translateExplanation, translateDifficulty, translateOptionText } from '../i18n/questions'
 
 const domainNameKeys: Record<string, string> = {
   'identity-governance': 'practice.identityGovernance',
@@ -12,7 +13,7 @@ const domainNameKeys: Record<string, string> = {
 }
 
 export default function Practice() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const { domainId } = useParams()
   const navigate = useNavigate()
   const [selectedDomain, setSelectedDomain] = useState<string | null>(domainId || null)
@@ -118,7 +119,7 @@ export default function Practice() {
         <div className="card-elevated p-6 md:p-8">
           <div className="flex flex-wrap items-center gap-2 mb-6">
             <span className={`badge badge-${currentQuestion.difficulty}`}>
-              {currentQuestion.difficulty}
+              {translateDifficulty(currentQuestion.difficulty, language)}
             </span>
             <span className="text-gray-300">•</span>
             <span className="text-sm text-gray-500">
@@ -127,7 +128,7 @@ export default function Practice() {
           </div>
 
           <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
-            {currentQuestion.question_text}
+            {translateQuestionText(currentQuestion.question_text, language)}
           </h2>
 
           <div className="space-y-3 mb-8">
@@ -157,7 +158,7 @@ export default function Practice() {
                     {showCorrect ? '✓' : showIncorrect ? '✗' : opt.label}
                   </div>
                   <div className="flex-1">
-                    <span className="text-gray-700 leading-relaxed">{opt.text}</span>
+                    <span className="text-gray-700 leading-relaxed">{translateOptionText(opt.text, language)}</span>
                     {showCorrect && (
                       <p className="mt-2 text-sm font-medium text-emerald-600">{t('practice.correctAnswer')}</p>
                     )}
@@ -205,7 +206,7 @@ export default function Practice() {
               <h3 className="text-lg font-bold text-gray-900">{t('practice.explanation')}</h3>
             </div>
             <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-              {currentQuestion.explanation}
+              {translateExplanation(currentQuestion.explanation, language)}
             </p>
           </div>
         )}

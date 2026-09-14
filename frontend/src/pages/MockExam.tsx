@@ -2,9 +2,10 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getRandomQuestions, submitAnswer, Question } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
+import { translateQuestionText, translateDifficulty, translateOptionText } from '../i18n/questions'
 
 export default function MockExam() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const navigate = useNavigate()
   const [started, setStarted] = useState(false)
   const [finished, setFinished] = useState(false)
@@ -239,12 +240,12 @@ export default function MockExam() {
         <div className="card-elevated p-6 md:p-8">
           <div className="flex flex-wrap items-center gap-2 mb-6">
             <span className={`badge badge-${currentQuestion.difficulty}`}>
-              {currentQuestion.difficulty}
+              {translateDifficulty(currentQuestion.difficulty, language)}
             </span>
           </div>
 
           <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
-            {currentQuestion.question_text}
+            {translateQuestionText(currentQuestion.question_text, language)}
           </h2>
 
           <div className="space-y-3 mb-8">
@@ -263,7 +264,7 @@ export default function MockExam() {
                   }`}>
                     {opt.label}
                   </div>
-                  <span className="text-gray-700 leading-relaxed">{opt.text}</span>
+                  <span className="text-gray-700 leading-relaxed">{translateOptionText(opt.text, language)}</span>
                   <input type="radio" name="answer" value={opt.label} className="sr-only" />
                 </label>
               )

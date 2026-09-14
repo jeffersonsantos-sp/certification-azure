@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getQuestion, submitAnswer, Question } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
+import { translateQuestionText, translateExplanation, translateDifficulty, translateOptionText } from '../i18n/questions'
 
 export default function QuestionView() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const { questionId } = useParams()
   const navigate = useNavigate()
   const [question, setQuestion] = useState<Question | null>(null)
@@ -87,13 +88,13 @@ export default function QuestionView() {
           <button onClick={() => navigate(-1)} className="text-sm font-medium text-gray-500 hover:text-gray-700">
             {t('questionView.backToPractice')}
           </button>
-          <span className={`badge badge-${question.difficulty}`}>{question.difficulty}</span>
+          <span className={`badge badge-${question.difficulty}`}>{translateDifficulty(question.difficulty, language)}</span>
         </div>
       </div>
 
       <div className="card-elevated p-6 md:p-8">
         <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
-          {question.question_text}
+          {translateQuestionText(question.question_text, language)}
         </h2>
 
         <div className="space-y-3 mb-8">
@@ -122,7 +123,7 @@ export default function QuestionView() {
                   {showCorrect ? '✓' : showIncorrect ? '✗' : opt.label}
                 </div>
                 <div className="flex-1">
-                  <span className="text-gray-700 leading-relaxed">{opt.text}</span>
+                  <span className="text-gray-700 leading-relaxed">{translateOptionText(opt.text, language)}</span>
                   {showCorrect && (
                     <p className="mt-2 text-sm font-medium text-emerald-600">✓ {t('practice.correctAnswer')}</p>
                   )}
@@ -191,7 +192,7 @@ export default function QuestionView() {
             <h3 className="text-lg font-bold text-gray-900">{t('questionView.explanation')}</h3>
           </div>
           <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-            {result.explanation}
+            {translateExplanation(result.explanation, language)}
           </p>
         </div>
       )}
