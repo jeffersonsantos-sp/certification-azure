@@ -3,6 +3,8 @@
 ## Project Overview
 Intelligent web platform for practicing Microsoft Azure Administrator Associate (AZ-104) certification questions.
 
+Bilingual support (EN/PT-BR) with independent UI and question language settings. Questions are stored in English and translated on demand when the question language is PT-BR.
+
 ## Tech Stack
 - **Frontend**: React 18, TypeScript, Tailwind CSS, Vite
 - **Backend**: Python, FastAPI, SQLAlchemy, Pydantic
@@ -68,6 +70,13 @@ docker exec -it azure-redis-1 redis-cli
 - Write docstrings for functions
 - Use async/await for async operations
 - Handle errors gracefully
+
+### Internationalization
+- UI language lives in `frontend/src/i18n/en.ts` and `pt.ts`
+- Question language lives in `LanguageContext` as `questionLanguage`
+- Translation logic lives in `frontend/src/i18n/questions.ts`
+- Keep Azure product names, cmdlets, and acronyms in English when translating
+- Cache translations and always fall back to the original English text
 
 ## API Conventions
 - Base URL: `/api/v1/`

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getQuestion, submitAnswer, Question } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
+import QuestionLanguageToggle from '../components/QuestionLanguageToggle'
 import { translateQuestionTextAsync, translateExplanationAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
 
 interface TranslatedContent {
@@ -11,7 +12,7 @@ interface TranslatedContent {
 }
 
 export default function QuestionView() {
-  const { t, language } = useLanguage()
+  const { t, questionLanguage } = useLanguage()
   const { questionId } = useParams()
   const navigate = useNavigate()
   const [question, setQuestion] = useState<Question | null>(null)
@@ -45,16 +46,16 @@ export default function QuestionView() {
 
   // Translate question when it loads or when language changes
   useEffect(() => {
-    if (!question || language === 'en') {
+    if (!question || questionLanguage === 'en') {
       setTranslated(null)
       return
     }
 
     const translateContent = async () => {
       const [questionText, explanation, ...optionTexts] = await Promise.all([
-        translateQuestionTextAsync(question.question_text, language),
-        translateExplanationAsync(question.explanation, language),
-        ...question.options.map(opt => translateOptionTextAsync(opt.text, language))
+        translateQuestionTextAsync(question.question_text, questionLanguage),
+        translateExplanationAsync(question.explanation, questionLanguage),
+        ...question.options.map(opt => translateOptionTextAsync(opt.text, questionLanguage))
       ])
       
       setTranslated({
@@ -68,7 +69,7 @@ export default function QuestionView() {
     }
 
     translateContent()
-  }, [question, language])
+  }, [question, questionLanguage])
 
   const handleSubmit = async () => {
     if (!selected || !questionId) return
@@ -122,7 +123,10 @@ export default function QuestionView() {
           <button onClick={() => navigate(-1)} className="text-sm font-medium text-gray-500 hover:text-gray-700">
             {t('questionView.backToPractice')}
           </button>
-          <span className={`badge badge-${question.difficulty}`}>{translateDifficulty(question.difficulty, language)}</span>
+          <div className="flex items-center gap-3">
+            <QuestionLanguageToggle />
+            <span className={`badge badge-${question.difficulty}`}>{translateDifficulty(question.difficulty, questionLanguage)}</span>
+          </div>
         </div>
       </div>
 

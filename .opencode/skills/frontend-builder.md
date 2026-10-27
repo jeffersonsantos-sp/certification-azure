@@ -38,6 +38,25 @@ Assist with React frontend development, component design, and UI/UX implementati
    - Optimize for dark mode support
    - Follow mobile-first approach
 
+## Internationalization (i18n) & Question Translation
+
+The app has two independent language settings:
+
+- **UI language** — `frontend/src/i18n/en.ts` and `pt.ts`, managed by `LanguageContext`
+- **Question language** — `questionLanguage` in `LanguageContext`, persisted in `localStorage.questionLanguage`
+
+Guidelines:
+
+- Use `<QuestionLanguageToggle />` for the EN/PT-BR question selector
+- Keep question translation logic in `frontend/src/i18n/questions.ts`
+- Questions are stored in English; only translate when `questionLanguage === 'pt-BR'`
+- Use Google Translate first, fall back to MyMemory, and always fall back to the original text
+- Cache successful translations in memory and `localStorage`
+- Apply translations incrementally so the current question is not blocked by the whole exam
+- Cancel in-flight translation effects on language/question changes
+- Never translate Azure product names, SKUs, cmdlets, CLI commands, or acronyms
+- Keep the UI language and question language independent once the user overrides the question language
+
 ## Component Template
 
 ```typescript

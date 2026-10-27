@@ -7,6 +7,11 @@ const en = {
     practice: 'Practice',
     mockExam: 'Mock Exam',
   },
+  questionLanguage: {
+    label: 'Questions',
+    en: 'English',
+    ptBR: 'Portuguese',
+  },
   header: {
     readiness: 'Ready',
     logout: 'Logout',

@@ -159,6 +159,59 @@ Return in this format:
 
 ---
 
+## Prompt de Tradução de Questões (EN → PT-BR)
+
+```
+You are a technical translator specializing in Microsoft Azure certification content.
+
+Translate the following AZ-104 question from English to Brazilian Portuguese (pt-BR):
+
+{question_json}
+
+Requirements:
+1. Translate question_text, every options[].text, and explanation
+2. Preserve the JSON structure, option labels, correct_answer, difficulty, and tags
+3. Keep Azure product names, SKUs, cmdlets, CLI commands, API names, and acronyms in English
+   (for example: Microsoft Entra ID, Azure RBAC, NSG, VNet, PowerShell, Azure CLI, ARM template)
+4. Use natural Brazilian Portuguese, not literal machine translation
+5. Preserve code snippets, placeholders, URLs, and command syntax exactly
+6. Do not add, remove, or reorder questions or options
+7. Do not include comments or markdown fences in the response
+
+Return only valid JSON in the same shape as the input.
+```
+
+---
+
+## Prompt de Revisão de Tradução
+
+```
+Review this English → Brazilian Portuguese translation of an AZ-104 question.
+
+Source:
+{source_json}
+
+Translation:
+{translated_json}
+
+Check:
+1. Is the technical meaning preserved?
+2. Were Azure product names, cmdlets, CLI commands, and acronyms kept correctly?
+3. Is the Portuguese natural and grammatically correct?
+4. Are option letters, correct_answer, difficulty, and tags unchanged?
+5. Is the JSON structure identical to the source?
+
+Return:
+{
+  "valid": true/false,
+  "issues": ["..."],
+  "suggested_fixes": ["..."],
+  "confidence_score": 0.95
+}
+```
+
+---
+
 ## Prompt de Revisão de Código
 
 ```

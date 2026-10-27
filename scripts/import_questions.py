@@ -10,6 +10,8 @@ from pathlib import Path
 from datetime import datetime
 from uuid import uuid4
 
+from sqlalchemy import text
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.core.database import async_session, engine, Base
@@ -53,7 +55,7 @@ async def seed_domains_and_skills():
                 name=domain_data["name"],
                 weight=domain_data["weight"]
             )
-            session.merge(domain)
+            await session.merge(domain)
 
         # Create skills
         for skill_data in SKILLS:
@@ -63,7 +65,7 @@ async def seed_domains_and_skills():
                 name=skill_data["name"],
                 items=skill_data["items"]
             )
-            session.merge(skill)
+            await session.merge(skill)
 
         await session.commit()
         print(f"Seeded {len(DOMAINS)} domains and {len(SKILLS)} skills")
@@ -99,7 +101,7 @@ async def import_questions(questions_dir: str = "questions/drafts"):
                 for q in questions_data:
                     # Check if question already exists
                     existing = await session.execute(
-                        "SELECT id FROM questions WHERE question_text = :text",
+                        text("SELECT id FROM questions WHERE question_text = :text"),
                         {"text": q["question_text"]}
                     )
                     if existing.first():

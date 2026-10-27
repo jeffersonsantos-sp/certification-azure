@@ -101,11 +101,14 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 - Approved questions count
 - Quick action buttons for Practice and Mock Exam
 
-### 🌍 Internationalization
-- Full EN/PT-BR support
-- Language selector in header
-- Persistent language preference (localStorage)
-- All UI elements translated
+### 🌍 Bilingual Support (i18n)
+- Full EN/PT-BR support for the interface
+- Independent **question language** selector (EN/PT-BR)
+- Question language toggle available in Practice, Mock Exam, and Question View
+- On-demand translation of questions, options, explanations, and difficulty labels
+- Google Translate as primary provider with MyMemory fallback
+- Two-level translation cache (in-memory + `localStorage`)
+- Persistent language preferences (`localStorage`)
 
 ---
 
@@ -185,11 +188,13 @@ certification-azure/
 ├── frontend/                          # React Frontend
 │   ├── src/
 │   │   ├── components/               # Reusable components
+│   │   │   └── QuestionLanguageToggle.tsx  # EN/PT-BR question selector
 │   │   ├── context/                  # React contexts
-│   │   │   └── LanguageContext.tsx   # i18n context provider
+│   │   │   └── LanguageContext.tsx   # UI + question language state
 │   │   ├── i18n/                     # Internationalization
 │   │   │   ├── en.ts                 # English translations
 │   │   │   ├── pt.ts                 # Portuguese translations
+│   │   │   ├── questions.ts          # Question translation engine
 │   │   │   └── index.ts              # i18n utilities
 │   │   ├── pages/                    # Page components
 │   │   │   ├── Dashboard.tsx         # Main dashboard
@@ -500,6 +505,40 @@ The application supports multiple languages:
 - **English (EN)** — Default
 - **Português (PT-BR)**
 
+The interface language and the question language are independent settings:
+
+| Setting | Scope | Default | Persistence |
+|---------|-------|---------|-------------|
+| **UI language** | Navigation, labels, buttons, messages | `en` | `localStorage.language` |
+| **Question language** | Question text, options, explanations, difficulty | Follows UI language until manually changed | `localStorage.questionLanguage` |
+
+### Question Language
+
+The `<QuestionLanguageToggle />` component is available in:
+
+- Practice configuration and active session
+- Mock Exam configuration and active exam
+- Single question view
+
+When the UI language changes, the question language follows it until the user explicitly selects a question language. The choice is then persisted and used across sessions.
+
+### Translation Flow
+
+Questions are stored in English in the database. When the question language is **PT-BR**:
+
+1. The original content is kept as a safe fallback.
+2. Question, options, and explanation are translated on demand.
+3. **Google Translate** (public gtx endpoint) is tried first.
+4. **MyMemory** is used as fallback if Google fails or is rate-limited.
+5. Successful translations are cached in memory and in `localStorage`.
+6. Results are applied incrementally, so the current question is translated in about one second while the rest of the exam is translated in the background.
+
+Relevant files:
+
+- `frontend/src/context/LanguageContext.tsx` — UI/question language state
+- `frontend/src/components/QuestionLanguageToggle.tsx` — EN/PT-BR selector
+- `frontend/src/i18n/questions.ts` — translation providers and cache
+
 ### Adding a New Language
 
 1. Create a new translation file in `frontend/src/i18n/`:
@@ -528,6 +567,8 @@ The application supports multiple languages:
    } as const
    ```
 
+3. Add the language to `QuestionLanguageToggle.tsx` and to the translation provider logic in `i18n/questions.ts`.
+
 ---
 
 ## 🧠 Skills & Prompts
@@ -542,7 +583,7 @@ The project includes AI assistant skills in `.opencode/skills/`:
 | `code-reviewer.md` | Review code quality and security |
 | `docker-expert.md` | Docker and containerization guidance |
 | `api-designer.md` | RESTful API design best practices |
-| `frontend-builder.md` | React frontend development |
+| `frontend-builder.md` | React frontend development and EN/PT-BR i18n |
 
 ### Claude Skills
 
@@ -562,6 +603,7 @@ Collection of prompts in `prompts/README.md`:
 - **AI Explanation**: Generate student-friendly explanations
 - **Study Recommendations**: Personalized study plans
 - **Performance Analysis**: Mock exam result analysis
+- **Question Translation**: Translate questions, options, and explanations from EN to PT-BR
 - **Code Review**: Automated code quality checks
 
 ---
@@ -574,7 +616,8 @@ Collection of prompts in `prompts/README.md`:
 | Certification Domains | 5 |
 | API Endpoints | 10+ |
 | Supported Languages | 2 (EN, PT-BR) |
-| Frontend Components | 4 pages |
+| Question Language Toggle | EN / PT-BR |
+| Frontend Components | 4 pages + language toggle |
 | Backend Services | FastAPI + PostgreSQL |
 | Containerization | Docker + Docker Compose |
 

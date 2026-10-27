@@ -76,9 +76,29 @@ Deep expertise in Azure AZ-104 certification domains and skills.
 - Azure Site Recovery
 - Network Watcher
 
+## Translation Terminology (EN → PT-BR)
+
+When translating questions for the PT-BR question language, keep in English:
+
+- Azure product and service names (Azure Monitor, Azure Bastion, Azure Front Door)
+- SKUs and tiers (Standard, Premium, LRS, ZRS, GRS, GZRS)
+- Cmdlets and CLI commands (`New-AzVM`, `az group create`)
+- Acronyms and protocol names (RBAC, NSG, ASG, UDR, VNet, DNS, TLS, SSO, PIM, RPO, RTO)
+- API names, ARM template keywords, and resource provider namespaces
+
+Translate:
+
+- The question scenario and natural-language instructions
+- Option descriptions
+- Explanations and teaching content
+- Difficulty labels (Easy → Fácil, Intermediate → Intermediário, Advanced → Avançado)
+
+Never change option labels, `correct_answer`, `difficulty`, or `tags` during translation.
+
 ## Usage
 When generating questions or explanations, ensure:
 1. Use current terminology (Microsoft Entra ID, not Azure AD)
 2. Reference official Microsoft documentation
 3. Include real-world scenarios
 4. Test practical knowledge, not just memorization
+5. Write the English source clearly so it can be translated to PT-BR without ambiguity

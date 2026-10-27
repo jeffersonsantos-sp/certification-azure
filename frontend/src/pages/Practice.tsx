@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getRandomQuestions, submitAnswer, Question } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
+import QuestionLanguageToggle from '../components/QuestionLanguageToggle'
 import { translateQuestionTextAsync, translateExplanationAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
 
 const domainNameKeys: Record<string, string> = {
@@ -19,7 +20,7 @@ interface TranslatedQuestion {
 }
 
 export default function Practice() {
-  const { t, language } = useLanguage()
+  const { t, questionLanguage } = useLanguage()
   const { domainId } = useParams()
   const navigate = useNavigate()
   const [selectedDomain, setSelectedDomain] = useState<string | null>(domainId || null)
@@ -73,22 +74,24 @@ export default function Practice() {
 
   // Translate questions when language changes
   useEffect(() => {
-    if (questions.length === 0 || language === 'en') {
+    if (questions.length === 0 || questionLanguage === 'en') {
       setTranslatedQuestions(new Map())
       return
     }
 
+    let cancelled = false
+
     const translateAllQuestions = async () => {
       const newTranslated = new Map<number, TranslatedQuestion>()
-      
-      for (let i = 0; i < questions.length; i++) {
+
+      for (let i = 0; i < questions.length && !cancelled; i++) {
         const q = questions[i]
         const [questionText, explanation, ...optionTexts] = await Promise.all([
-          translateQuestionTextAsync(q.question_text, language),
-          translateExplanationAsync(q.explanation, language),
-          ...q.options.map(opt => translateOptionTextAsync(opt.text, language))
+          translateQuestionTextAsync(q.question_text, questionLanguage),
+          translateExplanationAsync(q.explanation, questionLanguage),
+          ...q.options.map(opt => translateOptionTextAsync(opt.text, questionLanguage))
         ])
-        
+
         newTranslated.set(i, {
           questionText,
           options: q.options.map((opt, idx) => ({
@@ -97,13 +100,19 @@ export default function Practice() {
           })),
           explanation
         })
+
+        if (!cancelled) {
+          setTranslatedQuestions(new Map(newTranslated))
+        }
       }
-      
-      setTranslatedQuestions(newTranslated)
     }
 
     translateAllQuestions()
-  }, [questions, language])
+
+    return () => {
+      cancelled = true
+    }
+  }, [questions, questionLanguage])
 
   const handleSubmit = async () => {
     if (!selectedAnswer) return
@@ -146,13 +155,16 @@ export default function Practice() {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
             <span className="text-sm font-medium text-gray-500">
               {t('practice.questionOf', { current: currentIndex + 1, total: questions.length })}
             </span>
-            <span className="text-sm font-medium text-gray-500">
-              {t('practice.score', { correct: correctCount, total: results.length })}
-            </span>
+            <div className="flex items-center gap-4">
+              <QuestionLanguageToggle />
+              <span className="text-sm font-medium text-gray-500">
+                {t('practice.score', { correct: correctCount, total: results.length })}
+              </span>
+            </div>
           </div>
           <div className="progress">
             <div className="progress-bar" style={{ width: `${progress}%` }} />
@@ -162,7 +174,7 @@ export default function Practice() {
         <div className="card-elevated p-6 md:p-8">
           <div className="flex flex-wrap items-center gap-2 mb-6">
             <span className={`badge badge-${currentQuestion.difficulty}`}>
-              {translateDifficulty(currentQuestion.difficulty, language)}
+              {translateDifficulty(currentQuestion.difficulty, questionLanguage)}
             </span>
             <span className="text-gray-300">•</span>
             <span className="text-sm text-gray-500">
@@ -331,7 +343,10 @@ export default function Practice() {
 
       {selectedDomain && (
         <div className="card-elevated p-6 md:p-8 animate-fadeInUp">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">{t('practice.configuration')}</h2>
+          <div className="flex items-center justify-between gap-3 flex-wrap mb-6">
+            <h2 className="text-xl font-bold text-gray-900">{t('practice.configuration')}</h2>
+            <QuestionLanguageToggle />
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div>

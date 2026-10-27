@@ -9,6 +9,11 @@ const pt: Translations = {
     practice: 'Praticar',
     mockExam: 'Simulado',
   },
+  questionLanguage: {
+    label: 'Questões',
+    en: 'Inglês',
+    ptBR: 'Português',
+  },
   header: {
     readiness: 'Pronto',
     logout: 'Sair',

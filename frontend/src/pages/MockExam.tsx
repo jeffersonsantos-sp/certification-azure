@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getRandomQuestions, submitAnswer, Question } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
+import QuestionLanguageToggle from '../components/QuestionLanguageToggle'
 import { translateQuestionTextAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
 
 interface TranslatedQuestion {
@@ -10,7 +11,7 @@ interface TranslatedQuestion {
 }
 
 export default function MockExam() {
-  const { t, language } = useLanguage()
+  const { t, questionLanguage } = useLanguage()
   const navigate = useNavigate()
   const [started, setStarted] = useState(false)
   const [finished, setFinished] = useState(false)
@@ -106,21 +107,23 @@ export default function MockExam() {
 
   // Translate questions when language changes
   useEffect(() => {
-    if (questions.length === 0 || language === 'en') {
+    if (questions.length === 0 || questionLanguage === 'en') {
       setTranslatedQuestions(new Map())
       return
     }
 
+    let cancelled = false
+
     const translateAllQuestions = async () => {
       const newTranslated = new Map<number, TranslatedQuestion>()
-      
-      for (let i = 0; i < questions.length; i++) {
+
+      for (let i = 0; i < questions.length && !cancelled; i++) {
         const q = questions[i]
         const [questionText, ...optionTexts] = await Promise.all([
-          translateQuestionTextAsync(q.question_text, language),
-          ...q.options.map(opt => translateOptionTextAsync(opt.text, language))
+          translateQuestionTextAsync(q.question_text, questionLanguage),
+          ...q.options.map(opt => translateOptionTextAsync(opt.text, questionLanguage))
         ])
-        
+
         newTranslated.set(i, {
           questionText,
           options: q.options.map((opt, idx) => ({
@@ -128,13 +131,19 @@ export default function MockExam() {
             text: optionTexts[idx]
           }))
         })
+
+        if (!cancelled) {
+          setTranslatedQuestions(new Map(newTranslated))
+        }
       }
-      
-      setTranslatedQuestions(newTranslated)
     }
 
     translateAllQuestions()
-  }, [questions, language])
+
+    return () => {
+      cancelled = true
+    }
+  }, [questions, questionLanguage])
 
   const selectAnswer = (questionId: string, answer: string) => {
     setAnswers({ ...answers, [questionId]: answer })
@@ -195,7 +204,7 @@ export default function MockExam() {
                   </div>
                   <div className="flex-1">
                     <p className="font-medium text-gray-900 mb-1">
-                      <span className="text-gray-400">Q{i + 1}.</span> {r.question.question_text}
+                      <span className="text-gray-400">Q{i + 1}.</span> {translatedQuestions.get(i)?.questionText || r.question.question_text}
                     </p>
                     {!r.correct && (
                       <p className="text-sm text-gray-600">
@@ -261,6 +270,7 @@ export default function MockExam() {
               </span>
             </div>
             <div className="flex items-center gap-4">
+              <QuestionLanguageToggle className="hidden sm:flex" />
               <div className={`text-lg font-mono font-bold px-4 py-2 rounded-xl ${
                 timeLeft < 300 ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-gray-100 text-gray-900'
               }`}>
@@ -279,7 +289,7 @@ export default function MockExam() {
         <div className="card-elevated p-6 md:p-8">
           <div className="flex flex-wrap items-center gap-2 mb-6">
             <span className={`badge badge-${currentQuestion.difficulty}`}>
-              {translateDifficulty(currentQuestion.difficulty, language)}
+              {translateDifficulty(currentQuestion.difficulty, questionLanguage)}
             </span>
           </div>
 
@@ -418,7 +428,10 @@ export default function MockExam() {
       </div>
 
       <div className="card-elevated p-6 md:p-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">{t('mockExam.configuration')}</h2>
+        <div className="flex items-center justify-between gap-3 flex-wrap mb-6">
+          <h2 className="text-xl font-bold text-gray-900">{t('mockExam.configuration')}</h2>
+          <QuestionLanguageToggle />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-3">{t('mockExam.domain')}</label>
