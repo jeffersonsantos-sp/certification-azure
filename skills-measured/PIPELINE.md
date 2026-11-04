@@ -39,12 +39,15 @@ Pipeline para gerar questões de certificação AZ-104 usando IA + validação h
   "skill_id": "ig-01",
   "domain_id": "identity-governance",
   "question_text": "Which Azure service should you use to...",
+  "question_type": "single_choice",
+  "question_data": {},
   "options": [
     {"label": "A", "text": "Option A", "is_correct": false},
     {"label": "B", "text": "Option B", "is_correct": true},
     {"label": "C", "text": "Option C", "is_correct": false},
     {"label": "D", "text": "Option D", "is_correct": false}
   ],
+  "correct_answer": "B",
   "explanation": "Azure RBAC is used because...",
   "difficulty": "intermediate",
   "tags": ["rbac", "access-control", "identity"],
@@ -54,6 +57,18 @@ Pipeline para gerar questões de certificação AZ-104 usando IA + validação h
   "validated_at": null
 }
 ```
+
+### Formatos avançados
+
+| `question_type` | `correct_answer` | Campos adicionais |
+|-----------------|------------------|-------------------|
+| `single_choice` | string (`"B"`) | opções A–D |
+| `multiple_choice` | array (`["A", "C"]`) | `is_correct` em cada opção |
+| `case_study` | string (`"B"`) | `question_data.scenario`, `question_data.instructions` |
+| `drag_drop` | array ordenado com todos os labels | opções sem `is_correct` |
+| `hotspot` | ID da região | `question_data.image_url`, `question_data.regions` |
+
+Para `drag_drop`, o array deve conter cada label exatamente uma vez. Para `hotspot`, cada região precisa de `id`, `label`, `x`, `y`, `width` e `height` em percentuais.
 
 ## Prompts de Geração
 
@@ -83,6 +98,8 @@ Return in this exact JSON format:
   "questions": [
     {
       "question_text": "...",
+      "question_type": "single_choice",
+      "question_data": {},
       "options": [
         {"label": "A", "text": "..."},
         {"label": "B", "text": "..."},
@@ -92,11 +109,16 @@ Return in this exact JSON format:
       "correct_answer": "B",
       "explanation": "...",
       "difficulty": "intermediate",
-      "tags": ["..."]
+      "tags": ["..."],
+      "reference_url": "https://learn.microsoft.com/..."
     }
   ]
 }
 ```
+
+Para gerar formatos avançados, use o prompt de formatos avançados em
+`prompts/README.md`. Ele cobre `multiple_choice`, `case_study`, `drag_drop`
+e `hotspot`, incluindo as regras de `question_data` e `correct_answer`.
 
 ### Prompt de Validação
 
@@ -125,14 +147,17 @@ Return:
 
 ## Contagem de Questões por Domínio
 
-| Domínio | Peso | Questões/10 | Total Estimado |
-|---------|------|-------------|----------------|
-| Identity & Governance | 20-25% | 15 | 150 |
-| Storage | 15-20% | 12 | 120 |
-| Compute | 20-25% | 15 | 150 |
-| Networking | 15-20% | 12 | 120 |
-| Monitoring | 10-15% | 10 | 100 |
-| **Total** | | | **~640** |
+| Domínio | Peso | Questões Atuais | Meta |
+|---------|------|-----------------|------|
+| Identity & Governance | 20-25% | 155 | 150 |
+| Storage | 15-20% | 61 | 120 |
+| Compute | 20-25% | 91 | 150 |
+| Networking | 15-20% | 69 | 120 |
+| Monitoring | 10-15% | 35 | 100 |
+| **Total** | | **411** | **~640** |
+
+Os totais atuais refletem o banco aprovado. O total de 411 inclui 407 questões
+de escolha única e 4 exemplos de formatos avançados (um de cada tipo).
 
 ## Execução
 
@@ -146,23 +171,26 @@ Return:
 
 ```bash
 # 1. Instalar dependências
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 
 # 2. Configurar variáveis de ambiente
 cp .env.example .env
 # Editar .env com suas chaves de API
 
 # 3. Gerar questões para um skill específico
-python generate.py --skill ig-01 --count 15
+python scripts/generate.py --skill ig-01 --count 15
 
 # 4. Gerar questões para todos os skills
-python generate.py --all --count 10
+python scripts/generate.py --all --count 10
 
 # 5. Validar questões geradas
-python validate.py --status draft
+python scripts/validate.py review --status draft
 
-# 6. Exportar questões aprovadas
-python export.py --status approved --format json
+# 6. Aplicar a migração de formatos avançados
+python scripts/migrate_advanced_formats.py
+
+# 7. Popular um exemplo de cada formato avançado
+python scripts/seed_advanced_formats.py
 ```
 
 ## Critérios de Aprovação
@@ -175,3 +203,7 @@ Uma questão é aprovada quando:
 - [ ] Questão testa conhecimento prático, não apenas memorização
 - [ ] Dificuldade está adequada ao nível declarado
 - [ ] Terminologia está atualizada (Microsoft Entra ID, não Azure AD)
+- [ ] `question_type` é válido e `correct_answer` tem o formato correto
+- [ ] `drag_drop` lista todos os labels exatamente uma vez
+- [ ] `hotspot` referencia uma região existente em `question_data.regions`
+- [ ] Comandos CLI, cmdlets e snippets de código não foram traduzidos

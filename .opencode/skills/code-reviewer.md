@@ -21,14 +21,23 @@ Review code changes for quality, security, and best practices.
    - Validate user input properly
    - Use parameterized queries
    - Implement proper authentication checks
+   - Confirm read endpoints do not leak `correct_answer`, `explanation`, or option `is_correct`
+   - Confirm scoring happens server-side, not in the browser
 
-3. **Performance Review**:
+3. **Question Format Review**:
+   - Validate `question_type` is one of `single_choice`, `multiple_choice`, `case_study`, `drag_drop`, or `hotspot`
+   - Check `correct_answer` shape: string for single/case/hotspot, array for multiple/drag
+   - For drag-and-drop, confirm every option label appears exactly once
+   - For hotspot, confirm the correct region ID exists in `question_data.regions`
+   - Confirm `question_data` and `selected_answer` remain JSONB-compatible
+
+4. **Performance Review**:
    - Check for unnecessary re-renders (React)
    - Verify database query efficiency
    - Ensure proper caching strategies
    - Validate bundle size impact
 
-4. **Architecture Review**:
+5. **Architecture Review**:
    - Follow separation of concerns
    - Ensure proper component composition
    - Validate API design consistency

@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getQuestion, submitAnswer, Question } from '../services/api'
+import { getQuestion, submitAnswer, Question, AnswerValue } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
 import QuestionLanguageToggle from '../components/QuestionLanguageToggle'
+import QuestionContent from '../components/QuestionContent'
 import { translateQuestionTextAsync, translateExplanationAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
+import { formatAnswer } from '../utils/answers'
 
 interface TranslatedContent {
   questionText: string
   options: { label: string; text: string }[]
-  explanation: string
 }
 
 export default function QuestionView() {
@@ -18,10 +19,11 @@ export default function QuestionView() {
   const [question, setQuestion] = useState<Question | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [selected, setSelected] = useState<string | null>(null)
+  const [selected, setSelected] = useState<AnswerValue | null>(null)
   const [submitted, setSubmitted] = useState(false)
-  const [result, setResult] = useState<{ correct: boolean; explanation: string } | null>(null)
+  const [result, setResult] = useState<{ correct: boolean; correct_answer: AnswerValue; explanation: string } | null>(null)
   const [translated, setTranslated] = useState<TranslatedContent | null>(null)
+  const [translatedExplanation, setTranslatedExplanation] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -52,27 +54,42 @@ export default function QuestionView() {
     }
 
     const translateContent = async () => {
-      const [questionText, explanation, ...optionTexts] = await Promise.all([
+      const [questionText, ...optionTexts] = await Promise.all([
         translateQuestionTextAsync(question.question_text, questionLanguage),
-        translateExplanationAsync(question.explanation, questionLanguage),
         ...question.options.map(opt => translateOptionTextAsync(opt.text, questionLanguage))
       ])
-      
+
       setTranslated({
         questionText,
         options: question.options.map((opt, idx) => ({
           label: opt.label,
           text: optionTexts[idx]
         })),
-        explanation
       })
     }
 
     translateContent()
   }, [question, questionLanguage])
 
+  useEffect(() => {
+    if (!result || questionLanguage === 'en') {
+      setTranslatedExplanation(null)
+      return
+    }
+
+    let cancelled = false
+    translateExplanationAsync(result.explanation, questionLanguage).then((translated) => {
+      if (!cancelled) setTranslatedExplanation(translated)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [result, questionLanguage])
+
   const handleSubmit = async () => {
-    if (!selected || !questionId) return
+    const hasAnswer = Array.isArray(selected) ? selected.length > 0 : Boolean(selected)
+    if (!hasAnswer || selected === null || !questionId) return
 
     try {
       const response = await submitAnswer(questionId, selected)
@@ -115,6 +132,7 @@ export default function QuestionView() {
   }
 
   const isCorrect = result?.correct
+  const hasSelection = Array.isArray(selected) ? selected.length > 0 : Boolean(selected)
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -131,50 +149,15 @@ export default function QuestionView() {
       </div>
 
       <div className="card-elevated p-6 md:p-8">
-        <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
-          {translated?.questionText || question.question_text}
-        </h2>
-
-        <div className="space-y-3 mb-8">
-          {question.options.map((opt) => {
-            const isSelected = selected === opt.label
-            const showCorrect = submitted && opt.label === question.correct_answer
-            const showIncorrect = submitted && isSelected && opt.label !== question.correct_answer
-            const translatedOpt = translated?.options.find(o => o.label === opt.label)
-
-            return (
-              <label
-                key={opt.label}
-                className={`option ${
-                  showCorrect ? 'correct' : showIncorrect ? 'incorrect' : ''
-                } ${isSelected && !submitted ? 'selected' : ''}`}
-                onClick={() => !submitted && setSelected(opt.label)}
-              >
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all ${
-                  showCorrect
-                    ? 'bg-emerald-500 text-white'
-                    : showIncorrect
-                    ? 'bg-rose-500 text-white'
-                    : isSelected
-                    ? 'bg-blue-500 text-white'
-                    : 'border-2 border-gray-200 text-gray-500'
-                }`}>
-                  {showCorrect ? '✓' : showIncorrect ? '✗' : opt.label}
-                </div>
-                <div className="flex-1">
-                  <span className="text-gray-700 leading-relaxed">{translatedOpt?.text || opt.text}</span>
-                  {showCorrect && (
-                    <p className="mt-2 text-sm font-medium text-emerald-600">✓ {t('practice.correctAnswer')}</p>
-                  )}
-                  {showIncorrect && (
-                    <p className="mt-2 text-sm font-medium text-rose-600">✗ {t('practice.yourAnswer')}</p>
-                  )}
-                </div>
-                <input type="radio" name="answer" value={opt.label} className="sr-only" />
-              </label>
-            )
-          })}
-        </div>
+        <QuestionContent
+          question={question}
+          selected={selected}
+          onSelect={setSelected}
+          submitted={submitted}
+          correctAnswer={result?.correct_answer}
+          translatedQuestionText={translated?.questionText}
+          translatedOptions={translated?.options}
+        />
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-100">
           <button onClick={() => navigate(-1)} className="btn-ghost w-full sm:w-auto">
@@ -184,8 +167,8 @@ export default function QuestionView() {
             {!submitted ? (
               <button
                 onClick={handleSubmit}
-                disabled={!selected}
-                className={`btn-primary flex-1 sm:flex-none ${!selected ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={!hasSelection}
+                className={`btn-primary flex-1 sm:flex-none ${!hasSelection ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {t('questionView.submitAnswer')}
               </button>
@@ -216,7 +199,7 @@ export default function QuestionView() {
             <p className={`text-sm ${isCorrect ? 'text-emerald-600' : 'text-rose-600'}`}>
               {isCorrect
                 ? t('questionView.correctMsg')
-                : t('questionView.incorrectMsg', { answer: question.correct_answer })}
+                : t('questionView.incorrectMsg', { answer: formatAnswer(result?.correct_answer, question) })}
             </p>
           </div>
         </div>
@@ -231,7 +214,7 @@ export default function QuestionView() {
             <h3 className="text-lg font-bold text-gray-900">{t('questionView.explanation')}</h3>
           </div>
           <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-            {translated?.explanation || result.explanation}
+            {translatedExplanation || result.explanation}
           </p>
         </div>
       )}

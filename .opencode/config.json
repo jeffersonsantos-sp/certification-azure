@@ -1,7 +1,7 @@
 {
   "name": "AZ-104 Trainer",
-  "version": "1.0.0",
-  "description": "Intelligent web platform for Azure AZ-104 certification practice",
+  "version": "1.1.0",
+  "description": "Intelligent web platform for Azure AZ-104 certification practice with advanced question formats",
   "author": "Jefferson Santos",
   "skills": [
     "question-generator",
@@ -10,9 +10,21 @@
     "api-designer",
     "frontend-builder"
   ],
-  "languages": ["typescript", "python", "sql"],
+  "languages": [
+    "typescript",
+    "python",
+    "sql"
+  ],
   "frameworks": {
-    "frontend": ["react", "tailwindcss", "vite"],
-    "backend": ["fastapi", "sqlalchemy", "pydantic"]
+    "frontend": [
+      "react",
+      "tailwindcss",
+      "vite"
+    ],
+    "backend": [
+      "fastapi",
+      "sqlalchemy",
+      "pydantic"
+    ]
   }
 }

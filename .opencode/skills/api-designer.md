@@ -37,6 +37,22 @@ Design and review RESTful APIs following best practices and standards.
    - Deprecate old versions gracefully
    - Document version changes
 
+## Question Scoring API
+
+- `GET /questions/`, `/questions/random`, and `/questions/{id}` return sanitized payloads only
+- Never include `correct_answer`, `explanation`, or option `is_correct` in a read response
+- `POST /questions/{id}/answer` scores one answer and returns `correct`, `correct_answer`, and `explanation`
+- `POST /questions/submit-exam` scores a complete exam in one request and returns per-question results
+- Score server-side; never compare answers in the browser
+- Normalize by `question_type`:
+  - `single_choice` and `case_study`: uppercase label string
+  - `multiple_choice`: sorted, deduplicated array of uppercase labels
+  - `drag_drop`: ordered array of labels
+  - `hotspot`: region ID string
+- Use optional JWT authentication: anonymous users can practice, authenticated users get `UserAnswer` persistence
+- Limit bulk submissions (for example, 200 answers) and validate that every question exists
+- Return a 400 for empty or oversized submissions and 404 for unknown question IDs
+
 ## API Response Structure
 
 ### Success Response

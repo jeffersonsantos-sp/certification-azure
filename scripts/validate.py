@@ -31,19 +31,42 @@ def validate_structure(data: dict) -> list[str]:
 
         if "question_text" not in q:
             issues.append(f"{prefix}: Missing question_text")
-        if "options" not in q or len(q.get("options", [])) != 4:
-            issues.append(f"{prefix}: Must have exactly 4 options")
-        if "correct_answer" not in q:
-            issues.append(f"{prefix}: Missing correct_answer")
         if "explanation" not in q:
             issues.append(f"{prefix}: Missing explanation")
         if "difficulty" not in q:
             issues.append(f"{prefix}: Missing difficulty")
 
-        # Check correct_answer is valid
+        question_type = q.get("question_type", "single_choice")
+        options = q.get("options", [])
+        correct_answer = q.get("correct_answer")
         valid_labels = {"A", "B", "C", "D"}
-        if q.get("correct_answer") not in valid_labels:
-            issues.append(f"{prefix}: Invalid correct_answer '{q.get('correct_answer')}'")
+
+        if question_type in ("single_choice", "case_study", "multiple_choice"):
+            if len(options) != 4:
+                issues.append(f"{prefix}: Must have exactly 4 options")
+            invalid = [
+                label for label in (
+                    correct_answer if isinstance(correct_answer, list) else [correct_answer]
+                ) if label not in valid_labels
+            ]
+            if invalid:
+                issues.append(f"{prefix}: Invalid correct_answer '{invalid}'")
+        elif question_type == "drag_drop":
+            if len(options) < 2:
+                issues.append(f"{prefix}: Drag-drop questions need at least 2 items")
+            if not isinstance(correct_answer, list) or sorted(correct_answer) != sorted(
+                option.get("label") for option in options
+            ):
+                issues.append(f"{prefix}: Drag-drop correct_answer must list every option label")
+        elif question_type == "hotspot":
+            question_data = q.get("question_data", {})
+            if not question_data.get("image_url") or not question_data.get("regions"):
+                issues.append(f"{prefix}: Hotspot requires image_url and regions")
+            region_ids = {region.get("id") for region in question_data.get("regions", [])}
+            if correct_answer not in region_ids:
+                issues.append(f"{prefix}: Hotspot correct_answer must be a region id")
+        else:
+            issues.append(f"{prefix}: Unknown question_type '{question_type}'")
 
     return issues
 

@@ -1,9 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getRandomQuestions, submitAnswer, Question } from '../services/api'
+import { getRandomQuestions, submitExam, Question, AnswerValue } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
 import QuestionLanguageToggle from '../components/QuestionLanguageToggle'
+import QuestionContent from '../components/QuestionContent'
 import { translateQuestionTextAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
+import { formatAnswer } from '../utils/answers'
 
 interface TranslatedQuestion {
   questionText: string
@@ -22,35 +24,49 @@ export default function MockExam() {
 
   const [questions, setQuestions] = useState<Question[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [answers, setAnswers] = useState<Record<string, string>>({})
+  const [answers, setAnswers] = useState<Record<string, AnswerValue>>({})
   const [translatedQuestions, setTranslatedQuestions] = useState<Map<number, TranslatedQuestion>>(new Map())
   const [results, setResults] = useState<Array<{
     question: Question
-    selected: string
+    selected: AnswerValue
     correct: boolean
+    correct_answer: AnswerValue
+    explanation: string
   }>>([])
+  const submittingRef = useRef(false)
 
   const finishExam = useCallback(async () => {
-    const examResults = questions.map((q) => ({
-      question: q,
-      selected: answers[q.id] || '',
-      correct: answers[q.id] === q.correct_answer,
-    }))
-    
-    for (const q of questions) {
-      if (answers[q.id]) {
-        try {
-          await submitAnswer(q.id, answers[q.id])
-        } catch (e) {
-          console.error('Failed to submit answer:', e)
+    if (submittingRef.current || questions.length === 0) return
+    submittingRef.current = true
+
+    try {
+      const response = await submitExam(
+        questions.map((q) => ({
+          question_id: q.id,
+          answer: answers[q.id] ?? '',
+        }))
+      )
+
+      const resultsById = new Map(response.results.map((result) => [result.question_id, result]))
+      setResults(questions.map((q) => {
+        const result = resultsById.get(q.id)
+        return {
+          question: q,
+          selected: result?.selected ?? answers[q.id] ?? '',
+          correct: result?.correct ?? false,
+          correct_answer: result?.correct_answer ?? '',
+          explanation: result?.explanation ?? '',
         }
-      }
+      }))
+      setFinished(true)
+      setStarted(false)
+    } catch (err) {
+      setError(t('mockExam.submitFailed'))
+      console.error('Failed to submit exam:', err)
+    } finally {
+      submittingRef.current = false
     }
-    
-    setResults(examResults)
-    setFinished(true)
-    setStarted(false)
-  }, [questions, answers])
+  }, [questions, answers, t])
 
   useEffect(() => {
     if (!started || finished) return
@@ -97,6 +113,9 @@ export default function MockExam() {
       setStarted(true)
       setFinished(false)
       setTranslatedQuestions(new Map())
+      setResults([])
+      setError(null)
+      submittingRef.current = false
     } catch (err) {
       setError(t('mockExam.failedLoad'))
       console.error(err)
@@ -145,9 +164,12 @@ export default function MockExam() {
     }
   }, [questions, questionLanguage])
 
-  const selectAnswer = (questionId: string, answer: string) => {
+  const selectAnswer = (questionId: string, answer: AnswerValue) => {
     setAnswers({ ...answers, [questionId]: answer })
   }
+
+  const hasAnswer = (value: AnswerValue | undefined) =>
+    Array.isArray(value) ? value.length > 0 : Boolean(value)
 
   const currentQuestion = questions[currentIndex]
   const progress = questions.length > 0 ? ((currentIndex + 1) / questions.length) * 100 : 0
@@ -208,9 +230,9 @@ export default function MockExam() {
                     </p>
                     {!r.correct && (
                       <p className="text-sm text-gray-600">
-                        {t('practice.yourAnswer')}: <span className="font-semibold text-rose-600">{r.selected}</span>
+                        {t('practice.yourAnswer')}: <span className="font-semibold text-rose-600">{formatAnswer(r.selected, r.question)}</span>
                         {' • '}
-                        {t('practice.correctAnswer')}: <span className="font-semibold text-emerald-600">{r.question.correct_answer}</span>
+                        {t('practice.correctAnswer')}: <span className="font-semibold text-emerald-600">{formatAnswer(r.correct_answer, r.question)}</span>
                       </p>
                     )}
                   </div>
@@ -260,6 +282,11 @@ export default function MockExam() {
   if (started && questions.length > 0) {
     return (
       <div className="max-w-4xl mx-auto">
+        {error && (
+          <div className="mb-4 p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700">
+            {error}
+          </div>
+        )}
         <div className="sticky top-16 z-30 glass border-b border-gray-200/50 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-4 mb-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -296,35 +323,13 @@ export default function MockExam() {
           {(() => {
             const translated = translatedQuestions.get(currentIndex)
             return (
-              <>
-                <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
-                  {translated?.questionText || currentQuestion.question_text}
-                </h2>
-
-                <div className="space-y-3 mb-8">
-                  {currentQuestion.options.map((opt) => {
-                    const isSelected = answers[currentQuestion.id] === opt.label
-                    const translatedOpt = translated?.options.find(o => o.label === opt.label)
-                    return (
-                      <label
-                        key={opt.label}
-                        className={`option ${isSelected ? 'selected' : ''}`}
-                        onClick={() => selectAnswer(currentQuestion.id, opt.label)}
-                      >
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all ${
-                          isSelected
-                            ? 'bg-blue-500 text-white'
-                            : 'border-2 border-gray-200 text-gray-500'
-                        }`}>
-                          {opt.label}
-                        </div>
-                        <span className="text-gray-700 leading-relaxed">{translatedOpt?.text || opt.text}</span>
-                        <input type="radio" name="answer" value={opt.label} className="sr-only" />
-                </label>
-                      )
-                    })}
-                  </div>
-                </>
+              <QuestionContent
+                question={currentQuestion}
+                selected={answers[currentQuestion.id] ?? null}
+                onSelect={(value) => selectAnswer(currentQuestion.id, value)}
+                translatedQuestionText={translated?.questionText}
+                translatedOptions={translated?.options}
+              />
             )
           })()}
 
@@ -373,7 +378,7 @@ export default function MockExam() {
                 className={`w-10 h-10 rounded-lg font-semibold text-sm transition-all ${
                   i === currentIndex
                     ? 'bg-blue-500 text-white ring-2 ring-blue-300'
-                    : answers[q.id]
+                    : hasAnswer(answers[q.id])
                     ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}

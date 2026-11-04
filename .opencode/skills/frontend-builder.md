@@ -57,6 +57,19 @@ Guidelines:
 - Never translate Azure product names, SKUs, cmdlets, CLI commands, or acronyms
 - Keep the UI language and question language independent once the user overrides the question language
 
+## Advanced Question Rendering
+
+Use the shared `frontend/src/components/QuestionContent.tsx` component for every question type. Do not duplicate format logic across Practice, Mock Exam, and Question View.
+
+- `AnswerValue` is `string | string[]`; single-choice, case study, and hotspot use a string, while multiple-choice and drag-and-drop use arrays
+- `single_choice` and `case_study` render option buttons; case studies show `question_data.scenario` and `question_data.instructions`
+- `multiple_choice` toggles multiple labels and submits a sorted array
+- `drag_drop` initializes its order from option labels and supports native drag or arrow buttons; always submit the ordered label array
+- `hotspot` renders an image plus absolutely positioned region buttons using percentage coordinates from `question_data.regions`
+- Pass `submitted` and `correctAnswer` only when displaying feedback
+- Keep `question_data` optional-safe so legacy single-choice questions still render
+- Format review answers with `frontend/src/utils/answers.ts`
+
 ## Component Template
 
 ```typescript

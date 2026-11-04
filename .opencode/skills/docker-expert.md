@@ -39,6 +39,31 @@ Assist with Docker containerization, Docker Compose, and deployment configuratio
    - Minimize image size with alpine variants
    - Use multi-stage builds for compiled languages
 
+## AZ-104 Trainer Image Workflow
+
+```bash
+# Build both services locally
+docker compose build
+
+# Build and tag the published images
+docker build -t updateinformatica/az104-frontend:latest frontend
+docker build -t updateinformatica/az104-backend:latest backend
+
+# Verify the running stack
+docker compose up -d
+curl -fsS http://localhost:8000/health
+curl -fsS -o /dev/null http://localhost:3000
+
+# Push after authenticating to Docker Hub
+docker push updateinformatica/az104-frontend:latest
+docker push updateinformatica/az104-backend:latest
+```
+
+- The frontend image is a multi-stage Node build served by Nginx
+- The backend image installs `backend/requirements.txt`; keep `bcrypt==4.0.1` pinned for `passlib` compatibility
+- The backend Compose service mounts `./backend` and `./questions` for local reload; production images should not depend on those mounts
+- Do not bake `.env`, API keys, or database credentials into images
+
 ## Common Patterns
 
 ### Node.js Frontend

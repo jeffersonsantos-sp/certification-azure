@@ -1,9 +1,12 @@
+import enum
 import uuid
 from datetime import datetime
-from sqlalchemy import String, Text, Boolean, Integer, DateTime, ForeignKey, Enum as SAEnum
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from typing import Any
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import Enum as SAEnum
+from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-import enum
 
 from app.core.database import Base
 
@@ -62,11 +65,13 @@ class Question(Base):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     skill_id: Mapped[str] = mapped_column(ForeignKey("skills.id"))
     question_text: Mapped[str] = mapped_column(Text)
-    options: Mapped[dict] = mapped_column(JSONB)
-    correct_answer: Mapped[str] = mapped_column(String(1))
+    question_type: Mapped[str] = mapped_column(String(32), default="single_choice")
+    question_data: Mapped[dict] = mapped_column(JSONB, default=dict)
+    options: Mapped[list] = mapped_column(JSONB)
+    correct_answer: Mapped[Any] = mapped_column(JSONB)
     explanation: Mapped[str] = mapped_column(Text)
     difficulty: Mapped[DifficultyLevel] = mapped_column(SAEnum(DifficultyLevel))
-    tags: Mapped[dict] = mapped_column(JSONB, default=list)
+    tags: Mapped[list] = mapped_column(JSONB, default=list)
     reference_url: Mapped[str | None] = mapped_column(String(500))
     status: Mapped[QuestionStatus] = mapped_column(SAEnum(QuestionStatus), default=QuestionStatus.draft)
     validated_by: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True))
@@ -83,7 +88,7 @@ class UserAnswer(Base):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"))
     question_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("questions.id"))
-    selected_answer: Mapped[str] = mapped_column(String(1))
+    selected_answer: Mapped[Any] = mapped_column(JSONB)
     is_correct: Mapped[bool] = mapped_column(Boolean)
     answered_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 

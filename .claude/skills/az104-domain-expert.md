@@ -95,6 +95,26 @@ Translate:
 
 Never change option labels, `correct_answer`, `difficulty`, or `tags` during translation.
 
+## Question Formats
+
+Use the format that best tests the skill. Do not force every objective into a single-choice question.
+
+| Format | Best for | Correct answer |
+|--------|----------|----------------|
+| `single_choice` | Selecting one service, tier, or configuration | One label |
+| `multiple_choice` | Selecting a set of required features or steps | Array of labels |
+| `case_study` | Applying multiple requirements to a scenario | One label |
+| `drag_drop` | Ordering CLI commands or migration steps | Ordered array of every label |
+| `hotspot` | Locating a component in a diagram | Region ID |
+
+Format-specific rules:
+
+- Multiple-choice questions need at least two correct options and plausible distractors.
+- Case studies need realistic requirements in `question_data.scenario` and clear instructions.
+- Drag-and-drop questions must preserve exact CLI syntax; never translate commands.
+- Hotspot questions need a valid image URL and percentage-based regions that match the image.
+- Keep `question_data` JSON-serializable and avoid embedding the correct answer in it.
+
 ## Usage
 When generating questions or explanations, ensure:
 1. Use current terminology (Microsoft Entra ID, not Azure AD)
@@ -102,3 +122,5 @@ When generating questions or explanations, ensure:
 3. Include real-world scenarios
 4. Test practical knowledge, not just memorization
 5. Write the English source clearly so it can be translated to PT-BR without ambiguity
+6. Choose the question format that best measures the target skill
+7. Preserve commands, labels, and region IDs exactly

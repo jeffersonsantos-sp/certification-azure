@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getRandomQuestions, submitAnswer, Question } from '../services/api'
+import { getRandomQuestions, submitAnswer, Question, AnswerResponse, AnswerValue } from '../services/api'
+import QuestionContent from '../components/QuestionContent'
 import { useLanguage } from '../context/LanguageContext'
 import QuestionLanguageToggle from '../components/QuestionLanguageToggle'
 import { translateQuestionTextAsync, translateExplanationAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
@@ -16,7 +17,6 @@ const domainNameKeys: Record<string, string> = {
 interface TranslatedQuestion {
   questionText: string
   options: { label: string; text: string }[]
-  explanation: string
 }
 
 export default function Practice() {
@@ -33,10 +33,13 @@ export default function Practice() {
   const [sessionActive, setSessionActive] = useState(false)
   const [questions, setQuestions] = useState<Question[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
+  const [selectedAnswer, setSelectedAnswer] = useState<AnswerValue | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [feedback, setFeedback] = useState<AnswerResponse | null>(null)
+  const [translatedExplanation, setTranslatedExplanation] = useState<string | null>(null)
   const [translatedQuestions, setTranslatedQuestions] = useState<Map<number, TranslatedQuestion>>(new Map())
-  const [results, setResults] = useState<Array<{ questionId: string; correct: boolean; selected: string }>>([])
+  const [results, setResults] = useState<Array<{ questionId: string; correct: boolean; selected: AnswerValue }>>([])
 
   const startPractice = async () => {
     if (!selectedDomain) return
@@ -62,6 +65,8 @@ export default function Practice() {
       setCurrentIndex(0)
       setSelectedAnswer(null)
       setSubmitted(false)
+      setFeedback(null)
+      setTranslatedExplanation(null)
       setResults([])
       setTranslatedQuestions(new Map())
     } catch (err) {
@@ -86,9 +91,8 @@ export default function Practice() {
 
       for (let i = 0; i < questions.length && !cancelled; i++) {
         const q = questions[i]
-        const [questionText, explanation, ...optionTexts] = await Promise.all([
+        const [questionText, ...optionTexts] = await Promise.all([
           translateQuestionTextAsync(q.question_text, questionLanguage),
-          translateExplanationAsync(q.explanation, questionLanguage),
           ...q.options.map(opt => translateOptionTextAsync(opt.text, questionLanguage))
         ])
 
@@ -98,7 +102,6 @@ export default function Practice() {
             label: opt.label,
             text: optionTexts[idx]
           })),
-          explanation
         })
 
         if (!cancelled) {
@@ -114,22 +117,44 @@ export default function Practice() {
     }
   }, [questions, questionLanguage])
 
+  useEffect(() => {
+    if (!feedback || questionLanguage === 'en') {
+      setTranslatedExplanation(null)
+      return
+    }
+
+    let cancelled = false
+    translateExplanationAsync(feedback.explanation, questionLanguage).then((translated) => {
+      if (!cancelled) setTranslatedExplanation(translated)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [feedback, questionLanguage])
+
   const handleSubmit = async () => {
-    if (!selectedAnswer) return
-    setSubmitted(true)
-    setResults([...results, {
-      questionId: questions[currentIndex].id,
-      correct: selectedAnswer === questions[currentIndex].correct_answer,
-      selected: selectedAnswer,
-    }])
-    
-    const token = localStorage.getItem('token')
-    if (token) {
-      try {
-        await submitAnswer(questions[currentIndex].id, selectedAnswer)
-      } catch (e) {
-        console.error('Failed to submit answer:', e)
-      }
+    const hasAnswer = Array.isArray(selectedAnswer) ? selectedAnswer.length > 0 : Boolean(selectedAnswer)
+    if (!hasAnswer || submitting || selectedAnswer === null) return
+    const answer = selectedAnswer
+
+    setSubmitting(true)
+    setError(null)
+
+    try {
+      const response = await submitAnswer(questions[currentIndex].id, answer)
+      setFeedback(response)
+      setSubmitted(true)
+      setResults((previous) => [...previous, {
+        questionId: questions[currentIndex].id,
+        correct: response.correct,
+        selected: answer,
+      }])
+    } catch (e) {
+      setError(t('practice.submitFailed'))
+      console.error('Failed to submit answer:', e)
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -138,22 +163,32 @@ export default function Practice() {
       setCurrentIndex(currentIndex + 1)
       setSelectedAnswer(null)
       setSubmitted(false)
+      setFeedback(null)
+      setTranslatedExplanation(null)
     }
   }
 
   const handleFinish = () => {
     setSessionActive(false)
     setQuestions([])
+    setFeedback(null)
+    setTranslatedExplanation(null)
   }
 
   const currentQuestion = questions[currentIndex]
   const translated = translatedQuestions.get(currentIndex)
+  const hasSelection = Array.isArray(selectedAnswer) ? selectedAnswer.length > 0 : Boolean(selectedAnswer)
   const progress = ((currentIndex + 1) / questions.length) * 100
   const correctCount = results.filter(r => r.correct).length
 
   if (sessionActive && questions.length > 0) {
     return (
       <div className="max-w-4xl mx-auto">
+        {error && (
+          <div className="mb-4 p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700">
+            {error}
+          </div>
+        )}
         <div className="mb-8">
           <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
             <span className="text-sm font-medium text-gray-500">
@@ -182,51 +217,15 @@ export default function Practice() {
             </span>
           </div>
 
-          <h2 className="text-xl font-semibold text-gray-900 leading-relaxed mb-8">
-            {translated?.questionText || currentQuestion.question_text}
-          </h2>
-
-          <div className="space-y-3 mb-8">
-            {currentQuestion.options.map((opt) => {
-              const isSelected = selectedAnswer === opt.label
-              const isCorrectOpt = opt.label === currentQuestion.correct_answer
-              const showCorrect = submitted && isCorrectOpt
-              const showIncorrect = submitted && isSelected && !isCorrectOpt
-              const translatedOpt = translated?.options.find(o => o.label === opt.label)
-
-              return (
-                <label
-                  key={opt.label}
-                  className={`option ${
-                    showCorrect ? 'correct' : showIncorrect ? 'incorrect' : ''
-                  } ${isSelected && !submitted ? 'selected' : ''}`}
-                  onClick={() => !submitted && setSelectedAnswer(opt.label)}
-                >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition-all ${
-                    showCorrect
-                      ? 'bg-emerald-500 text-white'
-                      : showIncorrect
-                      ? 'bg-rose-500 text-white'
-                      : isSelected
-                      ? 'bg-blue-500 text-white'
-                      : 'border-2 border-gray-200 text-gray-500'
-                  }`}>
-                    {showCorrect ? '✓' : showIncorrect ? '✗' : opt.label}
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-gray-700 leading-relaxed">{translatedOpt?.text || opt.text}</span>
-                    {showCorrect && (
-                      <p className="mt-2 text-sm font-medium text-emerald-600">{t('practice.correctAnswer')}</p>
-                    )}
-                    {showIncorrect && (
-                      <p className="mt-2 text-sm font-medium text-rose-600">{t('practice.yourAnswer')}</p>
-                    )}
-                  </div>
-                  <input type="radio" name="answer" value={opt.label} className="sr-only" />
-                </label>
-              )
-            })}
-          </div>
+          <QuestionContent
+            question={currentQuestion}
+            selected={selectedAnswer}
+            onSelect={setSelectedAnswer}
+            submitted={submitted}
+            correctAnswer={feedback?.correct_answer}
+            translatedQuestionText={translated?.questionText}
+            translatedOptions={translated?.options}
+          />
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-100">
             <button onClick={handleFinish} className="btn-ghost w-full sm:w-auto">
@@ -236,10 +235,10 @@ export default function Practice() {
               {!submitted ? (
                 <button
                   onClick={handleSubmit}
-                  disabled={!selectedAnswer}
-                  className={`btn-primary flex-1 sm:flex-none ${!selectedAnswer ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={!hasSelection || submitting}
+                  className={`btn-primary flex-1 sm:flex-none ${!hasSelection || submitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  {t('practice.submit')}
+                  {submitting ? t('practice.loading') : t('practice.submit')}
                 </button>
               ) : (
                 <button
@@ -262,44 +261,11 @@ export default function Practice() {
               <h3 className="text-lg font-bold text-gray-900">{t('practice.explanation')}</h3>
             </div>
             <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-              {translated?.explanation || currentQuestion.explanation}
+              {translatedExplanation || feedback?.explanation}
             </p>
           </div>
         )}
 
-        {!sessionActive && results.length > 0 && (
-          <div className="mt-6 card-elevated p-6 md:p-8 animate-fadeInUp">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('practice.sessionComplete')}</h2>
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="text-center p-4 bg-blue-50 rounded-xl">
-                <div className="text-3xl font-bold text-blue-600">{results.length}</div>
-                <div className="text-sm text-gray-500">{t('practice.total')}</div>
-              </div>
-              <div className="text-center p-4 bg-emerald-50 rounded-xl">
-                <div className="text-3xl font-bold text-emerald-600">{correctCount}</div>
-                <div className="text-sm text-gray-500">{t('practice.correct')}</div>
-              </div>
-              <div className="text-center p-4 bg-rose-50 rounded-xl">
-                <div className="text-3xl font-bold text-rose-600">{results.length - correctCount}</div>
-                <div className="text-sm text-gray-500">{t('practice.incorrect')}</div>
-              </div>
-            </div>
-            <div className="text-center mb-6">
-              <div className="text-5xl font-bold gradient-text">
-                {Math.round((correctCount / results.length) * 100)}%
-              </div>
-              <div className="text-gray-500">{t('practice.accuracy')}</div>
-            </div>
-            <div className="flex justify-center gap-4">
-              <button onClick={startPractice} className="btn-primary">
-                {t('practice.practiceAgain')}
-              </button>
-              <button onClick={() => navigate('/')} className="btn-secondary">
-                {t('practice.backToDashboard')}
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     )
   }
@@ -314,6 +280,40 @@ export default function Practice() {
       {error && (
         <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700">
           {error}
+        </div>
+      )}
+
+      {results.length > 0 && (
+        <div className="card-elevated p-6 md:p-8 animate-fadeInUp">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('practice.sessionComplete')}</h2>
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="text-center p-4 bg-blue-50 rounded-xl">
+              <div className="text-3xl font-bold text-blue-600">{results.length}</div>
+              <div className="text-sm text-gray-500">{t('practice.total')}</div>
+            </div>
+            <div className="text-center p-4 bg-emerald-50 rounded-xl">
+              <div className="text-3xl font-bold text-emerald-600">{correctCount}</div>
+              <div className="text-sm text-gray-500">{t('practice.correct')}</div>
+            </div>
+            <div className="text-center p-4 bg-rose-50 rounded-xl">
+              <div className="text-3xl font-bold text-rose-600">{results.length - correctCount}</div>
+              <div className="text-sm text-gray-500">{t('practice.incorrect')}</div>
+            </div>
+          </div>
+          <div className="text-center mb-6">
+            <div className="text-5xl font-bold gradient-text">
+              {Math.round((correctCount / results.length) * 100)}%
+            </div>
+            <div className="text-gray-500">{t('practice.accuracy')}</div>
+          </div>
+          <div className="flex justify-center gap-4">
+            <button onClick={startPractice} className="btn-primary">
+              {t('practice.practiceAgain')}
+            </button>
+            <button onClick={() => navigate('/')} className="btn-secondary">
+              {t('practice.backToDashboard')}
+            </button>
+          </div>
         </div>
       )}
 

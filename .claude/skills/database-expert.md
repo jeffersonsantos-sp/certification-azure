@@ -39,23 +39,52 @@ Assist with PostgreSQL database design, optimization, and management.
    - Document schema changes
    - Use version control for migrations
 
+## Advanced Question Schema
+
+`questions` uses JSONB for format-flexible data:
+
+- `question_type`: `single_choice`, `multiple_choice`, `case_study`, `drag_drop`, or `hotspot`
+- `question_data`: JSONB object with `scenario`, `instructions`, `image_url`, and/or `regions`
+- `correct_answer`: JSONB string for single/case/hotspot, JSONB array for multiple/drag
+- `user_answers.selected_answer`: JSONB, matching the same answer shapes
+
+Hotspot region coordinates are percentages relative to the image:
+
+```json
+{
+  "id": "private-endpoint",
+  "label": "Private endpoint",
+  "x": 37.5,
+  "y": 47.62,
+  "width": 25,
+  "height": 14.29
+}
+```
+
+Use `scripts/migrate_advanced_formats.py` for existing databases. It is idempotent and converts legacy `varchar` answer columns to JSONB with `to_jsonb`.
+
 ## SQLAlchemy Patterns
 
 ### Model Definition
 ```python
-from sqlalchemy import Column, String, Integer, DateTime
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import String, Text
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import Mapped, mapped_column
 from app.core.database import Base
-import uuid
+from typing import Any
+from uuid import UUID, uuid4
 
 class Question(Base):
     __tablename__ = "questions"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    skill_id = Column(String(10), nullable=False)
-    question_text = Column(String(1000), nullable=False)
-    difficulty = Column(String(20), nullable=False)
-    created_at = Column(DateTime, server_default="now()")
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    skill_id: Mapped[str] = mapped_column(String(50))
+    question_text: Mapped[str] = mapped_column(Text)
+    question_type: Mapped[str] = mapped_column(String(32), default="single_choice")
+    question_data: Mapped[dict] = mapped_column(JSONB, default=dict)
+    options: Mapped[list] = mapped_column(JSONB)
+    correct_answer: Mapped[Any] = mapped_column(JSONB)
+    explanation: Mapped[str] = mapped_column(Text)
 ```
 
 ### Query Patterns

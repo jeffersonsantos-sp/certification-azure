@@ -1,32 +1,37 @@
 # AI Prompts - AZ-104 Trainer
 
+The question bank supports five formats: `single_choice`, `multiple_choice`, `case_study`, `drag_drop`, and `hotspot`.
+
 ## Prompt de Geração de Questões
 
 ```
 You are a Microsoft Azure certification expert creating practice questions
 for the AZ-104 exam.
 
-Generate {count} multiple-choice questions for the following skill:
+Generate {count} single-choice questions for the following skill:
 
 Domain: {domain_name}
 Skill: {skill_name}
 Specific items: {skill_items}
 
 Requirements:
-1. Each question must have exactly 4 options (A, B, C, D)
-2. Only ONE correct answer per question
-3. Questions should vary in difficulty (easy, intermediate, advanced)
-4. Include real-world scenarios when possible
-5. Explanations must reference Azure documentation
-6. Do NOT use "All of the above" or "None of the above" as options
-7. Avoid absolute terms like "always", "never", "only"
-8. Use current terminology (Microsoft Entra ID, not Azure AD)
+1. Set `question_type` to `single_choice`
+2. Each question must have exactly 4 options (A, B, C, D)
+3. Only ONE correct answer per question
+4. Questions should vary in difficulty (easy, intermediate, advanced)
+5. Include real-world scenarios when possible
+6. Explanations must reference Azure documentation
+7. Do NOT use "All of the above" or "None of the above" as options
+8. Avoid absolute terms like "always", "never", "only"
+9. Use current terminology (Microsoft Entra ID, not Azure AD)
 
 Return in this exact JSON format:
 {
   "questions": [
     {
       "question_text": "...",
+      "question_type": "single_choice",
+      "question_data": {},
       "options": [
         {"label": "A", "text": "..."},
         {"label": "B", "text": "..."},
@@ -36,7 +41,65 @@ Return in this exact JSON format:
       "correct_answer": "B",
       "explanation": "...",
       "difficulty": "intermediate",
-      "tags": ["..."]
+      "tags": ["..."],
+      "reference_url": "https://learn.microsoft.com/..."
+    }
+  ]
+}
+```
+
+---
+
+## Prompt de Geração de Formatos Avançados
+
+```
+You are a Microsoft Azure certification expert creating advanced-format
+practice questions for the AZ-104 exam.
+
+Generate {count} questions for the following skill:
+
+Domain: {domain_name}
+Skill: {skill_name}
+Specific items: {skill_items}
+Allowed formats: {question_types}
+
+Requirements:
+1. Use only `multiple_choice`, `case_study`, `drag_drop`, or `hotspot`
+2. Include a clear `explanation`, `difficulty`, `tags`, and `reference_url`
+3. Test practical administration decisions, not trivia
+4. Do NOT use "All of the above" or "None of the above"
+5. Avoid absolute terms like "always", "never", "only"
+6. Use current terminology (Microsoft Entra ID, not Azure AD)
+7. Preserve Azure product names, CLI commands, cmdlets, and code snippets exactly
+
+Format rules:
+- `multiple_choice`: 4 options; at least two options have `is_correct: true`;
+  `correct_answer` is an array of correct labels
+- `case_study`: 4 options; put the scenario in `question_data.scenario` and
+  instructions in `question_data.instructions`; `correct_answer` is one label
+- `drag_drop`: at least 2 options; `correct_answer` lists every option label
+  exactly once in the correct order
+- `hotspot`: no options; provide `question_data.image_url` and
+  `question_data.regions`; `correct_answer` is a region ID
+
+Return only valid JSON:
+{
+  "questions": [
+    {
+      "question_text": "...",
+      "question_type": "multiple_choice",
+      "question_data": {},
+      "options": [
+        {"label": "A", "text": "...", "is_correct": true},
+        {"label": "B", "text": "...", "is_correct": false},
+        {"label": "C", "text": "...", "is_correct": true},
+        {"label": "D", "text": "...", "is_correct": false}
+      ],
+      "correct_answer": ["A", "C"],
+      "explanation": "...",
+      "difficulty": "intermediate",
+      "tags": ["..."],
+      "reference_url": "https://learn.microsoft.com/..."
     }
   ]
 }
@@ -61,6 +124,11 @@ Check:
 4. Does this question test real-world knowledge, not just memorization?
 5. Is the difficulty level appropriate?
 6. Is the terminology current (Microsoft Entra ID, not Azure AD)?
+7. Does `correct_answer` match the `question_type` shape?
+8. For `multiple_choice`, are all correct labels included and no incorrect label included?
+9. For `drag_drop`, does the answer list every option label exactly once?
+10. For `hotspot`, does the correct region ID exist in `question_data.regions`?
+11. For `case_study`, does the scenario contain enough information to choose one answer?
 
 Return:
 {
@@ -169,14 +237,17 @@ Translate the following AZ-104 question from English to Brazilian Portuguese (pt
 {question_json}
 
 Requirements:
-1. Translate question_text, every options[].text, and explanation
-2. Preserve the JSON structure, option labels, correct_answer, difficulty, and tags
+1. Translate question_text, every options[].text, explanation, and the natural-language
+   fields inside question_data (scenario and instructions)
+2. Preserve question_type, option labels, correct_answer, difficulty, tags, region IDs,
+   percentages, image_url, and the JSON structure
 3. Keep Azure product names, SKUs, cmdlets, CLI commands, API names, and acronyms in English
    (for example: Microsoft Entra ID, Azure RBAC, NSG, VNet, PowerShell, Azure CLI, ARM template)
 4. Use natural Brazilian Portuguese, not literal machine translation
 5. Preserve code snippets, placeholders, URLs, and command syntax exactly
-6. Do not add, remove, or reorder questions or options
-7. Do not include comments or markdown fences in the response
+6. NEVER translate strings containing backticks or CLI commands such as `az group create`
+7. Do not add, remove, or reorder questions or options
+8. Do not include comments or markdown fences in the response
 
 Return only valid JSON in the same shape as the input.
 ```
@@ -198,8 +269,10 @@ Check:
 1. Is the technical meaning preserved?
 2. Were Azure product names, cmdlets, CLI commands, and acronyms kept correctly?
 3. Is the Portuguese natural and grammatically correct?
-4. Are option letters, correct_answer, difficulty, and tags unchanged?
-5. Is the JSON structure identical to the source?
+4. Are question_type, option letters, correct_answer, difficulty, tags, region IDs,
+   percentages, and image_url unchanged?
+5. Were backticked CLI commands and code snippets left untouched?
+6. Is the JSON structure identical to the source?
 
 Return:
 {
@@ -225,10 +298,11 @@ Code:
 
 Check for:
 1. Code quality and readability
-2. Security vulnerabilities
+2. Security vulnerabilities, including answer leakage in read endpoints
 3. Performance issues
 4. Best practices adherence
 5. Error handling completeness
+6. Correct handling of `single_choice`, `multiple_choice`, `case_study`, `drag_drop`, and `hotspot` answers
 
 Return:
 {
@@ -281,6 +355,7 @@ Requirements:
 3. Cover edge cases
 4. Use appropriate assertions
 5. Follow testing best practices
+6. For question APIs, test sanitized reads, each question format, correct/incorrect scoring, and anonymous vs authenticated submissions
 
 Return pytest tests with proper fixtures and mocking.
 ```

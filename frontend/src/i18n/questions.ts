@@ -111,6 +111,7 @@ export async function translateExplanationAsync(text: string, lang: Language): P
 
 export async function translateOptionTextAsync(text: string, lang: Language): Promise<string> {
   if (lang === 'en') return text
+  if (/`|^\s*(az|kubectl|New-Az|Get-Az|Set-Az|Connect-Az|Remove-Az)\b/.test(text)) return text
   return translateText(text, 'pt')
 }
 

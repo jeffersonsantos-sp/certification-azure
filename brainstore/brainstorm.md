@@ -25,7 +25,7 @@ Profissionais de TI precisam de uma ferramenta eficaz para se preparar para a ce
 ## Funcionalidades Principais
 
 ### 1. Banco de Questões
-- 542+ questões organizadas por domínio
+- 411 questões aprovadas organizadas por domínio
 - 5 domínios do AZ-104
 - 3 níveis de dificuldade
 - Explicações detalhadas para cada resposta
@@ -93,11 +93,11 @@ Profissionais de TI precisam de uma ferramenta eficaz para se preparar para a ce
                             │               │
                 ┌───────────┴───┐   ┌───────┴─────────┐
                 ▼               ▼   ▼                  ▼
-        ┌──────────────┐ ┌──────────────┐    ┌──────────────┐
-        │  PostgreSQL  │ │    Redis     │    │  OpenAI API  │
-        │   (Dados)    │ │   (Cache)    │    │   (IA)       │
-        │  Porta: 5432 │ │  Porta: 6379 │    │              │
-        └──────────────┘ └──────────────┘    └──────────────┘
+        ┌──────────────┐ ┌──────────────┐    ┌────────────────────┐
+        │  PostgreSQL  │ │    Redis     │    │  Translation APIs  │
+        │   (Dados)    │ │   (Cache)    │    │ (Google/MyMemory)  │
+        │  Porta: 5432 │ │  Porta: 6379 │    │                    │
+        └──────────────┘ └──────────────┘    └────────────────────┘
 ```
 
 ---
@@ -112,6 +112,8 @@ Profissionais de TI precisam de uma ferramenta eficaz para se preparar para a ce
   "skill_id": "ig-01",
   "domain_id": "identity-governance",
   "question_text": "Which Azure service should you use to...",
+  "question_type": "single_choice",
+  "question_data": {},
   "options": [
     {"label": "A", "text": "Option A", "is_correct": false},
     {"label": "B", "text": "Option B", "is_correct": true},
@@ -130,12 +132,12 @@ Profissionais de TI precisam de uma ferramenta eficaz para se preparar para a ce
 
 | Domínio | ID | Peso | Questões |
 |---------|-----|------|----------|
-| Identity & Governance | identity-governance | 20-25% | 260 |
-| Storage | storage | 15-20% | 88 |
-| Compute | compute | 20-25% | 90 |
+| Identity & Governance | identity-governance | 20-25% | 155 |
+| Storage | storage | 15-20% | 61 |
+| Compute | compute | 20-25% | 91 |
 | Networking | networking | 15-20% | 69 |
 | Monitoring | monitoring | 10-15% | 35 |
-| **Total** | | | **542** |
+| **Total** | | | **411** |
 
 ---
 
@@ -189,14 +191,23 @@ Profissionais de TI precisam de uma ferramenta eficaz para se preparar para a ce
 - [x] Simulado
 - [x] Dashboard
 - [x] Internacionalização (EN/PT-BR)
+- [x] Formatos avançados: multiple choice, case study, drag-drop e hotspot
 
 ### Fase 3 - Próximos Passos
-- [ ] Autenticação de usuários
-- [ ] Histórico de respostas
-- [ ] AI explicações
+- [~] Autenticação de usuários (JWT no backend pronto; UI de login/registro não exposta)
+- [~] Histórico de respostas (persistência em `user_answers` pronta; endpoint e tela pendentes)
+- [ ] AI explicações (explicações atuais são estáticas)
 - [ ] Gamificação
 - [ ] Deploy na Azure
 - [ ] CI/CD com GitHub Actions
+
+### Prioridades
+
+| Prioridade | Escopo | Status |
+|------------|--------|--------|
+| P0 | Correção factual, referências e integridade das questões | ✅ Concluído |
+| P1 | Segurança da API, balanceamento de respostas e formatos avançados | ✅ Concluído |
+| P2 | Autenticação exposta no frontend, histórico/analytics, AI, gamificação, deploy e CI/CD | 🚧 Pendente |
 
 ---
 

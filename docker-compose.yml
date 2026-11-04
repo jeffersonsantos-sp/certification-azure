@@ -1,5 +1,6 @@
 services:
   frontend:
+    image: updateinformatica/az104-frontend:latest
     build: ./frontend
     ports:
       - "3000:80"
@@ -7,6 +8,7 @@ services:
       - backend
 
   backend:
+    image: updateinformatica/az104-backend:latest
     build: ./backend
     ports:
       - "8000:8000"

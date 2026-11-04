@@ -1,19 +1,90 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func, case
+from typing import Any
 from uuid import UUID
-from pydantic import BaseModel
-import random
 
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.api.auth import User, get_optional_current_user
 from app.core.database import get_db
-from app.models.models import Question, Skill, Domain, UserAnswer, QuestionStatus, DifficultyLevel
-from app.api.auth import get_current_user, User
+from app.models.models import (
+    DifficultyLevel,
+    Domain,
+    Question,
+    QuestionStatus,
+    Skill,
+    UserAnswer,
+)
 
 router = APIRouter(prefix="/questions", tags=["questions"])
 
 
 class AnswerRequest(BaseModel):
-    answer: str
+    answer: Any
+
+
+class ExamAnswer(BaseModel):
+    question_id: UUID
+    answer: Any
+
+
+class ExamSubmitRequest(BaseModel):
+    answers: list[ExamAnswer]
+
+
+def _normalise_answer(question: Question, answer: Any) -> Any:
+    question_type = question.question_type or "single_choice"
+
+    if question_type == "multiple_choice":
+        if isinstance(answer, str):
+            values = [answer]
+        elif isinstance(answer, (list, tuple, set)):
+            values = list(answer)
+        else:
+            values = []
+        return sorted({str(value).upper() for value in values if str(value).strip()})
+    if question_type == "drag_drop":
+        return [str(value) for value in answer] if isinstance(answer, (list, tuple)) else []
+    if question_type == "hotspot":
+        return str(answer) if answer is not None else ""
+    return str(answer).upper() if answer is not None else ""
+
+
+def _is_correct(question: Question, answer: Any) -> bool:
+    question_type = question.question_type or "single_choice"
+    selected = _normalise_answer(question, answer)
+    correct = question.correct_answer
+
+    if question_type == "multiple_choice":
+        if not isinstance(correct, (list, tuple)):
+            return False
+        expected = sorted({str(value).upper() for value in correct})
+        return bool(selected) and selected == expected
+    if question_type == "drag_drop":
+        if not isinstance(correct, (list, tuple)):
+            return False
+        return bool(selected) and selected == [str(value) for value in correct]
+    if question_type == "hotspot":
+        return bool(selected) and selected == str(correct)
+    return bool(selected) and selected == str(correct).upper()
+
+
+def _question_payload(question: Question) -> dict:
+    options = [
+        {"label": option.get("label", ""), "text": option.get("text", "")}
+        for option in (question.options or [])
+    ]
+    return {
+        "id": str(question.id),
+        "skill_id": question.skill_id,
+        "question_text": question.question_text,
+        "question_type": question.question_type or "single_choice",
+        "question_data": question.question_data or {},
+        "options": options,
+        "difficulty": question.difficulty.value if question.difficulty else "intermediate",
+        "tags": question.tags or [],
+    }
 
 
 @router.get("/")
@@ -43,19 +114,7 @@ async def list_questions(
     questions = result.scalars().all()
 
     return {
-        "questions": [
-            {
-                "id": str(q.id),
-                "skill_id": q.skill_id,
-                "question_text": q.question_text,
-                "options": q.options,
-                "correct_answer": q.correct_answer,
-                "explanation": q.explanation,
-                "difficulty": q.difficulty.value if q.difficulty else "intermediate",
-                "tags": q.tags or [],
-            }
-            for q in questions
-        ],
+        "questions": [_question_payload(question) for question in questions],
         "count": len(questions)
     }
 
@@ -67,7 +126,7 @@ async def get_random_questions(
     difficulty: str | None = None,
     db: AsyncSession = Depends(get_db),
 ):
-    """Get random questions for practice/mock exam."""
+    """Get random questions for practice/mock exam without revealing answers."""
     query = select(Question).where(Question.status == QuestionStatus.approved)
 
     if domain_id:
@@ -80,19 +139,7 @@ async def get_random_questions(
     questions = result.scalars().all()
 
     return {
-        "questions": [
-            {
-                "id": str(q.id),
-                "skill_id": q.skill_id,
-                "question_text": q.question_text,
-                "options": q.options,
-                "correct_answer": q.correct_answer,
-                "explanation": q.explanation,
-                "difficulty": q.difficulty.value if q.difficulty else "intermediate",
-                "tags": q.tags or [],
-            }
-            for q in questions
-        ],
+        "questions": [_question_payload(question) for question in questions],
         "count": len(questions)
     }
 
@@ -100,12 +147,10 @@ async def get_random_questions(
 @router.get("/stats")
 async def get_stats(db: AsyncSession = Depends(get_db)):
     """Get overall statistics."""
-    # Total questions
     total_query = select(func.count()).select_from(Question).where(Question.status == QuestionStatus.approved)
     total_result = await db.execute(total_query)
     total_questions = total_result.scalar()
 
-    # Questions by domain
     domain_stats = []
     domains_result = await db.execute(select(Domain))
     domains = domains_result.scalars().all()
@@ -127,7 +172,6 @@ async def get_stats(db: AsyncSession = Depends(get_db)):
             "question_count": count
         })
 
-    # Questions by difficulty
     difficulty_stats = []
     for diff in DifficultyLevel:
         count_query = (
@@ -150,6 +194,64 @@ async def get_stats(db: AsyncSession = Depends(get_db)):
     }
 
 
+@router.post("/submit-exam")
+async def submit_exam(
+    request: ExamSubmitRequest,
+    db: AsyncSession = Depends(get_db),
+    current_user: User | None = Depends(get_optional_current_user),
+):
+    """Score a complete practice or mock exam in a single request."""
+    if not request.answers:
+        raise HTTPException(status_code=400, detail="No answers submitted")
+    if len(request.answers) > 200:
+        raise HTTPException(status_code=400, detail="Too many answers submitted")
+
+    question_ids = list({answer.question_id for answer in request.answers})
+    result = await db.execute(select(Question).where(Question.id.in_(question_ids)))
+    questions = {question.id: question for question in result.scalars().all()}
+
+    if len(questions) != len(question_ids):
+        raise HTTPException(status_code=404, detail="One or more questions were not found")
+
+    results = []
+    correct_count = 0
+
+    for item in request.answers:
+        question = questions[item.question_id]
+        selected = _normalise_answer(question, item.answer)
+        is_correct = _is_correct(question, item.answer)
+        if is_correct:
+            correct_count += 1
+
+        if current_user and selected:
+            db.add(UserAnswer(
+                user_id=current_user.id,
+                question_id=question.id,
+                selected_answer=selected,
+                is_correct=is_correct,
+            ))
+
+        results.append({
+            "question_id": str(question.id),
+            "question_type": question.question_type or "single_choice",
+            "selected": selected,
+            "correct": is_correct,
+            "correct_answer": question.correct_answer,
+            "explanation": question.explanation,
+        })
+
+    if current_user:
+        await db.commit()
+
+    total = len(results)
+    return {
+        "total": total,
+        "correct": correct_count,
+        "score_percentage": round((correct_count / total) * 100, 1) if total else 0,
+        "results": results,
+    }
+
+
 @router.get("/{question_id}")
 async def get_question(question_id: UUID, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Question).where(Question.id == question_id))
@@ -158,16 +260,7 @@ async def get_question(question_id: UUID, db: AsyncSession = Depends(get_db)):
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
 
-    return {
-        "id": str(question.id),
-        "skill_id": question.skill_id,
-        "question_text": question.question_text,
-        "options": question.options,
-        "correct_answer": question.correct_answer,
-        "explanation": question.explanation,
-        "difficulty": question.difficulty.value if question.difficulty else "intermediate",
-        "tags": question.tags or [],
-    }
+    return _question_payload(question)
 
 
 @router.post("/{question_id}/answer")
@@ -175,7 +268,7 @@ async def submit_answer(
     question_id: UUID,
     request: AnswerRequest,
     db: AsyncSession = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User | None = Depends(get_optional_current_user),
 ):
     result = await db.execute(select(Question).where(Question.id == question_id))
     question = result.scalar_one_or_none()
@@ -183,19 +276,22 @@ async def submit_answer(
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
 
-    is_correct = request.answer.upper() == question.correct_answer
+    selected = _normalise_answer(question, request.answer)
+    is_correct = _is_correct(question, request.answer)
 
-    user_answer = UserAnswer(
-        user_id=current_user.id,
-        question_id=question_id,
-        selected_answer=request.answer.upper(),
-        is_correct=is_correct,
-    )
-    db.add(user_answer)
-    await db.commit()
+    if current_user and selected:
+        user_answer = UserAnswer(
+            user_id=current_user.id,
+            question_id=question_id,
+            selected_answer=selected,
+            is_correct=is_correct,
+        )
+        db.add(user_answer)
+        await db.commit()
 
     return {
         "correct": is_correct,
+        "question_type": question.question_type or "single_choice",
         "correct_answer": question.correct_answer,
         "explanation": question.explanation,
     }

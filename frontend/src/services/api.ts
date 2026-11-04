@@ -29,15 +29,51 @@ api.interceptors.response.use(
   }
 )
 
+export type AnswerValue = string | string[]
+
+export type QuestionType = 'single_choice' | 'multiple_choice' | 'case_study' | 'drag_drop' | 'hotspot'
+
+export interface HotspotRegion {
+  id: string
+  label: string
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
+export interface QuestionData {
+  scenario?: string
+  image_url?: string
+  regions?: HotspotRegion[]
+  instructions?: string
+}
+
 export interface Question {
   id: string
   skill_id: string
   question_text: string
-  options: Array<{ label: string; text: string; is_correct?: boolean }>
-  correct_answer: string
-  explanation: string
+  question_type: QuestionType
+  question_data: QuestionData
+  options: Array<{ label: string; text: string }>
   difficulty: string
   tags: string[]
+}
+
+export interface ExamResult {
+  question_id: string
+  question_type: QuestionType
+  selected: AnswerValue
+  correct: boolean
+  correct_answer: AnswerValue
+  explanation: string
+}
+
+export interface ExamSubmitResponse {
+  total: number
+  correct: number
+  score_percentage: number
+  results: ExamResult[]
 }
 
 export interface QuestionResponse {
@@ -61,7 +97,8 @@ export interface StatsResponse {
 
 export interface AnswerResponse {
   correct: boolean
-  correct_answer: string
+  question_type: QuestionType
+  correct_answer: AnswerValue
   explanation: string
 }
 
@@ -141,11 +178,18 @@ export const getQuestion = async (id: string): Promise<Question> => {
 
 export const submitAnswer = async (
   questionId: string,
-  answer: string
+  answer: AnswerValue
 ): Promise<AnswerResponse> => {
   const { data } = await api.post(`/questions/${questionId}/answer`, {
     answer,
   })
+  return data
+}
+
+export const submitExam = async (
+  answers: Array<{ question_id: string; answer: AnswerValue }>
+): Promise<ExamSubmitResponse> => {
+  const { data } = await api.post('/questions/submit-exam', { answers })
   return data
 }
 

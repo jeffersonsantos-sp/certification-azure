@@ -116,24 +116,39 @@ async def import_questions(questions_dir: str = "questions/drafts"):
                     }
                     difficulty = difficulty_map.get(q.get("difficulty", "intermediate"), DifficultyLevel.intermediate)
 
-                    # Create options with correct_answer marked
+                    question_type = q.get("question_type", "single_choice")
+                    correct_answer = q.get("correct_answer", "A")
+                    if question_type == "multiple_choice" and isinstance(correct_answer, list):
+                        correct_labels = set(correct_answer)
+                    elif question_type in ("single_choice", "case_study"):
+                        correct_labels = {correct_answer}
+                    else:
+                        correct_labels = set()
+
                     options = []
                     for opt in q.get("options", []):
                         options.append({
                             "label": opt["label"],
                             "text": opt["text"],
-                            "is_correct": opt["label"] == q.get("correct_answer", "")
+                            "is_correct": (
+                                opt["label"] in correct_labels
+                                if question_type in ("single_choice", "case_study", "multiple_choice")
+                                else False
+                            )
                         })
 
                     question = Question(
                         id=uuid4(),
                         skill_id=skill_id,
                         question_text=q["question_text"],
+                        question_type=question_type,
+                        question_data=q.get("question_data", {}),
                         options=options,
-                        correct_answer=q.get("correct_answer", "A"),
+                        correct_answer=correct_answer,
                         explanation=q.get("explanation", ""),
                         difficulty=difficulty,
                         tags=q.get("tags", []),
+                        reference_url=q.get("reference_url"),
                         status=QuestionStatus.approved,
                         created_at=datetime.utcnow()
                     )

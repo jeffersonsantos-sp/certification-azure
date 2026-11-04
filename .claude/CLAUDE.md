@@ -5,6 +5,8 @@ Intelligent web platform for practicing Microsoft Azure Administrator Associate 
 
 Bilingual support (EN/PT-BR) with independent UI and question language settings. Questions are stored in English and translated on demand when the question language is PT-BR.
 
+Question formats: `single_choice`, `multiple_choice`, `case_study`, `drag_drop`, and `hotspot`. Question-type metadata and format-specific data live in JSONB columns; scoring is type-aware and performed server-side.
+
 ## Tech Stack
 - **Frontend**: React 18, TypeScript, Tailwind CSS, Vite
 - **Backend**: Python, FastAPI, SQLAlchemy, Pydantic
@@ -15,7 +17,7 @@ Bilingual support (EN/PT-BR) with independent UI and question language settings.
 ```
 ├── frontend/          # React application
 ├── backend/           # FastAPI application
-├── scripts/           # Utility scripts
+├── scripts/           # Utility and migration scripts
 ├── skills-measured/   # AZ-104 exam data
 ├── questions/         # Generated questions
 ├── brainstore/        # Brainstorm documents
@@ -44,6 +46,14 @@ docker compose up -d --build
 
 # Rebuild specific service
 docker compose up -d --build frontend
+
+# Build and tag Docker Hub images
+docker build -t updateinformatica/az104-frontend:latest frontend
+docker build -t updateinformatica/az104-backend:latest backend
+
+# Push images after authenticating to Docker Hub
+docker push updateinformatica/az104-frontend:latest
+docker push updateinformatica/az104-backend:latest
 ```
 
 ### Database
@@ -53,6 +63,12 @@ docker exec -it azure-postgres-1 psql -U postgres -d az104_trainer
 
 # Check Redis
 docker exec -it azure-redis-1 redis-cli
+
+# Apply advanced-format schema changes to an existing database
+python scripts/migrate_advanced_formats.py
+
+# Seed one of each advanced question format
+python scripts/seed_advanced_formats.py
 ```
 
 ## Code Style Guidelines
@@ -75,8 +91,10 @@ docker exec -it azure-redis-1 redis-cli
 - UI language lives in `frontend/src/i18n/en.ts` and `pt.ts`
 - Question language lives in `LanguageContext` as `questionLanguage`
 - Translation logic lives in `frontend/src/i18n/questions.ts`
-- Keep Azure product names, cmdlets, and acronyms in English when translating
+- Keep Azure product names, cmdlets, CLI commands, and acronyms in English when translating
+- Do not translate strings containing backticks or CLI commands (for example ``az group create``)
 - Cache translations and always fall back to the original English text
+- Advanced-format UI labels live under `questionContent.*` in `en.ts` and `pt.ts`
 
 ## API Conventions
 - Base URL: `/api/v1/`
@@ -84,13 +102,19 @@ docker exec -it azure-redis-1 redis-cli
 - Implement proper error handling
 - Use JWT for authentication
 - Follow RESTful principles
+- Read endpoints must not expose `correct_answer`, `explanation`, or option `is_correct`
+- `POST /questions/submit-exam` scores complete exams; `POST /questions/{id}/answer` scores one question
+- Authentication is optional for practice and exam scoring; a valid JWT persists `UserAnswer` rows
+- `_normalise_answer`, `_is_correct`, and `_question_payload` centralize type-aware answer handling
 
 ## Database Schema
 - **users**: User accounts
-- **questions**: Question bank
-- **answers**: User answers
+- **questions**: Question bank with `question_type` (`single_choice`, `multiple_choice`, `case_study`, `drag_drop`, `hotspot`), JSONB `question_data`, and JSONB `correct_answer`
+- **user_answers**: User answers with JSONB `selected_answer`
 - **domains**: Certification domains
 - **skills**: Specific skills within domains
+
+For multiple-choice and drag-and-drop questions, `correct_answer` is a JSON array. For single-choice, case study, and hotspot questions, it is a string. Hotspot region definitions live in `question_data.regions`; the correct value is a region ID.
 
 ## Security Notes
 - Never commit `.env` files
@@ -98,3 +122,4 @@ docker exec -it azure-redis-1 redis-cli
 - Implement proper CORS configuration
 - Validate all user input
 - Use parameterized queries
+- Keep `bcrypt==4.0.1` pinned for compatibility with `passlib` 1.7.4

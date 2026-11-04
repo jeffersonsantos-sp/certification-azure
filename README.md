@@ -25,6 +25,7 @@
 - [Screenshots](#-screenshots)
 - [About](#-about)
 - [Key Features](#-key-features)
+- [Advanced Question Formats](#-advanced-question-formats)
 - [Tech Stack](#-tech-stack)
 - [Architecture](#-architecture)
 - [Project Structure](#-project-structure)
@@ -61,8 +62,9 @@
 
 This platform goes beyond a traditional question bank by providing:
 
-- **542+ Practice Questions** across 5 certification domains
-- **AI-Powered Explanations** for every answer
+- **411 approved questions** across 5 certification domains
+- **Five question formats**, including multiple choice, case study, drag-and-drop, and hotspot
+- **Detailed explanations** for every answer
 - **Mock Exams** that simulate the real certification experience
 - **Performance Analytics** with domain-specific insights
 - **Internationalization (i18n)** supporting English and Portuguese (PT-BR)
@@ -74,7 +76,7 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 ## ✨ Key Features
 
 ### 📝 Question Bank
-- 542+ carefully crafted questions
+- 411 approved questions
 - Organized by 5 AZ-104 certification domains
 - Multiple difficulty levels (Easy, Intermediate, Advanced)
 - Detailed explanations for every answer
@@ -86,6 +88,15 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 - Select number of questions (5-30)
 - Learning mode (see answers immediately) or Exam mode (answers at the end)
 - Real-time score tracking
+- Server-side scoring with optional authenticated answer history
+
+### 🧩 Advanced Question Formats
+- Single choice, multiple choice, case study, drag-and-drop, and hotspot questions
+- JSONB-backed `question_type`, `question_data`, `correct_answer`, and `selected_answer`
+- Type-aware rendering in Practice, Mock Exam, and single-question view
+- Hotspot diagrams served as static assets and drag-and-drop ordering with keyboard controls
+- Bulk exam scoring through `POST /api/v1/questions/submit-exam`
+- Includes one validated example of each advanced format; additional questions can be generated with the prompts and imported with `scripts/import_questions.py`
 
 ### 🧪 Mock Exam
 - Timed exams (60/90/120 minutes)
@@ -96,7 +107,7 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 - Pass/fail scoring (70% threshold)
 
 ### 📊 Performance Dashboard
-- Total questions answered
+- Question bank totals
 - Domain-specific progress bars
 - Approved questions count
 - Quick action buttons for Practice and Mock Exam
@@ -106,6 +117,8 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 - Independent **question language** selector (EN/PT-BR)
 - Question language toggle available in Practice, Mock Exam, and Question View
 - On-demand translation of questions, options, explanations, and difficulty labels
+- PT-BR UI labels for advanced-format controls
+- CLI commands, cmdlets, and code snippets are preserved during translation
 - Google Translate as primary provider with MyMemory fallback
 - Two-level translation cache (in-memory + `localStorage`)
 - Persistent language preferences (`localStorage`)
@@ -171,11 +184,11 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
                             │               │
                 ┌───────────┴───┐   ┌───────┴─────────┐
                 ▼               ▼   ▼                  ▼
-        ┌──────────────┐ ┌──────────────┐    ┌──────────────┐
-        │  PostgreSQL  │ │    Redis     │    │  OpenAI API  │
-        │   (Dados)    │ │   (Cache)    │    │   (IA)       │
-        │  Porta: 5432 │ │  Porta: 6379 │    │              │
-        └──────────────┘ └──────────────┘    └──────────────┘
+        ┌──────────────┐ ┌──────────────┐    ┌────────────────────┐
+        │  PostgreSQL  │ │    Redis     │    │  Translation APIs  │
+        │   (Dados)    │ │   (Cache)    │    │ (Google/MyMemory)  │
+        │  Porta: 5432 │ │  Porta: 6379 │    │                    │
+        └──────────────┘ └──────────────┘    └────────────────────┘
 ```
 
 ---
@@ -188,6 +201,7 @@ certification-azure/
 ├── frontend/                          # React Frontend
 │   ├── src/
 │   │   ├── components/               # Reusable components
+│   │   │   ├── QuestionContent.tsx   # Renders all question formats
 │   │   │   └── QuestionLanguageToggle.tsx  # EN/PT-BR question selector
 │   │   ├── context/                  # React contexts
 │   │   │   └── LanguageContext.tsx   # UI + question language state
@@ -202,10 +216,14 @@ certification-azure/
 │   │   │   ├── MockExam.tsx          # Mock exam mode
 │   │   │   └── QuestionView.tsx      # Single question view
 │   │   ├── services/                 # API services
-│   │   │   └── api.ts                # Axios API client
+│   │   │   └── api.ts                # Axios API client and answer types
+│   │   ├── utils/
+│   │   │   └── answers.ts            # Answer formatting for reviews
 │   │   ├── App.tsx                   # Main app with routing
 │   │   ├── main.tsx                  # Entry point
 │   │   └── index.css                 # Global styles
+│   ├── public/
+│   │   └── hotspot-storage.svg       # Hotspot question diagram
 │   ├── Dockerfile                    # Multi-stage Docker build
 │   ├── nginx.conf                    # Nginx configuration
 │   └── package.json                  # Node.js dependencies
@@ -229,6 +247,8 @@ certification-azure/
 │   ├── generate.py                   # AI question generation
 │   ├── generate-batch.sh             # Batch generation script
 │   ├── import_questions.py           # Question importer
+│   ├── migrate_advanced_formats.py   # JSONB/advanced format migration
+│   ├── seed_advanced_formats.py      # Example advanced questions
 │   └── validate.py                   # Question validator
 │
 ├── skills-measured/                   # AZ-104 exam data
@@ -308,7 +328,7 @@ docker run -d -p 8000:8000 \
 | Image | Size | Link |
 |-------|------|------|
 | `az104-frontend` | ~94MB | [Docker Hub](https://hub.docker.com/r/updateinformatica/az104-frontend) |
-| `az104-backend` | ~539MB | [Docker Hub](https://hub.docker.com/r/updateinformatica/az104-backend) |
+| `az104-backend` | ~545MB | [Docker Hub](https://hub.docker.com/r/updateinformatica/az104-backend) |
 
 ### Option 1: Docker Compose (Recommended)
 
@@ -459,8 +479,11 @@ Once the backend is running, access the interactive API documentation:
 | `GET` | `/api/v1/questions/` | List questions (with filters) |
 | `GET` | `/api/v1/questions/random` | Get random questions |
 | `GET` | `/api/v1/questions/{id}` | Get single question |
-| `POST` | `/api/v1/questions/{id}/answer` | Submit answer |
+| `POST` | `/api/v1/questions/{id}/answer` | Submit one answer and receive feedback |
+| `POST` | `/api/v1/questions/submit-exam` | Score a complete practice or mock exam |
 | `GET` | `/api/v1/questions/stats` | Get statistics |
+
+Read endpoints return only sanitized question payloads. `correct_answer` and `explanation` are returned only after an answer or exam submission. Authentication is optional for practice and exam scoring; when a valid JWT is supplied, answers are persisted for the user.
 
 ---
 
@@ -470,9 +493,9 @@ The application covers all 5 domains of the Microsoft Azure Administrator Associ
 
 | Domain | Weight | Questions | Focus |
 |--------|--------|-----------|-------|
-| Identity & Governance | 20-25% | 260 | Microsoft Entra ID, RBAC, Policy |
-| Storage | 15-20% | 88 | Storage Accounts, Blob, Azure Files |
-| Compute | 20-25% | 90 | VMs, ARM templates, Containers |
+| Identity & Governance | 20-25% | 155 | Microsoft Entra ID, RBAC, Policy |
+| Storage | 15-20% | 61 | Storage Accounts, Blob, Azure Files |
+| Compute | 20-25% | 91 | VMs, ARM templates, Containers |
 | Networking | 15-20% | 69 | VNets, NSGs, Load Balancers |
 | Monitoring | 10-15% | 35 | Azure Monitor, Backup, Recovery |
 
@@ -480,7 +503,7 @@ The application covers all 5 domains of the Microsoft Azure Administrator Associ
 
 ## 🤖 AI Question Generation
 
-The project includes scripts for AI-powered question generation:
+The project includes scripts for AI-powered question generation. The prompt templates cover single-choice, multiple-choice, case study, drag-and-drop, and hotspot questions:
 
 ```bash
 # Generate questions for a specific skill
@@ -494,6 +517,12 @@ python scripts/validate.py --file questions/drafts/ig-01.json
 
 # Import questions to database
 python scripts/import_questions.py --file questions/drafts/ig-01.json
+
+# Apply the advanced-format migration to an existing database
+python scripts/migrate_advanced_formats.py
+
+# Seed one example of each advanced format
+python scripts/seed_advanced_formats.py
 ```
 
 ---
@@ -579,11 +608,11 @@ The project includes AI assistant skills in `.opencode/skills/`:
 
 | Skill | Purpose |
 |-------|---------|
-| `question-generator.md` | Generate AZ-104 certification questions |
+| `question-generator.md` | Generate single-choice and advanced-format AZ-104 questions |
 | `code-reviewer.md` | Review code quality and security |
-| `docker-expert.md` | Docker and containerization guidance |
-| `api-designer.md` | RESTful API design best practices |
-| `frontend-builder.md` | React frontend development and EN/PT-BR i18n |
+| `docker-expert.md` | Docker builds, image tagging, and container guidance |
+| `api-designer.md` | RESTful API design, sanitized reads, and type-aware scoring |
+| `frontend-builder.md` | React frontend, shared question renderer, and EN/PT-BR i18n |
 
 ### Claude Skills
 
@@ -591,15 +620,16 @@ Claude-specific skills in `.claude/skills/`:
 
 | Skill | Purpose |
 |-------|---------|
-| `az104-domain-expert.md` | Deep AZ-104 domain knowledge |
-| `database-expert.md` | PostgreSQL and SQLAlchemy expertise |
+| `az104-domain-expert.md` | Deep AZ-104 domain knowledge and format guidance |
+| `database-expert.md` | PostgreSQL, SQLAlchemy, and JSONB question data |
 
 ### AI Prompts
 
 Collection of prompts in `prompts/README.md`:
 
-- **Question Generation**: Create certification practice questions
-- **Question Validation**: Verify question accuracy
+- **Question Generation**: Create single-choice and advanced-format practice questions
+- **Advanced Format Generation**: Multiple choice, case study, drag-and-drop, and hotspot prompts
+- **Question Validation**: Verify question accuracy and format-specific correctness
 - **AI Explanation**: Generate student-friendly explanations
 - **Study Recommendations**: Personalized study plans
 - **Performance Analysis**: Mock exam result analysis
@@ -612,12 +642,14 @@ Collection of prompts in `prompts/README.md`:
 
 | Metric | Value |
 |--------|-------|
-| Questions | 542+ |
+| Questions | 411 approved |
+| Question Formats | 5 |
+| Advanced Format Samples | 4 (one per format) |
 | Certification Domains | 5 |
 | API Endpoints | 10+ |
 | Supported Languages | 2 (EN, PT-BR) |
 | Question Language Toggle | EN / PT-BR |
-| Frontend Components | 4 pages + language toggle |
+| Frontend Components | 5 pages + shared question renderer + language toggle |
 | Backend Services | FastAPI + PostgreSQL |
 | Containerization | Docker + Docker Compose |
 
