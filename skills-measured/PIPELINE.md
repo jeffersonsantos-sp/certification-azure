@@ -207,3 +207,4 @@ Uma questão é aprovada quando:
 - [ ] `drag_drop` lista todos os labels exatamente uma vez
 - [ ] `hotspot` referencia uma região existente em `question_data.regions`
 - [ ] Comandos CLI, cmdlets e snippets de código não foram traduzidos
+- [ ] Nomes de recursos Azure permanecem em inglês (Virtual Networks, Virtual Machines, Storage Accounts)

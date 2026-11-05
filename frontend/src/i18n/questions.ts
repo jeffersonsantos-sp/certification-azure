@@ -1,7 +1,34 @@
 import { Language } from '../i18n'
+import { AZURE_TERMS } from './azureTerms'
 
-const CACHE_PREFIX = 'questionTranslation:'
+const CACHE_PREFIX = 'questionTranslation:v2:'
 const translationCache = new Map<string, string>()
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+const sortedAzureTerms = [...AZURE_TERMS].sort((a, b) => b.length - a.length)
+const azureTermsPattern = new RegExp(
+  `\\b(${sortedAzureTerms.map(escapeRegExp).join('|')})\\b`,
+  'gi'
+)
+const canonicalAzureTerms = new Map(AZURE_TERMS.map((term) => [term.toLowerCase(), term]))
+
+export function protectAzureTerms(text: string): { text: string; terms: string[] } {
+  const terms: string[] = []
+  const protectedText = text.replace(azureTermsPattern, (match) => {
+    const token = `AZ104TERM${terms.length}`
+    terms.push(canonicalAzureTerms.get(match.toLowerCase()) || match)
+    return token
+  })
+
+  return { text: protectedText, terms }
+}
+
+export function restoreAzureTerms(text: string, terms: string[]): string {
+  return text.replace(/AZ104TERM(\d+)/gi, (match, index) => terms[Number(index)] || match)
+}
 
 function readCache(key: string): string | null {
   const inMemory = translationCache.get(key)
@@ -78,12 +105,15 @@ async function translateText(text: string, targetLang: 'pt' | 'en'): Promise<str
   const cached = readCache(cacheKey)
   if (cached) return cached
 
+  const protectedInput = protectAzureTerms(text)
+
   for (const provider of [translateWithGoogle, translateWithMyMemory]) {
     try {
-      const translated = await provider(text)
+      const translated = await provider(protectedInput.text)
       if (translated) {
-        writeCache(cacheKey, translated)
-        return translated
+        const restored = restoreAzureTerms(translated, protectedInput.terms)
+        writeCache(cacheKey, restored)
+        return restored
       }
     } catch (error) {
       console.error('Translation error:', error)

@@ -118,6 +118,7 @@ The project demonstrates practical skills in **Cloud Architecture**, **DevOps**,
 - Question language toggle available in Practice, Mock Exam, and Question View
 - On-demand translation of questions, options, explanations, and difficulty labels
 - PT-BR UI labels for advanced-format controls
+- Azure resource names remain in English with canonical casing (for example, `Virtual Networks`, not `Redes Virtuais`)
 - CLI commands, cmdlets, and code snippets are preserved during translation
 - Google Translate as primary provider with MyMemory fallback
 - Two-level translation cache (in-memory + `localStorage`)
@@ -556,17 +557,19 @@ When the UI language changes, the question language follows it until the user ex
 Questions are stored in English in the database. When the question language is **PT-BR**:
 
 1. The original content is kept as a safe fallback.
-2. Question, options, and explanation are translated on demand.
-3. **Google Translate** (public gtx endpoint) is tried first.
-4. **MyMemory** is used as fallback if Google fails or is rate-limited.
-5. Successful translations are cached in memory and in `localStorage`.
-6. Results are applied incrementally, so the current question is translated in about one second while the rest of the exam is translated in the background.
+2. Azure terms are replaced with temporary tokens before translation and restored afterward, so names such as `Virtual Networks` stay in English.
+3. Question, options, and explanation are translated on demand.
+4. **Google Translate** (public gtx endpoint) is tried first.
+5. **MyMemory** is used as fallback if Google fails or is rate-limited.
+6. Successful translations are cached in memory and in `localStorage`.
+7. Results are applied incrementally, so the current question is translated in about one second while the rest of the exam is translated in the background.
 
 Relevant files:
 
 - `frontend/src/context/LanguageContext.tsx` — UI/question language state
 - `frontend/src/components/QuestionLanguageToggle.tsx` — EN/PT-BR selector
-- `frontend/src/i18n/questions.ts` — translation providers and cache
+- `frontend/src/i18n/questions.ts` — translation providers, term protection, and cache
+- `frontend/src/i18n/azureTerms.ts` — Azure resource/service names kept in English
 
 ### Adding a New Language
 

@@ -81,6 +81,8 @@ Deep expertise in Azure AZ-104 certification domains and skills.
 When translating questions for the PT-BR question language, keep in English:
 
 - Azure product and service names (Azure Monitor, Azure Bastion, Azure Front Door)
+- Azure resource type names with canonical casing (Virtual Networks, Virtual Machines,
+  Storage Accounts, Resource Groups, Load Balancers, Key Vaults)
 - SKUs and tiers (Standard, Premium, LRS, ZRS, GRS, GZRS)
 - Cmdlets and CLI commands (`New-AzVM`, `az group create`)
 - Acronyms and protocol names (RBAC, NSG, ASG, UDR, VNet, DNS, TLS, SSO, PIM, RPO, RTO)
@@ -92,6 +94,9 @@ Translate:
 - Option descriptions
 - Explanations and teaching content
 - Difficulty labels (Easy → Fácil, Intermediate → Intermediário, Advanced → Avançado)
+
+Do not translate common-noun resource names to Portuguese. For example, keep
+"virtual networks" as "Virtual Networks", not "redes virtuais".
 
 Never change option labels, `correct_answer`, `difficulty`, or `tags` during translation.
 

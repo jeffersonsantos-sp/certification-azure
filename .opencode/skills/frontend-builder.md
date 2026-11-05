@@ -54,7 +54,10 @@ Guidelines:
 - Cache successful translations in memory and `localStorage`
 - Apply translations incrementally so the current question is not blocked by the whole exam
 - Cancel in-flight translation effects on language/question changes
-- Never translate Azure product names, SKUs, cmdlets, CLI commands, or acronyms
+- Never translate Azure product names, resource type names, SKUs, cmdlets, CLI commands, or acronyms
+- Keep canonical Azure casing (for example `Virtual Networks`, not `Redes Virtuais`)
+- Protect glossary terms with temporary tokens before translation and restore them afterward
+- Put new protected terms in `frontend/src/i18n/azureTerms.ts`
 - Keep the UI language and question language independent once the user overrides the question language
 
 ## Advanced Question Rendering

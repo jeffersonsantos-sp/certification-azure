@@ -91,7 +91,9 @@ python scripts/seed_advanced_formats.py
 - UI language lives in `frontend/src/i18n/en.ts` and `pt.ts`
 - Question language lives in `LanguageContext` as `questionLanguage`
 - Translation logic lives in `frontend/src/i18n/questions.ts`
-- Keep Azure product names, cmdlets, CLI commands, and acronyms in English when translating
+- Keep Azure product names, resource type names, cmdlets, CLI commands, and acronyms in English when translating
+- Preserve canonical Azure casing for resource names (for example `Virtual Networks`, not `Redes Virtuais`)
+- `frontend/src/i18n/azureTerms.ts` protects those terms with placeholders before calling a translation provider
 - Do not translate strings containing backticks or CLI commands (for example ``az group create``)
 - Cache translations and always fall back to the original English text
 - Advanced-format UI labels live under `questionContent.*` in `en.ts` and `pt.ts`

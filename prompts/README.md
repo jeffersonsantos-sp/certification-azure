@@ -241,13 +241,22 @@ Requirements:
    fields inside question_data (scenario and instructions)
 2. Preserve question_type, option labels, correct_answer, difficulty, tags, region IDs,
    percentages, image_url, and the JSON structure
-3. Keep Azure product names, SKUs, cmdlets, CLI commands, API names, and acronyms in English
-   (for example: Microsoft Entra ID, Azure RBAC, NSG, VNet, PowerShell, Azure CLI, ARM template)
-4. Use natural Brazilian Portuguese, not literal machine translation
-5. Preserve code snippets, placeholders, URLs, and command syntax exactly
-6. NEVER translate strings containing backticks or CLI commands such as `az group create`
-7. Do not add, remove, or reorder questions or options
-8. Do not include comments or markdown fences in the response
+3. Keep Azure product names, resource type names, SKUs, cmdlets, CLI commands, API names,
+   and acronyms in English, using canonical Azure casing
+   (for example: Microsoft Entra ID, Azure RBAC, Virtual Networks, Virtual Machines,
+   Storage Accounts, Resource Groups, Load Balancers, Key Vaults, PowerShell, Azure CLI,
+   ARM templates)
+4. Do not translate resource type names even when they are common nouns
+   (for example, keep "virtual networks" as "Virtual Networks", not "redes virtuais")
+5. Use natural Brazilian Portuguese, not literal machine translation
+6. Preserve code snippets, placeholders, URLs, and command syntax exactly
+7. NEVER translate strings containing backticks or CLI commands such as `az group create`
+8. Do not add, remove, or reorder questions or options
+9. Do not include comments or markdown fences in the response
+
+Example:
+Source: "What are virtual networks in Azure?"
+Translation: "O que são Virtual Networks no Azure?"
 
 Return only valid JSON in the same shape as the input.
 ```
@@ -272,7 +281,9 @@ Check:
 4. Are question_type, option letters, correct_answer, difficulty, tags, region IDs,
    percentages, and image_url unchanged?
 5. Were backticked CLI commands and code snippets left untouched?
-6. Is the JSON structure identical to the source?
+6. Were Azure resource names kept in English with canonical casing
+   (for example: Virtual Networks, Virtual Machines, Storage Accounts, Resource Groups)?
+7. Is the JSON structure identical to the source?
 
 Return:
 {
