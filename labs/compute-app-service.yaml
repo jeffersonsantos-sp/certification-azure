@@ -56,6 +56,15 @@ steps:
   validation_hint:
     en: The plan SKU is validated.
     pt-BR: O SKU do plan é validado.
+  portal_steps:
+    en:
+    - Abra **App Service plans** > **Create**.
+    - Selecione `rg-az104-lab-app`, nomeie como `plan-lab`, sistema operacional **Linux** e região **East US**.
+    - Escolha o SKU **B1** e clique em **Review + create** > **Create**.
+    pt-BR:
+    - Abra **App Service plans** > **Create**.
+    - Selecione `rg-az104-lab-app`, nomeie como `plan-lab`, sistema operacional **Linux** e região **East US**.
+    - Escolha o SKU **B1** e clique em **Review + create** > **Create**.
 - key: create-webapp
   position: 2
   title:
@@ -73,6 +82,15 @@ steps:
   validation_hint:
     en: The validator finds the web app by the app-lab prefix.
     pt-BR: O validador encontra o web app pelo prefixo app-lab.
+  portal_steps:
+    en:
+    - Abra **App Service** > **Create** > **Web App**.
+    - Selecione `rg-az104-lab-app`, nomeie como `app-lab<unique>` e escolha o runtime **Node 20 LTS**.
+    - Selecione o plan `plan-lab` e clique em **Review + create** > **Create**.
+    pt-BR:
+    - Abra **App Service** > **Create** > **Web App**.
+    - Selecione `rg-az104-lab-app`, nomeie como `app-lab<unique>` e escolha o runtime **Node 20 LTS**.
+    - Selecione o plan `plan-lab` e clique em **Review + create** > **Create**.
 - key: tag-webapp
   position: 3
   title:
@@ -91,6 +109,13 @@ steps:
   validation_hint:
     en: The web app tag is validated.
     pt-BR: A tag do web app é validada.
+  portal_steps:
+    en:
+    - Abra o web app > **Tags** > **Adicionar**.
+    - Adicione `Environment=Lab` e salve.
+    pt-BR:
+    - Abra o web app > **Tags** > **Adicionar**.
+    - Adicione `Environment=Lab` e salve.
 - key: verify
   position: 4
   title:
@@ -109,6 +134,13 @@ steps:
   validation_hint:
     en: The validator checks the plan, web app and tag.
     pt-BR: O validador verifica o plan, o web app e a tag.
+  portal_steps:
+    en:
+    - Abra o web app > **Overview** e confirme o estado e o plan.
+    - Abra **App Service plans** > `plan-lab` e confirme o SKU **B1**.
+    pt-BR:
+    - Abra o web app > **Overview** e confirme o estado e o plan.
+    - Abra **App Service plans** > `plan-lab` e confirme o SKU **B1**.
 checks:
 - key: app-plan-exists
   position: 1

@@ -56,6 +56,13 @@ steps:
   validation_hint:
     en: The resource group must exist.
     pt-BR: O resource group precisa existir.
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-arm`, selecione **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-arm`, selecione **East US** e crie.
 - key: deploy-arm
   position: 2
   title:
@@ -84,6 +91,17 @@ steps:
   validation_hint:
     en: The validator checks the Storage Account and VNet created by the deployment.
     pt-BR: O validador verifica a Storage Account e a VNet criadas pela implantação.
+  portal_steps:
+    en:
+    - Abra **Resource groups** > `rg-az104-lab-arm`.
+    - No Portal, procure **Deploy a custom template** (ou **Template deployment**).
+    - Selecione **Build your own template in the editor** e cole o JSON do template.
+    - Defina `storageName=starm<unique>` e `vnetName=arm-vnet`, depois clique em **Review + create** > **Create**.
+    pt-BR:
+    - Abra **Resource groups** > `rg-az104-lab-arm`.
+    - No Portal, procure **Deploy a custom template** (ou **Template deployment**).
+    - Selecione **Build your own template in the editor** e cole o JSON do template.
+    - Defina `storageName=starm<unique>` e `vnetName=arm-vnet`, depois clique em **Review + create** > **Create**.
 - key: verify
   position: 3
   title:
@@ -101,6 +119,13 @@ steps:
   validation_hint:
     en: The deployment must show Succeeded.
     pt-BR: A implantação precisa mostrar Succeeded.
+  portal_steps:
+    en:
+    - Abra **Resource groups** > `rg-az104-lab-arm` > **Deployments** e confirme `Succeeded`.
+    - Abra a Storage Account e a VNet criadas.
+    pt-BR:
+    - Abra **Resource groups** > `rg-az104-lab-arm` > **Deployments** e confirme `Succeeded`.
+    - Abra a Storage Account e a VNet criadas.
 checks:
 - key: storage-account-exists
   position: 1

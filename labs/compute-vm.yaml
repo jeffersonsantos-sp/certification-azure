@@ -57,6 +57,15 @@ steps:
   validation_hint:
     en: The VM uses this VNet and subnet.
     pt-BR: A VM usa esta VNet e subnet.
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-vm`, nomeie como `vm-vnet` e adicione `10.30.0.0/16`.
+    - Crie a subnet `default` com `10.30.0.0/24`.
+    pt-BR:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-vm`, nomeie como `vm-vnet` e adicione `10.30.0.0/16`.
+    - Crie a subnet `default` com `10.30.0.0/24`.
 - key: create-nic
   position: 2
   title:
@@ -74,6 +83,13 @@ steps:
   validation_hint:
     en: The VM will use this NIC.
     pt-BR: A VM usará esta NIC.
+  portal_steps:
+    en:
+    - Abra **Network interfaces** > **Create**.
+    - Selecione `rg-az104-lab-vm`, nomeie como `vm-nic`, VNet `vm-vnet` e subnet `default`.
+    pt-BR:
+    - Abra **Network interfaces** > **Create**.
+    - Selecione `rg-az104-lab-vm`, nomeie como `vm-nic`, VNet `vm-vnet` e subnet `default`.
 - key: create-vm
   position: 3
   title:
@@ -92,6 +108,19 @@ steps:
   validation_hint:
     en: The VM size and tag are validated.
     pt-BR: O tamanho e a tag da VM são validados.
+  portal_steps:
+    en:
+    - Abra **Virtual machines** > **Create** > **Azure virtual machine**.
+    - Selecione `rg-az104-lab-vm`, nomeie como `vm-lab01` e use a imagem **Ubuntu Server 22.04 LTS**.
+    - Escolha o tamanho `Standard_B1s`.
+    - Em **Networking**, selecione a NIC `vm-nic`.
+    - Em **Tags**, adicione `Environment=Lab` e clique em **Review + create** > **Create**.
+    pt-BR:
+    - Abra **Virtual machines** > **Create** > **Azure virtual machine**.
+    - Selecione `rg-az104-lab-vm`, nomeie como `vm-lab01` e use a imagem **Ubuntu Server 22.04 LTS**.
+    - Escolha o tamanho `Standard_B1s`.
+    - Em **Networking**, selecione a NIC `vm-nic`.
+    - Em **Tags**, adicione `Environment=Lab` e clique em **Review + create** > **Create**.
 - key: verify
   position: 4
   title:
@@ -110,6 +139,13 @@ steps:
   validation_hint:
     en: The validator checks the VM, NIC and managed disk.
     pt-BR: O validador verifica a VM, a NIC e o disco gerenciado.
+  portal_steps:
+    en:
+    - Abra `vm-lab01` > **Overview** para confirmar o tamanho e o disco.
+    - Em **Networking**, confirme a NIC `vm-nic`; em **Tags**, confirme `Environment=Lab`.
+    pt-BR:
+    - Abra `vm-lab01` > **Overview** para confirmar o tamanho e o disco.
+    - Em **Networking**, confirme a NIC `vm-nic`; em **Tags**, confirme `Environment=Lab`.
 checks:
 - key: vm-exists
   position: 1

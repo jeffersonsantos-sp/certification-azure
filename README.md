@@ -587,7 +587,7 @@ python scripts/seed_advanced_formats.py
 
 Phases 1 and 2 of the Azure labs feature are implemented:
 
-- 13 bilingual lab definitions in `labs/*.yaml`
+- 13 bilingual lab definitions in `labs/*.yaml` with Portal and Azure CLI instructions per step
 - Database models for labs, steps, checks, progress and validation runs
 - Deterministic, idempotent importer that preserves step/check identity
 - Login and registration exposed in the UI, with protected lab routes
@@ -606,7 +606,7 @@ docker compose exec backend python scripts/import_labs.py
 python scripts/import_labs.py
 ```
 
-The labs cover Identity & Governance, Networking, Storage, Compute and Monitoring. Each lab includes English and PT-BR content, commands, validation checks and cleanup instructions. Lab progress is stored per user in `lab_progress` and `lab_step_progress`.
+The labs cover Identity & Governance, Networking, Storage, Compute and Monitoring. Each lab includes English and PT-BR content, step-by-step Portal instructions, Azure CLI commands, validation checks and cleanup instructions. Lab progress is stored per user in `lab_progress` and `lab_step_progress`.
 
 ### Azure app registration
 

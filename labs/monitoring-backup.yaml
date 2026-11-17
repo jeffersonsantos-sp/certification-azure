@@ -56,6 +56,13 @@ steps:
   validation_hint:
     en: The vault SKU is validated.
     pt-BR: O SKU do vault é validado.
+  portal_steps:
+    en:
+    - Abra **Recovery Services vaults** > **Create**.
+    - Selecione `rg-az104-lab-backup`, nomeie como `rsv-lab<unique>` e escolha **East US**.
+    pt-BR:
+    - Abra **Recovery Services vaults** > **Create**.
+    - Selecione `rg-az104-lab-backup`, nomeie como `rsv-lab<unique>` e escolha **East US**.
 - key: list-policies
   position: 2
   title:
@@ -73,6 +80,13 @@ steps:
   validation_hint:
     en: The validator checks that the vault exists and has the Standard SKU.
     pt-BR: O validador verifica se o vault existe e tem o SKU Standard.
+  portal_steps:
+    en:
+    - Abra o vault > **Settings** > **Backup policies**.
+    - Confirme as políticas padrão para VM e SQL.
+    pt-BR:
+    - Abra o vault > **Settings** > **Backup policies**.
+    - Confirme as políticas padrão para VM e SQL.
 checks:
 - key: vault-exists
   position: 1

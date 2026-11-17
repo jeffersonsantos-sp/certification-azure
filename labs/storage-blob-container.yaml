@@ -7,188 +7,236 @@ description:
   pt-BR: Crie uma Storage Account Standard_LRS com as tags obrigatórias e um container Blob chamado labdata.
 objectives:
   en:
-    - Create a Storage Account with a globally unique name
-    - Use Standard_LRS redundancy
-    - Add the Environment=Lab tag
-    - Create a Blob container named labdata
+  - Create a Storage Account with a globally unique name
+  - Use Standard_LRS redundancy
+  - Add the Environment=Lab tag
+  - Create a Blob container named labdata
   pt-BR:
-    - Criar uma Storage Account com um nome globalmente exclusivo
-    - Usar a redundância Standard_LRS
-    - Adicionar a tag Environment=Lab
-    - Criar um container Blob chamado labdata
+  - Criar uma Storage Account com um nome globalmente exclusivo
+  - Usar a redundância Standard_LRS
+  - Adicionar a tag Environment=Lab
+  - Criar um container Blob chamado labdata
 prerequisites:
   en:
-    - An Azure subscription where you can create Storage Accounts
-    - Azure CLI authenticated with az login
-    - Permission to create Blob containers with Microsoft Entra authentication
+  - An Azure subscription where you can create Storage Accounts
+  - Azure CLI authenticated with az login
+  - Permission to create Blob containers with Microsoft Entra authentication
   pt-BR:
-    - Uma assinatura Azure na qual você possa criar Storage Accounts
-    - Azure CLI autenticada com az login
-    - Permissão para criar containers Blob com autenticação Microsoft Entra
+  - Uma assinatura Azure na qual você possa criar Storage Accounts
+  - Azure CLI autenticada com az login
+  - Permissão para criar containers Blob com autenticação Microsoft Entra
 cost_warning:
   en: A small Standard_LRS Storage Account usually costs very little, but delete the resource group after the lab.
   pt-BR: Uma Storage Account Standard_LRS pequena costuma custar muito pouco, mas exclua o resource group após o laboratório.
 cleanup_commands:
-  - label:
-      en: Delete the lab resource group
-      pt-BR: Excluir o resource group do laboratório
-    language: bash
-    command: az group delete --name rg-az104-lab-storage --yes --no-wait
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-storage --yes --no-wait
 domain_id: storage
 skill_id: st-03
 difficulty: intermediate
 estimated_minutes: 20
 resource_group_name: rg-az104-lab-storage
-content_version: "1"
+content_version: '1'
 status: published
 sort_order: 30
 steps:
-  - key: create-resource-group
-    position: 1
-    title:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: 'Create the resource group `rg-az104-lab-storage` in the region you will use for the lab.
+
+      '
+    pt-BR: 'Crie o resource group `rg-az104-lab-storage` na região que você vai usar no laboratório.
+
+      '
+  commands:
+  - label:
       en: Create the resource group
       pt-BR: Criar o resource group
-    instructions:
-      en: |
-        Create the resource group `rg-az104-lab-storage` in the region you will use for the lab.
-      pt-BR: |
-        Crie o resource group `rg-az104-lab-storage` na região que você vai usar no laboratório.
-    commands:
-      - label:
-          en: Create the resource group
-          pt-BR: Criar o resource group
-        language: bash
-        command: az group create --name rg-az104-lab-storage --location eastus
-    validation_hint:
-      en: The Storage Account must be created in this resource group.
-      pt-BR: A Storage Account precisa ser criada neste resource group.
-  - key: create-storage-account
-    position: 2
-    title:
+    language: bash
+    command: az group create --name rg-az104-lab-storage --location eastus
+  validation_hint:
+    en: The Storage Account must be created in this resource group.
+    pt-BR: A Storage Account precisa ser criada neste resource group.
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-storage`, selecione **East US** e clique em **Review + create** > **Create**.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-storage`, selecione **East US** e clique em **Review + create** > **Create**.
+- key: create-storage-account
+  position: 2
+  title:
+    en: Create the Storage Account
+    pt-BR: Criar a Storage Account
+  instructions:
+    en: 'Storage Account names must be globally unique, use only lowercase letters and numbers,
+
+      and contain 3 to 24 characters. Replace `<unique>` with your own suffix.
+
+      Use the prefix `staz104lab`, `Standard_LRS` and the tag `Environment=Lab`.
+
+      '
+    pt-BR: 'Nomes de Storage Account precisam ser globalmente exclusivos, usar apenas letras minúsculas e números
+
+      e ter de 3 a 24 caracteres. Substitua `<unique>` por um sufixo seu.
+
+      Use o prefixo `staz104lab`, `Standard_LRS` e a tag `Environment=Lab`.
+
+      '
+  commands:
+  - label:
       en: Create the Storage Account
       pt-BR: Criar a Storage Account
-    instructions:
-      en: |
-        Storage Account names must be globally unique, use only lowercase letters and numbers,
-        and contain 3 to 24 characters. Replace `<unique>` with your own suffix.
-        Use the prefix `staz104lab`, `Standard_LRS` and the tag `Environment=Lab`.
-      pt-BR: |
-        Nomes de Storage Account precisam ser globalmente exclusivos, usar apenas letras minúsculas e números
-        e ter de 3 a 24 caracteres. Substitua `<unique>` por um sufixo seu.
-        Use o prefixo `staz104lab`, `Standard_LRS` e a tag `Environment=Lab`.
-    commands:
-      - label:
-          en: Create the Storage Account
-          pt-BR: Criar a Storage Account
-        language: bash
-        command: az storage account create --name staz104lab<unique> --resource-group rg-az104-lab-storage --location eastus --sku Standard_LRS --kind StorageV2 --tags Environment=Lab
-    validation_hint:
-      en: The validator finds the account by the staz104lab prefix in the resource group.
-      pt-BR: O validador encontra a conta pelo prefixo staz104lab no resource group.
-  - key: create-blob-container
-    position: 3
-    title:
+    language: bash
+    command: az storage account create --name staz104lab<unique> --resource-group rg-az104-lab-storage --location eastus --sku
+      Standard_LRS --kind StorageV2 --tags Environment=Lab
+  validation_hint:
+    en: The validator finds the account by the staz104lab prefix in the resource group.
+    pt-BR: O validador encontra a conta pelo prefixo staz104lab no resource group.
+  portal_steps:
+    en:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-lab-storage`, nomeie como `staz104lab<unique>` e escolha **East US**.
+    - Use desempenho **Standard**, redundância **Locally-redundant storage (LRS)** e tipo **StorageV2**.
+    - Em **Tags**, adicione `Environment=Lab` e clique em **Review + create** > **Create**.
+    pt-BR:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-lab-storage`, nomeie como `staz104lab<unique>` e escolha **East US**.
+    - Use desempenho **Standard**, redundância **Locally-redundant storage (LRS)** e tipo **StorageV2**.
+    - Em **Tags**, adicione `Environment=Lab` e clique em **Review + create** > **Create**.
+- key: create-blob-container
+  position: 3
+  title:
+    en: Create the Blob container
+    pt-BR: Criar o container Blob
+  instructions:
+    en: 'Create a private Blob container named `labdata` in the Storage Account.
+
+      Replace `<unique>` with the same suffix used in the previous step.
+
+      '
+    pt-BR: 'Crie um container Blob privado chamado `labdata` na Storage Account.
+
+      Substitua `<unique>` pelo mesmo sufixo usado no passo anterior.
+
+      '
+  commands:
+  - label:
       en: Create the Blob container
       pt-BR: Criar o container Blob
-    instructions:
-      en: |
-        Create a private Blob container named `labdata` in the Storage Account.
-        Replace `<unique>` with the same suffix used in the previous step.
-      pt-BR: |
-        Crie um container Blob privado chamado `labdata` na Storage Account.
-        Substitua `<unique>` pelo mesmo sufixo usado no passo anterior.
-    commands:
-      - label:
-          en: Create the Blob container
-          pt-BR: Criar o container Blob
-        language: bash
-        command: az storage container create --name labdata --account-name staz104lab<unique> --auth-mode login
-    validation_hint:
-      en: The container is validated through the Storage control plane.
-      pt-BR: O container é validado pelo control plane do Storage.
-  - key: verify-storage-account
-    position: 4
-    title:
-      en: Verify the configuration
-      pt-BR: Verificar a configuração
-    instructions:
-      en: |
-        Confirm the SKU, tags and container before validating the lab.
-      pt-BR: |
-        Confirme o SKU, as tags e o container antes de validar o laboratório.
-    commands:
-      - label:
-          en: Show the Storage Account
-          pt-BR: Mostrar a Storage Account
-        language: bash
-        command: az storage account show --name staz104lab<unique> --resource-group rg-az104-lab-storage --query "{sku:sku.name,tags:tags}" -o json
-      - label:
-          en: List Blob containers
-          pt-BR: Listar containers Blob
-        language: bash
-        command: az storage container list --account-name staz104lab<unique> --auth-mode login -o table
-    validation_hint:
-      en: The validation checks the first Storage Account with the staz104lab prefix.
-      pt-BR: A validação verifica a primeira Storage Account com o prefixo staz104lab.
+    language: bash
+    command: az storage container create --name labdata --account-name staz104lab<unique> --auth-mode login
+  validation_hint:
+    en: The container is validated through the Storage control plane.
+    pt-BR: O container é validado pelo control plane do Storage.
+  portal_steps:
+    en:
+    - Abra a Storage Account > **Containers** > **+ Container**.
+    - Nomeie como `labdata` e mantenha o acesso privado.
+    pt-BR:
+    - Abra a Storage Account > **Containers** > **+ Container**.
+    - Nomeie como `labdata` e mantenha o acesso privado.
+- key: verify-storage-account
+  position: 4
+  title:
+    en: Verify the configuration
+    pt-BR: Verificar a configuração
+  instructions:
+    en: 'Confirm the SKU, tags and container before validating the lab.
+
+      '
+    pt-BR: 'Confirme o SKU, as tags e o container antes de validar o laboratório.
+
+      '
+  commands:
+  - label:
+      en: Show the Storage Account
+      pt-BR: Mostrar a Storage Account
+    language: bash
+    command: az storage account show --name staz104lab<unique> --resource-group rg-az104-lab-storage --query "{sku:sku.name,tags:tags}"
+      -o json
+  - label:
+      en: List Blob containers
+      pt-BR: Listar containers Blob
+    language: bash
+    command: az storage container list --account-name staz104lab<unique> --auth-mode login -o table
+  validation_hint:
+    en: The validation checks the first Storage Account with the staz104lab prefix.
+    pt-BR: A validação verifica a primeira Storage Account com o prefixo staz104lab.
+  portal_steps:
+    en:
+    - Abra a Storage Account > **Containers** para confirmar `labdata`.
+    - Em **Settings** > **Configuration**, confirme `StorageV2`; em **Overview**, confirme `Standard_LRS` e a tag `Environment=Lab`.
+    pt-BR:
+    - Abra a Storage Account > **Containers** para confirmar `labdata`.
+    - Em **Settings** > **Configuration**, confirme `StorageV2`; em **Overview**, confirme `Standard_LRS` e a tag `Environment=Lab`.
 checks:
-  - key: storage-account-exists
-    position: 1
-    name:
-      en: Storage Account exists
-      pt-BR: Storage Account existe
-    description:
-      en: A Storage Account with the staz104lab prefix must exist in the lab resource group.
-      pt-BR: Uma Storage Account com o prefixo staz104lab precisa existir no resource group do laboratório.
-    check_type: resource_exists
-    config:
-      resource_type: Microsoft.Storage/storageAccounts
-      name_prefix: staz104lab
-    required: true
-    weight: 1
-  - key: storage-sku
-    position: 2
-    name:
-      en: SKU is Standard_LRS
-      pt-BR: SKU é Standard_LRS
-    description:
-      en: The Storage Account must use Standard_LRS redundancy.
-      pt-BR: A Storage Account precisa usar a redundância Standard_LRS.
-    check_type: property_equals
-    config:
-      resource_type: Microsoft.Storage/storageAccounts
-      name_prefix: staz104lab
-      path: sku.name
-      value: Standard_LRS
-    required: true
-    weight: 1
-  - key: storage-environment-tag
-    position: 3
-    name:
-      en: Environment tag is present
-      pt-BR: Tag Environment está presente
-    description:
-      en: The Storage Account must have the tag Environment=Lab.
-      pt-BR: A Storage Account precisa ter a tag Environment=Lab.
-    check_type: tag_equals
-    config:
-      resource_type: Microsoft.Storage/storageAccounts
-      name_prefix: staz104lab
-      tag: Environment
-      value: Lab
-    required: true
-    weight: 1
-  - key: blob-container-exists
-    position: 4
-    name:
-      en: Blob container exists
-      pt-BR: Container Blob existe
-    description:
-      en: The Storage Account must have a Blob container named labdata.
-      pt-BR: A Storage Account precisa ter um container Blob chamado labdata.
-    check_type: resource_exists
-    config:
-      resource_type: Microsoft.Storage/storageAccounts/blobServices/containers
-      name: labdata
-      parent_name_prefix: staz104lab
-    required: true
-    weight: 1
+- key: storage-account-exists
+  position: 1
+  name:
+    en: Storage Account exists
+    pt-BR: Storage Account existe
+  description:
+    en: A Storage Account with the staz104lab prefix must exist in the lab resource group.
+    pt-BR: Uma Storage Account com o prefixo staz104lab precisa existir no resource group do laboratório.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: staz104lab
+  required: true
+  weight: 1
+- key: storage-sku
+  position: 2
+  name:
+    en: SKU is Standard_LRS
+    pt-BR: SKU é Standard_LRS
+  description:
+    en: The Storage Account must use Standard_LRS redundancy.
+    pt-BR: A Storage Account precisa usar a redundância Standard_LRS.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: staz104lab
+    path: sku.name
+    value: Standard_LRS
+  required: true
+  weight: 1
+- key: storage-environment-tag
+  position: 3
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The Storage Account must have the tag Environment=Lab.
+    pt-BR: A Storage Account precisa ter a tag Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: staz104lab
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1
+- key: blob-container-exists
+  position: 4
+  name:
+    en: Blob container exists
+    pt-BR: Container Blob existe
+  description:
+    en: The Storage Account must have a Blob container named labdata.
+    pt-BR: A Storage Account precisa ter um container Blob chamado labdata.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts/blobServices/containers
+    name: labdata
+    parent_name_prefix: staz104lab
+  required: true
+  weight: 1

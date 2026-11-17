@@ -204,6 +204,7 @@ export interface LabStep {
   title: LocalizedString
   instructions: LocalizedString
   commands: LabCommand[]
+  portal_steps: LocalizedList
   validation_hint: LocalizedString | null
   completed: boolean
 }

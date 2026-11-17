@@ -60,6 +60,19 @@ steps:
   validation_hint:
     en: The validator checks the container group properties.
     pt-BR: O validador verifica as propriedades do container group.
+  portal_steps:
+    en:
+    - Abra **Container instances** > **Create**.
+    - Selecione `rg-az104-lab-aci`, nomeie como `aci-lab` e use a imagem `mcr.microsoft.com/azuredocs/aci-helloworld`.
+    - Defina o SO como **Linux**.
+    - Em **Networking**, selecione **Public** e informe o rótulo DNS `aci-lab<unique>`.
+    - Em **Advanced**, defina **Restart policy** como `Never`; em **Tags**, adicione `Environment=Lab`.
+    pt-BR:
+    - Abra **Container instances** > **Create**.
+    - Selecione `rg-az104-lab-aci`, nomeie como `aci-lab` e use a imagem `mcr.microsoft.com/azuredocs/aci-helloworld`.
+    - Defina o SO como **Linux**.
+    - Em **Networking**, selecione **Public** e informe o rótulo DNS `aci-lab<unique>`.
+    - Em **Advanced**, defina **Restart policy** como `Never`; em **Tags**, adicione `Environment=Lab`.
 - key: verify
   position: 2
   title:
@@ -78,6 +91,11 @@ steps:
   validation_hint:
     en: The validator checks the OS, restart policy, public IP and tag.
     pt-BR: O validador verifica o SO, a política de reinício, o IP público e a tag.
+  portal_steps:
+    en:
+    - Abra `aci-lab` > **Overview** para confirmar o estado, o SO, a restart policy e o IP público.
+    pt-BR:
+    - Abra `aci-lab` > **Overview** para confirmar o estado, o SO, a restart policy e o IP público.
 checks:
 - key: container-group-exists
   position: 1

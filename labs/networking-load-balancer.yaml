@@ -57,6 +57,13 @@ steps:
   validation_hint:
     en: The public IP SKU is validated.
     pt-BR: O SKU do IP público é validado.
+  portal_steps:
+    en:
+    - Abra **Public IP addresses** > **Create**.
+    - Selecione `rg-az104-lab-lb`, nomeie como `lab-lb-ip`, SKU **Standard** e alocação **Static**.
+    pt-BR:
+    - Abra **Public IP addresses** > **Create**.
+    - Selecione `rg-az104-lab-lb`, nomeie como `lab-lb-ip`, SKU **Standard** e alocação **Static**.
 - key: create-load-balancer
   position: 2
   title:
@@ -75,6 +82,15 @@ steps:
   validation_hint:
     en: The Load Balancer SKU is validated.
     pt-BR: O SKU do Load Balancer é validado.
+  portal_steps:
+    en:
+    - Abra **Load balancers** > **Create**.
+    - Selecione `rg-az104-lab-lb`, nomeie como `lab-lb`, SKU **Standard** e tipo **External**.
+    - Selecione o IP público `lab-lb-ip` e crie o backend pool `lab-backend`.
+    pt-BR:
+    - Abra **Load balancers** > **Create**.
+    - Selecione `rg-az104-lab-lb`, nomeie como `lab-lb`, SKU **Standard** e tipo **External**.
+    - Selecione o IP público `lab-lb-ip` e crie o backend pool `lab-backend`.
 - key: create-probe
   position: 3
   title:
@@ -93,6 +109,13 @@ steps:
   validation_hint:
     en: The probe name, protocol and port are validated.
     pt-BR: O nome, protocolo e porta do probe são validados.
+  portal_steps:
+    en:
+    - Abra `lab-lb` > **Settings** > **Health probes** > **Add**.
+    - Nomeie como `lab-probe`, protocolo **TCP**, porta `80` e intervalo `5` segundos.
+    pt-BR:
+    - Abra `lab-lb` > **Settings** > **Health probes** > **Add**.
+    - Nomeie como `lab-probe`, protocolo **TCP**, porta `80` e intervalo `5` segundos.
 - key: verify
   position: 4
   title:
@@ -111,6 +134,13 @@ steps:
   validation_hint:
     en: The validator checks the probe through the Load Balancer properties.
     pt-BR: O validador verifica o probe pelas propriedades do Load Balancer.
+  portal_steps:
+    en:
+    - Abra `lab-lb` > **Settings** > **Health probes** e confirme `lab-probe`.
+    - Em **Overview**, confirme o SKU **Standard** e o IP público.
+    pt-BR:
+    - Abra `lab-lb` > **Settings** > **Health probes** e confirme `lab-probe`.
+    - Em **Overview**, confirme o SKU **Standard** e o IP público.
 checks:
 - key: public-ip-exists
   position: 1

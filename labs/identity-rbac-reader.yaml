@@ -7,163 +7,209 @@ description:
   pt-BR: Crie um resource group dedicado e conceda ao seu usuário conectado a role Reader no escopo do resource group.
 objectives:
   en:
-    - Create a resource group with the required tag
-    - Assign the Reader role to your signed-in user at resource group scope
-    - Verify the effective access assignment
+  - Create a resource group with the required tag
+  - Assign the Reader role to your signed-in user at resource group scope
+  - Verify the effective access assignment
   pt-BR:
-    - Criar um resource group com a tag obrigatória
-    - Atribuir a role Reader ao seu usuário conectado no escopo do resource group
-    - Verificar a atribuição de acesso efetiva
+  - Criar um resource group com a tag obrigatória
+  - Atribuir a role Reader ao seu usuário conectado no escopo do resource group
+  - Verificar a atribuição de acesso efetiva
 prerequisites:
   en:
-    - An Azure subscription where you can create resource groups
-    - Permission to create role assignments at resource group scope
-    - Azure CLI authenticated with az login
+  - An Azure subscription where you can create resource groups
+  - Permission to create role assignments at resource group scope
+  - Azure CLI authenticated with az login
   pt-BR:
-    - Uma assinatura Azure na qual você possa criar resource groups
-    - Permissão para criar atribuições de função no escopo do resource group
-    - Azure CLI autenticada com az login
+  - Uma assinatura Azure na qual você possa criar resource groups
+  - Permissão para criar atribuições de função no escopo do resource group
+  - Azure CLI autenticada com az login
 cost_warning:
   en: Resource groups and role assignments do not add cost by themselves.
   pt-BR: Resource groups e atribuições de função não geram custo por si só.
 cleanup_commands:
-  - label:
-      en: Delete the lab resource group
-      pt-BR: Excluir o resource group do laboratório
-    language: bash
-    command: az group delete --name rg-az104-lab-rbac --yes --no-wait
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-rbac --yes --no-wait
 domain_id: identity-governance
 skill_id: ig-02
 difficulty: easy
 estimated_minutes: 15
 resource_group_name: rg-az104-lab-rbac
-content_version: "1"
+content_version: '1'
 status: published
 sort_order: 10
 steps:
-  - key: create-resource-group
-    position: 1
-    title:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: 'Create a resource group named `rg-az104-lab-rbac` in a region close to you.
+
+      Add the tag `Environment=Lab`.
+
+      '
+    pt-BR: 'Crie um resource group chamado `rg-az104-lab-rbac` em uma região próxima de você.
+
+      Adicione a tag `Environment=Lab`.
+
+      '
+  commands:
+  - label:
       en: Create the resource group
       pt-BR: Criar o resource group
-    instructions:
-      en: |
-        Create a resource group named `rg-az104-lab-rbac` in a region close to you.
-        Add the tag `Environment=Lab`.
-      pt-BR: |
-        Crie um resource group chamado `rg-az104-lab-rbac` em uma região próxima de você.
-        Adicione a tag `Environment=Lab`.
-    commands:
-      - label:
-          en: Create the resource group
-          pt-BR: Criar o resource group
-        language: bash
-        command: az group create --name rg-az104-lab-rbac --location eastus --tags Environment=Lab
-    validation_hint:
-      en: The validation checks the resource group name and the Environment tag.
-      pt-BR: A validação verifica o nome do resource group e a tag Environment.
-  - key: get-user-object-id
-    position: 2
-    title:
-      en: Get your user object ID
-      pt-BR: Obter o object ID do seu usuário
-    instructions:
-      en: |
-        Copy the object ID of the signed-in user. You will use it in the role assignment command.
-      pt-BR: |
-        Copie o object ID do usuário conectado. Você vai usá-lo no comando de atribuição de função.
-    commands:
-      - label:
-          en: Show the signed-in user object ID
-          pt-BR: Mostrar o object ID do usuário conectado
-        language: bash
-        command: az ad signed-in-user show --query id -o tsv
-    validation_hint:
-      en: The validator uses the object ID from your Azure token; you do not need to paste it in the app.
-      pt-BR: O validador usa o object ID do seu token Azure; você não precisa colá-lo na aplicação.
-  - key: assign-reader-role
-    position: 3
-    title:
-      en: Assign the Reader role
-      pt-BR: Atribuir a role Reader
-    instructions:
-      en: |
-        Replace `<user-object-id>` with the value from the previous step.
-        Assign the Reader role at the resource group scope.
-      pt-BR: |
-        Substitua `<user-object-id>` pelo valor do passo anterior.
-        Atribua a role Reader no escopo do resource group.
-    commands:
-      - label:
-          en: Assign Reader at resource group scope
-          pt-BR: Atribuir Reader no escopo do resource group
-        language: bash
-        command: az role assignment create --assignee <user-object-id> --role Reader --resource-group rg-az104-lab-rbac
-    validation_hint:
-      en: The validation checks for a Reader assignment to your signed-in user.
-      pt-BR: A validação procura uma atribuição Reader para o seu usuário conectado.
-  - key: verify-assignment
-    position: 4
-    title:
-      en: Verify the assignment
-      pt-BR: Verificar a atribuição
-    instructions:
-      en: |
-        Confirm that the role assignment exists before validating the lab.
-      pt-BR: |
-        Confirme que a atribuição de função existe antes de validar o laboratório.
-    commands:
-      - label:
-          en: List role assignments for the resource group
-          pt-BR: Listar atribuições de função do resource group
-        language: bash
-        command: az role assignment list --resource-group rg-az104-lab-rbac --output table
-    validation_hint:
-      en: A role assignment can take a few seconds to appear.
-      pt-BR: Uma atribuição de função pode levar alguns segundos para aparecer.
+    language: bash
+    command: az group create --name rg-az104-lab-rbac --location eastus --tags Environment=Lab
+  validation_hint:
+    en: The validation checks the resource group name and the Environment tag.
+    pt-BR: A validação verifica o nome do resource group e a tag Environment.
+  portal_steps:
+    en:
+    - No Portal do Azure, abra **Resource groups** e clique em **Create**.
+    - Selecione a assinatura, informe `rg-az104-lab-rbac` em **Resource group** e escolha a região **East US**.
+    - Em **Tags**, adicione `Environment` = `Lab` e clique em **Review + create** > **Create**.
+    pt-BR:
+    - No Portal do Azure, abra **Resource groups** e clique em **Create**.
+    - Selecione a assinatura, informe `rg-az104-lab-rbac` em **Resource group** e escolha a região **East US**.
+    - Em **Tags**, adicione `Environment` = `Lab` e clique em **Review + create** > **Create**.
+- key: get-user-object-id
+  position: 2
+  title:
+    en: Get your user object ID
+    pt-BR: Obter o object ID do seu usuário
+  instructions:
+    en: 'Copy the object ID of the signed-in user. You will use it in the role assignment command.
+
+      '
+    pt-BR: 'Copie o object ID do usuário conectado. Você vai usá-lo no comando de atribuição de função.
+
+      '
+  commands:
+  - label:
+      en: Show the signed-in user object ID
+      pt-BR: Mostrar o object ID do usuário conectado
+    language: bash
+    command: az ad signed-in-user show --query id -o tsv
+  validation_hint:
+    en: The validator uses the object ID from your Azure token; you do not need to paste it in the app.
+    pt-BR: O validador usa o object ID do seu token Azure; você não precisa colá-lo na aplicação.
+  portal_steps:
+    en:
+    - Abra **Microsoft Entra ID** > **Users** e pesquise seu usuário.
+    - Na página do usuário, copie o **Object ID**.
+    pt-BR:
+    - Abra **Microsoft Entra ID** > **Users** e pesquise seu usuário.
+    - Na página do usuário, copie o **Object ID**.
+- key: assign-reader-role
+  position: 3
+  title:
+    en: Assign the Reader role
+    pt-BR: Atribuir a role Reader
+  instructions:
+    en: 'Replace `<user-object-id>` with the value from the previous step.
+
+      Assign the Reader role at the resource group scope.
+
+      '
+    pt-BR: 'Substitua `<user-object-id>` pelo valor do passo anterior.
+
+      Atribua a role Reader no escopo do resource group.
+
+      '
+  commands:
+  - label:
+      en: Assign Reader at resource group scope
+      pt-BR: Atribuir Reader no escopo do resource group
+    language: bash
+    command: az role assignment create --assignee <user-object-id> --role Reader --resource-group rg-az104-lab-rbac
+  validation_hint:
+    en: The validation checks for a Reader assignment to your signed-in user.
+    pt-BR: A validação procura uma atribuição Reader para o seu usuário conectado.
+  portal_steps:
+    en:
+    - Abra **Resource groups** > `rg-az104-lab-rbac`.
+    - Em **Access control (IAM)**, clique em **Add** > **Add role assignment**.
+    - Selecione **Reader**, clique em **Next**, escolha **User, group, or service principal** e selecione seu usuário.
+    - Clique em **Review + assign** duas vezes.
+    pt-BR:
+    - Abra **Resource groups** > `rg-az104-lab-rbac`.
+    - Em **Access control (IAM)**, clique em **Add** > **Add role assignment**.
+    - Selecione **Reader**, clique em **Next**, escolha **User, group, or service principal** e selecione seu usuário.
+    - Clique em **Review + assign** duas vezes.
+- key: verify-assignment
+  position: 4
+  title:
+    en: Verify the assignment
+    pt-BR: Verificar a atribuição
+  instructions:
+    en: 'Confirm that the role assignment exists before validating the lab.
+
+      '
+    pt-BR: 'Confirme que a atribuição de função existe antes de validar o laboratório.
+
+      '
+  commands:
+  - label:
+      en: List role assignments for the resource group
+      pt-BR: Listar atribuições de função do resource group
+    language: bash
+    command: az role assignment list --resource-group rg-az104-lab-rbac --output table
+  validation_hint:
+    en: A role assignment can take a few seconds to appear.
+    pt-BR: Uma atribuição de função pode levar alguns segundos para aparecer.
+  portal_steps:
+    en:
+    - Em **Access control (IAM)**, filtre por **Reader** e confirme que seu usuário aparece.
+    - Abra **Resource groups** > `rg-az104-lab-rbac` > **Activity log** para ver a atribuição.
+    pt-BR:
+    - Em **Access control (IAM)**, filtre por **Reader** e confirme que seu usuário aparece.
+    - Abra **Resource groups** > `rg-az104-lab-rbac` > **Activity log** para ver a atribuição.
 checks:
-  - key: resource-group-exists
-    position: 1
-    name:
-      en: Resource group exists
-      pt-BR: Resource group existe
-    description:
-      en: The resource group rg-az104-lab-rbac must exist.
-      pt-BR: O resource group rg-az104-lab-rbac precisa existir.
-    check_type: resource_exists
-    config:
-      resource_type: Microsoft.Resources/resourceGroups
-      name: rg-az104-lab-rbac
-    required: true
-    weight: 1
-  - key: environment-tag
-    position: 2
-    name:
-      en: Environment tag is present
-      pt-BR: Tag Environment está presente
-    description:
-      en: The resource group must have the tag Environment=Lab.
-      pt-BR: O resource group precisa ter a tag Environment=Lab.
-    check_type: tag_equals
-    config:
-      resource_type: Microsoft.Resources/resourceGroups
-      name: rg-az104-lab-rbac
-      tag: Environment
-      value: Lab
-    required: true
-    weight: 1
-  - key: reader-role-assignment
-    position: 3
-    name:
-      en: Reader assignment exists
-      pt-BR: Atribuição Reader existe
-    description:
-      en: Your signed-in user must have the Reader role at resource group scope.
-      pt-BR: Seu usuário conectado precisa ter a role Reader no escopo do resource group.
-    check_type: role_assignment_exists
-    config:
-      role_definition_name: Reader
-      scope: resource_group
-      principal_object_id_from: signed_in_user
-    required: true
-    weight: 1
+- key: resource-group-exists
+  position: 1
+  name:
+    en: Resource group exists
+    pt-BR: Resource group existe
+  description:
+    en: The resource group rg-az104-lab-rbac must exist.
+    pt-BR: O resource group rg-az104-lab-rbac precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-lab-rbac
+  required: true
+  weight: 1
+- key: environment-tag
+  position: 2
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The resource group must have the tag Environment=Lab.
+    pt-BR: O resource group precisa ter a tag Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-lab-rbac
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1
+- key: reader-role-assignment
+  position: 3
+  name:
+    en: Reader assignment exists
+    pt-BR: Atribuição Reader existe
+  description:
+    en: Your signed-in user must have the Reader role at resource group scope.
+    pt-BR: Seu usuário conectado precisa ter a role Reader no escopo do resource group.
+  check_type: role_assignment_exists
+  config:
+    role_definition_name: Reader
+    scope: resource_group
+    principal_object_id_from: signed_in_user
+  required: true
+  weight: 1

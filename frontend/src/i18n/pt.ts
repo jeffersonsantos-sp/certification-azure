@@ -177,6 +177,8 @@ const pt: Translations = {
     cleanup: 'Limpeza',
     cleanupDesc: 'Exclua o resource group do laboratório ao terminar para evitar cobranças desnecessárias.',
     validationCriteria: 'Critérios de validação',
+    portal: 'Portal',
+    cli: 'Azure CLI',
     validationCriteriaDesc: 'Estas verificações serão avaliadas automaticamente na Fase 2.',
     validationSoon: 'A validação no Azure vem a seguir',
     validationSoonDesc: 'Por enquanto, marque cada passo como concluído conforme avançar no laboratório.',

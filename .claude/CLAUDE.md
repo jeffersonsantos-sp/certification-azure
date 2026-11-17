@@ -130,7 +130,7 @@ python scripts/import_labs.py
 - **domains**: Certification domains
 - **skills**: Specific skills within domains
 - **labs**: Bilingual lab definitions, skill/domain links, cleanup commands and status
-- **lab_steps**: Ordered bilingual Markdown steps and commands
+- **lab_steps**: Ordered bilingual Markdown steps, `portal_steps` (Portal instructions) and CLI commands
 - **lab_checks**: Typed validation checks with JSONB config
 - **lab_progress**: Per-user lab status, best score and last validation
 - **lab_step_progress**: Completed lab steps

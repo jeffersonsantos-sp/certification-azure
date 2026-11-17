@@ -57,6 +57,15 @@ steps:
   validation_hint:
     en: The hub address space is validated.
     pt-BR: O espaço de endereço da hub é validado.
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-peering`, nomeie como `hub-vnet` e escolha **East US**.
+    - Adicione o espaço `10.20.0.0/16` e a subnet `default` com `10.20.0.0/24`.
+    pt-BR:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-peering`, nomeie como `hub-vnet` e escolha **East US**.
+    - Adicione o espaço `10.20.0.0/16` e a subnet `default` com `10.20.0.0/24`.
 - key: create-spoke-vnet
   position: 2
   title:
@@ -75,6 +84,15 @@ steps:
   validation_hint:
     en: The spoke address space is validated.
     pt-BR: O espaço de endereço da spoke é validado.
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-peering`, nomeie como `spoke-vnet` e escolha **East US**.
+    - Adicione o espaço `10.21.0.0/16` e a subnet `default` com `10.21.0.0/24`.
+    pt-BR:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-peering`, nomeie como `spoke-vnet` e escolha **East US**.
+    - Adicione o espaço `10.21.0.0/16` e a subnet `default` com `10.21.0.0/24`.
 - key: peer-hub-to-spoke
   position: 3
   title:
@@ -93,6 +111,15 @@ steps:
   validation_hint:
     en: The peering state must be Connected.
     pt-BR: O estado do peering precisa estar Connected.
+  portal_steps:
+    en:
+    - Abra `hub-vnet` > **Settings** > **Peerings** > **Add**.
+    - Nomeie como `hub-to-spoke`, selecione `spoke-vnet` como remote VNet e permita o acesso.
+    - Clique em **Add**.
+    pt-BR:
+    - Abra `hub-vnet` > **Settings** > **Peerings** > **Add**.
+    - Nomeie como `hub-to-spoke`, selecione `spoke-vnet` como remote VNet e permita o acesso.
+    - Clique em **Add**.
 - key: peer-spoke-to-hub
   position: 4
   title:
@@ -111,6 +138,15 @@ steps:
   validation_hint:
     en: Both peerings must be Connected.
     pt-BR: Os dois peerings precisam estar Connected.
+  portal_steps:
+    en:
+    - Abra `spoke-vnet` > **Settings** > **Peerings** > **Add**.
+    - Nomeie como `spoke-to-hub`, selecione `hub-vnet` como remote VNet e permita o acesso.
+    - Clique em **Add**.
+    pt-BR:
+    - Abra `spoke-vnet` > **Settings** > **Peerings** > **Add**.
+    - Nomeie como `spoke-to-hub`, selecione `hub-vnet` como remote VNet e permita o acesso.
+    - Clique em **Add**.
 - key: verify
   position: 5
   title:
@@ -128,6 +164,11 @@ steps:
   validation_hint:
     en: The validator checks both directions.
     pt-BR: O validador verifica as duas direções.
+  portal_steps:
+    en:
+    - Abra cada VNet > **Settings** > **Peerings** e confirme o estado `Connected`.
+    pt-BR:
+    - Abra cada VNet > **Settings** > **Peerings** e confirme o estado `Connected`.
 checks:
 - key: hub-vnet-exists
   position: 1

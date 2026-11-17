@@ -57,6 +57,15 @@ steps:
   validation_hint:
     en: The resource group name and tag are validated.
     pt-BR: O nome do resource group e a tag são validados.
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-policy`, selecione **East US** e adicione a tag `Environment=Lab`.
+    - Clique em **Review + create** > **Create**.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-policy`, selecione **East US** e adicione a tag `Environment=Lab`.
+    - Clique em **Review + create** > **Create**.
 - key: assign-policy
   position: 2
   title:
@@ -79,6 +88,19 @@ steps:
   validation_hint:
     en: The validator checks the assignment display name and policy definition.
     pt-BR: O validador verifica o nome de exibição e a definição da política.
+  portal_steps:
+    en:
+    - Abra **Resource groups** > `rg-az104-lab-policy` > **Policies**.
+    - Clique em **Assign policy**.
+    - Em **Scope**, selecione o resource group; em **Policy definition**, procure `Require a tag and its value on resources`.
+    - Defina `tagName=Environment` e `tagValue=Lab`.
+    - Clique em **Review + assign**.
+    pt-BR:
+    - Abra **Resource groups** > `rg-az104-lab-policy` > **Policies**.
+    - Clique em **Assign policy**.
+    - Em **Scope**, selecione o resource group; em **Policy definition**, procure `Require a tag and its value on resources`.
+    - Defina `tagName=Environment` e `tagValue=Lab`.
+    - Clique em **Review + assign**.
 - key: create-lock
   position: 3
   title:
@@ -96,6 +118,13 @@ steps:
   validation_hint:
     en: The validator checks the lock name and level.
     pt-BR: O validador verifica o nome e o nível do bloqueio.
+  portal_steps:
+    en:
+    - Abra `rg-az104-lab-policy` > **Locks** > **Add**.
+    - Nomeie como `lock-lab-policy`, selecione **CanNotDelete** e clique em **OK**.
+    pt-BR:
+    - Abra `rg-az104-lab-policy` > **Locks** > **Add**.
+    - Nomeie como `lock-lab-policy`, selecione **CanNotDelete** e clique em **OK**.
 - key: verify
   position: 4
   title:
@@ -118,6 +147,13 @@ steps:
   validation_hint:
     en: Policy and lock changes can take a few seconds to appear.
     pt-BR: Mudanças de política e bloqueio podem levar alguns segundos para aparecer.
+  portal_steps:
+    en:
+    - Em **Policies**, confirme a atribuição `Require-Environment-Tag`.
+    - Em **Locks**, confirme `lock-lab-policy` com nível `CanNotDelete`.
+    pt-BR:
+    - Em **Policies**, confirme a atribuição `Require-Environment-Tag`.
+    - Em **Locks**, confirme `lock-lab-policy` com nível `CanNotDelete`.
 checks:
 - key: resource-group-exists
   position: 1

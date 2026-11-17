@@ -202,6 +202,7 @@ class LabStep(Base):
     title: Mapped[dict] = mapped_column(JSONB)
     instructions: Mapped[dict] = mapped_column(JSONB)
     commands: Mapped[list] = mapped_column(JSONB, default=list)
+    portal_steps: Mapped[dict] = mapped_column(JSONB, default=dict)
     validation_hint: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
 
     lab: Mapped["Lab"] = relationship(back_populates="steps")

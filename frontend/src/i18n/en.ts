@@ -175,6 +175,8 @@ const en = {
     cleanup: 'Cleanup',
     cleanupDesc: 'Delete the lab resource group when you finish to avoid unnecessary charges.',
     validationCriteria: 'Validation criteria',
+    portal: 'Portal',
+    cli: 'Azure CLI',
     validationCriteriaDesc: 'These checks will be evaluated automatically in Phase 2.',
     validationSoon: 'Azure validation is coming next',
     validationSoonDesc: 'For now, mark each step as complete as you work through the lab.',

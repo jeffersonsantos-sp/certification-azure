@@ -80,6 +80,8 @@ def load_lab(path: Path) -> dict:
             require_locales(step.get(field), f"steps[{key}].{field}", slug)
         if step.get("validation_hint") is not None:
             require_locales(step["validation_hint"], f"steps[{key}].validation_hint", slug)
+        if step.get("portal_steps") is not None:
+            require_locales(step["portal_steps"], f"steps[{key}].portal_steps", slug)
         if not isinstance(step.get("position"), int):
             raise TypeError(f"{slug}: steps[{key}].position must be an integer")
         if not isinstance(step.get("commands", []), list):
@@ -154,6 +156,7 @@ async def upsert_lab(session, data: dict) -> tuple[Lab, int, int]:
         step.title = item["title"]
         step.instructions = item["instructions"]
         step.commands = item.get("commands", [])
+        step.portal_steps = item.get("portal_steps", {})
         step.validation_hint = item.get("validation_hint")
     for key, step in existing_steps.items():
         if key not in seen_steps:

@@ -122,6 +122,7 @@ def _lab_detail(lab: Lab, progress: LabProgress | None, completed_step_ids: set[
                 "title": step.title,
                 "instructions": step.instructions,
                 "commands": step.commands or [],
+                "portal_steps": step.portal_steps or {},
                 "validation_hint": step.validation_hint,
                 "completed": step.id in completed_step_ids,
             }
