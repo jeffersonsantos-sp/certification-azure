@@ -10,19 +10,29 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.api.auth import User, get_current_user
+from app.core.azure import (
+    AzureAuthContext,
+    allowed_subscription_ids,
+    get_azure_auth,
+)
 from app.core.database import get_db
 from app.models.models import (
+    AzureSettings,
     Lab,
     LabProgress,
     LabProgressStatus,
     LabStatus,
     LabStepProgress,
+    LabValidationRun,
+    ValidationStatus,
 )
+from app.services.azure import AzureClient, AzureClientError, LabValidator
 
 router = APIRouter(prefix="/labs", tags=["labs"])
 
 DbSession = Annotated[AsyncSession, Depends(get_db)]
 CurrentUser = Annotated[User, Depends(get_current_user)]
+AzureAuth = Annotated[AzureAuthContext, Depends(get_azure_auth)]
 
 
 def _utcnow() -> datetime:
@@ -31,6 +41,11 @@ def _utcnow() -> datetime:
 
 class StepProgressUpdate(BaseModel):
     completed: bool = True
+
+
+class LabValidationRequest(BaseModel):
+    subscription_id: str | None = None
+    resource_group: str | None = None
 
 
 def _step_ids(lab: Lab) -> set[UUID]:
@@ -367,3 +382,119 @@ async def update_step_progress(
     progress = await _get_progress(db, current_user.id, lab.id)
     completed = await _get_completed_step_ids(db, progress)
     return _progress_payload(lab, progress, completed)
+
+
+@router.post("/{slug}/validate")
+async def validate_lab(
+    slug: str,
+    payload: LabValidationRequest,
+    db: DbSession,
+    current_user: CurrentUser,
+    auth: AzureAuth,
+):
+    lab = await _get_lab(db, slug)
+    subscription_id = payload.subscription_id
+    if subscription_id is None:
+        settings = await db.scalar(
+            select(AzureSettings).where(AzureSettings.user_id == current_user.id)
+        )
+        subscription_id = settings.subscription_id if settings else None
+    if not subscription_id:
+        raise HTTPException(status_code=400, detail="Select an Azure subscription first")
+
+    try:
+        UUID(subscription_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid subscription ID") from exc
+
+    allowed = allowed_subscription_ids()
+    if allowed and subscription_id.lower() not in allowed:
+        raise HTTPException(status_code=403, detail="Subscription is not allowed")
+
+    resource_group = payload.resource_group or lab.resource_group_name
+    async with AzureClient(auth.access_token) as client:
+        validator = LabValidator(
+            client,
+            subscription_id,
+            resource_group,
+            auth.principal,
+        )
+        try:
+            results = await validator.run(lab.checks)
+        except AzureClientError as exc:
+            raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+    total_weight = sum(max(check.weight, 1) for check in lab.checks)
+    passed_weight = sum(
+        max(check.weight, 1)
+        for check, result in zip(lab.checks, results)
+        if result["status"] == "passed"
+    )
+    score = round((passed_weight / total_weight) * 100) if total_weight else 0
+    required_failed = any(
+        check.required and result["status"] != "passed"
+        for check, result in zip(lab.checks, results)
+    )
+    has_error = any(result["status"] == "error" for result in results)
+    passed = not required_failed
+    status = ValidationStatus.passed if passed else (
+        ValidationStatus.error if has_error else ValidationStatus.failed
+    )
+    now = _utcnow()
+
+    progress = await _get_progress(db, current_user.id, lab.id)
+    if progress is None:
+        progress = LabProgress(
+            user_id=current_user.id,
+            lab_id=lab.id,
+            status=LabProgressStatus.not_started,
+            started_at=now,
+        )
+        db.add(progress)
+        await db.flush()
+
+    if passed:
+        completed = await _get_completed_step_ids(db, progress)
+        for step in lab.steps:
+            if step.id not in completed:
+                db.add(
+                    LabStepProgress(
+                        lab_progress_id=progress.id,
+                        step_id=step.id,
+                        completed_at=now,
+                    )
+                )
+        progress.status = LabProgressStatus.passed
+        progress.completed_at = now
+    else:
+        progress.status = LabProgressStatus.failed
+
+    progress.best_score = max(progress.best_score or 0, score)
+    progress.last_validated_at = now
+    progress.updated_at = now
+
+    run = LabValidationRun(
+        user_id=current_user.id,
+        lab_id=lab.id,
+        subscription_id=subscription_id,
+        resource_group=resource_group,
+        status=status,
+        score_percentage=score,
+        checks=results,
+    )
+    db.add(run)
+    await db.commit()
+    await db.refresh(run)
+
+    progress = await _get_progress(db, current_user.id, lab.id)
+    completed = await _get_completed_step_ids(db, progress)
+    return {
+        "run_id": str(run.id),
+        "status": run.status.value,
+        "passed": run.status == ValidationStatus.passed,
+        "score_percentage": score,
+        "subscription_id": subscription_id,
+        "resource_group": resource_group,
+        "checks": results,
+        "progress": _progress_payload(lab, progress, completed),
+    }

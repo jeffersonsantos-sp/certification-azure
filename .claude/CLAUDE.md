@@ -18,6 +18,7 @@ Question formats: `single_choice`, `multiple_choice`, `case_study`, `drag_drop`,
 ├── frontend/          # React application
 ├── backend/           # FastAPI application
 ├── scripts/           # Utility and migration scripts
+├── labs/              # Bilingual Azure lab definitions (YAML)
 ├── skills-measured/   # AZ-104 exam data
 ├── questions/         # Generated questions
 ├── brainstore/        # Brainstorm documents
@@ -69,6 +70,12 @@ python scripts/migrate_advanced_formats.py
 
 # Seed one of each advanced question format
 python scripts/seed_advanced_formats.py
+
+# Import or update bilingual labs (scripts and labs are mounted in the backend container)
+docker compose exec backend python scripts/import_labs.py
+
+# Or run locally with backend dependencies installed
+python scripts/import_labs.py
 ```
 
 ## Code Style Guidelines
@@ -97,6 +104,9 @@ python scripts/seed_advanced_formats.py
 - Do not translate strings containing backticks or CLI commands (for example ``az group create``)
 - Cache translations and always fall back to the original English text
 - Advanced-format UI labels live under `questionContent.*` in `en.ts` and `pt.ts`
+- Lab UI routes: `/labs` (catalog) and `/labs/:slug` (detail and step progress)
+- Lab UI follows the UI language; lab content is already bilingual in the database (`en`, `pt-BR`)
+- Auth state lives in `frontend/src/context/AuthContext.tsx`; protected routes use `components/RequireAuth.tsx`
 
 ## API Conventions
 - Base URL: `/api/v1/`
@@ -108,6 +118,10 @@ python scripts/seed_advanced_formats.py
 - `POST /questions/submit-exam` scores complete exams; `POST /questions/{id}/answer` scores one question
 - Authentication is optional for practice and exam scoring; a valid JWT persists `UserAnswer` rows
 - `_normalise_answer`, `_is_correct`, and `_question_payload` centralize type-aware answer handling
+- Lab endpoints: `GET /labs`, `GET /labs/progress/summary`, `GET /labs/{slug}`, `POST /labs/{slug}/start`, `PATCH /labs/{slug}/steps/{step_id}`, `POST /labs/{slug}/validate`
+- Azure endpoints: `GET /azure/subscriptions`, `GET /azure/settings`, `PUT /azure/settings`
+- All lab/Azure settings endpoints require the app JWT; Azure data endpoints additionally require `X-Azure-Authorization: Bearer <azure_access_token>`
+- Azure tokens are validated from claims and allowlists, never persisted or logged; frontend MSAL tokens stay in memory/sessionStorage only
 
 ## Database Schema
 - **users**: User accounts
@@ -115,8 +129,17 @@ python scripts/seed_advanced_formats.py
 - **user_answers**: User answers with JSONB `selected_answer`
 - **domains**: Certification domains
 - **skills**: Specific skills within domains
+- **labs**: Bilingual lab definitions, skill/domain links, cleanup commands and status
+- **lab_steps**: Ordered bilingual Markdown steps and commands
+- **lab_checks**: Typed validation checks with JSONB config
+- **lab_progress**: Per-user lab status, best score and last validation
+- **lab_step_progress**: Completed lab steps
+- **lab_validation_runs**: Validation history and per-check results
+- **azure_settings**: Selected tenant/subscription metadata; never stores tokens
 
 For multiple-choice and drag-and-drop questions, `correct_answer` is a JSON array. For single-choice, case study, and hotspot questions, it is a string. Hotspot region definitions live in `question_data.regions`; the correct value is a region ID.
+
+Lab content is bilingual: `title`, `description`, `objectives`, `prerequisites`, step text and check metadata are keyed by `en` and `pt-BR`. Commands and Azure resource names are never translated. Lab YAML is the source of truth; `scripts/import_labs.py` upserts by stable keys and preserves step/check IDs.
 
 ## Security Notes
 - Never commit `.env` files
@@ -125,3 +148,7 @@ For multiple-choice and drag-and-drop questions, `correct_answer` is a JSON arra
 - Validate all user input
 - Use parameterized queries
 - Keep `bcrypt==4.0.1` pinned for compatibility with `passlib` 1.7.4
+- Azure lab validation must be read-only (`Reader`), use short-lived tokens, never log authorization headers, and never persist Azure tokens
+- Azure app registration is single-tenant SPA with delegated `user_impersonation` on Azure Service Management
+- `AZURE_TENANT_ALLOWLIST` falls back to `AZURE_TENANT_ID`; validation returns 503 if neither is set
+- Frontend OAuth config is build-time (`VITE_AZURE_*`); rebuild the frontend after changing it

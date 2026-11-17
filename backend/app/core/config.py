@@ -1,5 +1,6 @@
-from pydantic_settings import BaseSettings
 from functools import lru_cache
+
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -23,10 +24,16 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
+    # Azure lab validation
+    azure_tenant_id: str = ""
+    azure_client_id: str = ""
+    azure_tenant_allowlist: str = ""
+    azure_subscription_allowlist: str = ""
+
     class Config:
         env_file = ".env"
 
 
-@lru_cache()
+@lru_cache
 def get_settings() -> Settings:
     return Settings()

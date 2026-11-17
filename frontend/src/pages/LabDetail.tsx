@@ -11,6 +11,7 @@ import {
   updateLabStep,
 } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
+import AzureValidationPanel from '../components/AzureValidationPanel'
 import { domainColor, domainLabel } from '../utils/domains'
 
 function localized(value: LocalizedString | null | undefined, language: string): string {
@@ -312,10 +313,13 @@ export default function LabDetail() {
         </div>
       )}
 
-      <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
-        <p className="mb-1 font-semibold text-blue-800">{t('labs.validationSoon')}</p>
-        <p className="text-sm text-blue-700">{t('labs.validationSoonDesc')}</p>
-      </div>
+      <AzureValidationPanel
+        slug={lab.slug}
+        resourceGroupName={lab.resource_group_name}
+        onProgress={(newProgress) =>
+          setLab((current) => (current ? { ...current, progress: newProgress } : current))
+        }
+      />
 
       <section id="lab-steps" className="space-y-4">
         <div className="flex items-center justify-between">

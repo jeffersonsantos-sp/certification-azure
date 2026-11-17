@@ -22,7 +22,12 @@ api.interceptors.response.use(
   (error) => {
     const url = error.config?.url || ''
     const isAuthRequest = url.includes('/auth/login') || url.includes('/auth/register')
-    if (error.response?.status === 401 && !isAuthRequest) {
+    const hasAzureToken = Boolean(
+      error.config?.headers?.['X-Azure-Authorization'] ||
+        error.config?.headers?.['x-azure-authorization']
+    )
+
+    if (error.response?.status === 401 && !isAuthRequest && !hasAzureToken) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       if (window.location.pathname !== '/login') {
@@ -317,3 +322,80 @@ export const getStats = async (): Promise<StatsResponse> => {
 }
 
 export default api
+
+
+export interface AzureSubscription {
+  id: string
+  name: string
+  state: string
+  tenant_id: string
+}
+
+export interface AzureSettings {
+  tenant_id: string
+  subscription_id: string
+  subscription_name: string
+  resource_group_prefix: string
+  updated_at: string | null
+}
+
+export type AzureCheckStatus = 'passed' | 'failed' | 'error' | 'skipped'
+
+export interface AzureValidationCheck {
+  key: string
+  name: LocalizedString
+  description: LocalizedString
+  required: boolean
+  weight: number
+  status: AzureCheckStatus
+  message: string
+  details: Record<string, unknown>
+}
+
+export interface LabValidationResult {
+  run_id: string
+  status: 'passed' | 'failed' | 'error'
+  passed: boolean
+  score_percentage: number
+  subscription_id: string
+  resource_group: string
+  checks: AzureValidationCheck[]
+  progress: LabProgress
+}
+
+export const getAzureSubscriptions = async (
+  azureToken: string
+): Promise<{ tenant_id: string; subscriptions: AzureSubscription[] }> => {
+  const { data } = await api.get('/azure/subscriptions', {
+    headers: { 'X-Azure-Authorization': `Bearer ${azureToken}` },
+  })
+  return data
+}
+
+export const getAzureSettings = async (): Promise<{ settings: AzureSettings | null }> => {
+  const { data } = await api.get('/azure/settings')
+  return data
+}
+
+export const saveAzureSettings = async (
+  azureToken: string,
+  payload: { subscription_id: string; subscription_name: string; resource_group_prefix?: string }
+): Promise<{ settings: AzureSettings }> => {
+  const { data } = await api.put('/azure/settings', payload, {
+    headers: { 'X-Azure-Authorization': `Bearer ${azureToken}` },
+  })
+  return data
+}
+
+export const validateLab = async (
+  slug: string,
+  azureToken: string,
+  subscriptionId: string
+): Promise<LabValidationResult> => {
+  const { data } = await api.post(
+    `/labs/${slug}/validate`,
+    { subscription_id: subscriptionId },
+    { headers: { 'X-Azure-Authorization': `Bearer ${azureToken}` } }
+  )
+  return data
+}

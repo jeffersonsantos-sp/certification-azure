@@ -176,6 +176,97 @@ Profissionais de TI precisam de uma ferramenta eficaz para se preparar para a ce
 
 ---
 
+## Laboratórios Azure (MVP P3)
+
+### Objetivo
+
+Adicionar uma aba de laboratórios guiados por assunto e validar automaticamente, com permissão somente leitura, se os recursos criados pelo aluno no Azure atendem aos objetivos do lab.
+
+### Decisões
+
+| Decisão | Escolha |
+|---------|---------|
+| Conteúdo | Bilíngue EN/PT-BR em JSONB |
+| Autenticação | Expor `/login` e `/register` existentes para salvar progresso |
+| Assinatura Azure | Selecionável na interface, protegida por tenant |
+| Validação | Control plane via Azure Resource Graph + ARM |
+| Checks sem automação | Tipo `manual`, marcado pelo aluno |
+| Tokens Azure | Somente em memória/sessão, nunca no banco |
+| Cleanup | Manual por resource group |
+| Assinatura mensal | Mesmo tenant; nova assinatura apenas troca o dropdown |
+
+### Escopo do MVP
+
+- 3 labs iniciais: Identity & Governance, Networking e Storage.
+- 1 assinatura Azure por validação.
+- Leitura de recursos via Resource Graph e ARM.
+- Sem provisionamento automático.
+- Sem validação de data plane (blob content, SSH, conectividade).
+- Sem multi-tenant; app registration single-tenant.
+
+### Modelo de dados
+
+- `labs`: definição do laboratório, conteúdo bilíngue, domínio, skill, difficulty, resource group e status.
+- `lab_steps`: passos ordenados com Markdown bilíngue e comandos.
+- `lab_checks`: verificações tipadas por lab.
+- `lab_progress`: progresso e melhor score por usuário/lab.
+- `lab_step_progress`: passos concluídos.
+- `lab_validation_runs`: histórico de validações e resultados.
+- `azure_settings`: tenant/assinatura selecionada e prefixo de resource group, sem tokens.
+
+Tipos de check iniciais:
+
+- `resource_exists`
+- `resource_count`
+- `property_equals`
+- `tag_equals`
+- `role_assignment_exists`
+- `nsg_rule_exists`
+- `subnet_exists`
+- `manual`
+
+### Endpoints previstos
+
+| Método | Rota | Função |
+|--------|------|--------|
+| `GET` | `/api/v1/labs` | Lista labs e progresso |
+| `GET` | `/api/v1/labs/{slug}` | Detalhe, passos e checks |
+| `POST` | `/api/v1/labs/{slug}/start` | Cria/retoma progresso |
+| `PATCH` | `/api/v1/labs/{slug}/steps/{step_id}` | Marca passo concluído |
+| `POST` | `/api/v1/labs/{slug}/validate` | Executa validação no Azure |
+| `GET` | `/api/v1/labs/{slug}/runs` | Histórico de validações |
+| `GET` | `/api/v1/labs/progress/summary` | Resumo para o Dashboard |
+| `GET` | `/api/v1/azure/subscriptions` | Lista assinaturas do usuário |
+
+A validação usa `Authorization: Bearer <app_jwt>` e `X-Azure-Authorization: Bearer <azure_token>`.
+
+### Telas previstas
+
+- `/labs`: catálogo com filtro por domínio/skill e status.
+- `/labs/:slug`: objetivos, pré-requisitos, passos, comandos, conexão Azure, validação e cleanup.
+- Dashboard: card com labs concluídos e taxa de aprovação.
+
+### Segurança e custos
+
+- Papel `Reader` na assinatura.
+- Allowlist de tenant; allowlist opcional de assinaturas.
+- Sem logs de headers de autorização.
+- Rate limit por usuário.
+- Resource group por lab e comando de cleanup.
+- Budget alerts na assinatura.
+- Evitar recursos caros: Bastion, VPN Gateway, Application Gateway, Premium SSD e ingestão alta de logs.
+
+### Fases
+
+| Fase | Entrega | Status |
+|------|---------|--------|
+| 0 | Modelos, YAML dos labs e importador | ✅ Concluída |
+| 1 | Aba de labs, detalhe e progresso | ✅ Concluída |
+| 2 | Login Azure + validador + lab piloto | 🚧 Implementado; falta testar com app registration real |
+| 3 | Mais labs, histórico e testes | ⏳ Pendente |
+
+---
+
 ## Roadmap
 
 ### Fase 1 - MVP ✅
@@ -194,12 +285,24 @@ Profissionais de TI precisam de uma ferramenta eficaz para se preparar para a ce
 - [x] Formatos avançados: multiple choice, case study, drag-drop e hotspot
 
 ### Fase 3 - Próximos Passos
-- [~] Autenticação de usuários (JWT no backend pronto; UI de login/registro não exposta)
+- [x] Autenticação de usuários (JWT no backend e UI de login/registro expostas)
 - [~] Histórico de respostas (persistência em `user_answers` pronta; endpoint e tela pendentes)
 - [ ] AI explicações (explicações atuais são estáticas)
 - [ ] Gamificação
 - [ ] Deploy na Azure
 - [ ] CI/CD com GitHub Actions
+
+### Fase 4 - Laboratórios Azure
+- [x] Documentação do MVP
+- [x] Modelos e schema dos laboratórios
+- [x] Labs bilíngues em YAML
+- [x] Importador idempotente
+- [x] Aba de laboratórios no frontend
+- [x] Login/registro no frontend
+- [x] Integração OAuth com Azure (MSAL)
+- [x] Validador via Resource Graph/ARM
+- [ ] Teste end-to-end com app registration real
+- [ ] Histórico e relatório de validações
 
 ### Prioridades
 
@@ -208,6 +311,7 @@ Profissionais de TI precisam de uma ferramenta eficaz para se preparar para a ce
 | P0 | Correção factual, referências e integridade das questões | ✅ Concluído |
 | P1 | Segurança da API, balanceamento de respostas e formatos avançados | ✅ Concluído |
 | P2 | Autenticação exposta no frontend, histórico/analytics, AI, gamificação, deploy e CI/CD | 🚧 Pendente |
+| P3 | Laboratórios Azure com validação somente leitura | 🚧 Em andamento |
 
 ---
 

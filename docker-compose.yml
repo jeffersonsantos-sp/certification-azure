@@ -1,7 +1,12 @@
 services:
   frontend:
     image: updateinformatica/az104-frontend:latest
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_AZURE_TENANT_ID: ${VITE_AZURE_TENANT_ID:-}
+        VITE_AZURE_CLIENT_ID: ${VITE_AZURE_CLIENT_ID:-}
+        VITE_AZURE_REDIRECT_URI: ${VITE_AZURE_REDIRECT_URI:-}
     ports:
       - "3000:80"
     depends_on:
@@ -15,12 +20,18 @@ services:
     environment:
       - DATABASE_URL=postgresql+asyncpg://postgres:postgres@postgres:5432/az104_trainer
       - REDIS_URL=redis://redis:6379/0
+      - AZURE_TENANT_ID=${AZURE_TENANT_ID:-}
+      - AZURE_CLIENT_ID=${AZURE_CLIENT_ID:-}
+      - AZURE_TENANT_ALLOWLIST=${AZURE_TENANT_ALLOWLIST:-}
+      - AZURE_SUBSCRIPTION_ALLOWLIST=${AZURE_SUBSCRIPTION_ALLOWLIST:-}
     depends_on:
       - postgres
       - redis
     volumes:
       - ./backend:/app
       - ./questions:/app/questions
+      - ./scripts:/app/scripts
+      - ./labs:/app/labs
 
   postgres:
     image: postgres:16-alpine

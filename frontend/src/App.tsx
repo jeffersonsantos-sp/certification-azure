@@ -12,6 +12,7 @@ import LabDetail from './pages/LabDetail'
 import RequireAuth from './components/RequireAuth'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { LanguageProvider, useLanguage } from './context/LanguageContext'
+import { AzureProvider } from './context/AzureContext'
 import { languages, Language } from './i18n'
 
 const queryClient = new QueryClient()
@@ -297,11 +298,13 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <LanguageProvider>
-          <Router>
-            <AppLayout />
-          </Router>
-        </LanguageProvider>
+        <AzureProvider>
+          <LanguageProvider>
+            <Router>
+              <AppLayout />
+            </Router>
+          </LanguageProvider>
+        </AzureProvider>
       </AuthProvider>
     </QueryClientProvider>
   )

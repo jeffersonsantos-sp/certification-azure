@@ -36,6 +36,7 @@
 - [API Documentation](#-api-documentation)
 - [AZ-104 Certification Domains](#-az-104-certification-domains)
 - [AI Question Generation](#-ai-question-generation)
+- [Azure Labs](#-azure-labs)
 - [Internationalization](#-internationalization)
 - [Skills & Prompts](#-skills--prompts)
 - [Contributing](#-contributing)
@@ -203,8 +204,10 @@ certification-azure/
 │   ├── src/
 │   │   ├── components/               # Reusable components
 │   │   │   ├── QuestionContent.tsx   # Renders all question formats
-│   │   │   └── QuestionLanguageToggle.tsx  # EN/PT-BR question selector
+│   │   │   ├── QuestionLanguageToggle.tsx  # EN/PT-BR question selector
+│   │   │   └── RequireAuth.tsx       # Protected route wrapper
 │   │   ├── context/                  # React contexts
+│   │   │   ├── AuthContext.tsx       # Login state and user session
 │   │   │   └── LanguageContext.tsx   # UI + question language state
 │   │   ├── i18n/                     # Internationalization
 │   │   │   ├── en.ts                 # English translations
@@ -215,11 +218,16 @@ certification-azure/
 │   │   │   ├── Dashboard.tsx         # Main dashboard
 │   │   │   ├── Practice.tsx          # Practice mode
 │   │   │   ├── MockExam.tsx          # Mock exam mode
-│   │   │   └── QuestionView.tsx      # Single question view
+│   │   │   ├── QuestionView.tsx      # Single question view
+│   │   │   ├── Login.tsx             # Sign in
+│   │   │   ├── Register.tsx          # Sign up
+│   │   │   ├── Labs.tsx              # Lab catalog and progress
+│   │   │   └── LabDetail.tsx         # Lab steps and commands
 │   │   ├── services/                 # API services
-│   │   │   └── api.ts                # Axios API client and answer types
+│   │   │   └── api.ts                # Axios API client and answer/lab types
 │   │   ├── utils/
-│   │   │   └── answers.ts            # Answer formatting for reviews
+│   │   │   ├── answers.ts            # Answer formatting for reviews
+│   │   │   └── domains.ts            # Domain labels and colors
 │   │   ├── App.tsx                   # Main app with routing
 │   │   ├── main.tsx                  # Entry point
 │   │   └── index.css                 # Global styles
@@ -233,12 +241,13 @@ certification-azure/
 │   ├── app/
 │   │   ├── api/                      # API routes
 │   │   │   ├── auth.py               # Authentication endpoints
+│   │   │   ├── labs.py               # Labs, progress and step endpoints
 │   │   │   └── questions.py          # Questions endpoints
 │   │   ├── core/                     # Core configuration
 │   │   │   ├── config.py             # App settings
 │   │   │   └── database.py           # Database connection
 │   │   ├── models/                   # SQLAlchemy models
-│   │   │   └── models.py             # Database models
+│   │   │   └── models.py             # Questions, users, labs, progress
 │   │   └── main.py                   # FastAPI app entry
 │   ├── questions/                    # Question data (JSON)
 │   ├── Dockerfile                    # Backend Docker image
@@ -247,10 +256,16 @@ certification-azure/
 ├── scripts/                           # Utility scripts
 │   ├── generate.py                   # AI question generation
 │   ├── generate-batch.sh             # Batch generation script
+│   ├── import_labs.py                # Bilingual lab importer
 │   ├── import_questions.py           # Question importer
 │   ├── migrate_advanced_formats.py   # JSONB/advanced format migration
 │   ├── seed_advanced_formats.py      # Example advanced questions
 │   └── validate.py                   # Question validator
+│
+├── labs/                              # Bilingual Azure lab definitions
+│   ├── identity-rbac-reader.yaml
+│   ├── networking-vnet-nsg.yaml
+│   └── storage-blob-container.yaml
 │
 ├── skills-measured/                   # AZ-104 exam data
 │   ├── az104-skills.json             # Official skills breakdown
@@ -414,6 +429,17 @@ REDIS_URL=redis://localhost:6379/0
 # Environment
 ENVIRONMENT=development
 DEBUG=true
+
+# Azure lab validation (app registration + allowlists)
+AZURE_TENANT_ID=your-tenant-id
+AZURE_CLIENT_ID=your-client-id
+AZURE_TENANT_ALLOWLIST=your-tenant-id
+AZURE_SUBSCRIPTION_ALLOWLIST=
+
+# Frontend build-time Azure OAuth settings
+VITE_AZURE_TENANT_ID=your-tenant-id
+VITE_AZURE_CLIENT_ID=your-client-id
+VITE_AZURE_REDIRECT_URI=http://localhost:3000
 ```
 
 ---
@@ -486,6 +512,35 @@ Once the backend is running, access the interactive API documentation:
 
 Read endpoints return only sanitized question payloads. `correct_answer` and `explanation` are returned only after an answer or exam submission. Authentication is optional for practice and exam scoring; when a valid JWT is supplied, answers are persisted for the user.
 
+#### Authentication
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/v1/auth/register` | Create an account and receive a JWT |
+| `POST` | `/api/v1/auth/login` | Sign in and receive a JWT |
+| `GET` | `/api/v1/auth/me` | Return the authenticated user |
+
+#### Labs
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/v1/labs` | List published labs with the user's progress |
+| `GET` | `/api/v1/labs/progress/summary` | Progress summary for the dashboard |
+| `GET` | `/api/v1/labs/{slug}` | Lab detail, steps and validation criteria |
+| `POST` | `/api/v1/labs/{slug}/start` | Create or resume lab progress |
+| `PATCH` | `/api/v1/labs/{slug}/steps/{step_id}` | Mark a step complete or incomplete |
+| `POST` | `/api/v1/labs/{slug}/validate` | Run read-only Azure checks and save the result |
+
+#### Azure
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/v1/azure/subscriptions` | List subscriptions visible to the Azure token |
+| `GET` | `/api/v1/azure/settings` | Return the saved subscription selection |
+| `PUT` | `/api/v1/azure/settings` | Save the selected subscription for the user |
+
+All lab and Azure settings endpoints require `Authorization: Bearer <app_jwt>`. Azure data endpoints also require `X-Azure-Authorization: Bearer <azure_access_token>`; the Azure token is validated from its claims, checked against the tenant allowlist, and never persisted or logged.
+
 ---
 
 ## 📚 AZ-104 Certification Domains
@@ -525,6 +580,50 @@ python scripts/migrate_advanced_formats.py
 # Seed one example of each advanced format
 python scripts/seed_advanced_formats.py
 ```
+
+---
+
+## 🧪 Azure Labs
+
+Phases 1 and 2 of the Azure labs feature are implemented:
+
+- 3 bilingual lab definitions in `labs/*.yaml`
+- Database models for labs, steps, checks, progress and validation runs
+- Deterministic, idempotent importer that preserves step/check identity
+- Login and registration exposed in the UI, with protected lab routes
+- `/labs` catalog with filters, progress and summary
+- `/labs/:slug` detail with objectives, commands, step tracking and cleanup
+- Microsoft Entra OAuth with MSAL, single-tenant app registration and popup login
+- Read-only validation through Azure Resource Manager and Resource Graph
+- Supported checks: resource existence, resource count, property/tag equality, role assignment, subnet, NSG rule and manual checks
+- Validation history is stored in `lab_validation_runs`; Azure tokens stay in browser session memory and are never stored by the backend
+
+```bash
+# Import or update all labs in the running backend container
+docker compose exec backend python scripts/import_labs.py
+
+# Or run locally with backend dependencies installed
+python scripts/import_labs.py
+```
+
+The initial labs cover Identity & Governance, Networking and Storage. Each lab includes English and PT-BR content, commands, validation checks and cleanup instructions. Lab progress is stored per user in `lab_progress` and `lab_step_progress`.
+
+### Azure app registration
+
+1. In Microsoft Entra ID, create an **App registration** with **Accounts in this organizational directory only** (single tenant).
+2. Under **Authentication**, add the **Single-page application** platform and the redirect URI `http://localhost:3000` (add your production URL too).
+3. Under **API permissions**, add **Azure Service Management** > delegated permission **user_impersonation** and grant admin consent.
+4. Copy the **Application (client) ID** and **Directory (tenant) ID** into `AZURE_CLIENT_ID` and `AZURE_TENANT_ID`.
+5. Set `VITE_AZURE_CLIENT_ID`, `VITE_AZURE_TENANT_ID` and `VITE_AZURE_REDIRECT_URI` for the frontend, then rebuild it so Vite can inline the values.
+6. Grant the signed-in user at least **Reader** on the subscription or lab resource groups. The validator only performs control-plane reads.
+
+```bash
+# Rebuild the frontend with OAuth values from the host environment
+docker compose build frontend
+docker compose up -d frontend backend
+```
+
+If `AZURE_TENANT_ALLOWLIST` is empty, the backend falls back to `AZURE_TENANT_ID`. If neither is configured, Azure validation endpoints return HTTP 503.
 
 ---
 
@@ -648,11 +747,12 @@ Collection of prompts in `prompts/README.md`:
 | Questions | 411 approved |
 | Question Formats | 5 |
 | Advanced Format Samples | 4 (one per format) |
+| Azure Labs | 3 bilingual labs with OAuth login, progress and read-only validation |
 | Certification Domains | 5 |
-| API Endpoints | 10+ |
+| API Endpoints | 15+ |
 | Supported Languages | 2 (EN, PT-BR) |
 | Question Language Toggle | EN / PT-BR |
-| Frontend Components | 5 pages + shared question renderer + language toggle |
+| Frontend Components | 8 pages + shared question renderer + language toggle |
 | Backend Services | FastAPI + PostgreSQL |
 | Containerization | Docker + Docker Compose |
 

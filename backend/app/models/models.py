@@ -290,3 +290,19 @@ class LabValidationRun(Base):
 
     user: Mapped["User"] = relationship()
     lab: Mapped["Lab"] = relationship()
+
+
+class AzureSettings(Base):
+    __tablename__ = "azure_settings"
+
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"),
+        primary_key=True,
+    )
+    tenant_id: Mapped[str] = mapped_column(String(36))
+    subscription_id: Mapped[str] = mapped_column(String(36))
+    subscription_name: Mapped[str] = mapped_column(String(255))
+    resource_group_prefix: Mapped[str] = mapped_column(String(50), default="rg-az104-lab")
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    user: Mapped["User"] = relationship()
