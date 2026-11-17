@@ -1,0 +1,179 @@
+slug: identity-governance-policy
+title:
+  en: Create a tagged resource group with policy and lock
+  pt-BR: Criar um resource group com tag, política e bloqueio
+description:
+  en: Create a resource group, enforce the Environment tag with Azure Policy and protect the resource group with a CanNotDelete
+    lock.
+  pt-BR: Crie um resource group, aplique a tag Environment com Azure Policy e proteja o resource group com um bloqueio CanNotDelete.
+objectives:
+  en:
+  - Create a resource group with Environment=Lab
+  - Assign the built-in policy that requires a tag and value
+  - Create a CanNotDelete resource lock on the resource group
+  pt-BR:
+  - Criar um resource group com Environment=Lab
+  - Atribuir a política built-in que exige uma tag e seu valor
+  - Criar um bloqueio CanNotDelete no resource group
+prerequisites:
+  en:
+  - A subscription where you can create resource groups and assign policy
+  - Owner or User Access Administrator for policy and locks
+  pt-BR:
+  - Uma assinatura onde você possa criar resource groups e atribuir política
+  - Owner ou User Access Administrator para política e bloqueios
+cost_warning:
+  en: Resource groups, policy assignments and locks do not add cost by themselves.
+  pt-BR: Resource groups, atribuições de política e bloqueios não geram custo por si só.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-policy --yes --no-wait
+domain_id: identity-governance
+skill_id: ig-03
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-policy
+content_version: '1'
+status: published
+sort_order: 40
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-policy` with the tag `Environment=Lab`.
+    pt-BR: Crie `rg-az104-lab-policy` com a tag `Environment=Lab`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-policy --location eastus --tags Environment=Lab
+  validation_hint:
+    en: The resource group name and tag are validated.
+    pt-BR: O nome do resource group e a tag são validados.
+- key: assign-policy
+  position: 2
+  title:
+    en: Assign the require-tag policy
+    pt-BR: Atribuir a política de tag obrigatória
+  instructions:
+    en: Assign the built-in `Require a tag and its value on resources` policy at resource group scope. The policy parameters
+      require `Environment=Lab`.
+    pt-BR: Atribua a política built-in `Require a tag and its value on resources` no escopo do resource group. Os parâmetros
+      exigem `Environment=Lab`.
+  commands:
+  - label:
+      en: Assign the policy
+      pt-BR: Atribuir a política
+    language: bash
+    command: "az policy assignment create \\\n  --name require-environment-tag \\\n  --display-name \"Require-Environment-Tag\"\
+      \ \\\n  --scope \"/subscriptions/$(az account show --query id -o tsv)/resourceGroups/rg-az104-lab-policy\" \\\n  --policy\
+      \ \"1e30110a-5ceb-460c-a204-c1c3969c6d62\" \\\n  --params '{\"tagName\":{\"value\":\"Environment\"},\"tagValue\":{\"\
+      value\":\"Lab\"}}' "
+  validation_hint:
+    en: The validator checks the assignment display name and policy definition.
+    pt-BR: O validador verifica o nome de exibição e a definição da política.
+- key: create-lock
+  position: 3
+  title:
+    en: Create the resource lock
+    pt-BR: Criar o bloqueio de recurso
+  instructions:
+    en: Create a `CanNotDelete` lock on the resource group to protect it from accidental deletion.
+    pt-BR: Crie um bloqueio `CanNotDelete` no resource group para protegê-lo contra exclusão acidental.
+  commands:
+  - label:
+      en: Create the lock
+      pt-BR: Criar o bloqueio
+    language: bash
+    command: az lock create --name lock-lab-policy --resource-group rg-az104-lab-policy --lock-type CanNotDelete
+  validation_hint:
+    en: The validator checks the lock name and level.
+    pt-BR: O validador verifica o nome e o nível do bloqueio.
+- key: verify
+  position: 4
+  title:
+    en: Verify the policy and lock
+    pt-BR: Verificar a política e o bloqueio
+  instructions:
+    en: List the policy assignment and the resource lock before validating.
+    pt-BR: Liste a atribuição de política e o bloqueio antes de validar.
+  commands:
+  - label:
+      en: List policy assignments
+      pt-BR: Listar atribuições de política
+    language: bash
+    command: az policy assignment list --resource-group rg-az104-lab-policy -o table
+  - label:
+      en: List locks
+      pt-BR: Listar bloqueios
+    language: bash
+    command: az lock list --resource-group rg-az104-lab-policy -o table
+  validation_hint:
+    en: Policy and lock changes can take a few seconds to appear.
+    pt-BR: Mudanças de política e bloqueio podem levar alguns segundos para aparecer.
+checks:
+- key: resource-group-exists
+  position: 1
+  name:
+    en: Resource group exists
+    pt-BR: Resource group existe
+  description:
+    en: The resource group rg-az104-lab-policy must exist.
+    pt-BR: O resource group rg-az104-lab-policy precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-lab-policy
+  required: true
+  weight: 1
+- key: environment-tag
+  position: 2
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The resource group must have the tag Environment=Lab.
+    pt-BR: O resource group precisa ter a tag Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-lab-policy
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1
+- key: policy-assignment-exists
+  position: 3
+  name:
+    en: Policy assignment exists
+    pt-BR: Atribuição de política existe
+  description:
+    en: The Require-Environment-Tag assignment must exist at resource group scope.
+    pt-BR: A atribuição Require-Environment-Tag precisa existir no escopo do resource group.
+  check_type: policy_assignment_exists
+  config:
+    display_name: Require-Environment-Tag
+    policy_definition_id: 1e30110a-5ceb-460c-a204-c1c3969c6d62
+  required: true
+  weight: 1
+- key: resource-lock-exists
+  position: 4
+  name:
+    en: Resource lock exists
+    pt-BR: Bloqueio de recurso existe
+  description:
+    en: The lock-lab-policy CanNotDelete lock must exist.
+    pt-BR: O bloqueio lock-lab-policy CanNotDelete precisa existir.
+  check_type: resource_lock_exists
+  config:
+    name: lock-lab-policy
+    level: CanNotDelete
+  required: true
+  weight: 1

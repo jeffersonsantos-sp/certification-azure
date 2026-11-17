@@ -1,0 +1,211 @@
+slug: storage-access-controls
+title:
+  en: Secure a Storage Account
+  pt-BR: Proteger uma Storage Account
+description:
+  en: Create a Storage Account with HTTPS-only, TLS 1.2, no public Blob access and a Deny default network rule.
+  pt-BR: Crie uma Storage Account com HTTPS-only, TLS 1.2, acesso público a Blob desativado e regra de rede Deny padrão.
+objectives:
+  en:
+  - Create a Storage Account with HTTPS-only and TLS 1.2
+  - Disable public Blob access
+  - Set the default network rule to Deny
+  - Create a secure Blob container
+  pt-BR:
+  - Criar uma Storage Account com HTTPS-only e TLS 1.2
+  - Desativar o acesso público a Blob
+  - Definir a regra de rede padrão como Deny
+  - Criar um container Blob seguro
+prerequisites:
+  en:
+  - A subscription where you can create storage accounts
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar storage accounts
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: A Standard_LRS Storage Account usually costs very little. Delete the resource group after the lab.
+  pt-BR: Uma Storage Account Standard_LRS costuma custar muito pouco. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-storage-access --yes --no-wait
+domain_id: storage
+skill_id: st-01
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-storage-access
+content_version: '1'
+status: published
+sort_order: 90
+steps:
+- key: create-storage
+  position: 1
+  title:
+    en: Create the secure Storage Account
+    pt-BR: Criar a Storage Account segura
+  instructions:
+    en: Create `stacclab<unique>` with HTTPS-only, TLS 1.2, no public Blob access and default network access initially allowed.
+      You will deny network access after creating the container.
+    pt-BR: Crie `stacclab<unique>` com HTTPS-only, TLS 1.2, acesso público a Blob desativado e acesso de rede inicialmente
+      permitido. Você negará o acesso de rede depois de criar o container.
+  commands:
+  - label:
+      en: Create the Storage Account
+      pt-BR: Criar a Storage Account
+    language: bash
+    command: az storage account create --name stacclab<unique> --resource-group rg-az104-lab-storage-access --location eastus
+      --sku Standard_LRS --kind StorageV2 --https-only true --min-tls-version TLS1_2 --allow-blob-public-access false --bypass
+      AzureServices --default-action Allow --tags Environment=Lab
+  validation_hint:
+    en: The validator checks HTTPS, TLS, public access and the final Deny network rule.
+    pt-BR: O validador verifica HTTPS, TLS, acesso público e a regra de rede Deny final.
+- key: create-container
+  position: 2
+  title:
+    en: Create the Blob container
+    pt-BR: Criar o container Blob
+  instructions:
+    en: Create a private container named `secure` using the account key.
+    pt-BR: Crie um container privado chamado `secure` usando a chave da conta.
+  commands:
+  - label:
+      en: Create the container
+      pt-BR: Criar o container
+    language: bash
+    command: az storage container create --name secure --account-name stacclab<unique> --auth-mode key
+  validation_hint:
+    en: The container is validated through the Storage control plane.
+    pt-BR: O container é validado pelo control plane do Storage.
+- key: deny-network
+  position: 3
+  title:
+    en: Deny network access
+    pt-BR: Negar acesso de rede
+  instructions:
+    en: Update the Storage Account so that the default network rule becomes Deny. The container is already created.
+    pt-BR: Atualize a Storage Account para que a regra de rede padrão seja Deny. O container já foi criado.
+  commands:
+  - label:
+      en: Deny network access
+      pt-BR: Negar acesso de rede
+    language: bash
+    command: az storage account update --name stacclab<unique> --resource-group rg-az104-lab-storage-access --default-action
+      Deny
+  validation_hint:
+    en: The final network rule must be Deny.
+    pt-BR: A regra de rede final precisa ser Deny.
+- key: verify
+  position: 4
+  title:
+    en: Verify the security settings
+    pt-BR: Verificar as configurações de segurança
+  instructions:
+    en: Show the storage security properties before validating.
+    pt-BR: Mostre as propriedades de segurança da Storage Account antes de validar.
+  commands:
+  - label:
+      en: Show the Storage Account
+      pt-BR: Mostrar a Storage Account
+    language: bash
+    command: az storage account show --name stacclab<unique> --resource-group rg-az104-lab-storage-access --query "{sku:sku.name,https:supportsHttpsTrafficOnly,tls:minimumTlsVersion,publicBlob:allowBlobPublicAccess,network:networkAcls.defaultAction}"
+      -o json
+  validation_hint:
+    en: The validator checks each security property.
+    pt-BR: O validador verifica cada propriedade de segurança.
+checks:
+- key: storage-account-exists
+  position: 1
+  name:
+    en: Storage Account exists
+    pt-BR: Storage Account existe
+  description:
+    en: A Storage Account with the stacclab prefix must exist.
+    pt-BR: Uma Storage Account com o prefixo stacclab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stacclab
+  required: true
+  weight: 1
+- key: public-blob-disabled
+  position: 2
+  name:
+    en: Public Blob access is disabled
+    pt-BR: Acesso público a Blob desativado
+  description:
+    en: Public Blob access must be disabled.
+    pt-BR: O acesso público a Blob precisa estar desativado.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stacclab
+    path: properties.allowBlobPublicAccess
+    value: false
+  required: true
+  weight: 1
+- key: https-only
+  position: 3
+  name:
+    en: HTTPS-only is enabled
+    pt-BR: HTTPS-only está ativado
+  description:
+    en: HTTPS-only traffic must be enforced.
+    pt-BR: O tráfego somente HTTPS precisa ser obrigatório.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stacclab
+    path: properties.supportsHttpsTrafficOnly
+    value: true
+  required: true
+  weight: 1
+- key: tls-1-2
+  position: 4
+  name:
+    en: Minimum TLS is 1.2
+    pt-BR: TLS mínimo é 1.2
+  description:
+    en: The minimum TLS version must be TLS1_2.
+    pt-BR: A versão mínima de TLS precisa ser TLS1_2.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stacclab
+    path: properties.minimumTlsVersion
+    value: TLS1_2
+  required: true
+  weight: 1
+- key: network-default-deny
+  position: 5
+  name:
+    en: Default network rule is Deny
+    pt-BR: Regra de rede padrão é Deny
+  description:
+    en: The default network rule must be Deny.
+    pt-BR: A regra de rede padrão precisa ser Deny.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stacclab
+    path: properties.networkAcls.defaultAction
+    value: Deny
+  required: true
+  weight: 1
+- key: secure-container-exists
+  position: 6
+  name:
+    en: Secure container exists
+    pt-BR: Container seguro existe
+  description:
+    en: The Storage Account must have a Blob container named secure.
+    pt-BR: A Storage Account precisa ter um container Blob chamado secure.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts/blobServices/containers
+    name: secure
+    parent_name_prefix: stacclab
+  required: true
+  weight: 1

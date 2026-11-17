@@ -1,0 +1,121 @@
+slug: monitoring-backup
+title:
+  en: Create a Recovery Services vault
+  pt-BR: Criar um Recovery Services vault
+description:
+  en: Create a Recovery Services vault and inspect its default backup policies.
+  pt-BR: Crie um Recovery Services vault e inspecione suas políticas de backup padrão.
+objectives:
+  en:
+  - Create a Recovery Services vault
+  - Inspect the default backup policies
+  pt-BR:
+  - Criar um Recovery Services vault
+  - Inspecionar as políticas de backup padrão
+prerequisites:
+  en:
+  - A subscription where you can create recovery services vaults
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar recovery services vaults
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: A Recovery Services vault itself has no compute cost; backup storage may incur a small cost. Delete the resource group
+    after the lab.
+  pt-BR: O Recovery Services vault não tem custo de computação; o armazenamento de backup pode gerar um custo pequeno. Exclua
+    o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-backup --yes --no-wait
+domain_id: monitoring
+skill_id: mn-02
+difficulty: intermediate
+estimated_minutes: 15
+resource_group_name: rg-az104-lab-backup
+content_version: '1'
+status: published
+sort_order: 130
+steps:
+- key: create-vault
+  position: 1
+  title:
+    en: Create the Recovery Services vault
+    pt-BR: Criar o Recovery Services vault
+  instructions:
+    en: Create `rsv-lab<unique>` in the lab resource group. Replace `<unique>` with a unique suffix.
+    pt-BR: Crie `rsv-lab<unique>` no resource group do laboratório. Substitua `<unique>` por um sufixo único.
+  commands:
+  - label:
+      en: Create the vault
+      pt-BR: Criar o vault
+    language: bash
+    command: az backup vault create --resource-group rg-az104-lab-backup --name rsv-lab<unique> --location eastus
+  validation_hint:
+    en: The vault SKU is validated.
+    pt-BR: O SKU do vault é validado.
+- key: list-policies
+  position: 2
+  title:
+    en: List the backup policies
+    pt-BR: Listar as políticas de backup
+  instructions:
+    en: List the default policies available in the vault.
+    pt-BR: Liste as políticas padrão disponíveis no vault.
+  commands:
+  - label:
+      en: List backup policies
+      pt-BR: Listar políticas de backup
+    language: bash
+    command: az backup vault backup-policy list --resource-group rg-az104-lab-backup --vault-name rsv-lab<unique> -o table
+  validation_hint:
+    en: The validator checks that the vault exists and has the Standard SKU.
+    pt-BR: O validador verifica se o vault existe e tem o SKU Standard.
+checks:
+- key: vault-exists
+  position: 1
+  name:
+    en: Recovery Services vault exists
+    pt-BR: Recovery Services vault existe
+  description:
+    en: A Recovery Services vault with the rsv-lab prefix must exist.
+    pt-BR: Um Recovery Services vault com o prefixo rsv-lab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.RecoveryServices/vaults
+    name_prefix: rsv-lab
+  required: true
+  weight: 1
+- key: vault-sku
+  position: 2
+  name:
+    en: Vault SKU is Standard
+    pt-BR: SKU do vault é Standard
+  description:
+    en: The vault must use the Standard SKU.
+    pt-BR: O vault precisa usar o SKU Standard.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.RecoveryServices/vaults
+    name_prefix: rsv-lab
+    path: properties.sku.name
+    value: Standard
+  required: true
+  weight: 1
+- key: vault-count
+  position: 3
+  name:
+    en: Vault count is valid
+    pt-BR: Quantidade de vaults é válida
+  description:
+    en: At least one Recovery Services vault must exist.
+    pt-BR: Pelo menos um Recovery Services vault precisa existir.
+  check_type: resource_count
+  config:
+    resource_type: Microsoft.RecoveryServices/vaults
+    name_prefix: rsv-lab
+    min_count: 1
+  required: true
+  weight: 1

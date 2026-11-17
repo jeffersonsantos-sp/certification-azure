@@ -149,6 +149,73 @@ class AzureClient:
         )
         return payload.get("value", []) if payload else []
 
+    async def list_policy_assignments(
+        self,
+        subscription_id: str,
+        resource_group: str,
+    ) -> list[dict]:
+        payload = await self._request(
+            "GET",
+            (
+                f"/subscriptions/{quote(subscription_id)}"
+                f"/resourceGroups/{quote(resource_group)}"
+                "/providers/Microsoft.Authorization/policyAssignments"
+            ),
+            params={"api-version": "2022-06-01"},
+        )
+        return payload.get("value", []) if payload else []
+
+    async def list_resource_locks(
+        self,
+        subscription_id: str,
+        resource_group: str,
+    ) -> list[dict]:
+        payload = await self._request(
+            "GET",
+            (
+                f"/subscriptions/{quote(subscription_id)}"
+                f"/resourceGroups/{quote(resource_group)}"
+                "/providers/Microsoft.Authorization/locks"
+            ),
+            params={"api-version": "2020-05-01"},
+        )
+        return payload.get("value", []) if payload else []
+
+    async def list_vnet_peerings(
+        self,
+        subscription_id: str,
+        resource_group: str,
+        vnet_name: str,
+    ) -> list[dict]:
+        payload = await self._request(
+            "GET",
+            (
+                f"/subscriptions/{quote(subscription_id)}"
+                f"/resourceGroups/{quote(resource_group)}"
+                f"/providers/Microsoft.Network/virtualNetworks/{quote(vnet_name)}"
+                "/virtualNetworkPeerings"
+            ),
+            params={"api-version": "2022-01-01"},
+        )
+        return payload.get("value", []) if payload else []
+
+    async def get_load_balancer(
+        self,
+        subscription_id: str,
+        resource_group: str,
+        name: str,
+    ) -> dict | None:
+        return await self._request(
+            "GET",
+            (
+                f"/subscriptions/{quote(subscription_id)}"
+                f"/resourceGroups/{quote(resource_group)}"
+                f"/providers/Microsoft.Network/loadBalancers/{quote(name)}"
+            ),
+            params={"api-version": "2022-01-01"},
+            allow_404=True,
+        )
+
     async def get_role_definition_id(self, subscription_id: str, role_name: str) -> str | None:
         payload = await self._request(
             "GET",
@@ -256,6 +323,14 @@ class LabValidator:
             return await self._check_subnet_exists(config)
         if check_type == "nsg_rule_exists":
             return await self._check_nsg_rule_exists(config)
+        if check_type == "policy_assignment_exists":
+            return await self._check_policy_assignment_exists(config)
+        if check_type == "resource_lock_exists":
+            return await self._check_resource_lock_exists(config)
+        if check_type == "virtual_network_peering_exists":
+            return await self._check_virtual_network_peering_exists(config)
+        if check_type == "load_balancer_probe_exists":
+            return await self._check_load_balancer_probe_exists(config)
 
         return "error", f"Unsupported check type: {check_type}", {}
 
@@ -460,6 +535,131 @@ class LabValidator:
             f"{role_name} is not assigned to the signed-in user at resource group scope.",
             {},
         )
+
+    async def _check_policy_assignment_exists(self, config: dict) -> tuple[str, str, dict]:
+        display_name = str(config.get("display_name", ""))
+        policy_definition_id = str(config.get("policy_definition_id", ""))
+        enforcement_mode = config.get("enforcement_mode")
+
+        assignments = await self.client.list_policy_assignments(
+            self.subscription_id,
+            self.resource_group,
+        )
+        for assignment in assignments:
+            properties = assignment.get("properties") or {}
+            if (
+                display_name
+                and str(properties.get("displayName", "")).lower() != display_name.lower()
+            ):
+                continue
+            if (
+                policy_definition_id
+                and policy_definition_id.lower()
+                not in str(properties.get("policyDefinitionId", "")).lower()
+            ):
+                continue
+            if (
+                enforcement_mode
+                and str(properties.get("enforcementMode", "")).lower()
+                != str(enforcement_mode).lower()
+            ):
+                continue
+            return (
+                "passed",
+                f"Policy assignment {display_name or properties.get('displayName')} exists.",
+                {"assignment_id": assignment.get("id")},
+            )
+
+        return "failed", f"Policy assignment {display_name or config.get('key')} was not found.", {}
+
+    async def _check_resource_lock_exists(self, config: dict) -> tuple[str, str, dict]:
+        lock_name = str(config.get("name", ""))
+        level = config.get("level")
+
+        locks = await self.client.list_resource_locks(
+            self.subscription_id,
+            self.resource_group,
+        )
+        for lock in locks:
+            properties = lock.get("properties") or {}
+            if lock_name and str(lock.get("name", "")).lower() != lock_name.lower():
+                continue
+            if level and str(properties.get("level", "")).lower() != str(level).lower():
+                continue
+            return (
+                "passed",
+                f"Resource lock {lock.get('name')} exists with level {properties.get('level')}.",
+                {"lock_id": lock.get("id")},
+            )
+
+        return "failed", f"Resource lock {lock_name or config.get('key')} was not found.", {}
+
+    async def _check_virtual_network_peering_exists(
+        self, config: dict
+    ) -> tuple[str, str, dict]:
+        vnet_name = str(config.get("vnet_name", ""))
+        peering_name = str(config.get("peering_name", ""))
+        remote_vnet_name = str(config.get("remote_vnet_name", ""))
+        peering_state = str(config.get("peering_state", "Connected"))
+
+        peerings = await self.client.list_vnet_peerings(
+            self.subscription_id,
+            self.resource_group,
+            vnet_name,
+        )
+        for peering in peerings:
+            properties = peering.get("properties") or {}
+            if peering_name and str(peering.get("name", "")).lower() != peering_name.lower():
+                continue
+            remote_id = str(
+                (properties.get("remoteVirtualNetwork") or {}).get("id", "")
+            )
+            if remote_vnet_name and not remote_id.lower().endswith(
+                f"/{remote_vnet_name}".lower()
+            ):
+                continue
+            if peering_state and str(properties.get("peeringState", "")).lower() != peering_state.lower():
+                continue
+            return (
+                "passed",
+                f"VNet peering {peering.get('name')} is {properties.get('peeringState')}.",
+                {"peering_id": peering.get("id")},
+            )
+
+        return "failed", f"VNet peering {peering_name} was not found on {vnet_name}.", {}
+
+    async def _check_load_balancer_probe_exists(
+        self, config: dict
+    ) -> tuple[str, str, dict]:
+        load_balancer_name = str(config.get("load_balancer_name", ""))
+        probe_name = str(config.get("probe_name", ""))
+        protocol = config.get("protocol")
+        port = config.get("port")
+
+        load_balancer = await self.client.get_load_balancer(
+            self.subscription_id,
+            self.resource_group,
+            load_balancer_name,
+        )
+        if load_balancer is None:
+            return "failed", f"Load Balancer {load_balancer_name} was not found.", {}
+
+        probes = (load_balancer.get("properties") or {}).get("probes") or []
+        for probe in probes:
+            properties = probe.get("properties") or {}
+            if probe_name and str(probe.get("name", "")).lower() != probe_name.lower():
+                continue
+            if protocol and str(properties.get("protocol", "")).lower() != str(protocol).lower():
+                continue
+            if port is not None and str(properties.get("port", "")) != str(port):
+                continue
+            return (
+                "passed",
+                f"Load Balancer probe {probe.get('name')} exists.",
+                {"probe_id": probe.get("id")},
+            )
+
+        return "failed", f"Load Balancer probe {probe_name} was not found.", {}
 
     async def _check_subnet_exists(self, config: dict) -> tuple[str, str, dict]:
         vnet_name = str(config.get("vnet_name", ""))

@@ -213,6 +213,10 @@ export default function LabDetail() {
     role_assignment_exists: t('labs.checkTypes.roleAssignmentExists'),
     nsg_rule_exists: t('labs.checkTypes.nsgRuleExists'),
     subnet_exists: t('labs.checkTypes.subnetExists'),
+    policy_assignment_exists: t('labs.checkTypes.policyAssignmentExists'),
+    resource_lock_exists: t('labs.checkTypes.resourceLockExists'),
+    virtual_network_peering_exists: t('labs.checkTypes.vnetPeeringExists'),
+    load_balancer_probe_exists: t('labs.checkTypes.loadBalancerProbeExists'),
     manual: t('labs.checkTypes.manual'),
   }
 

@@ -1,0 +1,188 @@
+slug: compute-vm
+title:
+  en: Create a Linux Virtual Machine
+  pt-BR: Criar uma Virtual Machine Linux
+description:
+  en: Create a VNet, NIC and a Standard_B1s Linux VM with an Environment tag.
+  pt-BR: Crie uma VNet, uma NIC e uma VM Linux Standard_B1s com a tag Environment.
+objectives:
+  en:
+  - Create a VNet and subnet for the VM
+  - Create a VM with size Standard_B1s
+  - Tag the VM with Environment=Lab
+  pt-BR:
+  - Criar uma VNet e subnet para a VM
+  - Criar uma VM com tamanho Standard_B1s
+  - Adicionar a tag Environment=Lab à VM
+prerequisites:
+  en:
+  - A subscription where you can create VMs and networking resources
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar VMs e recursos de rede
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: A Standard_B1s VM may incur compute cost. Delete the resource group after the lab.
+  pt-BR: Uma VM Standard_B1s pode gerar custo de computação. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-vm --yes --no-wait
+domain_id: compute
+skill_id: cm-02
+difficulty: intermediate
+estimated_minutes: 30
+resource_group_name: rg-az104-lab-vm
+content_version: '1'
+status: published
+sort_order: 70
+steps:
+- key: create-vnet
+  position: 1
+  title:
+    en: Create the VNet
+    pt-BR: Criar a VNet
+  instructions:
+    en: Create `vm-vnet` with 10.30.0.0/16 and the `default` subnet 10.30.0.0/24.
+    pt-BR: Crie `vm-vnet` com 10.30.0.0/16 e a subnet `default` 10.30.0.0/24.
+  commands:
+  - label:
+      en: Create the VNet
+      pt-BR: Criar a VNet
+    language: bash
+    command: az network vnet create --resource-group rg-az104-lab-vm --name vm-vnet --address-prefix 10.30.0.0/16 --subnet-name
+      default --subnet-prefix 10.30.0.0/24
+  validation_hint:
+    en: The VM uses this VNet and subnet.
+    pt-BR: A VM usa esta VNet e subnet.
+- key: create-nic
+  position: 2
+  title:
+    en: Create the NIC
+    pt-BR: Criar a NIC
+  instructions:
+    en: Create a network interface named `vm-nic` in the default subnet.
+    pt-BR: Crie uma interface de rede chamada `vm-nic` na subnet default.
+  commands:
+  - label:
+      en: Create the NIC
+      pt-BR: Criar a NIC
+    language: bash
+    command: az network nic create --resource-group rg-az104-lab-vm --name vm-nic --vnet-name vm-vnet --subnet default
+  validation_hint:
+    en: The VM will use this NIC.
+    pt-BR: A VM usará esta NIC.
+- key: create-vm
+  position: 3
+  title:
+    en: Create the VM
+    pt-BR: Criar a VM
+  instructions:
+    en: Create `vm-lab01` using Ubuntu 2204, size Standard_B1s, the `vm-nic` NIC and the tag Environment=Lab.
+    pt-BR: Crie `vm-lab01` usando Ubuntu 2204, tamanho Standard_B1s, a NIC `vm-nic` e a tag Environment=Lab.
+  commands:
+  - label:
+      en: Create the VM
+      pt-BR: Criar a VM
+    language: bash
+    command: az vm create --resource-group rg-az104-lab-vm --name vm-lab01 --image Ubuntu2204 --size Standard_B1s --admin-username
+      azureuser --generate-ssh-keys --nics vm-nic --tags Environment=Lab
+  validation_hint:
+    en: The VM size and tag are validated.
+    pt-BR: O tamanho e a tag da VM são validados.
+- key: verify
+  position: 4
+  title:
+    en: Verify the VM
+    pt-BR: Verificar a VM
+  instructions:
+    en: Show the VM size, OS disk and tags before validating.
+    pt-BR: Mostre o tamanho, o disco do SO e as tags da VM antes de validar.
+  commands:
+  - label:
+      en: Show the VM
+      pt-BR: Mostrar a VM
+    language: bash
+    command: az vm show --resource-group rg-az104-lab-vm --name vm-lab01 --query "{size:hardwareProfile.vmSize,osDisk:storageProfile.osDisk.name,tags:tags}"
+      -o json
+  validation_hint:
+    en: The validator checks the VM, NIC and managed disk.
+    pt-BR: O validador verifica a VM, a NIC e o disco gerenciado.
+checks:
+- key: vm-exists
+  position: 1
+  name:
+    en: VM exists
+    pt-BR: VM existe
+  description:
+    en: The vm-lab01 VM must exist.
+    pt-BR: A VM vm-lab01 precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Compute/virtualMachines
+    name: vm-lab01
+  required: true
+  weight: 1
+- key: vm-size
+  position: 2
+  name:
+    en: VM size is Standard_B1s
+    pt-BR: Tamanho da VM é Standard_B1s
+  description:
+    en: The VM must use the Standard_B1s size.
+    pt-BR: A VM precisa usar o tamanho Standard_B1s.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Compute/virtualMachines
+    name: vm-lab01
+    path: hardwareProfile.vmSize
+    value: Standard_B1s
+  required: true
+  weight: 1
+- key: vm-tag
+  position: 3
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The VM must have the tag Environment=Lab.
+    pt-BR: A VM precisa ter a tag Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Compute/virtualMachines
+    name: vm-lab01
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1
+- key: nic-exists
+  position: 4
+  name:
+    en: NIC exists
+    pt-BR: NIC existe
+  description:
+    en: The vm-nic network interface must exist.
+    pt-BR: A interface de rede vm-nic precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/networkInterfaces
+    name: vm-nic
+  required: true
+  weight: 1
+- key: os-disk-exists
+  position: 5
+  name:
+    en: OS disk exists
+    pt-BR: Disco do SO existe
+  description:
+    en: The VM must have at least one managed disk whose name starts with vm-lab01.
+    pt-BR: A VM precisa ter pelo menos um disco gerenciado cujo nome comece com vm-lab01.
+  check_type: resource_count
+  config:
+    resource_type: Microsoft.Compute/disks
+    name_prefix: vm-lab01
+    min_count: 1
+  required: true
+  weight: 1

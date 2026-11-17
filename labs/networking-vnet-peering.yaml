@@ -1,0 +1,225 @@
+slug: networking-vnet-peering
+title:
+  en: Peer two Virtual Networks
+  pt-BR: Fazer peering entre duas Virtual Networks
+description:
+  en: Create a hub and a spoke Virtual Network and connect them with two-way peering.
+  pt-BR: Crie uma Virtual Network hub e uma spoke e conecte-as com peering bidirecional.
+objectives:
+  en:
+  - Create a hub VNet with 10.20.0.0/16
+  - Create a spoke VNet with 10.21.0.0/16
+  - Create hub-to-spoke and spoke-to-hub peerings
+  pt-BR:
+  - Criar uma VNet hub com 10.20.0.0/16
+  - Criar uma VNet spoke com 10.21.0.0/16
+  - Criar peerings hub-para-spoke e spoke-para-hub
+prerequisites:
+  en:
+  - A subscription where you can create virtual networks
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar redes virtuais
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: Virtual Networks and peerings do not add cost by themselves.
+  pt-BR: Redes virtuais e peerings não geram custo por si só.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-peering --yes --no-wait
+domain_id: networking
+skill_id: vn-01
+difficulty: intermediate
+estimated_minutes: 25
+resource_group_name: rg-az104-lab-peering
+content_version: '1'
+status: published
+sort_order: 50
+steps:
+- key: create-hub-vnet
+  position: 1
+  title:
+    en: Create the hub VNet
+    pt-BR: Criar a VNet hub
+  instructions:
+    en: Create `hub-vnet` with address space `10.20.0.0/16` and the `default` subnet `10.20.0.0/24`.
+    pt-BR: Crie `hub-vnet` com espaço de endereço `10.20.0.0/16` e a subnet `default` `10.20.0.0/24`.
+  commands:
+  - label:
+      en: Create the hub VNet
+      pt-BR: Criar a VNet hub
+    language: bash
+    command: az network vnet create --resource-group rg-az104-lab-peering --name hub-vnet --address-prefix 10.20.0.0/16 --subnet-name
+      default --subnet-prefix 10.20.0.0/24
+  validation_hint:
+    en: The hub address space is validated.
+    pt-BR: O espaço de endereço da hub é validado.
+- key: create-spoke-vnet
+  position: 2
+  title:
+    en: Create the spoke VNet
+    pt-BR: Criar a VNet spoke
+  instructions:
+    en: Create `spoke-vnet` with address space `10.21.0.0/16` and the `default` subnet `10.21.0.0/24`.
+    pt-BR: Crie `spoke-vnet` com espaço de endereço `10.21.0.0/16` e a subnet `default` `10.21.0.0/24`.
+  commands:
+  - label:
+      en: Create the spoke VNet
+      pt-BR: Criar a VNet spoke
+    language: bash
+    command: az network vnet create --resource-group rg-az104-lab-peering --name spoke-vnet --address-prefix 10.21.0.0/16
+      --subnet-name default --subnet-prefix 10.21.0.0/24
+  validation_hint:
+    en: The spoke address space is validated.
+    pt-BR: O espaço de endereço da spoke é validado.
+- key: peer-hub-to-spoke
+  position: 3
+  title:
+    en: Peer hub to spoke
+    pt-BR: Fazer peering hub para spoke
+  instructions:
+    en: Create the `hub-to-spoke` peering from `hub-vnet` to `spoke-vnet`.
+    pt-BR: Crie o peering `hub-to-spoke` de `hub-vnet` para `spoke-vnet`.
+  commands:
+  - label:
+      en: Peer hub to spoke
+      pt-BR: Fazer peering hub para spoke
+    language: bash
+    command: az network vnet peering create --resource-group rg-az104-lab-peering --name hub-to-spoke --vnet-name hub-vnet
+      --remote-vnet spoke-vnet --allow-vnet-access
+  validation_hint:
+    en: The peering state must be Connected.
+    pt-BR: O estado do peering precisa estar Connected.
+- key: peer-spoke-to-hub
+  position: 4
+  title:
+    en: Peer spoke to hub
+    pt-BR: Fazer peering spoke para hub
+  instructions:
+    en: Create the reverse `spoke-to-hub` peering. Peering is directional, so both sides are required.
+    pt-BR: Crie o peering reverso `spoke-to-hub`. O peering é direcional, então os dois lados são necessários.
+  commands:
+  - label:
+      en: Peer spoke to hub
+      pt-BR: Fazer peering spoke para hub
+    language: bash
+    command: az network vnet peering create --resource-group rg-az104-lab-peering --name spoke-to-hub --vnet-name spoke-vnet
+      --remote-vnet hub-vnet --allow-vnet-access
+  validation_hint:
+    en: Both peerings must be Connected.
+    pt-BR: Os dois peerings precisam estar Connected.
+- key: verify
+  position: 5
+  title:
+    en: Verify the peerings
+    pt-BR: Verificar os peerings
+  instructions:
+    en: List the peerings on both VNets before validating.
+    pt-BR: Liste os peerings nas duas VNets antes de validar.
+  commands:
+  - label:
+      en: List hub peerings
+      pt-BR: Listar peerings da hub
+    language: bash
+    command: az network vnet peering list --resource-group rg-az104-lab-peering --vnet-name hub-vnet -o table
+  validation_hint:
+    en: The validator checks both directions.
+    pt-BR: O validador verifica as duas direções.
+checks:
+- key: hub-vnet-exists
+  position: 1
+  name:
+    en: Hub VNet exists
+    pt-BR: VNet hub existe
+  description:
+    en: The hub-vnet must exist in the lab resource group.
+    pt-BR: A hub-vnet precisa existir no resource group do laboratório.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: hub-vnet
+  required: true
+  weight: 1
+- key: hub-address-space
+  position: 2
+  name:
+    en: Hub address space is 10.20.0.0/16
+    pt-BR: Espaço da hub é 10.20.0.0/16
+  description:
+    en: The hub-vnet address space must contain 10.20.0.0/16.
+    pt-BR: O espaço de endereço da hub-vnet precisa conter 10.20.0.0/16.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: hub-vnet
+    path: properties.addressSpace.addressPrefixes
+    value:
+    - 10.20.0.0/16
+  required: true
+  weight: 1
+- key: spoke-vnet-exists
+  position: 3
+  name:
+    en: Spoke VNet exists
+    pt-BR: VNet spoke existe
+  description:
+    en: The spoke-vnet must exist in the lab resource group.
+    pt-BR: A spoke-vnet precisa existir no resource group do laboratório.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: spoke-vnet
+  required: true
+  weight: 1
+- key: spoke-address-space
+  position: 4
+  name:
+    en: Spoke address space is 10.21.0.0/16
+    pt-BR: Espaço da spoke é 10.21.0.0/16
+  description:
+    en: The spoke-vnet address space must contain 10.21.0.0/16.
+    pt-BR: O espaço de endereço da spoke-vnet precisa conter 10.21.0.0/16.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: spoke-vnet
+    path: properties.addressSpace.addressPrefixes
+    value:
+    - 10.21.0.0/16
+  required: true
+  weight: 1
+- key: hub-to-spoke-peering
+  position: 5
+  name:
+    en: Hub-to-spoke peering exists
+    pt-BR: Peering hub-para-spoke existe
+  description:
+    en: The hub-vnet must have a Connected peering to spoke-vnet.
+    pt-BR: A hub-vnet precisa ter um peering Connected para spoke-vnet.
+  check_type: virtual_network_peering_exists
+  config:
+    vnet_name: hub-vnet
+    peering_name: hub-to-spoke
+    remote_vnet_name: spoke-vnet
+    peering_state: Connected
+  required: true
+  weight: 1
+- key: spoke-to-hub-peering
+  position: 6
+  name:
+    en: Spoke-to-hub peering exists
+    pt-BR: Peering spoke-para-hub existe
+  description:
+    en: The spoke-vnet must have a Connected peering to hub-vnet.
+    pt-BR: A spoke-vnet precisa ter um peering Connected para hub-vnet.
+  check_type: virtual_network_peering_exists
+  config:
+    vnet_name: spoke-vnet
+    peering_name: spoke-to-hub
+    remote_vnet_name: hub-vnet
+    peering_state: Connected
+  required: true
+  weight: 1

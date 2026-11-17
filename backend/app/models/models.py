@@ -59,6 +59,10 @@ class LabCheckType(str, enum.Enum):
     role_assignment_exists = "role_assignment_exists"
     nsg_rule_exists = "nsg_rule_exists"
     subnet_exists = "subnet_exists"
+    policy_assignment_exists = "policy_assignment_exists"
+    resource_lock_exists = "resource_lock_exists"
+    virtual_network_peering_exists = "virtual_network_peering_exists"
+    load_balancer_probe_exists = "load_balancer_probe_exists"
     manual = "manual"
 
 

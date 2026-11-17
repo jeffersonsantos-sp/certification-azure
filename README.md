@@ -587,7 +587,7 @@ python scripts/seed_advanced_formats.py
 
 Phases 1 and 2 of the Azure labs feature are implemented:
 
-- 3 bilingual lab definitions in `labs/*.yaml`
+- 13 bilingual lab definitions in `labs/*.yaml`
 - Database models for labs, steps, checks, progress and validation runs
 - Deterministic, idempotent importer that preserves step/check identity
 - Login and registration exposed in the UI, with protected lab routes
@@ -595,7 +595,7 @@ Phases 1 and 2 of the Azure labs feature are implemented:
 - `/labs/:slug` detail with objectives, commands, step tracking and cleanup
 - Microsoft Entra OAuth with MSAL, single-tenant app registration and popup login
 - Read-only validation through Azure Resource Manager and Resource Graph
-- Supported checks: resource existence, resource count, property/tag equality, role assignment, subnet, NSG rule and manual checks
+- Supported checks: resource existence, resource count, property/tag equality, role assignment, subnet, NSG rule, policy assignment, resource lock, VNet peering, Load Balancer probe and manual checks
 - Validation history is stored in `lab_validation_runs`; Azure tokens stay in browser session memory and are never stored by the backend
 
 ```bash
@@ -606,7 +606,7 @@ docker compose exec backend python scripts/import_labs.py
 python scripts/import_labs.py
 ```
 
-The initial labs cover Identity & Governance, Networking and Storage. Each lab includes English and PT-BR content, commands, validation checks and cleanup instructions. Lab progress is stored per user in `lab_progress` and `lab_step_progress`.
+The labs cover Identity & Governance, Networking, Storage, Compute and Monitoring. Each lab includes English and PT-BR content, commands, validation checks and cleanup instructions. Lab progress is stored per user in `lab_progress` and `lab_step_progress`.
 
 ### Azure app registration
 
@@ -747,7 +747,7 @@ Collection of prompts in `prompts/README.md`:
 | Questions | 411 approved |
 | Question Formats | 5 |
 | Advanced Format Samples | 4 (one per format) |
-| Azure Labs | 3 bilingual labs with OAuth login, progress and read-only validation |
+| Azure Labs | 13 bilingual labs with OAuth login, progress and read-only validation |
 | Certification Domains | 5 |
 | API Endpoints | 15+ |
 | Supported Languages | 2 (EN, PT-BR) |

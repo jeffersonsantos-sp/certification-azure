@@ -1,0 +1,164 @@
+slug: monitoring-observability
+title:
+  en: Create Log Analytics and Application Insights
+  pt-BR: Criar Log Analytics e Application Insights
+description:
+  en: Create a Log Analytics workspace with 30-day retention and an Application Insights component connected to it.
+  pt-BR: Crie um workspace Log Analytics com retenção de 30 dias e um componente Application Insights conectado a ele.
+objectives:
+  en:
+  - Create a Log Analytics workspace
+  - Set 30-day retention
+  - Create an Application Insights component
+  pt-BR:
+  - Criar um workspace Log Analytics
+  - Definir retenção de 30 dias
+  - Criar um componente Application Insights
+prerequisites:
+  en:
+  - A subscription where you can create monitoring resources
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar recursos de monitoramento
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: Log Analytics ingestion and Application Insights may incur cost. Delete the resource group after the lab.
+  pt-BR: A ingestão do Log Analytics e o Application Insights podem gerar custo. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-monitor --yes --no-wait
+domain_id: monitoring
+skill_id: mn-01
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-monitor
+content_version: '1'
+status: published
+sort_order: 100
+steps:
+- key: create-workspace
+  position: 1
+  title:
+    en: Create the Log Analytics workspace
+    pt-BR: Criar o workspace Log Analytics
+  instructions:
+    en: Create `log-lab<unique>` with the PerGB2018 SKU and 30-day retention.
+    pt-BR: Crie `log-lab<unique>` com o SKU PerGB2018 e retenção de 30 dias.
+  commands:
+  - label:
+      en: Create the workspace
+      pt-BR: Criar o workspace
+    language: bash
+    command: az monitor log-analytics workspace create --resource-group rg-az104-lab-monitor --workspace-name log-lab<unique>
+      --location eastus --sku PerGB2018 --retention-time 30
+  validation_hint:
+    en: The workspace and retention are validated.
+    pt-BR: O workspace e a retenção são validados.
+- key: create-app-insights
+  position: 2
+  title:
+    en: Create Application Insights
+    pt-BR: Criar Application Insights
+  instructions:
+    en: Create `appi-lab<unique>` connected to the Log Analytics workspace.
+    pt-BR: Crie `appi-lab<unique>` conectado ao workspace Log Analytics.
+  commands:
+  - label:
+      en: Create Application Insights
+      pt-BR: Criar Application Insights
+    language: bash
+    command: 'WORKSPACE_ID=$(az monitor log-analytics workspace show --resource-group rg-az104-lab-monitor --workspace-name
+      log-lab<unique> --query id -o tsv)
+
+      az monitor app-insights component create --app appi-lab<unique> --location eastus --resource-group rg-az104-lab-monitor
+      --workspace "$WORKSPACE_ID"'
+  validation_hint:
+    en: The validator checks the component and its count.
+    pt-BR: O validador verifica o componente e a quantidade.
+- key: verify
+  position: 3
+  title:
+    en: Verify the monitoring resources
+    pt-BR: Verificar os recursos de monitoramento
+  instructions:
+    en: Show the workspace and the Application Insights component before validating.
+    pt-BR: Mostre o workspace e o componente Application Insights antes de validar.
+  commands:
+  - label:
+      en: Show the workspace
+      pt-BR: Mostrar o workspace
+    language: bash
+    command: az monitor log-analytics workspace show --resource-group rg-az104-lab-monitor --workspace-name log-lab<unique>
+      --query "{name:name,retention:retentionInDays}" -o json
+  - label:
+      en: Show Application Insights
+      pt-BR: Mostrar Application Insights
+    language: bash
+    command: az monitor app-insights component show --app appi-lab<unique> --resource-group rg-az104-lab-monitor --query "{name:name,location:location}"
+      -o json
+  validation_hint:
+    en: The validator checks the workspace, retention and component.
+    pt-BR: O validador verifica o workspace, a retenção e o componente.
+checks:
+- key: log-workspace-exists
+  position: 1
+  name:
+    en: Log Analytics workspace exists
+    pt-BR: Workspace Log Analytics existe
+  description:
+    en: A Log Analytics workspace with the log-lab prefix must exist.
+    pt-BR: Um workspace Log Analytics com o prefixo log-lab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.OperationalInsights/workspaces
+    name_prefix: log-lab
+  required: true
+  weight: 1
+- key: log-retention
+  position: 2
+  name:
+    en: Retention is 30 days
+    pt-BR: Retenção é de 30 dias
+  description:
+    en: The workspace must retain data for 30 days.
+    pt-BR: O workspace precisa reter dados por 30 dias.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.OperationalInsights/workspaces
+    name_prefix: log-lab
+    path: properties.retentionInDays
+    value: 30
+  required: true
+  weight: 1
+- key: app-insights-exists
+  position: 3
+  name:
+    en: Application Insights exists
+    pt-BR: Application Insights existe
+  description:
+    en: An Application Insights component with the appi-lab prefix must exist.
+    pt-BR: Um componente Application Insights com o prefixo appi-lab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Insights/components
+    name_prefix: appi-lab
+  required: true
+  weight: 1
+- key: app-insights-count
+  position: 4
+  name:
+    en: Application Insights count is valid
+    pt-BR: Quantidade de Application Insights é válida
+  description:
+    en: At least one Application Insights component must exist.
+    pt-BR: Pelo menos um componente Application Insights precisa existir.
+  check_type: resource_count
+  config:
+    resource_type: Microsoft.Insights/components
+    name_prefix: appi-lab
+    min_count: 1
+  required: true
+  weight: 1

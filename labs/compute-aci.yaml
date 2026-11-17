@@ -1,0 +1,159 @@
+slug: compute-aci
+title:
+  en: Create an Azure Container Instance
+  pt-BR: Criar uma Azure Container Instance
+description:
+  en: Create a Linux container group from a public image with a public IP and DNS label.
+  pt-BR: Crie um container group Linux a partir de uma imagem pública com IP público e rótulo DNS.
+objectives:
+  en:
+  - Create a container group
+  - Use a public image and public IP
+  - Set the restart policy to Never
+  pt-BR:
+  - Criar um container group
+  - Usar uma imagem pública e IP público
+  - Definir a política de reinício como Never
+prerequisites:
+  en:
+  - A subscription where you can create container instances
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar container instances
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: A container instance may incur a small compute cost. Delete the resource group after the lab.
+  pt-BR: Uma container instance pode gerar um pequeno custo de computação. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-aci --yes --no-wait
+domain_id: compute
+skill_id: cm-03
+difficulty: intermediate
+estimated_minutes: 15
+resource_group_name: rg-az104-lab-aci
+content_version: '1'
+status: published
+sort_order: 120
+steps:
+- key: create-container-group
+  position: 1
+  title:
+    en: Create the container group
+    pt-BR: Criar o container group
+  instructions:
+    en: Create `aci-lab` from `mcr.microsoft.com/azuredocs/aci-helloworld` with a public IP and DNS label. Replace `<unique>`
+      with a unique suffix.
+    pt-BR: Crie `aci-lab` a partir de `mcr.microsoft.com/azuredocs/aci-helloworld` com IP público e rótulo DNS. Substitua
+      `<unique>` por um sufixo único.
+  commands:
+  - label:
+      en: Create the container group
+      pt-BR: Criar o container group
+    language: bash
+    command: az container create --resource-group rg-az104-lab-aci --name aci-lab --image mcr.microsoft.com/azuredocs/aci-helloworld
+      --cpu 1 --memory 1 --os-type Linux --restart-policy Never --ip-address Public --dns-name-label aci-lab<unique> --location
+      eastus --tags Environment=Lab
+  validation_hint:
+    en: The validator checks the container group properties.
+    pt-BR: O validador verifica as propriedades do container group.
+- key: verify
+  position: 2
+  title:
+    en: Verify the container group
+    pt-BR: Verificar o container group
+  instructions:
+    en: Show the container group before validating.
+    pt-BR: Mostre o container group antes de validar.
+  commands:
+  - label:
+      en: Show the container group
+      pt-BR: Mostrar o container group
+    language: bash
+    command: az container show --resource-group rg-az104-lab-aci --name aci-lab --query "{os:osType,restart:restartPolicy,ip:ipAddress.type,tags:tags}"
+      -o json
+  validation_hint:
+    en: The validator checks the OS, restart policy, public IP and tag.
+    pt-BR: O validador verifica o SO, a política de reinício, o IP público e a tag.
+checks:
+- key: container-group-exists
+  position: 1
+  name:
+    en: Container group exists
+    pt-BR: Container group existe
+  description:
+    en: The aci-lab container group must exist.
+    pt-BR: O container group aci-lab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.ContainerInstance/containerGroups
+    name: aci-lab
+  required: true
+  weight: 1
+- key: os-type
+  position: 2
+  name:
+    en: OS type is Linux
+    pt-BR: Tipo de SO é Linux
+  description:
+    en: The container group must use Linux.
+    pt-BR: O container group precisa usar Linux.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.ContainerInstance/containerGroups
+    name: aci-lab
+    path: properties.osType
+    value: Linux
+  required: true
+  weight: 1
+- key: restart-policy
+  position: 3
+  name:
+    en: Restart policy is Never
+    pt-BR: Política de reinício é Never
+  description:
+    en: The container group must use the Never restart policy.
+    pt-BR: O container group precisa usar a política Never.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.ContainerInstance/containerGroups
+    name: aci-lab
+    path: properties.restartPolicy
+    value: Never
+  required: true
+  weight: 1
+- key: public-ip
+  position: 4
+  name:
+    en: Public IP is enabled
+    pt-BR: IP público está ativado
+  description:
+    en: The container group must expose a public IP.
+    pt-BR: O container group precisa expor um IP público.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.ContainerInstance/containerGroups
+    name: aci-lab
+    path: properties.ipAddress.type
+    value: Public
+  required: true
+  weight: 1
+- key: environment-tag
+  position: 5
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The container group must have the tag Environment=Lab.
+    pt-BR: O container group precisa ter a tag Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.ContainerInstance/containerGroups
+    name: aci-lab
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1

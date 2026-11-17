@@ -1,0 +1,180 @@
+slug: compute-arm-deployment
+title:
+  en: Deploy resources with an ARM template
+  pt-BR: Implantar recursos com um template ARM
+description:
+  en: Create a resource group and deploy a Storage Account and VNet from an ARM template.
+  pt-BR: Crie um resource group e implante uma Storage Account e uma VNet a partir de um template ARM.
+objectives:
+  en:
+  - Create a resource group
+  - Create and deploy an ARM template
+  - Verify the resources created by the deployment
+  pt-BR:
+  - Criar um resource group
+  - Criar e implantar um template ARM
+  - Verificar os recursos criados pela implantação
+prerequisites:
+  en:
+  - A subscription where you can create resource groups and deployments
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar resource groups e deployments
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: The Storage Account is very small and the VNet is free. Delete the resource group after the lab.
+  pt-BR: A Storage Account é muito pequena e a VNet é gratuita. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-arm --yes --no-wait
+domain_id: compute
+skill_id: cm-01
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-arm
+content_version: '1'
+status: published
+sort_order: 110
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-arm`.
+    pt-BR: Crie `rg-az104-lab-arm`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-arm --location eastus
+  validation_hint:
+    en: The resource group must exist.
+    pt-BR: O resource group precisa existir.
+- key: deploy-arm
+  position: 2
+  title:
+    en: Deploy the ARM template
+    pt-BR: Implantar o template ARM
+  instructions:
+    en: Create `lab-arm.json` and deploy a Storage Account and VNet. Replace `<unique>` with a unique suffix.
+    pt-BR: Crie `lab-arm.json` e implante uma Storage Account e uma VNet. Substitua `<unique>` por um sufixo único.
+  commands:
+  - label:
+      en: Create and deploy the template
+      pt-BR: Criar e implantar o template
+    language: bash
+    command: "cat > lab-arm.json <<'JSON'\n{\n  \"$schema\": \"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#\"\
+      ,\n  \"contentVersion\": \"1.0.0.0\",\n  \"parameters\": {\n    \"storageName\": { \"type\": \"string\" },\n    \"vnetName\"\
+      : { \"type\": \"string\" }\n  },\n  \"resources\": [\n    {\n      \"type\": \"Microsoft.Storage/storageAccounts\",\n\
+      \      \"apiVersion\": \"2022-09-01\",\n      \"name\": \"[parameters('storageName')]\",\n      \"location\": \"[resourceGroup().location]\"\
+      ,\n      \"sku\": { \"name\": \"Standard_LRS\" },\n      \"kind\": \"StorageV2\",\n      \"properties\": {\n       \
+      \ \"minimumTlsVersion\": \"TLS1_2\",\n        \"supportsHttpsTrafficOnly\": true\n      },\n      \"tags\": { \"Environment\"\
+      : \"Lab\" }\n    },\n    {\n      \"type\": \"Microsoft.Network/virtualNetworks\",\n      \"apiVersion\": \"2022-01-01\"\
+      ,\n      \"name\": \"[parameters('vnetName')]\",\n      \"location\": \"[resourceGroup().location]\",\n      \"properties\"\
+      : {\n        \"addressSpace\": { \"addressPrefixes\": [\"10.40.0.0/16\"] },\n        \"subnets\": [\n          { \"\
+      name\": \"default\", \"properties\": { \"addressPrefix\": \"10.40.0.0/24\" } }\n        ]\n      }\n    }\n  ]\n}\n\
+      JSON\naz deployment group create --resource-group rg-az104-lab-arm --template-file lab-arm.json --parameters storageName=starm<unique>\
+      \ vnetName=arm-vnet"
+  validation_hint:
+    en: The validator checks the Storage Account and VNet created by the deployment.
+    pt-BR: O validador verifica a Storage Account e a VNet criadas pela implantação.
+- key: verify
+  position: 3
+  title:
+    en: Verify the deployed resources
+    pt-BR: Verificar os recursos implantados
+  instructions:
+    en: Show the deployment output and the created resources before validating.
+    pt-BR: Mostre a saída da implantação e os recursos criados antes de validar.
+  commands:
+  - label:
+      en: Show the deployment
+      pt-BR: Mostrar a implantação
+    language: bash
+    command: az deployment group list --resource-group rg-az104-lab-arm -o table
+  validation_hint:
+    en: The deployment must show Succeeded.
+    pt-BR: A implantação precisa mostrar Succeeded.
+checks:
+- key: storage-account-exists
+  position: 1
+  name:
+    en: Storage Account exists
+    pt-BR: Storage Account existe
+  description:
+    en: A Storage Account with the starm prefix must exist.
+    pt-BR: Uma Storage Account com o prefixo starm precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: starm
+  required: true
+  weight: 1
+- key: storage-sku
+  position: 2
+  name:
+    en: Storage Account is Standard_LRS
+    pt-BR: Storage Account é Standard_LRS
+  description:
+    en: The Storage Account must use Standard_LRS.
+    pt-BR: A Storage Account precisa usar Standard_LRS.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: starm
+    path: sku.name
+    value: Standard_LRS
+  required: true
+  weight: 1
+- key: vnet-exists
+  position: 3
+  name:
+    en: VNet exists
+    pt-BR: VNet existe
+  description:
+    en: The arm-vnet VNet must exist.
+    pt-BR: A VNet arm-vnet precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: arm-vnet
+  required: true
+  weight: 1
+- key: vnet-address-space
+  position: 4
+  name:
+    en: VNet address space is 10.40.0.0/16
+    pt-BR: Espaço da VNet é 10.40.0.0/16
+  description:
+    en: The arm-vnet address space must contain 10.40.0.0/16.
+    pt-BR: O espaço de endereço da arm-vnet precisa conter 10.40.0.0/16.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: arm-vnet
+    path: properties.addressSpace.addressPrefixes
+    value:
+    - 10.40.0.0/16
+  required: true
+  weight: 1
+- key: vnet-subnet
+  position: 5
+  name:
+    en: Default subnet exists
+    pt-BR: Subnet default existe
+  description:
+    en: The arm-vnet must have a default subnet with 10.40.0.0/24.
+    pt-BR: A arm-vnet precisa ter uma subnet default com 10.40.0.0/24.
+  check_type: subnet_exists
+  config:
+    vnet_name: arm-vnet
+    subnet_name: default
+    address_prefix: 10.40.0.0/24
+  required: true
+  weight: 1

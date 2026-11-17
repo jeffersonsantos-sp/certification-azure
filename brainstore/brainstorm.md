@@ -197,7 +197,7 @@ Adicionar uma aba de laboratórios guiados por assunto e validar automaticamente
 
 ### Escopo do MVP
 
-- 3 labs iniciais: Identity & Governance, Networking e Storage.
+- 13 labs cobrindo Identity & Governance, Networking, Storage, Compute e Monitoring.
 - 1 assinatura Azure por validação.
 - Leitura de recursos via Resource Graph e ARM.
 - Sem provisionamento automático.

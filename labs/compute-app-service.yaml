@@ -1,0 +1,172 @@
+slug: compute-app-service
+title:
+  en: Create an App Service web app
+  pt-BR: Criar um web app do App Service
+description:
+  en: Create a Linux App Service plan and a Node.js web app with an Environment tag.
+  pt-BR: Crie um App Service plan Linux e um web app Node.js com a tag Environment.
+objectives:
+  en:
+  - Create a B1 Linux App Service plan
+  - Create a Node.js web app
+  - Tag the web app with Environment=Lab
+  pt-BR:
+  - Criar um App Service plan B1 Linux
+  - Criar um web app Node.js
+  - Adicionar a tag Environment=Lab ao web app
+prerequisites:
+  en:
+  - A subscription where you can create web apps
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar web apps
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: The B1 App Service plan may incur cost. Delete the resource group after the lab.
+  pt-BR: O App Service plan B1 pode gerar custo. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-app --yes --no-wait
+domain_id: compute
+skill_id: cm-04
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-app
+content_version: '1'
+status: published
+sort_order: 80
+steps:
+- key: create-plan
+  position: 1
+  title:
+    en: Create the App Service plan
+    pt-BR: Criar o App Service plan
+  instructions:
+    en: Create `plan-lab` with the B1 SKU and Linux hosting.
+    pt-BR: Crie `plan-lab` com SKU B1 e hospedagem Linux.
+  commands:
+  - label:
+      en: Create the plan
+      pt-BR: Criar o plan
+    language: bash
+    command: az appservice plan create --resource-group rg-az104-lab-app --name plan-lab --sku B1 --is-linux
+  validation_hint:
+    en: The plan SKU is validated.
+    pt-BR: O SKU do plan é validado.
+- key: create-webapp
+  position: 2
+  title:
+    en: Create the web app
+    pt-BR: Criar o web app
+  instructions:
+    en: Create `app-lab<unique>` with Node.js 20 LTS. Replace `<unique>` with a suffix that is unique in Azure.
+    pt-BR: Crie `app-lab<unique>` com Node.js 20 LTS. Substitua `<unique>` por um sufixo único no Azure.
+  commands:
+  - label:
+      en: Create the web app
+      pt-BR: Criar o web app
+    language: bash
+    command: az webapp create --resource-group rg-az104-lab-app --plan plan-lab --name app-lab<unique> --runtime "NODE:20-lts"
+  validation_hint:
+    en: The validator finds the web app by the app-lab prefix.
+    pt-BR: O validador encontra o web app pelo prefixo app-lab.
+- key: tag-webapp
+  position: 3
+  title:
+    en: Tag the web app
+    pt-BR: Adicionar tag ao web app
+  instructions:
+    en: Add the tag Environment=Lab to the web app resource.
+    pt-BR: Adicione a tag Environment=Lab ao recurso do web app.
+  commands:
+  - label:
+      en: Tag the web app
+      pt-BR: Adicionar tag ao web app
+    language: bash
+    command: az resource tag --resource-group rg-az104-lab-app --name app-lab<unique> --resource-type "Microsoft.Web/sites"
+      --tags Environment=Lab
+  validation_hint:
+    en: The web app tag is validated.
+    pt-BR: A tag do web app é validada.
+- key: verify
+  position: 4
+  title:
+    en: Verify the web app
+    pt-BR: Verificar o web app
+  instructions:
+    en: Show the web app before validating.
+    pt-BR: Mostre o web app antes de validar.
+  commands:
+  - label:
+      en: Show the web app
+      pt-BR: Mostrar o web app
+    language: bash
+    command: az webapp show --resource-group rg-az104-lab-app --name app-lab<unique> --query "{name:name,kind:kind,state:state}"
+      -o json
+  validation_hint:
+    en: The validator checks the plan, web app and tag.
+    pt-BR: O validador verifica o plan, o web app e a tag.
+checks:
+- key: app-plan-exists
+  position: 1
+  name:
+    en: App Service plan exists
+    pt-BR: App Service plan existe
+  description:
+    en: The plan-lab plan must exist.
+    pt-BR: O plan plan-lab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Web/serverFarms
+    name: plan-lab
+  required: true
+  weight: 1
+- key: app-plan-sku
+  position: 2
+  name:
+    en: App Service plan is B1
+    pt-BR: App Service plan é B1
+  description:
+    en: The plan must use the B1 SKU.
+    pt-BR: O plan precisa usar o SKU B1.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Web/serverFarms
+    name: plan-lab
+    path: sku.name
+    value: B1
+  required: true
+  weight: 1
+- key: webapp-exists
+  position: 3
+  name:
+    en: Web app exists
+    pt-BR: Web app existe
+  description:
+    en: A web app with the app-lab prefix must exist.
+    pt-BR: Um web app com o prefixo app-lab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Web/sites
+    name_prefix: app-lab
+  required: true
+  weight: 1
+- key: webapp-tag
+  position: 4
+  name:
+    en: Web app has Environment tag
+    pt-BR: Web app tem tag Environment
+  description:
+    en: The web app must have the tag Environment=Lab.
+    pt-BR: O web app precisa ter a tag Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Web/sites
+    name_prefix: app-lab
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1

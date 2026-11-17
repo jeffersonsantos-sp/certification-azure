@@ -1,0 +1,190 @@
+slug: networking-load-balancer
+title:
+  en: Create a Standard Load Balancer
+  pt-BR: Criar um Load Balancer Standard
+description:
+  en: Create a Standard public IP, a Standard Load Balancer and a TCP health probe.
+  pt-BR: Crie um IP público Standard, um Load Balancer Standard e um probe TCP de integridade.
+objectives:
+  en:
+  - Create a Standard public IP
+  - Create a Standard Load Balancer with a backend pool
+  - Create a TCP health probe on port 80
+  pt-BR:
+  - Criar um IP público Standard
+  - Criar um Load Balancer Standard com backend pool
+  - Criar um probe TCP de integridade na porta 80
+prerequisites:
+  en:
+  - A subscription where you can create network resources
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar recursos de rede
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: A Standard public IP may have a small cost. Delete the resource group after the lab.
+  pt-BR: Um IP público Standard pode ter um custo pequeno. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-lb --yes --no-wait
+domain_id: networking
+skill_id: vn-03
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-lb
+content_version: '1'
+status: published
+sort_order: 60
+steps:
+- key: create-public-ip
+  position: 1
+  title:
+    en: Create the public IP
+    pt-BR: Criar o IP público
+  instructions:
+    en: Create `lab-lb-ip` as a Standard static public IP.
+    pt-BR: Crie `lab-lb-ip` como IP público estático Standard.
+  commands:
+  - label:
+      en: Create the public IP
+      pt-BR: Criar o IP público
+    language: bash
+    command: az network public-ip create --resource-group rg-az104-lab-lb --name lab-lb-ip --sku Standard --allocation-method
+      Static
+  validation_hint:
+    en: The public IP SKU is validated.
+    pt-BR: O SKU do IP público é validado.
+- key: create-load-balancer
+  position: 2
+  title:
+    en: Create the Load Balancer
+    pt-BR: Criar o Load Balancer
+  instructions:
+    en: Create `lab-lb` as Standard with the public IP and a backend pool named `lab-backend`.
+    pt-BR: Crie `lab-lb` como Standard com o IP público e um backend pool chamado `lab-backend`.
+  commands:
+  - label:
+      en: Create the Load Balancer
+      pt-BR: Criar o Load Balancer
+    language: bash
+    command: az network lb create --resource-group rg-az104-lab-lb --name lab-lb --sku Standard --public-ip-address lab-lb-ip
+      --backend-pool-name lab-backend
+  validation_hint:
+    en: The Load Balancer SKU is validated.
+    pt-BR: O SKU do Load Balancer é validado.
+- key: create-probe
+  position: 3
+  title:
+    en: Create the health probe
+    pt-BR: Criar o probe de integridade
+  instructions:
+    en: Create a TCP probe named `lab-probe` on port 80 with a 5-second interval.
+    pt-BR: Crie um probe TCP chamado `lab-probe` na porta 80 com intervalo de 5 segundos.
+  commands:
+  - label:
+      en: Create the probe
+      pt-BR: Criar o probe
+    language: bash
+    command: az network lb probe create --resource-group rg-az104-lab-lb --lb-name lab-lb --name lab-probe --protocol Tcp
+      --port 80 --interval 5
+  validation_hint:
+    en: The probe name, protocol and port are validated.
+    pt-BR: O nome, protocolo e porta do probe são validados.
+- key: verify
+  position: 4
+  title:
+    en: Verify the configuration
+    pt-BR: Verificar a configuração
+  instructions:
+    en: Show the Load Balancer SKU and probes before validating.
+    pt-BR: Mostre o SKU e os probes do Load Balancer antes de validar.
+  commands:
+  - label:
+      en: Show the Load Balancer
+      pt-BR: Mostrar o Load Balancer
+    language: bash
+    command: az network lb show --resource-group rg-az104-lab-lb --name lab-lb --query "{name:name,sku:sku.name,probes:properties.probes[].name}"
+      -o json
+  validation_hint:
+    en: The validator checks the probe through the Load Balancer properties.
+    pt-BR: O validador verifica o probe pelas propriedades do Load Balancer.
+checks:
+- key: public-ip-exists
+  position: 1
+  name:
+    en: Public IP exists
+    pt-BR: IP público existe
+  description:
+    en: The lab-lb-ip public IP must exist.
+    pt-BR: O IP público lab-lb-ip precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/publicIPAddresses
+    name: lab-lb-ip
+  required: true
+  weight: 1
+- key: public-ip-sku
+  position: 2
+  name:
+    en: Public IP is Standard
+    pt-BR: IP público é Standard
+  description:
+    en: The public IP must use the Standard SKU.
+    pt-BR: O IP público precisa usar o SKU Standard.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Network/publicIPAddresses
+    name: lab-lb-ip
+    path: sku.name
+    value: Standard
+  required: true
+  weight: 1
+- key: load-balancer-exists
+  position: 3
+  name:
+    en: Load Balancer exists
+    pt-BR: Load Balancer existe
+  description:
+    en: The lab-lb Load Balancer must exist.
+    pt-BR: O Load Balancer lab-lb precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/loadBalancers
+    name: lab-lb
+  required: true
+  weight: 1
+- key: load-balancer-sku
+  position: 4
+  name:
+    en: Load Balancer is Standard
+    pt-BR: Load Balancer é Standard
+  description:
+    en: The Load Balancer must use the Standard SKU.
+    pt-BR: O Load Balancer precisa usar o SKU Standard.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Network/loadBalancers
+    name: lab-lb
+    path: sku.name
+    value: Standard
+  required: true
+  weight: 1
+- key: load-balancer-probe-exists
+  position: 5
+  name:
+    en: Load Balancer probe exists
+    pt-BR: Probe do Load Balancer existe
+  description:
+    en: The lab-probe TCP probe on port 80 must exist.
+    pt-BR: O probe TCP lab-probe na porta 80 precisa existir.
+  check_type: load_balancer_probe_exists
+  config:
+    load_balancer_name: lab-lb
+    probe_name: lab-probe
+    protocol: Tcp
+    port: '80'
+  required: true
+  weight: 1
