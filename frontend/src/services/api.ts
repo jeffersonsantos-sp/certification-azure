@@ -20,10 +20,14 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const url = error.config?.url || ''
+    const isAuthRequest = url.includes('/auth/login') || url.includes('/auth/register')
+    if (error.response?.status === 401 && !isAuthRequest) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
-      window.location.href = '/login'
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(error)
   }
@@ -146,7 +150,121 @@ export const getMe = async (): Promise<User> => {
 export const logout = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('user')
-  window.location.href = '/login'
+}
+
+export type LocalizedString = Record<string, string>
+export type LocalizedList = Record<string, string[]>
+
+export type LabDifficulty = 'easy' | 'intermediate' | 'advanced'
+export type LabProgressStatus = 'not_started' | 'in_progress' | 'passed' | 'failed'
+
+export interface LabCommand {
+  label: LocalizedString
+  language: string
+  command: string
+}
+
+export interface LabProgress {
+  status: LabProgressStatus
+  started_at: string | null
+  completed_at: string | null
+  last_validated_at: string | null
+  best_score: number
+  total_steps: number
+  completed_steps: number
+  progress_percentage: number
+  all_steps_completed: boolean
+}
+
+export interface LabSummary {
+  id: string
+  slug: string
+  title: LocalizedString
+  description: LocalizedString
+  domain_id: string
+  skill_id: string
+  difficulty: LabDifficulty
+  estimated_minutes: number
+  resource_group_name: string
+  content_version: string
+  status: 'draft' | 'published'
+  sort_order: number
+  progress: LabProgress
+}
+
+export interface LabStep {
+  id: string
+  key: string
+  position: number
+  title: LocalizedString
+  instructions: LocalizedString
+  commands: LabCommand[]
+  validation_hint: LocalizedString | null
+  completed: boolean
+}
+
+export interface LabCheck {
+  id: string
+  key: string
+  position: number
+  name: LocalizedString
+  description: LocalizedString
+  check_type: string
+  required: boolean
+  weight: number
+}
+
+export interface LabDetail extends Omit<LabSummary, 'progress'> {
+  objectives: LocalizedList
+  prerequisites: LocalizedList
+  cost_warning: LocalizedString | null
+  cleanup_commands: LabCommand[]
+  steps: LabStep[]
+  checks: LabCheck[]
+  progress: LabProgress
+}
+
+export interface LabProgressSummary {
+  total_labs: number
+  labs_started: number
+  labs_in_progress: number
+  labs_passed: number
+  labs_failed: number
+  labs_not_started: number
+  total_steps: number
+  completed_steps: number
+  completion_percentage: number
+  best_score_average: number
+}
+
+// Labs API
+export const getLabs = async (): Promise<{ labs: LabSummary[]; count: number }> => {
+  const { data } = await api.get('/labs')
+  return data
+}
+
+export const getLab = async (slug: string): Promise<LabDetail> => {
+  const { data } = await api.get(`/labs/${slug}`)
+  return data
+}
+
+export const startLab = async (slug: string): Promise<LabProgress> => {
+  const { data } = await api.post(`/labs/${slug}/start`)
+  return data
+}
+
+export const updateLabStep = async (
+  slug: string,
+  stepId: string,
+  completed: boolean
+): Promise<LabProgress> => {
+  const { data } = await api.patch(`/labs/${slug}/steps/${stepId}`, { completed })
+  return data
+}
+
+export const getLabProgressSummary = async (): Promise<LabProgressSummary> => {
+  const { data } = await api.get('/labs/progress/summary')
+  return data
 }
 
 // Questions API

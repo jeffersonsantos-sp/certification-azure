@@ -1,10 +1,16 @@
-import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, NavLink, useNavigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 import Dashboard from './pages/Dashboard'
 import Practice from './pages/Practice'
 import MockExam from './pages/MockExam'
 import QuestionView from './pages/QuestionView'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Labs from './pages/Labs'
+import LabDetail from './pages/LabDetail'
+import RequireAuth from './components/RequireAuth'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import { LanguageProvider, useLanguage } from './context/LanguageContext'
 import { languages, Language } from './i18n'
 
@@ -54,6 +60,15 @@ function LanguageSelector() {
 
 function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { t } = useLanguage()
+  const { user, isAuthenticated, signOut } = useAuth()
+  const navigate = useNavigate()
+
+  const handleSignOut = () => {
+    signOut()
+    onClose()
+    navigate('/login')
+  }
+
   return (
     <div className={`fixed inset-0 z-50 md:hidden ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
       <div
@@ -87,6 +102,7 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
             {[
               { to: '/', icon: '📊', label: t('nav.dashboard') },
               { to: '/practice', icon: '📝', label: t('nav.practice') },
+              { to: '/labs', icon: '🧪', label: t('nav.labs') },
               { to: '/mock-exam', icon: '🎯', label: t('nav.mockExam') },
             ].map((item) => (
               <NavLink
@@ -109,6 +125,20 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 
           <div className="mt-6 pt-6 border-t border-gray-100">
             <LanguageSelector />
+            <div className="mt-4">
+              {isAuthenticated ? (
+                <div className="space-y-2">
+                  <p className="px-4 text-sm text-gray-500">{user?.full_name || user?.email}</p>
+                  <button onClick={handleSignOut} className="btn-secondary w-full">
+                    {t('header.logout')}
+                  </button>
+                </div>
+              ) : (
+                <NavLink to="/login" onClick={onClose} className="btn-primary w-full">
+                  {t('header.signIn')}
+                </NavLink>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -118,7 +148,14 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 
 function AppLayout() {
   const { t } = useLanguage()
+  const { user, isAuthenticated, signOut } = useAuth()
+  const navigate = useNavigate()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const handleSignOut = () => {
+    signOut()
+    navigate('/login')
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
@@ -151,6 +188,7 @@ function AppLayout() {
                 {[
                   { to: '/', label: t('nav.dashboard') },
                   { to: '/practice', label: t('nav.practice') },
+                  { to: '/labs', label: t('nav.labs') },
                   { to: '/mock-exam', label: t('nav.mockExam') },
                 ].map((item) => (
                   <NavLink
@@ -171,10 +209,28 @@ function AppLayout() {
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-full">
+              <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-full">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 <span className="text-sm font-semibold text-gray-700">78% {t('header.readiness')}</span>
               </div>
+
+              {isAuthenticated ? (
+                <div className="hidden sm:flex items-center gap-3">
+                  <span className="max-w-[160px] truncate text-sm font-medium text-gray-600">
+                    {user?.full_name || user?.email}
+                  </span>
+                  <button onClick={handleSignOut} className="btn-ghost px-3 py-2 rounded-lg text-sm font-medium">
+                    {t('header.logout')}
+                  </button>
+                </div>
+              ) : (
+                <NavLink
+                  to="/login"
+                  className="hidden sm:inline-flex btn-primary px-4 py-2 text-sm"
+                >
+                  {t('header.signIn')}
+                </NavLink>
+              )}
 
               <LanguageSelector />
             </div>
@@ -187,10 +243,28 @@ function AppLayout() {
       <main className="container-app py-8">
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="/practice/:domainId" element={<Practice />} />
           <Route path="/question/:questionId" element={<QuestionView />} />
           <Route path="/mock-exam" element={<MockExam />} />
+          <Route
+            path="/labs"
+            element={
+              <RequireAuth>
+                <Labs />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/labs/:slug"
+            element={
+              <RequireAuth>
+                <LabDetail />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </main>
 
@@ -222,11 +296,13 @@ function AppLayout() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <Router>
-          <AppLayout />
-        </Router>
-      </LanguageProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <Router>
+            <AppLayout />
+          </Router>
+        </LanguageProvider>
+      </AuthProvider>
     </QueryClientProvider>
   )
 }

@@ -1,0 +1,239 @@
+slug: networking-vnet-nsg
+title:
+  en: Create a Virtual Network with two subnets and an NSG
+  pt-BR: Criar uma Virtual Network com duas subnets e um NSG
+description:
+  en: Build a Virtual Network with two subnets and a Network Security Group that allows inbound SSH.
+  pt-BR: Crie uma Virtual Network com duas subnets e um Network Security Group que permite SSH de entrada.
+objectives:
+  en:
+    - Create a Virtual Network with the address space 10.0.0.0/16
+    - Create the web and app subnets
+    - Create a Network Security Group with an inbound SSH rule
+    - Associate the NSG with the web subnet
+  pt-BR:
+    - Criar uma Virtual Network com o espaço de endereço 10.0.0.0/16
+    - Criar as subnets web e app
+    - Criar um Network Security Group com uma regra de SSH de entrada
+    - Associar o NSG à subnet web
+prerequisites:
+  en:
+    - An Azure subscription where you can create networking resources
+    - Azure CLI authenticated with az login
+  pt-BR:
+    - Uma assinatura Azure na qual você possa criar recursos de rede
+    - Azure CLI autenticada com az login
+cost_warning:
+  en: Virtual Networks, subnets and NSGs do not add cost by themselves. Delete the resource group when you finish.
+  pt-BR: Virtual Networks, subnets e NSGs não geram custo por si só. Exclua o resource group ao terminar.
+cleanup_commands:
+  - label:
+      en: Delete the lab resource group
+      pt-BR: Excluir o resource group do laboratório
+    language: bash
+    command: az group delete --name rg-az104-lab-vnet --yes --no-wait
+domain_id: networking
+skill_id: vn-02
+difficulty: intermediate
+estimated_minutes: 25
+resource_group_name: rg-az104-lab-vnet
+content_version: "1"
+status: published
+sort_order: 20
+steps:
+  - key: create-resource-group
+    position: 1
+    title:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    instructions:
+      en: |
+        Create the resource group `rg-az104-lab-vnet` in the region you will use for the lab.
+      pt-BR: |
+        Crie o resource group `rg-az104-lab-vnet` na região que você vai usar no laboratório.
+    commands:
+      - label:
+          en: Create the resource group
+          pt-BR: Criar o resource group
+        language: bash
+        command: az group create --name rg-az104-lab-vnet --location eastus
+    validation_hint:
+      en: The Virtual Network must be in this resource group.
+      pt-BR: A Virtual Network precisa estar neste resource group.
+  - key: create-vnet
+    position: 2
+    title:
+      en: Create the Virtual Network and web subnet
+      pt-BR: Criar a Virtual Network e a subnet web
+    instructions:
+      en: |
+        Create a Virtual Network named `lab-vnet` with address space `10.0.0.0/16`
+        and the `web` subnet with prefix `10.0.0.0/24`.
+      pt-BR: |
+        Crie uma Virtual Network chamada `lab-vnet` com o espaço de endereço `10.0.0.0/16`
+        e a subnet `web` com o prefixo `10.0.0.0/24`.
+    commands:
+      - label:
+          en: Create the Virtual Network and web subnet
+          pt-BR: Criar a Virtual Network e a subnet web
+        language: bash
+        command: az network vnet create --resource-group rg-az104-lab-vnet --name lab-vnet --address-prefix 10.0.0.0/16 --subnet-name web --subnet-prefix 10.0.0.0/24
+    validation_hint:
+      en: Check both the VNet address space and the web subnet prefix.
+      pt-BR: Verifique tanto o espaço de endereço da VNet quanto o prefixo da subnet web.
+  - key: create-app-subnet
+    position: 3
+    title:
+      en: Create the app subnet
+      pt-BR: Criar a subnet app
+    instructions:
+      en: |
+        Create the `app` subnet with prefix `10.0.1.0/24` inside `lab-vnet`.
+      pt-BR: |
+        Crie a subnet `app` com o prefixo `10.0.1.0/24` dentro da `lab-vnet`.
+    commands:
+      - label:
+          en: Create the app subnet
+          pt-BR: Criar a subnet app
+        language: bash
+        command: az network vnet subnet create --resource-group rg-az104-lab-vnet --vnet-name lab-vnet --name app --address-prefix 10.0.1.0/24
+    validation_hint:
+      en: The app subnet must be inside the 10.0.0.0/16 address space.
+      pt-BR: A subnet app precisa estar dentro do espaço de endereço 10.0.0.0/16.
+  - key: create-nsg
+    position: 4
+    title:
+      en: Create the Network Security Group
+      pt-BR: Criar o Network Security Group
+    instructions:
+      en: |
+        Create a Network Security Group named `lab-nsg`.
+      pt-BR: |
+        Crie um Network Security Group chamado `lab-nsg`.
+    commands:
+      - label:
+          en: Create the NSG
+          pt-BR: Criar o NSG
+        language: bash
+        command: az network nsg create --resource-group rg-az104-lab-vnet --name lab-nsg
+    validation_hint:
+      en: You can use the Portal or Azure CLI to inspect the NSG rules.
+      pt-BR: Você pode usar o Portal ou o Azure CLI para inspecionar as regras do NSG.
+  - key: create-ssh-rule
+    position: 5
+    title:
+      en: Allow inbound SSH
+      pt-BR: Permitir SSH de entrada
+    instructions:
+      en: |
+        Create an inbound rule named `AllowSSH` that allows TCP port 22.
+      pt-BR: |
+        Crie uma regra de entrada chamada `AllowSSH` que permite TCP na porta 22.
+    commands:
+      - label:
+          en: Create the AllowSSH rule
+          pt-BR: Criar a regra AllowSSH
+        language: bash
+        command: az network nsg rule create --resource-group rg-az104-lab-vnet --nsg-name lab-nsg --name AllowSSH --priority 1000 --direction Inbound --access Allow --protocol Tcp --destination-port-ranges 22 --source-address-prefixes "*" --destination-address-prefixes "*"
+    validation_hint:
+      en: The rule must be inbound, allow, TCP, and destination port 22.
+      pt-BR: A regra precisa ser inbound, allow, TCP e porta de destino 22.
+  - key: associate-nsg
+    position: 6
+    title:
+      en: Associate the NSG with the web subnet
+      pt-BR: Associar o NSG à subnet web
+    instructions:
+      en: |
+        Associate `lab-nsg` with the `web` subnet to apply the rule to that subnet.
+      pt-BR: |
+        Associe o `lab-nsg` à subnet `web` para aplicar a regra nessa subnet.
+    commands:
+      - label:
+          en: Associate the NSG with the web subnet
+          pt-BR: Associar o NSG à subnet web
+        language: bash
+        command: az network vnet subnet update --resource-group rg-az104-lab-vnet --vnet-name lab-vnet --name web --network-security-group lab-nsg
+    validation_hint:
+      en: The validation checks the NSG rule; the association helps you understand effective security rules.
+      pt-BR: A validação verifica a regra do NSG; a associação ajuda a entender as regras de segurança efetivas.
+checks:
+  - key: vnet-exists
+    position: 1
+    name:
+      en: Virtual Network exists
+      pt-BR: Virtual Network existe
+    description:
+      en: The lab-vnet Virtual Network must exist in the lab resource group.
+      pt-BR: A Virtual Network lab-vnet precisa existir no resource group do laboratório.
+    check_type: resource_exists
+    config:
+      resource_type: Microsoft.Network/virtualNetworks
+      name: lab-vnet
+    required: true
+    weight: 1
+  - key: vnet-address-space
+    position: 2
+    name:
+      en: Address space is 10.0.0.0/16
+      pt-BR: Espaço de endereço é 10.0.0.0/16
+    description:
+      en: The Virtual Network address space must contain exactly 10.0.0.0/16.
+      pt-BR: O espaço de endereço da Virtual Network precisa conter exatamente 10.0.0.0/16.
+    check_type: property_equals
+    config:
+      resource_type: Microsoft.Network/virtualNetworks
+      name: lab-vnet
+      path: properties.addressSpace.addressPrefixes
+      value:
+        - 10.0.0.0/16
+    required: true
+    weight: 1
+  - key: web-subnet
+    position: 3
+    name:
+      en: Web subnet exists
+      pt-BR: Subnet web existe
+    description:
+      en: The web subnet must have prefix 10.0.0.0/24.
+      pt-BR: A subnet web precisa ter o prefixo 10.0.0.0/24.
+    check_type: subnet_exists
+    config:
+      vnet_name: lab-vnet
+      subnet_name: web
+      address_prefix: 10.0.0.0/24
+    required: true
+    weight: 1
+  - key: app-subnet
+    position: 4
+    name:
+      en: App subnet exists
+      pt-BR: Subnet app existe
+    description:
+      en: The app subnet must have prefix 10.0.1.0/24.
+      pt-BR: A subnet app precisa ter o prefixo 10.0.1.0/24.
+    check_type: subnet_exists
+    config:
+      vnet_name: lab-vnet
+      subnet_name: app
+      address_prefix: 10.0.1.0/24
+    required: true
+    weight: 1
+  - key: allow-ssh-rule
+    position: 5
+    name:
+      en: AllowSSH rule exists
+      pt-BR: Regra AllowSSH existe
+    description:
+      en: The lab-nsg NSG must allow inbound TCP port 22 with the rule AllowSSH.
+      pt-BR: O NSG lab-nsg precisa permitir TCP de entrada na porta 22 com a regra AllowSSH.
+    check_type: nsg_rule_exists
+    config:
+      nsg_name: lab-nsg
+      rule_name: AllowSSH
+      direction: Inbound
+      access: Allow
+      protocol: Tcp
+      destination_port: "22"
+    required: true
+    weight: 1

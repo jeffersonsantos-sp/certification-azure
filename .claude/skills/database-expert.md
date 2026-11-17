@@ -63,6 +63,20 @@ Hotspot region coordinates are percentages relative to the image:
 
 Use `scripts/migrate_advanced_formats.py` for existing databases. It is idempotent and converts legacy `varchar` answer columns to JSONB with `to_jsonb`.
 
+## Lab Schema
+
+The Azure labs feature adds:
+
+- `labs`: bilingual JSONB content, domain/skill links, difficulty, resource group, cleanup commands and status
+- `lab_steps`: unique `(lab_id, key)` with ordered bilingual instructions and commands
+- `lab_checks`: unique `(lab_id, key)` with typed validation config
+- `lab_progress`: unique `(user_id, lab_id)` status and best score
+- `lab_step_progress`: unique `(lab_progress_id, step_id)`
+- `lab_validation_runs`: JSONB check results and validation history
+- `azure_settings`: selected tenant/subscription metadata, never tokens
+
+`scripts/import_labs.py` reads `labs/*.yaml` and upserts using deterministic UUIDs based on lab/step/check keys, so re-imports are idempotent and preserve progress references.
+
 ## SQLAlchemy Patterns
 
 ### Model Definition

@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react'
-import { getStats, StatsResponse } from '../services/api'
+import { Link } from 'react-router-dom'
+import {
+  getLabProgressSummary,
+  getStats,
+  LabProgressSummary,
+  StatsResponse,
+} from '../services/api'
+import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../context/LanguageContext'
 
 export default function Dashboard() {
   const { t } = useLanguage()
+  const { isAuthenticated } = useAuth()
   const [stats, setStats] = useState<StatsResponse | null>(null)
+  const [labSummary, setLabSummary] = useState<LabProgressSummary | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -20,6 +29,17 @@ export default function Dashboard() {
     }
     fetchStats()
   }, [])
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setLabSummary(null)
+      return
+    }
+
+    getLabProgressSummary()
+      .then(setLabSummary)
+      .catch((err) => console.error('Failed to fetch lab progress:', err))
+  }, [isAuthenticated])
 
   const domainColors: Record<string, string> = {
     'identity-governance': '#0078D4',
@@ -139,7 +159,7 @@ export default function Dashboard() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <a href="/practice" className="card-elevated p-6 group cursor-pointer">
           <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-blue-500/20">
             <span className="text-2xl">📚</span>
@@ -155,6 +175,31 @@ export default function Dashboard() {
           <h3 className="text-lg font-bold text-gray-900 mb-1">{t('dashboard.mockExam')}</h3>
           <p className="text-sm text-gray-500">{t('dashboard.mockExamDesc')}</p>
         </a>
+
+        <Link to="/labs" className="card-elevated p-6 group cursor-pointer">
+          <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-sky-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-cyan-500/20">
+            <span className="text-2xl">🧪</span>
+          </div>
+          <h3 className="text-lg font-bold text-gray-900 mb-1">{t('dashboard.labs')}</h3>
+          <p className="text-sm text-gray-500">
+            {!isAuthenticated
+              ? t('dashboard.labsSignIn')
+              : labSummary
+                ? t('dashboard.labsCompletedSteps', {
+                    completed: labSummary.completed_steps,
+                    total: labSummary.total_steps,
+                  })
+                : t('dashboard.labsDesc')}
+          </p>
+          {isAuthenticated && labSummary && (
+            <div className="progress mt-4">
+              <div
+                className="progress-bar"
+                style={{ width: `${labSummary.completion_percentage}%` }}
+              />
+            </div>
+          )}
+        </Link>
 
         <div className="card-elevated p-6">
           <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/20">

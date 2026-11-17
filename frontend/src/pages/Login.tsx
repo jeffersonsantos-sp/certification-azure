@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../services/api'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../context/LanguageContext'
 
 export default function Login() {
   const { t } = useLanguage()
+  const { signIn } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname || '/'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -17,8 +20,8 @@ export default function Login() {
     setLoading(true)
 
     try {
-      await login({ email, password })
-      navigate('/')
+      await signIn({ email, password })
+      navigate(from, { replace: true })
     } catch (err: any) {
       setError(err.response?.data?.detail || t('login.loginFailed'))
     } finally {
@@ -90,17 +93,12 @@ export default function Login() {
 
           <div className="mt-6 text-center text-sm text-gray-500">
             {t('login.noAccount')}{' '}
-            <Link to="/register" className="font-semibold text-blue-600 hover:text-blue-700">
+            <Link to="/register" state={location.state} className="font-semibold text-blue-600 hover:text-blue-700">
               {t('login.signUp')}
             </Link>
           </div>
         </div>
 
-        <div className="mt-4 text-center">
-          <p className="text-xs text-gray-400">
-            {t('login.demoCreds')}
-          </p>
-        </div>
       </div>
     </div>
   )

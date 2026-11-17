@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api import auth, labs, questions
 from app.core.config import get_settings
-from app.api import questions, auth
 
 settings = get_settings()
 
@@ -22,6 +22,7 @@ app.add_middleware(
 
 app.include_router(questions.router, prefix="/api/v1")
 app.include_router(auth.router, prefix="/api/v1")
+app.include_router(labs.router, prefix="/api/v1")
 
 
 @app.get("/")
