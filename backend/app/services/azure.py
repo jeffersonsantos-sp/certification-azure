@@ -216,6 +216,90 @@ class AzureClient:
             allow_404=True,
         )
 
+    async def list_app_service_slots(
+        self,
+        subscription_id: str,
+        resource_group: str,
+        app_name: str,
+    ) -> list[dict]:
+        payload = await self._request(
+            "GET",
+            (
+                f"/subscriptions/{quote(subscription_id)}"
+                f"/resourceGroups/{quote(resource_group)}"
+                f"/providers/Microsoft.Web/sites/{quote(app_name)}/slots"
+            ),
+            params={"api-version": "2022-03-01"},
+        )
+        return payload.get("value", []) if payload else []
+
+    async def get_file_share(
+        self,
+        subscription_id: str,
+        resource_group: str,
+        account_name: str,
+        share_name: str,
+    ) -> dict | None:
+        return await self._request(
+            "GET",
+            (
+                f"/subscriptions/{quote(subscription_id)}"
+                f"/resourceGroups/{quote(resource_group)}"
+                f"/providers/Microsoft.Storage/storageAccounts/{quote(account_name)}"
+                f"/fileServices/default/shares/{quote(share_name)}"
+            ),
+            params={"api-version": "2023-01-01"},
+            allow_404=True,
+        )
+
+    async def get_route_table(
+        self,
+        subscription_id: str,
+        resource_group: str,
+        name: str,
+    ) -> dict | None:
+        return await self._request(
+            "GET",
+            (
+                f"/subscriptions/{quote(subscription_id)}"
+                f"/resourceGroups/{quote(resource_group)}"
+                f"/providers/Microsoft.Network/routeTables/{quote(name)}"
+            ),
+            params={"api-version": "2022-01-01"},
+            allow_404=True,
+        )
+
+    async def list_backup_protected_items(
+        self,
+        subscription_id: str,
+        resource_group: str,
+        vault_name: str,
+    ) -> list[dict]:
+        base_path = (
+            f"/subscriptions/{quote(subscription_id)}"
+            f"/resourceGroups/{quote(resource_group)}"
+            f"/providers/Microsoft.RecoveryServices/vaults/{quote(vault_name)}"
+            "/backupFabrics/Azure/protectionContainers"
+        )
+        payload = await self._request(
+            "GET",
+            base_path,
+            params={"api-version": "2023-01-01"},
+        )
+        items: list[dict] = []
+        for container in (payload or {}).get("value", []):
+            container_name = container.get("name")
+            if not container_name:
+                continue
+            protected = await self._request(
+                "GET",
+                f"{base_path}/{quote(str(container_name))}/protectedItems",
+                params={"api-version": "2023-01-01"},
+                allow_404=True,
+            )
+            items.extend((protected or {}).get("value", []))
+        return items
+
     async def get_role_definition_id(self, subscription_id: str, role_name: str) -> str | None:
         payload = await self._request(
             "GET",
@@ -323,6 +407,14 @@ class LabValidator:
             return await self._check_subnet_exists(config)
         if check_type == "nsg_rule_exists":
             return await self._check_nsg_rule_exists(config)
+        if check_type == "app_service_slot_exists":
+            return await self._check_app_service_slot_exists(config)
+        if check_type == "backup_protected_vm_exists":
+            return await self._check_backup_protected_vm_exists(config)
+        if check_type == "file_share_exists":
+            return await self._check_file_share_exists(config)
+        if check_type == "route_exists":
+            return await self._check_route_exists(config)
         if check_type == "group_role_assignment_exists":
             return await self._check_group_role_assignment_exists(config)
         if check_type == "policy_assignment_exists":
@@ -537,6 +629,125 @@ class LabValidator:
             f"{role_name} is not assigned to the signed-in user at resource group scope.",
             {},
         )
+
+    async def _check_app_service_slot_exists(self, config: dict) -> tuple[str, str, dict]:
+        app_prefix = str(config.get("app_name_prefix", ""))
+        slot_name = str(config.get("slot_name", ""))
+        apps = await self._matching_resources(
+            {"resource_type": "Microsoft.Web/sites", "name_prefix": app_prefix}
+        )
+        if not apps:
+            return "failed", "The web app for this slot was not found.", {}
+        for app in apps:
+            app_name = str(app.get("name", ""))
+            slots = await self.client.list_app_service_slots(
+                self.subscription_id,
+                self.resource_group,
+                app_name,
+            )
+            for slot in slots:
+                if str(slot.get("name", "")).lower() == slot_name.lower():
+                    return (
+                        "passed",
+                        f"Deployment slot {slot_name} exists on {app_name}.",
+                        {"slot_id": slot.get("id")},
+                    )
+        return "failed", f"Deployment slot {slot_name} was not found.", {}
+
+    async def _check_backup_protected_vm_exists(self, config: dict) -> tuple[str, str, dict]:
+        vault_prefix = str(config.get("vault_name_prefix", ""))
+        vm_name = str(config.get("vm_name", ""))
+        vaults = await self._matching_resources(
+            {
+                "resource_type": "Microsoft.RecoveryServices/vaults",
+                "name_prefix": vault_prefix,
+            }
+        )
+        if not vaults:
+            return "failed", "The Recovery Services vault was not found.", {}
+        for vault in vaults:
+            vault_name = str(vault.get("name", ""))
+            items = await self.client.list_backup_protected_items(
+                self.subscription_id,
+                self.resource_group,
+                vault_name,
+            )
+            for item in items:
+                properties = item.get("properties") or {}
+                virtual_machine_id = str(properties.get("virtualMachineId", ""))
+                friendly_name = str(properties.get("friendlyName", ""))
+                if vm_name.lower() in virtual_machine_id.lower() or (
+                    friendly_name and friendly_name.lower() == vm_name.lower()
+                ):
+                    return (
+                        "passed",
+                        f"VM {vm_name} is protected by {vault_name}.",
+                        {"protected_item_id": item.get("id")},
+                    )
+        return "failed", f"VM {vm_name} is not protected by a lab vault.", {}
+
+    async def _check_file_share_exists(self, config: dict) -> tuple[str, str, dict]:
+        share_name = str(config.get("name", ""))
+        account_prefix = str(
+            config.get("account_name_prefix", config.get("parent_name_prefix", ""))
+        )
+        quota = config.get("quota_gb")
+        accounts = await self._matching_resources(
+            {
+                "resource_type": "Microsoft.Storage/storageAccounts",
+                "name_prefix": account_prefix,
+            }
+        )
+        if not accounts:
+            return "failed", "The Storage Account for this file share was not found.", {}
+        for account in accounts:
+            account_name = str(account.get("name", ""))
+            share = await self.client.get_file_share(
+                self.subscription_id,
+                self.resource_group,
+                account_name,
+                share_name,
+            )
+            if share is None:
+                continue
+            properties = share.get("properties") or {}
+            if quota is not None and int(properties.get("shareQuota", -1)) != int(quota):
+                continue
+            return (
+                "passed",
+                f"File share {share_name} exists in {account_name}.",
+                {"resource_id": share.get("id")},
+            )
+        return "failed", f"File share {share_name} was not found.", {}
+
+    async def _check_route_exists(self, config: dict) -> tuple[str, str, dict]:
+        route_table_name = str(config.get("route_table_name", ""))
+        route_name = str(config.get("route_name", ""))
+        address_prefix = str(config.get("address_prefix", ""))
+        next_hop_type = config.get("next_hop_type")
+
+        table = await self.client.get_route_table(
+            self.subscription_id,
+            self.resource_group,
+            route_table_name,
+        )
+        if table is None:
+            return "failed", f"Route table {route_table_name} was not found.", {}
+        routes = (table.get("properties") or {}).get("routes") or []
+        for route in routes:
+            properties = route.get("properties") or {}
+            if route_name and str(route.get("name", "")).lower() != route_name.lower():
+                continue
+            if address_prefix and str(properties.get("addressPrefix", "")) != address_prefix:
+                continue
+            if next_hop_type and str(properties.get("nextHopType", "")).lower() != str(next_hop_type).lower():
+                continue
+            return (
+                "passed",
+                f"Route {route.get('name')} exists in {route_table_name}.",
+                {"route_id": route.get("id")},
+            )
+        return "failed", f"Route {route_name} was not found in {route_table_name}.", {}
 
     async def _check_group_role_assignment_exists(self, config: dict) -> tuple[str, str, dict]:
         role_name = str(config.get("role_definition_name", "Reader"))

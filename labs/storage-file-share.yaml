@@ -1,0 +1,175 @@
+slug: storage-file-share
+title:
+  en: Create an Azure Files share
+  pt-BR: Criar um compartilhamento Azure Files
+description:
+  en: Create a Storage Account and a 1 GiB Azure Files share named labshare.
+  pt-BR: Crie uma Storage Account e um compartilhamento Azure Files de 1 GiB chamado labshare.
+objectives:
+  en:
+  - Create a Storage Account
+  - Create a 1 GiB file share
+  - Verify the share via the control plane
+  pt-BR:
+  - Criar uma Storage Account
+  - Criar um compartilhamento de arquivos de 1 GiB
+  - Verificar o compartilhamento pelo control plane
+prerequisites:
+  en:
+  - A subscription where you can create storage accounts
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar storage accounts
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: A small file share usually costs very little. Delete the resource group after the lab.
+  pt-BR: Um compartilhamento pequeno costuma custar muito pouco. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-files --yes --no-wait
+domain_id: storage
+skill_id: st-03
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-files
+content_version: '1'
+status: published
+sort_order: 220
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-files`.
+    pt-BR: Crie `rg-az104-lab-files`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-files --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-files`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-files`, escolha **East US** e crie.
+- key: create-storage
+  position: 2
+  title:
+    en: Create the Storage Account
+    pt-BR: Criar a Storage Account
+  instructions:
+    en: Create `stfileslab<unique>` with Standard_LRS.
+    pt-BR: Crie `stfileslab<unique>` com Standard_LRS.
+  commands:
+  - label:
+      en: Create the Storage Account
+      pt-BR: Criar a Storage Account
+    language: bash
+    command: az storage account create --name stfileslab<unique> --resource-group rg-az104-lab-files --location eastus --sku
+      Standard_LRS --kind StorageV2 --tags Environment=Lab
+  portal_steps:
+    en:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-lab-files`, nomeie como `stfileslab<unique>` e use **Standard_LRS**.
+    - Adicione a tag `Environment=Lab` e crie.
+    pt-BR:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-lab-files`, nomeie como `stfileslab<unique>` e use **Standard_LRS**.
+    - Adicione a tag `Environment=Lab` e crie.
+- key: create-share
+  position: 3
+  title:
+    en: Create the file share
+    pt-BR: Criar o compartilhamento
+  instructions:
+    en: Create a 1 GiB file share named `labshare`.
+    pt-BR: Crie um compartilhamento de arquivos de 1 GiB chamado `labshare`.
+  commands:
+  - label:
+      en: Create the file share
+      pt-BR: Criar o compartilhamento
+    language: bash
+    command: az storage share create --name labshare --account-name stfileslab<unique> --quota 1
+  portal_steps:
+    en:
+    - Abra a Storage Account > **File shares** > **+ File share**.
+    - Informe `labshare` e defina a cota como `1` GiB.
+    - Clique em **Create**.
+    pt-BR:
+    - Abra a Storage Account > **File shares** > **+ File share**.
+    - Informe `labshare` e defina a cota como `1` GiB.
+    - Clique em **Create**.
+- key: verify
+  position: 4
+  title:
+    en: Verify the file share
+    pt-BR: Verificar o compartilhamento
+  instructions:
+    en: Confirm the share and its quota.
+    pt-BR: Confirme o compartilhamento e sua cota.
+  commands:
+  - label:
+      en: Show the file share
+      pt-BR: Mostrar o compartilhamento
+    language: bash
+    command: az storage share show --name labshare --account-name stfileslab<unique> --query "{name:name,quota:properties.shareQuota}"
+      -o json
+  portal_steps:
+    en:
+    - Abra a Storage Account > **File shares** e confirme `labshare` com cota de 1 GiB.
+    pt-BR:
+    - Abra a Storage Account > **File shares** e confirme `labshare` com cota de 1 GiB.
+checks:
+- key: storage-account-exists
+  position: 1
+  name:
+    en: Storage Account exists
+    pt-BR: Storage Account existe
+  description:
+    en: A Storage Account with stfileslab prefix must exist.
+    pt-BR: Uma Storage Account com o prefixo stfileslab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stfileslab
+  required: true
+  weight: 1
+- key: file-share-exists
+  position: 2
+  name:
+    en: File share exists
+    pt-BR: Compartilhamento existe
+  description:
+    en: A file share named labshare with 1 GiB quota must exist.
+    pt-BR: Um compartilhamento chamado labshare com cota de 1 GiB precisa existir.
+  check_type: file_share_exists
+  config:
+    name: labshare
+    account_name_prefix: stfileslab
+    quota_gb: 1
+  required: true
+  weight: 1
+- key: environment-tag
+  position: 3
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The Storage Account must have Environment=Lab.
+    pt-BR: A Storage Account precisa ter Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stfileslab
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1

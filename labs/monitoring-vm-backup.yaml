@@ -1,0 +1,215 @@
+slug: monitoring-vm-backup
+title:
+  en: Protect a VM with Recovery Services
+  pt-BR: Proteger uma VM com Recovery Services
+description:
+  en: Create a small VM and enable backup to a Recovery Services vault.
+  pt-BR: Crie uma VM pequena e ative o backup para um Recovery Services vault.
+objectives:
+  en:
+  - Create a VM and a Recovery Services vault
+  - Enable VM backup with the default policy
+  - Verify the protected VM
+  pt-BR:
+  - Criar uma VM e um Recovery Services vault
+  - Ativar backup da VM com a política padrão
+  - Verificar a VM protegida
+prerequisites:
+  en:
+  - A subscription where you can create VMs and Recovery Services vaults
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar VMs e Recovery Services vaults
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: The VM and backup storage may incur cost. Delete the resource group after the lab.
+  pt-BR: A VM e o armazenamento de backup podem gerar custo. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-vmbackup --yes --no-wait
+domain_id: monitoring
+skill_id: mn-02
+difficulty: advanced
+estimated_minutes: 30
+resource_group_name: rg-az104-lab-vmbackup
+content_version: '1'
+status: published
+sort_order: 210
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-vmbackup`.
+    pt-BR: Crie `rg-az104-lab-vmbackup`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-vmbackup --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-vmbackup`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-vmbackup`, escolha **East US** e crie.
+- key: create-vm-network
+  position: 2
+  title:
+    en: Create the VM network
+    pt-BR: Criar a rede da VM
+  instructions:
+    en: Create `backup-vnet` 10.70.0.0/16 with `default` 10.70.0.0/24.
+    pt-BR: Crie `backup-vnet` 10.70.0.0/16 com `default` 10.70.0.0/24.
+  commands:
+  - label:
+      en: Create the VNet
+      pt-BR: Criar a VNet
+    language: bash
+    command: az network vnet create --resource-group rg-az104-lab-vmbackup --name backup-vnet --address-prefix 10.70.0.0/16
+      --subnet-name default --subnet-prefix 10.70.0.0/24
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-vmbackup`, nomeie como `backup-vnet` e adicione `10.70.0.0/16` com subnet `default` `10.70.0.0/24`.
+    pt-BR:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-vmbackup`, nomeie como `backup-vnet` e adicione `10.70.0.0/16` com subnet `default` `10.70.0.0/24`.
+- key: create-vm
+  position: 3
+  title:
+    en: Create the VM
+    pt-BR: Criar a VM
+  instructions:
+    en: Create `backup-vm` with size Standard_B1s.
+    pt-BR: Crie `backup-vm` com tamanho Standard_B1s.
+  commands:
+  - label:
+      en: Create the VM
+      pt-BR: Criar a VM
+    language: bash
+    command: az vm create --resource-group rg-az104-lab-vmbackup --name backup-vm --image Ubuntu2204 --size Standard_B1s --admin-username
+      azureuser --generate-ssh-keys --vnet-name backup-vnet --subnet default
+  portal_steps:
+    en:
+    - Abra **Virtual machines** > **Create** > **Azure virtual machine**.
+    - Use `backup-vm`, imagem **Ubuntu Server 22.04 LTS** e tamanho `Standard_B1s`.
+    - Selecione `backup-vnet` e a subnet `default`, depois crie.
+    pt-BR:
+    - Abra **Virtual machines** > **Create** > **Azure virtual machine**.
+    - Use `backup-vm`, imagem **Ubuntu Server 22.04 LTS** e tamanho `Standard_B1s`.
+    - Selecione `backup-vnet` e a subnet `default`, depois crie.
+- key: create-vault
+  position: 4
+  title:
+    en: Create the vault
+    pt-BR: Criar o vault
+  instructions:
+    en: Create Recovery Services vault `rsv-lab-backup<unique>`.
+    pt-BR: Crie o vault `rsv-lab-backup<unique>`.
+  commands:
+  - label:
+      en: Create the vault
+      pt-BR: Criar o vault
+    language: bash
+    command: az backup vault create --resource-group rg-az104-lab-vmbackup --name rsv-lab-backup<unique> --location eastus
+  portal_steps:
+    en:
+    - Abra **Recovery Services vaults** > **Create**.
+    - Selecione `rg-az104-lab-vmbackup`, nomeie como `rsv-lab-backup<unique>` e escolha **East US**.
+    pt-BR:
+    - Abra **Recovery Services vaults** > **Create**.
+    - Selecione `rg-az104-lab-vmbackup`, nomeie como `rsv-lab-backup<unique>` e escolha **East US**.
+- key: enable-backup
+  position: 5
+  title:
+    en: Enable VM backup
+    pt-BR: Ativar backup da VM
+  instructions:
+    en: Enable backup for `backup-vm` using `DefaultPolicy`.
+    pt-BR: Ative o backup de `backup-vm` usando `DefaultPolicy`.
+  commands:
+  - label:
+      en: Enable backup
+      pt-BR: Ativar backup
+    language: bash
+    command: az backup protection enable-for-vm --resource-group rg-az104-lab-vmbackup --vault-name rsv-lab-backup<unique>
+      --vm backup-vm --policy-name DefaultPolicy
+  portal_steps:
+    en:
+    - Abra o vault > **Settings** > **Backup items** > **Azure Virtual Machine**.
+    - Clique em **Enable backup** e selecione `backup-vm`.
+    - Escolha a política `DefaultPolicy` e confirme.
+    pt-BR:
+    - Abra o vault > **Settings** > **Backup items** > **Azure Virtual Machine**.
+    - Clique em **Enable backup** e selecione `backup-vm`.
+    - Escolha a política `DefaultPolicy` e confirme.
+- key: verify
+  position: 6
+  title:
+    en: Verify backup protection
+    pt-BR: Verificar a proteção de backup
+  instructions:
+    en: Confirm that the VM appears as a protected item.
+    pt-BR: Confirme que a VM aparece como item protegido.
+  commands:
+  - label:
+      en: List protected items
+      pt-BR: Listar itens protegidos
+    language: bash
+    command: az backup protection list --resource-group rg-az104-lab-vmbackup --vault-name rsv-lab-backup<unique> -o table
+  portal_steps:
+    en:
+    - Abra o vault > **Backup items** > **Azure Virtual Machine** e confirme `backup-vm`.
+    pt-BR:
+    - Abra o vault > **Backup items** > **Azure Virtual Machine** e confirme `backup-vm`.
+checks:
+- key: vm-exists
+  position: 1
+  name:
+    en: VM exists
+    pt-BR: VM existe
+  description:
+    en: The backup-vm VM must exist.
+    pt-BR: A VM backup-vm precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Compute/virtualMachines
+    name: backup-vm
+  required: true
+  weight: 1
+- key: vault-exists
+  position: 2
+  name:
+    en: Recovery Services vault exists
+    pt-BR: Recovery Services vault existe
+  description:
+    en: A vault with rsv-lab-backup prefix must exist.
+    pt-BR: Um vault com o prefixo rsv-lab-backup precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.RecoveryServices/vaults
+    name_prefix: rsv-lab-backup
+  required: true
+  weight: 1
+- key: vm-protected
+  position: 3
+  name:
+    en: VM backup is enabled
+    pt-BR: Backup da VM está ativado
+  description:
+    en: The VM must be protected by the lab Recovery Services vault.
+    pt-BR: A VM precisa estar protegida pelo vault do laboratório.
+  check_type: backup_protected_vm_exists
+  config:
+    vault_name_prefix: rsv-lab-backup
+    vm_name: backup-vm
+  required: true
+  weight: 1

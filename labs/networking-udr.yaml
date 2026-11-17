@@ -1,0 +1,233 @@
+slug: networking-udr
+title:
+  en: Create a route table and route
+  pt-BR: Criar uma tabela de rotas e uma rota
+description:
+  en: Create a route table with an Internet route and associate it with a subnet.
+  pt-BR: Crie uma tabela de rotas com uma rota para a Internet e associe-a a uma subnet.
+objectives:
+  en:
+  - Create a route table
+  - Add a 0.0.0.0/0 Internet route
+  - Associate the route table with a subnet
+  pt-BR:
+  - Criar uma tabela de rotas
+  - Adicionar uma rota 0.0.0.0/0 para a Internet
+  - Associar a tabela de rotas a uma subnet
+prerequisites:
+  en:
+  - A subscription where you can create networking resources
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar recursos de rede
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: Route tables and routes do not add cost by themselves.
+  pt-BR: Tabelas de rotas e rotas não geram custo por si só.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-udr --yes --no-wait
+domain_id: networking
+skill_id: vn-01
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-udr
+content_version: '1'
+status: published
+sort_order: 230
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-udr`.
+    pt-BR: Crie `rg-az104-lab-udr`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-udr --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-udr`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-udr`, escolha **East US** e crie.
+- key: create-vnet
+  position: 2
+  title:
+    en: Create the VNet
+    pt-BR: Criar a VNet
+  instructions:
+    en: Create `udr-vnet` 10.80.0.0/16 with `default` 10.80.0.0/24.
+    pt-BR: Crie `udr-vnet` 10.80.0.0/16 com `default` 10.80.0.0/24.
+  commands:
+  - label:
+      en: Create the VNet
+      pt-BR: Criar a VNet
+    language: bash
+    command: az network vnet create --resource-group rg-az104-lab-udr --name udr-vnet --address-prefix 10.80.0.0/16 --subnet-name
+      default --subnet-prefix 10.80.0.0/24
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-udr`, nomeie como `udr-vnet` e adicione `10.80.0.0/16` com subnet `default` `10.80.0.0/24`.
+    pt-BR:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-udr`, nomeie como `udr-vnet` e adicione `10.80.0.0/16` com subnet `default` `10.80.0.0/24`.
+- key: create-route-table
+  position: 3
+  title:
+    en: Create the route table
+    pt-BR: Criar a tabela de rotas
+  instructions:
+    en: Create route table `lab-rt`.
+    pt-BR: Crie a tabela de rotas `lab-rt`.
+  commands:
+  - label:
+      en: Create the route table
+      pt-BR: Criar a tabela de rotas
+    language: bash
+    command: az network route-table create --resource-group rg-az104-lab-udr --name lab-rt
+  portal_steps:
+    en:
+    - Abra **Route tables** > **Create**.
+    - Selecione `rg-az104-lab-udr`, nomeie como `lab-rt` e crie.
+    pt-BR:
+    - Abra **Route tables** > **Create**.
+    - Selecione `rg-az104-lab-udr`, nomeie como `lab-rt` e crie.
+- key: create-route
+  position: 4
+  title:
+    en: Add the Internet route
+    pt-BR: Adicionar a rota para a Internet
+  instructions:
+    en: Add route `lab-route` for 0.0.0.0/0 with next hop Internet.
+    pt-BR: Adicione a rota `lab-route` para 0.0.0.0/0 com next hop Internet.
+  commands:
+  - label:
+      en: Create the route
+      pt-BR: Criar a rota
+    language: bash
+    command: az network route-table route create --resource-group rg-az104-lab-udr --route-table-name lab-rt --name lab-route
+      --address-prefix 0.0.0.0/0 --next-hop-type Internet
+  portal_steps:
+    en:
+    - Abra `lab-rt` > **Settings** > **Routes** > **Add**.
+    - Informe `lab-route`, prefixo `0.0.0.0/0` e **Next hop type** `Internet`.
+    - Clique em **Add**.
+    pt-BR:
+    - Abra `lab-rt` > **Settings** > **Routes** > **Add**.
+    - Informe `lab-route`, prefixo `0.0.0.0/0` e **Next hop type** `Internet`.
+    - Clique em **Add**.
+- key: associate
+  position: 5
+  title:
+    en: Associate the route table
+    pt-BR: Associar a tabela de rotas
+  instructions:
+    en: Associate `lab-rt` with the `default` subnet.
+    pt-BR: Associe `lab-rt` à subnet `default`.
+  commands:
+  - label:
+      en: Associate the route table
+      pt-BR: Associar a tabela de rotas
+    language: bash
+    command: az network vnet subnet update --resource-group rg-az104-lab-udr --vnet-name udr-vnet --name default --route-table
+      lab-rt
+  portal_steps:
+    en:
+    - Abra `udr-vnet` > **Subnets** > `default`.
+    - Em **Route table**, selecione `lab-rt` e salve.
+    pt-BR:
+    - Abra `udr-vnet` > **Subnets** > `default`.
+    - Em **Route table**, selecione `lab-rt` e salve.
+- key: verify
+  position: 6
+  title:
+    en: Verify the route
+    pt-BR: Verificar a rota
+  instructions:
+    en: Confirm the route and the subnet association.
+    pt-BR: Confirme a rota e a associação da subnet.
+  commands:
+  - label:
+      en: Show the route table
+      pt-BR: Mostrar a tabela de rotas
+    language: bash
+    command: az network route-table show --resource-group rg-az104-lab-udr --name lab-rt --query "{name:name,routes:properties.routes[].name,subnets:properties.subnets[].id}"
+      -o json
+  portal_steps:
+    en:
+    - Abra `lab-rt` > **Routes** e confirme `lab-route`.
+    - Abra `udr-vnet` > **Subnets** > `default` e confirme `lab-rt`.
+    pt-BR:
+    - Abra `lab-rt` > **Routes** e confirme `lab-route`.
+    - Abra `udr-vnet` > **Subnets** > `default` e confirme `lab-rt`.
+checks:
+- key: vnet-exists
+  position: 1
+  name:
+    en: Virtual Network exists
+    pt-BR: Virtual Network existe
+  description:
+    en: The udr-vnet must exist.
+    pt-BR: A udr-vnet precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: udr-vnet
+  required: true
+  weight: 1
+- key: route-table-exists
+  position: 2
+  name:
+    en: Route table exists
+    pt-BR: Tabela de rotas existe
+  description:
+    en: The lab-rt route table must exist.
+    pt-BR: A tabela de rotas lab-rt precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/routeTables
+    name: lab-rt
+  required: true
+  weight: 1
+- key: route-exists
+  position: 3
+  name:
+    en: Internet route exists
+    pt-BR: Rota para a Internet existe
+  description:
+    en: The lab-route 0.0.0.0/0 Internet route must exist.
+    pt-BR: A rota lab-route 0.0.0.0/0 para a Internet precisa existir.
+  check_type: route_exists
+  config:
+    route_table_name: lab-rt
+    route_name: lab-route
+    address_prefix: 0.0.0.0/0
+    next_hop_type: Internet
+  required: true
+  weight: 1
+- key: subnet-exists
+  position: 4
+  name:
+    en: Default subnet exists
+    pt-BR: Subnet default existe
+  description:
+    en: The default subnet with 10.80.0.0/24 must exist.
+    pt-BR: A subnet default com 10.80.0.0/24 precisa existir.
+  check_type: subnet_exists
+  config:
+    vnet_name: udr-vnet
+    subnet_name: default
+    address_prefix: 10.80.0.0/24
+  required: true
+  weight: 1

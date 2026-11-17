@@ -1,0 +1,197 @@
+slug: compute-container-registry
+title:
+  en: Create an Azure Container Registry
+  pt-BR: Criar um Azure Container Registry
+description:
+  en: Create an Azure Container Registry with admin user enabled and an Environment tag.
+  pt-BR: Crie um Azure Container Registry com usuário administrador ativado e a tag Environment.
+objectives:
+  en:
+  - Create a Basic container registry
+  - Enable the admin user
+  - Tag the registry with Environment=Lab
+  pt-BR:
+  - Criar um container registry Basic
+  - Ativar o usuário administrador
+  - Adicionar a tag Environment=Lab ao registry
+prerequisites:
+  en:
+  - A subscription where you can create container registries
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar container registries
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: A Basic registry may incur storage cost. Delete the resource group after the lab.
+  pt-BR: Um registry Basic pode gerar custo de armazenamento. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-acr --yes --no-wait
+domain_id: compute
+skill_id: cm-03
+difficulty: intermediate
+estimated_minutes: 15
+resource_group_name: rg-az104-lab-acr
+content_version: '1'
+status: published
+sort_order: 200
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-acr`.
+    pt-BR: Crie `rg-az104-lab-acr`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-acr --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-acr`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-acr`, escolha **East US** e crie.
+- key: create-registry
+  position: 2
+  title:
+    en: Create the registry
+    pt-BR: Criar o registry
+  instructions:
+    en: Create `acrlab<unique>` with SKU Basic and admin user enabled.
+    pt-BR: Crie `acrlab<unique>` com SKU Basic e usuário administrador ativado.
+  commands:
+  - label:
+      en: Create the registry
+      pt-BR: Criar o registry
+    language: bash
+    command: az acr create --name acrlab<unique> --resource-group rg-az104-lab-acr --location eastus --sku Basic --admin-enabled
+      true
+  portal_steps:
+    en:
+    - Abra **Container registries** > **Create**.
+    - Selecione `rg-az104-lab-acr`, nomeie como `acrlab<unique>` e escolha **East US**.
+    - Selecione SKU **Basic**.
+    - Em **Access keys**, marque **Admin user** como ativado e crie.
+    pt-BR:
+    - Abra **Container registries** > **Create**.
+    - Selecione `rg-az104-lab-acr`, nomeie como `acrlab<unique>` e escolha **East US**.
+    - Selecione SKU **Basic**.
+    - Em **Access keys**, marque **Admin user** como ativado e crie.
+- key: tag-registry
+  position: 3
+  title:
+    en: Tag the registry
+    pt-BR: Adicionar tag ao registry
+  instructions:
+    en: Add the tag Environment=Lab to the registry.
+    pt-BR: Adicione a tag Environment=Lab ao registry.
+  commands:
+  - label:
+      en: Tag the registry
+      pt-BR: Adicionar tag ao registry
+    language: bash
+    command: az resource tag --resource-group rg-az104-lab-acr --name acrlab<unique> --resource-type "Microsoft.ContainerRegistry/registries"
+      --tags Environment=Lab
+  portal_steps:
+    en:
+    - Abra o registry > **Tags** > **Adicionar**.
+    - Adicione `Environment=Lab` e salve.
+    pt-BR:
+    - Abra o registry > **Tags** > **Adicionar**.
+    - Adicione `Environment=Lab` e salve.
+- key: verify
+  position: 4
+  title:
+    en: Verify the registry
+    pt-BR: Verificar o registry
+  instructions:
+    en: Confirm the SKU, admin user and tags.
+    pt-BR: Confirme o SKU, o usuário administrador e as tags.
+  commands:
+  - label:
+      en: Show the registry
+      pt-BR: Mostrar o registry
+    language: bash
+    command: az acr show --name acrlab<unique> --resource-group rg-az104-lab-acr --query "{name:name,sku:sku.name,admin:adminUserEnabled,tags:tags}"
+      -o json
+  portal_steps:
+    en:
+    - Abra o registry > **Overview** e confirme o SKU.
+    - Em **Access keys**, confirme que **Admin user** está ativado.
+    - Em **Tags**, confirme `Environment=Lab`.
+    pt-BR:
+    - Abra o registry > **Overview** e confirme o SKU.
+    - Em **Access keys**, confirme que **Admin user** está ativado.
+    - Em **Tags**, confirme `Environment=Lab`.
+checks:
+- key: registry-exists
+  position: 1
+  name:
+    en: Container registry exists
+    pt-BR: Container registry existe
+  description:
+    en: A registry with acrlab prefix must exist.
+    pt-BR: Um registry com o prefixo acrlab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.ContainerRegistry/registries
+    name_prefix: acrlab
+  required: true
+  weight: 1
+- key: registry-sku
+  position: 2
+  name:
+    en: Registry SKU is Basic
+    pt-BR: SKU do registry é Basic
+  description:
+    en: The registry must use the Basic SKU.
+    pt-BR: O registry precisa usar o SKU Basic.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.ContainerRegistry/registries
+    name_prefix: acrlab
+    path: sku.name
+    value: Basic
+  required: true
+  weight: 1
+- key: admin-user-enabled
+  position: 3
+  name:
+    en: Admin user is enabled
+    pt-BR: Usuário administrador ativado
+  description:
+    en: The registry admin user must be enabled.
+    pt-BR: O usuário administrador do registry precisa estar ativado.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.ContainerRegistry/registries
+    name_prefix: acrlab
+    path: properties.adminUserEnabled
+    value: true
+  required: true
+  weight: 1
+- key: environment-tag
+  position: 4
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The registry must have Environment=Lab.
+    pt-BR: O registry precisa ter Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.ContainerRegistry/registries
+    name_prefix: acrlab
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1

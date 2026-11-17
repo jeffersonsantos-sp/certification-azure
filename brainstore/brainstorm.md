@@ -197,7 +197,7 @@ Adicionar uma aba de laboratórios guiados por assunto e validar automaticamente
 
 ### Escopo do MVP
 
-- 18 labs cobrindo todas as 15 skills AZ-104 em Identity & Governance, Networking, Storage, Compute e Monitoring, com instruções de Portal e Azure CLI em abas.
+- 23 labs cobrindo todas as 15 skills AZ-104 em Identity & Governance, Networking, Storage, Compute e Monitoring, com instruções de Portal e Azure CLI em abas.
 - 1 assinatura Azure por validação.
 - Leitura de recursos via Resource Graph e ARM.
 - Sem provisionamento automático.

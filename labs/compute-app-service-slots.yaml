@@ -1,0 +1,197 @@
+slug: compute-app-service-slots
+title:
+  en: Use App Service deployment slots
+  pt-BR: Usar slots de implantação do App Service
+description:
+  en: Create a web app, add a staging deployment slot and swap it to production.
+  pt-BR: Crie um web app, adicione um slot de implantação staging e faça o swap para produção.
+objectives:
+  en:
+  - Create a web app and a staging slot
+  - Swap staging into production
+  - Verify the slot and the swap
+  pt-BR:
+  - Criar um web app e um slot staging
+  - Fazer o swap de staging para produção
+  - Verificar o slot e o swap
+prerequisites:
+  en:
+  - A subscription where you can create App Service resources
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar recursos do App Service
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: The B1 plan may incur cost. Delete the resource group after the lab.
+  pt-BR: O plano B1 pode gerar custo. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-slots --yes --no-wait
+domain_id: compute
+skill_id: cm-04
+difficulty: intermediate
+estimated_minutes: 25
+resource_group_name: rg-az104-lab-slots
+content_version: '1'
+status: published
+sort_order: 190
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-slots`.
+    pt-BR: Crie `rg-az104-lab-slots`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-slots --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-slots`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-slots`, escolha **East US** e crie.
+- key: create-plan-app
+  position: 2
+  title:
+    en: Create the plan and web app
+    pt-BR: Criar o plan e o web app
+  instructions:
+    en: Create Linux plan `plan-slots` and web app `slots-app<unique>` with Node 20.
+    pt-BR: Crie o plan Linux `plan-slots` e o web app `slots-app<unique>` com Node 20.
+  commands:
+  - label:
+      en: Create the plan
+      pt-BR: Criar o plan
+    language: bash
+    command: az appservice plan create --resource-group rg-az104-lab-slots --name plan-slots --sku B1 --is-linux
+  - label:
+      en: Create the web app
+      pt-BR: Criar o web app
+    language: bash
+    command: az webapp create --resource-group rg-az104-lab-slots --plan plan-slots --name slots-app<unique> --runtime "NODE:20-lts"
+  portal_steps:
+    en:
+    - Abra **App Service plans** > **Create** e crie `plan-slots` com Linux e SKU **B1**.
+    - Abra **App Service** > **Create** > **Web App**.
+    - Selecione `rg-az104-lab-slots`, nomeie como `slots-app<unique>` e use runtime **Node 20 LTS** com o plan `plan-slots`.
+    pt-BR:
+    - Abra **App Service plans** > **Create** e crie `plan-slots` com Linux e SKU **B1**.
+    - Abra **App Service** > **Create** > **Web App**.
+    - Selecione `rg-az104-lab-slots`, nomeie como `slots-app<unique>` e use runtime **Node 20 LTS** com o plan `plan-slots`.
+- key: create-slot
+  position: 3
+  title:
+    en: Create the staging slot
+    pt-BR: Criar o slot staging
+  instructions:
+    en: Create a deployment slot named `staging`.
+    pt-BR: Crie um slot de implantação chamado `staging`.
+  commands:
+  - label:
+      en: Create the staging slot
+      pt-BR: Criar o slot staging
+    language: bash
+    command: az webapp deployment slot create --resource-group rg-az104-lab-slots --name slots-app<unique> --slot staging
+  portal_steps:
+    en:
+    - Abra o web app > **Deployment slots** > **Add Slot**.
+    - Informe `staging` e crie o slot.
+    pt-BR:
+    - Abra o web app > **Deployment slots** > **Add Slot**.
+    - Informe `staging` e crie o slot.
+- key: swap-slot
+  position: 4
+  title:
+    en: Swap staging to production
+    pt-BR: Fazer swap de staging para produção
+  instructions:
+    en: Swap the staging slot into the production slot.
+    pt-BR: Faça o swap do slot staging para o slot de produção.
+  commands:
+  - label:
+      en: Swap the slot
+      pt-BR: Fazer o swap
+    language: bash
+    command: az webapp deployment slot swap --resource-group rg-az104-lab-slots --name slots-app<unique> --slot staging --target-slot
+      production
+  portal_steps:
+    en:
+    - Abra o web app > **Deployment slots**.
+    - Selecione `staging` e clique em **Swap**.
+    - Defina **Target** como **production** e confirme.
+    pt-BR:
+    - Abra o web app > **Deployment slots**.
+    - Selecione `staging` e clique em **Swap**.
+    - Defina **Target** como **production** e confirme.
+- key: verify
+  position: 5
+  title:
+    en: Verify the slots
+    pt-BR: Verificar os slots
+  instructions:
+    en: Confirm that the staging slot exists.
+    pt-BR: Confirme que o slot staging existe.
+  commands:
+  - label:
+      en: List slots
+      pt-BR: Listar slots
+    language: bash
+    command: az webapp deployment slot list --resource-group rg-az104-lab-slots --name slots-app<unique> -o table
+  portal_steps:
+    en:
+    - Abra o web app > **Deployment slots** e confirme `staging` e `production`.
+    pt-BR:
+    - Abra o web app > **Deployment slots** e confirme `staging` e `production`.
+checks:
+- key: plan-exists
+  position: 1
+  name:
+    en: App Service plan exists
+    pt-BR: App Service plan existe
+  description:
+    en: The plan-slots plan must exist.
+    pt-BR: O plan plan-slots precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Web/serverFarms
+    name: plan-slots
+  required: true
+  weight: 1
+- key: webapp-exists
+  position: 2
+  name:
+    en: Web app exists
+    pt-BR: Web app existe
+  description:
+    en: A web app with slots-app prefix must exist.
+    pt-BR: Um web app com o prefixo slots-app precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Web/sites
+    name_prefix: slots-app
+  required: true
+  weight: 1
+- key: staging-slot-exists
+  position: 3
+  name:
+    en: Staging slot exists
+    pt-BR: Slot staging existe
+  description:
+    en: The web app must have a staging deployment slot.
+    pt-BR: O web app precisa ter um slot de implantação staging.
+  check_type: app_service_slot_exists
+  config:
+    app_name_prefix: slots-app
+    slot_name: staging
+  required: true
+  weight: 1
