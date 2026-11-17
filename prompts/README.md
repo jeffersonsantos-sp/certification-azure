@@ -370,3 +370,136 @@ Requirements:
 
 Return pytest tests with proper fixtures and mocking.
 ```
+
+---
+
+## Prompt de Autoria de Lab Azure
+
+```
+You are an Azure AZ-104 lab author.
+
+Create a new bilingual lab definition in YAML for the AZ-104 Trainer.
+
+Context:
+- Domain: {domain_id}
+- Skill: {skill_id}
+- Lab slug: {slug}
+- Resource group: {resource_group_name}
+- Difficulty: {difficulty}
+- Estimated minutes: {minutes}
+
+Requirements:
+1. Include `slug`, bilingual `title`, `description`, `objectives`, `prerequisites`,
+   `cost_warning`, `cleanup_commands`, domain/skill, difficulty, estimated time,
+   resource group, status `published` and `sort_order`.
+2. Write every `steps[]` item with:
+   - unique `key` and integer `position`
+   - bilingual `title` and `instructions` (`en`, `pt-BR`)
+   - `commands[]` with bilingual labels and valid Azure CLI commands
+   - `portal_steps` with step-by-step Portal do Azure instructions in both languages
+   - `validation_hint` when useful
+3. Write `checks[]` using only supported check types:
+   resource_exists, resource_count, property_equals, tag_equals,
+   role_assignment_exists, group_role_assignment_exists, nsg_rule_exists,
+   subnet_exists, policy_assignment_exists, resource_lock_exists,
+   virtual_network_peering_exists, load_balancer_probe_exists,
+   app_service_slot_exists, backup_protected_vm_exists, file_share_exists,
+   route_exists, manual.
+4. Use deterministic, descriptive keys for steps and checks.
+5. Keep Azure product names, resource types, SKUs, cmdlets and commands in English.
+6. Add cleanup via `az group delete --name <resource_group> --yes --no-wait`.
+7. Prefer low-cost resources and avoid Bastion, VPN Gateway, Application Gateway,
+   Premium SSD and high log ingestion.
+8. Return only valid YAML with no markdown fences or comments.
+```
+
+---
+
+## Prompt de Design de Check de Validação
+
+```
+Design validation checks for an AZ-104 Trainer lab.
+
+Lab: {lab_slug}
+Objective: {objective}
+Expected final state: {expected_state}
+
+Rules:
+1. Prefer control-plane checks via Resource Graph for top-level resources.
+2. Use ARM checks only for child resources or properties not available in Resource Graph.
+3. Use `property_equals` with the exact JSON path seen by Resource Graph
+   (for example `properties.minimumTlsVersion`, not the flattened CLI field).
+4. Use `tag_equals` for tags.
+5. Use `resource_count` with `min_count` when at least one matching resource is enough.
+6. Use `manual` only for checks that cannot be verified read-only.
+7. Mark critical checks as `required: true`; informational checks as `required: false`.
+8. Never require write access, secret values, data-plane access, or network connectivity.
+
+Return:
+{
+  "checks": [
+    {
+      "key": "...",
+      "check_type": "...",
+      "config": {},
+      "required": true,
+      "weight": 1,
+      "reason": "..."
+    }
+  ]
+}
+```
+
+---
+
+## Prompt de Tradução de Labs (EN → PT-BR)
+
+```
+Translate an AZ-104 Trainer lab definition from English to Brazilian Portuguese.
+
+Input YAML:
+{lab_yaml}
+
+Requirements:
+1. Translate only natural-language fields: title, description, objectives,
+   prerequisites, cost_warning, step titles, instructions, portal_steps,
+   validation_hint, check names and descriptions.
+2. Keep `slug`, keys, positions, resource group names, Azure resource names,
+   resource types, SKUs, CLI commands, Portal blade names and JSON paths unchanged.
+3. Keep Azure product names in canonical English, for example:
+   Resource groups, Virtual Networks, Storage Accounts, Load Balancers,
+   Recovery Services vaults, Application Insights, Microsoft Entra ID.
+4. Preserve placeholders such as `<unique>` and variables such as `$WORKSPACE_ID`.
+5. Do not add, remove or reorder steps/checks.
+6. Return only valid YAML.
+```
+
+---
+
+## Prompt de Revisão de Segurança de Labs
+
+```
+Review this AZ-104 Trainer lab for security and cost issues.
+
+Lab YAML:
+{lab_yaml}
+
+Check:
+1. No secrets, tokens, passwords, account keys or real tenant/client IDs.
+2. Validation checks are read-only and use only control-plane data.
+3. Resource group names follow the lab naming pattern.
+4. Cleanup command deletes the lab resource group.
+5. No expensive resources are required unless clearly warned.
+6. Portal and CLI instructions do not ask the student to disable security controls
+   except when the lab explicitly teaches that setting.
+7. Azure RBAC steps use least privilege.
+8. `correct_answer`-style sensitive data or internal secrets are never embedded.
+
+Return:
+{
+  "approved": true/false,
+  "issues": ["..."],
+  "suggested_fixes": ["..."],
+  "severity": "critical|warning|info"
+}
+```

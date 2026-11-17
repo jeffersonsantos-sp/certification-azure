@@ -120,6 +120,30 @@ Format-specific rules:
 - Hotspot questions need a valid image URL and percentage-based regions that match the image.
 - Keep `question_data` JSON-serializable and avoid embedding the correct answer in it.
 
+## Lab Coverage Map
+
+Use this map when linking questions to hands-on practice:
+
+| Skill | Labs |
+|---|---|
+| ig-01 Manage Microsoft Entra users and groups | `identity-entra-users-groups` |
+| ig-02 Manage access to Azure resources | `identity-rbac-reader` |
+| ig-03 Manage Azure subscriptions and governance | `identity-governance-policy` |
+| st-01 Configure access to storage | `storage-access-controls` |
+| st-02 Configure and manage storage accounts | `storage-redundancy-encryption` |
+| st-03 Configure Azure Files and Blob Storage | `storage-blob-container`, `storage-file-share` |
+| cm-01 Automate deployment with ARM/Bicep | `compute-arm-deployment` |
+| cm-02 Create and configure virtual machines | `compute-vm`, `compute-vm-disks-availability` |
+| cm-03 Provision and manage containers | `compute-aci`, `compute-container-registry` |
+| cm-04 Create and configure App Service | `compute-app-service`, `compute-app-service-slots` |
+| vn-01 Configure and manage virtual networks | `networking-vnet-peering`, `networking-udr` |
+| vn-02 Configure secure access | `networking-vnet-nsg` |
+| vn-03 Configure name resolution and load balancing | `networking-load-balancer`, `networking-private-endpoint` |
+| mn-01 Monitor resources in Azure | `monitoring-observability`, `monitoring-metric-alerts` |
+| mn-02 Implement backup and recovery | `monitoring-backup`, `monitoring-vm-backup` |
+
+All labs include Portal + Azure CLI instructions in EN/PT-BR and read-only validation checks.
+
 ## Usage
 When generating questions or explanations, ensure:
 1. Use current terminology (Microsoft Entra ID, not Azure AD)

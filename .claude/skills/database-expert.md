@@ -68,14 +68,25 @@ Use `scripts/migrate_advanced_formats.py` for existing databases. It is idempote
 The Azure labs feature adds:
 
 - `labs`: bilingual JSONB content, domain/skill links, difficulty, resource group, cleanup commands and status
-- `lab_steps`: unique `(lab_id, key)` with ordered bilingual instructions and commands
-- `lab_checks`: unique `(lab_id, key)` with typed validation config
+- `lab_steps`: unique `(lab_id, key)` with ordered bilingual instructions, `portal_steps` (Portal do Azure) and CLI `commands`
+- `lab_checks`: unique `(lab_id, key)` with typed validation config and JSONB result config
 - `lab_progress`: unique `(user_id, lab_id)` status and best score
 - `lab_step_progress`: unique `(lab_progress_id, step_id)`
 - `lab_validation_runs`: JSONB check results and validation history
 - `azure_settings`: selected tenant/subscription metadata, never tokens
 
 `scripts/import_labs.py` reads `labs/*.yaml` and upserts using deterministic UUIDs based on lab/step/check keys, so re-imports are idempotent and preserve progress references.
+
+Lab check types currently supported: `resource_exists`, `resource_count`, `property_equals`, `tag_equals`, `role_assignment_exists`, `group_role_assignment_exists`, `nsg_rule_exists`, `subnet_exists`, `policy_assignment_exists`, `resource_lock_exists`, `virtual_network_peering_exists`, `load_balancer_probe_exists`, `app_service_slot_exists`, `backup_protected_vm_exists`, `file_share_exists`, `route_exists`, `manual`.
+
+For existing databases, run:
+
+```bash
+python scripts/migrate_advanced_formats.py
+python scripts/migrate_lab_checks.py
+python scripts/migrate_lab_portal_steps.py
+python scripts/import_labs.py
+```
 
 ## SQLAlchemy Patterns
 

@@ -2,7 +2,7 @@
 
 # ☁️ AZ-104 Trainer
 
-### Intelligent Web Platform for Microsoft Azure Administrator Associate Certification
+### Plataforma completa de preparação para a certificação Microsoft Azure Administrator Associate (AZ-104)
 
 ![Azure](https://img.shields.io/badge/Microsoft%20Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)
@@ -12,7 +12,6 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![Docker Hub](https://img.shields.io/badge/Docker%20Hub-updateinformatica-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
@@ -20,787 +19,697 @@
 
 ---
 
-## 📋 Table of Contents
+## 📋 Índice
 
-- [Screenshots](#-screenshots)
-- [About](#-about)
-- [Key Features](#-key-features)
-- [Advanced Question Formats](#-advanced-question-formats)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#-architecture)
-- [Project Structure](#-project-structure)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Running the Application](#-running-the-application)
-- [API Documentation](#-api-documentation)
-- [AZ-104 Certification Domains](#-az-104-certification-domains)
-- [AI Question Generation](#-ai-question-generation)
-- [Azure Labs](#-azure-labs)
-- [Internationalization](#-internationalization)
-- [Skills & Prompts](#-skills--prompts)
-- [Contributing](#-contributing)
-- [Author](#-author)
-
----
-
-## 📸 Screenshots
-
-### Dashboard
-![Dashboard](image/1.png)
-
-### Practice Mode
-![Practice Mode](image/2.png)
-
-### Mock Exam
-![Mock Exam](image/3.png)
+- [Visão geral](#-visão-geral)
+- [O que existe no projeto](#-o-que-existe-no-projeto)
+- [Stack tecnológica](#-stack-tecnológica)
+- [Arquitetura](#-arquitetura)
+- [Estrutura do projeto](#-estrutura-do-projeto)
+- [Pré-requisitos](#-pré-requisitos)
+- [Instalação](#-instalação)
+- [Configuração](#-configuração)
+- [Como acessar e usar](#-como-acessar-e-usar)
+- [Laboratórios Azure](#-laboratórios-azure)
+- [Importação e migrações](#-importação-e-migrações)
+- [API](#-api)
+- [Segurança](#-segurança)
+- [Prompts e Skills](#-prompts-e-skills)
+- [Internacionalização](#-internacionalização)
+- [Comandos úteis](#-comandos-úteis)
+- [Roadmap](#-roadmap)
+- [Contribuindo](#-contribuindo)
 
 ---
 
-## 🎯 About
+## 🎯 Visão geral
 
-**AZ-104 Trainer** is a full-stack web application designed to help IT professionals prepare for the **Microsoft Azure Administrator Associate (AZ-104)** certification exam.
+O **AZ-104 Trainer** é uma aplicação web full-stack para estudar para o exame **Microsoft Azure Administrator Associate (AZ-104)**.
 
-This platform goes beyond a traditional question bank by providing:
+Ele combina:
 
-- **411 approved questions** across 5 certification domains
-- **Five question formats**, including multiple choice, case study, drag-and-drop, and hotspot
-- **Detailed explanations** for every answer
-- **Mock Exams** that simulate the real certification experience
-- **Performance Analytics** with domain-specific insights
-- **Internationalization (i18n)** supporting English and Portuguese (PT-BR)
+- Banco de questões com explicações e formatos avançados.
+- Modo prática e simulado cronometrado.
+- Dashboard de desempenho por domínio.
+- Suporte completo a **EN** e **PT-BR**.
+- **23 laboratórios Azure** bilíngues, com instruções práticas via **Portal do Azure** e **Azure CLI**.
+- Validação automática **read-only** dos recursos criados no Azure.
+- Login/registro de usuários e progresso persistido por usuário.
+- Segurança com varredura de segredos no commit e no CI.
 
-The project demonstrates practical skills in **Cloud Architecture**, **DevOps**, **Full-Stack Development**, and **AI Integration**.
+Repositório:
 
----
-
-## ✨ Key Features
-
-### 📝 Question Bank
-- 411 approved questions
-- Organized by 5 AZ-104 certification domains
-- Multiple difficulty levels (Easy, Intermediate, Advanced)
-- Detailed explanations for every answer
-- Tags and references to official documentation
-
-### 🎯 Practice Mode
-- Study by domain with targeted questions
-- Choose difficulty level
-- Select number of questions (5-30)
-- Learning mode (see answers immediately) or Exam mode (answers at the end)
-- Real-time score tracking
-- Server-side scoring with optional authenticated answer history
-
-### 🧩 Advanced Question Formats
-- Single choice, multiple choice, case study, drag-and-drop, and hotspot questions
-- JSONB-backed `question_type`, `question_data`, `correct_answer`, and `selected_answer`
-- Type-aware rendering in Practice, Mock Exam, and single-question view
-- Hotspot diagrams served as static assets and drag-and-drop ordering with keyboard controls
-- Bulk exam scoring through `POST /api/v1/questions/submit-exam`
-- Includes one validated example of each advanced format; additional questions can be generated with the prompts and imported with `scripts/import_questions.py`
-
-### 🧪 Mock Exam
-- Timed exams (60/90/120 minutes)
-- Configurable number of questions (40/50/60)
-- Randomized question order
-- Question navigator for easy navigation
-- Detailed performance breakdown by skill
-- Pass/fail scoring (70% threshold)
-
-### 📊 Performance Dashboard
-- Question bank totals
-- Domain-specific progress bars
-- Approved questions count
-- Quick action buttons for Practice and Mock Exam
-
-### 🌍 Bilingual Support (i18n)
-- Full EN/PT-BR support for the interface
-- Independent **question language** selector (EN/PT-BR)
-- Question language toggle available in Practice, Mock Exam, and Question View
-- On-demand translation of questions, options, explanations, and difficulty labels
-- PT-BR UI labels for advanced-format controls
-- Azure resource names remain in English with canonical casing (for example, `Virtual Networks`, not `Redes Virtuais`)
-- CLI commands, cmdlets, and code snippets are preserved during translation
-- Google Translate as primary provider with MyMemory fallback
-- Two-level translation cache (in-memory + `localStorage`)
-- Persistent language preferences (`localStorage`)
+```bash
+git clone git@github.com:jeffersonsantos-sp/certification-azure.git
+cd certification-azure
+```
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ O que existe no projeto
+
+### Banco de questões
+
+- Banco atual com **546 questões aprovadas** (número dinâmico: `GET /api/v1/questions/stats`).
+- 5 domínios oficiais do AZ-104.
+- 3 níveis de dificuldade: `easy`, `intermediate`, `advanced`.
+- 5 formatos:
+  - `single_choice`
+  - `multiple_choice`
+  - `case_study`
+  - `drag_drop`
+  - `hotspot`
+- Explicações detalhadas e referências para documentação oficial.
+- Leitura sanitizada: `correct_answer`, `explanation` e `is_correct` não vazam em endpoints de consulta.
+
+### Prática e simulado
+
+- Practice por domínio/skill, dificuldade e quantidade de questões.
+- Modo aprendizado (feedback imediato) e modo prova.
+- Simulado com 40/50/60 questões e cronômetro de 60/90/120 minutos.
+- Correção no servidor, com histórico opcional quando o usuário está autenticado.
+- Relatório por domínio e skill.
+
+### Laboratórios Azure
+
+- **23 labs** cobrindo **todas as 15 skills** do AZ-104.
+- **101 passos** e **99 checks** automatizados.
+- Cada passo traz abas **Portal** e **Azure CLI**, nos idiomas EN e PT-BR.
+- Validação automática via **Azure Resource Graph + ARM**, sem modificar recursos.
+- Progresso por usuário, melhor score, histórico de validações e marcação automática de passos após aprovação.
+- Tokens Azure nunca são gravados no banco.
+
+### Internacionalização
+
+- Interface em inglês e português.
+- Idioma da interface e idioma das questões são independentes.
+- Nomes de produtos Azure, cmdlets, comandos CLI e acrônimos permanecem em inglês com grafia canônica.
+- Tradução sob demanda com cache em memória e `localStorage`.
+
+---
+
+## 🛠️ Stack tecnológica
 
 ### Frontend
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| React | 18.2 | UI Framework |
-| TypeScript | 5.9 | Type Safety |
-| Tailwind CSS | 3.4 | Styling |
-| Vite | 5.0 | Build Tool |
-| React Router | 6.21 | Routing |
-| Axios | 1.6 | HTTP Client |
-| Recharts | 2.10 | Charts |
+
+| Tecnologia | Uso |
+|---|---|
+| React 18 | UI |
+| TypeScript | Tipagem |
+| Tailwind CSS | Estilização |
+| Vite | Build e dev server |
+| React Router | Rotas |
+| Axios | Cliente HTTP |
+| Recharts | Gráficos |
+| MSAL Browser | OAuth com Microsoft Entra ID |
 
 ### Backend
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| Python | 3.11 | Runtime |
-| FastAPI | 0.109+ | API Framework |
-| SQLAlchemy | 2.0 | ORM |
-| Alembic | 1.13 | Migrations |
-| Pydantic | 2.0 | Data Validation |
 
-### Database & Cache
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| PostgreSQL | 16 | Primary Database |
-| Redis | 7 | Caching & Sessions |
+| Tecnologia | Uso |
+|---|---|
+| Python 3.11 | Runtime |
+| FastAPI | API REST |
+| SQLAlchemy 2.0 | ORM assíncrono |
+| Alembic | Base de migrações |
+| Pydantic | Validação |
+| httpx | Chamadas ARM/Resource Graph |
 
-### DevOps
-| Technology | Purpose |
-|------------|---------|
-| Docker | Containerization |
-| Docker Compose | Multi-container Orchestration |
-| Nginx | Frontend Serving & Reverse Proxy |
+### Infraestrutura
 
----
-
-## 🏗️ Architecture
-
-```
-                    ┌─────────────────────────────────┐
-                    │           USUÁRIO               │
-                    │        Navegador Web            │
-                    └───────────────┬─────────────────┘
-                                    │
-                                    ▼
-                    ┌─────────────────────────────────┐
-                    │        FRONTEND (React)         │
-                    │      Porta: 3000 (Nginx)        │
-                    └───────────────┬─────────────────┘
-                                    │
-                                    ▼
-                    ┌─────────────────────────────────┐
-                    │       BACKEND (FastAPI)         │
-                    │        Porta: 8000              │
-                    └───────┬───────────────┬─────────┘
-                            │               │
-                ┌───────────┴───┐   ┌───────┴─────────┐
-                ▼               ▼   ▼                  ▼
-        ┌──────────────┐ ┌──────────────┐    ┌────────────────────┐
-        │  PostgreSQL  │ │    Redis     │    │  Translation APIs  │
-        │   (Dados)    │ │   (Cache)    │    │ (Google/MyMemory)  │
-        │  Porta: 5432 │ │  Porta: 6379 │    │                    │
-        └──────────────┘ └──────────────┘    └────────────────────┘
-```
+| Tecnologia | Uso |
+|---|---|
+| PostgreSQL 16 | Dados |
+| Redis 7 | Cache |
+| Docker + Compose | Orquestração local |
+| Nginx | Serviço do frontend |
+| GitHub Actions | CI de secret scan |
 
 ---
 
-## 📁 Project Structure
+## 🏗️ Arquitetura
 
+```text
+Navegador
+   |
+   | HTTPS local
+   v
+Frontend React (Nginx)  :3000
+   |  /api/v1
+   v
+Backend FastAPI        :8000  ---- Azure Resource Manager / Resource Graph
+   |                                 (token Azure curto, somente leitura)
+   +--> PostgreSQL     :5432
+   +--> Redis          :6379
 ```
+
+Fluxo de autenticação dos labs:
+
+1. O usuário entra no app com e-mail/senha e recebe um JWT da aplicação.
+2. No detalhe do lab, clica em **Conectar ao Azure**.
+3. O MSAL abre um popup de login Microsoft e obtém um token delegado para `https://management.azure.com/user_impersonation`.
+4. O frontend envia esse token ao backend no header `X-Azure-Authorization`.
+5. O backend valida claims (`tid`, `oid`, `exp`), aplica allowlists e executa checks read-only.
+
+---
+
+## 📁 Estrutura do projeto
+
+```text
 certification-azure/
-│
-├── frontend/                          # React Frontend
+├── frontend/
 │   ├── src/
-│   │   ├── components/               # Reusable components
-│   │   │   ├── QuestionContent.tsx   # Renders all question formats
-│   │   │   ├── QuestionLanguageToggle.tsx  # EN/PT-BR question selector
-│   │   │   └── RequireAuth.tsx       # Protected route wrapper
-│   │   ├── context/                  # React contexts
-│   │   │   ├── AuthContext.tsx       # Login state and user session
-│   │   │   └── LanguageContext.tsx   # UI + question language state
-│   │   ├── i18n/                     # Internationalization
-│   │   │   ├── en.ts                 # English translations
-│   │   │   ├── pt.ts                 # Portuguese translations
-│   │   │   ├── questions.ts          # Question translation engine
-│   │   │   └── index.ts              # i18n utilities
-│   │   ├── pages/                    # Page components
-│   │   │   ├── Dashboard.tsx         # Main dashboard
-│   │   │   ├── Practice.tsx          # Practice mode
-│   │   │   ├── MockExam.tsx          # Mock exam mode
-│   │   │   ├── QuestionView.tsx      # Single question view
-│   │   │   ├── Login.tsx             # Sign in
-│   │   │   ├── Register.tsx          # Sign up
-│   │   │   ├── Labs.tsx              # Lab catalog and progress
-│   │   │   └── LabDetail.tsx         # Lab steps and commands
-│   │   ├── services/                 # API services
-│   │   │   └── api.ts                # Axios API client and answer/lab types
-│   │   ├── utils/
-│   │   │   ├── answers.ts            # Answer formatting for reviews
-│   │   │   └── domains.ts            # Domain labels and colors
-│   │   ├── App.tsx                   # Main app with routing
-│   │   ├── main.tsx                  # Entry point
-│   │   └── index.css                 # Global styles
-│   ├── public/
-│   │   └── hotspot-storage.svg       # Hotspot question diagram
-│   ├── Dockerfile                    # Multi-stage Docker build
-│   ├── nginx.conf                    # Nginx configuration
-│   └── package.json                  # Node.js dependencies
-│
-├── backend/                           # FastAPI Backend
-│   ├── app/
-│   │   ├── api/                      # API routes
-│   │   │   ├── auth.py               # Authentication endpoints
-│   │   │   ├── labs.py               # Labs, progress and step endpoints
-│   │   │   └── questions.py          # Questions endpoints
-│   │   ├── core/                     # Core configuration
-│   │   │   ├── config.py             # App settings
-│   │   │   └── database.py           # Database connection
-│   │   ├── models/                   # SQLAlchemy models
-│   │   │   └── models.py             # Questions, users, labs, progress
-│   │   └── main.py                   # FastAPI app entry
-│   ├── questions/                    # Question data (JSON)
-│   ├── Dockerfile                    # Backend Docker image
-│   └── requirements.txt              # Python dependencies
-│
-├── scripts/                           # Utility scripts
-│   ├── generate.py                   # AI question generation
-│   ├── generate-batch.sh             # Batch generation script
-│   ├── import_labs.py                # Bilingual lab importer
-│   ├── import_questions.py           # Question importer
-│   ├── migrate_advanced_formats.py   # JSONB/advanced format migration
-│   ├── seed_advanced_formats.py      # Example advanced questions
-│   └── validate.py                   # Question validator
-│
-├── labs/                              # Bilingual Azure lab definitions
-│   ├── identity-rbac-reader.yaml
-│   ├── networking-vnet-nsg.yaml
-│   └── storage-blob-container.yaml
-│
-├── skills-measured/                   # AZ-104 exam data
-│   ├── az104-skills.json             # Official skills breakdown
-│   └── PIPELINE.md                   # Generation pipeline docs
-│
-├── questions/                         # Generated questions
-│   └── drafts/                       # Draft questions by domain
-│
-├── .opencode/                         # OpenCode AI Skills
-│   ├── config.json                   # Project configuration
-│   └── skills/                       # AI assistant skills
-│       ├── question-generator.md     # Question generation skill
-│       ├── code-reviewer.md          # Code review skill
-│       ├── docker-expert.md          # Docker expertise
-│       ├── api-designer.md           # API design skill
-│       └── frontend-builder.md       # Frontend development
-│
-├── .claude/                           # Claude AI Skills
-│   ├── CLAUDE.md                     # Project context for Claude
-│   └── skills/                       # Claude-specific skills
-│       ├── az104-domain-expert.md    # AZ-104 domain knowledge
-│       └── database-expert.md        # Database expertise
-│
-├── brainstore/                        # Brainstorm Documents
-│   └── brainstorm.md                 # Project planning & decisions
-│
-├── prompts/                           # AI Prompts
-│   └── README.md                     # Collection of AI prompts
-│
-├── image/                             # Project Screenshots
-│   ├── 1.png                         # Dashboard screenshot
-│   ├── 2.png                         # Practice mode screenshot
-│   └── 3.png                         # Mock exam screenshot
-│
-├── docker-compose.yml                 # Multi-container setup
-├── .env.example                       # Environment template
-├── .gitignore                         # Git ignore rules
-└── README.md                          # This file
+│   │   ├── azure/                 # Config MSAL e instância do cliente
+│   │   ├── components/            # CommandList, StepMethodTabs, RequireAuth, etc.
+│   │   ├── context/               # AuthContext, AzureContext, LanguageContext
+│   │   ├── i18n/                  # en.ts, pt.ts, questions.ts, azureTerms.ts
+│   │   ├── pages/                 # Dashboard, Practice, MockExam, Labs, LabDetail, etc.
+│   │   ├── services/api.ts        # Cliente Axios + tipos
+│   │   └── utils/                 #_domains, answers
+│   ├── Dockerfile
+│   └── nginx.conf
+├── backend/
+│   └── app/
+│       ├── api/                   # auth.py, questions.py, labs.py, azure.py
+│       ├── core/                  # config.py, database.py, azure.py
+│       ├── models/models.py       # Todas as tabelas
+│       ├── services/azure.py      # AzureClient + LabValidator
+│       └── main.py
+├── labs/                          # 23 arquivos YAML bilíngues
+├── scripts/                       # Importadores, migrações e scanner de segredos
+├── prompts/README.md              # Prompts de IA
+├── .claude/                       # CLAUDE.md + skills
+├── .opencode/skills/              # Skills do OpenCode
+├── .github/workflows/             # CI de secret scan
+├── brainstore/brainstorm.md       # Planejamento e decisões
+├── docker-compose.yml
+├── .env.example
+└── README.md
 ```
 
 ---
 
-## ⚠️ Prerequisites
+## ⚠️ Pré-requisitos
 
-Before you begin, ensure you have the following installed:
+Para rodar com Docker:
 
-- **Docker** (v20.10+) and **Docker Compose** (v2.0+)
-- **Node.js** (v18+) and **npm** (v9+) — for local frontend development
-- **Python** (v3.11+) — for local backend development
-- **Git** (v2.30+)
+- Docker 20.10+
+- Docker Compose v2+
+- Git
+
+Para desenvolvimento local:
+
+- Node.js 18+ e npm
+- Python 3.11+
+- PostgreSQL 16 e Redis 7 (ou Docker para subir apenas esses serviços)
+
+Para usar validação de labs:
+
+- Conta Microsoft com acesso a uma assinatura Azure.
+- Permissão para criar um **App registration** no Microsoft Entra ID.
+- Permissão **Reader** na assinatura ou nos resource groups dos labs.
 
 ---
 
-## 🚀 Installation
+## 🚀 Instalação
 
-### Option 0: Docker Hub (Quickest)
-
-Pull pre-built images directly from Docker Hub:
+### 1. Docker Compose (recomendado)
 
 ```bash
-# Pull images
-docker pull updateinformatica/az104-frontend:latest
-docker pull updateinformatica/az104-backend:latest
-
-# Run frontend
-docker run -d -p 3000:80 updateinformatica/az104-frontend:latest
-
-# Run backend (requires PostgreSQL and Redis)
-docker run -d -p 8000:8000 \
-  -e DATABASE_URL=postgresql+asyncpg://postgres:postgres@host:5432/az104_trainer \
-  -e REDIS_URL=redis://host:6379/0 \
-  updateinformatica/az104-backend:latest
-```
-
-**Docker Hub Repositories:**
-| Image | Size | Link |
-|-------|------|------|
-| `az104-frontend` | ~94MB | [Docker Hub](https://hub.docker.com/r/updateinformatica/az104-frontend) |
-| `az104-backend` | ~545MB | [Docker Hub](https://hub.docker.com/r/updateinformatica/az104-backend) |
-
-### Option 1: Docker Compose (Recommended)
-
-This is the easiest way to run the entire application:
-
-```bash
-# Clone the repository
 git clone git@github.com:jeffersonsantos-sp/certification-azure.git
 cd certification-azure
 
-# Start all services
-docker compose up -d
+cp .env.example .env
+# Edite .env: JWT_SECRET_KEY, Azure IDs, etc.
 
-# Access the application
-open http://localhost:3000
+bash scripts/install_hooks.sh
+
+docker compose up -d --build
+docker compose ps
 ```
 
-**Services will be available at:**
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:8000`
-- API Docs (Swagger): `http://localhost:8000/docs`
-- PostgreSQL: `localhost:5432`
-- Redis: `localhost:6379`
+Serviços:
 
-### Option 2: Local Development
+| Serviço | URL |
+|---|---|
+| Frontend | `http://localhost:3000` |
+| Swagger UI | `http://localhost:8000/docs` |
+| ReDoc | `http://localhost:8000/redoc` |
+| Health check | `http://localhost:8000/health` |
+| PostgreSQL | `localhost:5432` |
+| Redis | `localhost:6379` |
 
-#### Backend Setup
+Verificação rápida:
 
 ```bash
-# Navigate to backend
+curl http://localhost:8000/health
+curl -I http://localhost:3000
+```
+
+### 2. Desenvolvimento local
+
+Backend:
+
+```bash
 cd backend
-
-# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# venv\Scripts\activate   # Windows
-
-# Install dependencies
+source venv/bin/activate
 pip install -r requirements.txt
-
-# Configure environment
 cp ../.env.example .env
-# Edit .env with your settings
-
-# Run the server
 uvicorn app.main:app --reload --port 8000
 ```
 
-#### Frontend Setup
+Frontend:
 
 ```bash
-# Navigate to frontend
 cd frontend
-
-# Install dependencies
 npm install
-
-# Start development server
+cp .env.example .env.local
 npm run dev
 ```
 
+O frontend local sobe em `http://localhost:5173`. Se for usar login Azure nesse modo, configure `VITE_AZURE_REDIRECT_URI=http://localhost:5173` e cadastre essa URL no App registration.
+
 ---
 
-## ⚙️ Configuration
+## ⚙️ Configuração
 
-### Environment Variables
-
-Create a `.env` file in the project root (see `.env.example`):
+Crie o `.env` na raiz. Nunca versionar este arquivo.
 
 ```env
-# OpenRouter / AI Configuration
-OPENAI_API_KEY=your-api-key-here
-OPENAI_BASE_URL=https://openrouter.ai/api/v1
-OPENAI_MODEL=nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free
-
-# PostgreSQL
-DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/az104_trainer
-
-# Redis
-REDIS_URL=redis://localhost:6379/0
-
-# Environment
+# Aplicação
 ENVIRONMENT=development
 DEBUG=true
+JWT_SECRET_KEY=change-this-in-production
+JWT_ALGORITHM=HS256
+JWT_EXPIRE_MINUTES=1440
 
-# Azure lab validation (app registration + allowlists)
+# Banco e cache
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/az104_trainer
+REDIS_URL=redis://localhost:6379/0
+
+# Azure labs — backend
 AZURE_TENANT_ID=your-tenant-id
 AZURE_CLIENT_ID=your-client-id
 AZURE_TENANT_ALLOWLIST=your-tenant-id
 AZURE_SUBSCRIPTION_ALLOWLIST=
 
-# Frontend build-time Azure OAuth settings
+# Azure labs — frontend/build time
 VITE_AZURE_TENANT_ID=your-tenant-id
 VITE_AZURE_CLIENT_ID=your-client-id
 VITE_AZURE_REDIRECT_URI=http://localhost:3000
 ```
 
----
+Notas:
 
-### Secret scanning
+- `AZURE_TENANT_ALLOWLIST` aceita uma lista separada por vírgulas e usa `AZURE_TENANT_ID` como fallback.
+- Se nenhuma allowlist de tenant estiver configurada, os endpoints Azure retornam **503**.
+- `AZURE_SUBSCRIPTION_ALLOWLIST` é opcional; se vazia, qualquer assinatura visível ao token pode ser usada.
+- `VITE_AZURE_*` são embutidos no build. Após alterá-los, rode `docker compose build frontend`.
 
-This repository includes a local secret scanner and a CI check:
+### App registration no Microsoft Entra ID
 
-```bash
-# Install the pre-commit hook (uses gitleaks if available, otherwise the bundled Python scanner)
-bash scripts/install_hooks.sh
-
-# Scan tracked files manually
-python3 scripts/scan_secrets.py --all
-```
-
-`.github/workflows/secret-scan.yml` runs the same scanner on every push and pull request. Enable **GitHub Secret Scanning** in **Settings > Code security and analysis** for an additional layer of protection; it cannot be enabled from the CLI in this environment.
-
-Never commit `.env` or `.env.local`. Only the `.env.example` placeholders belong in version control.
-
-## 🏃 Running the Application
-
-### Docker Compose Commands
-
-```bash
-# Start all services (detached)
-docker compose up -d
-
-# View logs
-docker compose logs -f
-
-# View specific service logs
-docker compose logs -f backend
-docker compose logs -f frontend
-
-# Stop all services
-docker compose down
-
-# Stop and remove volumes
-docker compose down -v
-
-# Rebuild images
-docker compose build --no-cache
-
-# Check service status
-docker compose ps
-```
-
-### Development Commands
+1. Entre no portal do Azure e abra **Microsoft Entra ID > App registrations > New registration**.
+2. Nome sugerido: `az104-trainer`.
+3. Supported account types: **Accounts in this organizational directory only (single tenant)**.
+4. Em **Authentication**, adicione a plataforma **Single-page application**:
+   - `http://localhost:3000`
+   - `http://localhost:5173` se for usar `npm run dev`
+5. Em **API permissions**, adicione:
+   - **Azure Service Management**
+   - Permissão delegada **user_impersonation**
+   - Conceda **admin consent**
+6. Copie **Directory (tenant) ID** e **Application (client) ID** para o `.env`.
+7. Dê ao usuário de teste pelo menos a role **Reader** na assinatura ou nos resource groups.
+8. Rebuild do frontend:
 
 ```bash
-# Frontend
-cd frontend
-npm run dev          # Start dev server (port 5173)
-npm run build        # Production build
-npm run lint         # Run ESLint
-
-# Backend
-cd backend
-uvicorn app.main:app --reload     # Hot reload
-```
-
----
-
-## 📡 API Documentation
-
-### Interactive Docs
-
-Once the backend is running, access the interactive API documentation:
-
-- **Swagger UI**: `http://localhost:8000/docs`
-- **ReDoc**: `http://localhost:8000/redoc`
-
-### API Endpoints
-
-#### Questions
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/v1/questions/` | List questions (with filters) |
-| `GET` | `/api/v1/questions/random` | Get random questions |
-| `GET` | `/api/v1/questions/{id}` | Get single question |
-| `POST` | `/api/v1/questions/{id}/answer` | Submit one answer and receive feedback |
-| `POST` | `/api/v1/questions/submit-exam` | Score a complete practice or mock exam |
-| `GET` | `/api/v1/questions/stats` | Get statistics |
-
-Read endpoints return only sanitized question payloads. `correct_answer` and `explanation` are returned only after an answer or exam submission. Authentication is optional for practice and exam scoring; when a valid JWT is supplied, answers are persisted for the user.
-
-#### Authentication
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/v1/auth/register` | Create an account and receive a JWT |
-| `POST` | `/api/v1/auth/login` | Sign in and receive a JWT |
-| `GET` | `/api/v1/auth/me` | Return the authenticated user |
-
-#### Labs
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/v1/labs` | List published labs with the user's progress |
-| `GET` | `/api/v1/labs/progress/summary` | Progress summary for the dashboard |
-| `GET` | `/api/v1/labs/{slug}` | Lab detail, steps and validation criteria |
-| `POST` | `/api/v1/labs/{slug}/start` | Create or resume lab progress |
-| `PATCH` | `/api/v1/labs/{slug}/steps/{step_id}` | Mark a step complete or incomplete |
-| `POST` | `/api/v1/labs/{slug}/validate` | Run read-only Azure checks and save the result |
-
-#### Azure
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/v1/azure/subscriptions` | List subscriptions visible to the Azure token |
-| `GET` | `/api/v1/azure/settings` | Return the saved subscription selection |
-| `PUT` | `/api/v1/azure/settings` | Save the selected subscription for the user |
-
-All lab and Azure settings endpoints require `Authorization: Bearer <app_jwt>`. Azure data endpoints also require `X-Azure-Authorization: Bearer <azure_access_token>`; the Azure token is validated from its claims, checked against the tenant allowlist, and never persisted or logged.
-
----
-
-## 📚 AZ-104 Certification Domains
-
-The application covers all 5 domains of the Microsoft Azure Administrator Associate exam:
-
-| Domain | Weight | Questions | Focus |
-|--------|--------|-----------|-------|
-| Identity & Governance | 20-25% | 155 | Microsoft Entra ID, RBAC, Policy |
-| Storage | 15-20% | 61 | Storage Accounts, Blob, Azure Files |
-| Compute | 20-25% | 91 | VMs, ARM templates, Containers |
-| Networking | 15-20% | 69 | VNets, NSGs, Load Balancers |
-| Monitoring | 10-15% | 35 | Azure Monitor, Backup, Recovery |
-
----
-
-## 🤖 AI Question Generation
-
-The project includes scripts for AI-powered question generation. The prompt templates cover single-choice, multiple-choice, case study, drag-and-drop, and hotspot questions:
-
-```bash
-# Generate questions for a specific skill
-python scripts/generate.py --skill ig-01 --count 10
-
-# Batch generate for multiple skills
-bash scripts/generate-batch.sh
-
-# Validate generated questions
-python scripts/validate.py --file questions/drafts/ig-01.json
-
-# Import questions to database
-python scripts/import_questions.py --file questions/drafts/ig-01.json
-
-# Apply the advanced-format migration to an existing database
-python scripts/migrate_advanced_formats.py
-
-# Seed one example of each advanced format
-python scripts/seed_advanced_formats.py
-```
-
----
-
-## 🧪 Azure Labs
-
-Phases 1 and 2 of the Azure labs feature are implemented:
-
-- 23 bilingual lab definitions in `labs/*.yaml` with Portal and Azure CLI instructions per step
-- Database models for labs, steps, checks, progress and validation runs
-- Deterministic, idempotent importer that preserves step/check identity
-- Login and registration exposed in the UI, with protected lab routes
-- `/labs` catalog with filters, progress and summary
-- `/labs/:slug` detail with objectives, commands, step tracking and cleanup
-- Microsoft Entra OAuth with MSAL, single-tenant app registration and popup login
-- Read-only validation through Azure Resource Manager and Resource Graph
-- Supported checks: resource existence, resource count, property/tag equality, role assignment, Entra group role assignment, App Service slot, backup-protected VM, file share, route, subnet, NSG rule, policy assignment, resource lock, VNet peering, Load Balancer probe and manual checks
-- Validation history is stored in `lab_validation_runs`; Azure tokens stay in browser session memory and are never stored by the backend
-
-```bash
-# Import or update all labs in the running backend container
-docker compose exec backend python scripts/import_labs.py
-
-# Or run locally with backend dependencies installed
-python scripts/import_labs.py
-```
-
-The labs cover all 15 AZ-104 skills across Identity & Governance, Networking, Storage, Compute and Monitoring. Each lab includes English and PT-BR content, step-by-step Portal instructions, Azure CLI commands, validation checks and cleanup instructions. Lab progress is stored per user in `lab_progress` and `lab_step_progress`.
-
-### Azure app registration
-
-1. In Microsoft Entra ID, create an **App registration** with **Accounts in this organizational directory only** (single tenant).
-2. Under **Authentication**, add the **Single-page application** platform and the redirect URI `http://localhost:3000` (add your production URL too).
-3. Under **API permissions**, add **Azure Service Management** > delegated permission **user_impersonation** and grant admin consent.
-4. Copy the **Application (client) ID** and **Directory (tenant) ID** into `AZURE_CLIENT_ID` and `AZURE_TENANT_ID`.
-5. Set `VITE_AZURE_CLIENT_ID`, `VITE_AZURE_TENANT_ID` and `VITE_AZURE_REDIRECT_URI` for the frontend, then rebuild it so Vite can inline the values.
-6. Grant the signed-in user at least **Reader** on the subscription or lab resource groups. The validator only performs control-plane reads.
-
-```bash
-# Rebuild the frontend with OAuth values from the host environment
 docker compose build frontend
 docker compose up -d frontend backend
 ```
 
-If `AZURE_TENANT_ALLOWLIST` is empty, the backend falls back to `AZURE_TENANT_ID`. If neither is configured, Azure validation endpoints return HTTP 503.
+---
+
+## 👤 Como acessar e usar
+
+1. Abra `http://localhost:3000`.
+2. Clique em **Register** e crie uma conta. Não existe usuário demo.
+3. Faça login com o e-mail/senha criados.
+4. No Dashboard:
+   - use **Practice** para treinar por domínio;
+   - use **Mock Exam** para simulados;
+   - abra **Labs** para o catálogo de laboratórios.
+5. Em `/labs`:
+   - filtre por domínio, skill ou status;
+   - abra um lab;
+   - leia os objetivos e pré-requisitos;
+   - execute os passos pela aba **Portal** ou **Azure CLI**;
+   - marque os passos manualmente ou valide automaticamente.
+6. No detalhe do lab:
+   - clique em **Conectar ao Azure**;
+   - selecione a assinatura;
+   - execute os passos no Portal/CLI;
+   - clique em **Validar laboratório**;
+   - se aprovado, os passos são marcados como concluídos.
+
+Dica: use o portal exatamente em `http://localhost:3000`, pois o redirect URI cadastrado precisa conferir.
 
 ---
 
-## 🌍 Internationalization (i18n)
+## 🧪 Laboratórios Azure
 
-The application supports multiple languages:
+### Catálogo atual
 
-- **English (EN)** — Default
-- **Português (PT-BR)**
+| Lab | Domínio | Skill | Dificuldade | Tempo |
+|---|---|---|---|---|
+| `identity-rbac-reader` | Identity & Governance | ig-02 | easy | 15 min |
+| `identity-governance-policy` | Identity & Governance | ig-03 | intermediate | 20 min |
+| `identity-entra-users-groups` | Identity & Governance | ig-01 | intermediate | 20 min |
+| `networking-vnet-nsg` | Networking | vn-02 | intermediate | 25 min |
+| `networking-vnet-peering` | Networking | vn-01 | intermediate | 25 min |
+| `networking-load-balancer` | Networking | vn-03 | intermediate | 20 min |
+| `networking-private-endpoint` | Networking | vn-03 | advanced | 30 min |
+| `networking-udr` | Networking | vn-01 | intermediate | 20 min |
+| `storage-blob-container` | Storage | st-03 | intermediate | 20 min |
+| `storage-access-controls` | Storage | st-01 | intermediate | 20 min |
+| `storage-redundancy-encryption` | Storage | st-02 | intermediate | 20 min |
+| `storage-file-share` | Storage | st-03 | intermediate | 20 min |
+| `compute-vm` | Compute | cm-02 | intermediate | 30 min |
+| `compute-vm-disks-availability` | Compute | cm-02 | advanced | 30 min |
+| `compute-arm-deployment` | Compute | cm-01 | intermediate | 20 min |
+| `compute-aci` | Compute | cm-03 | intermediate | 15 min |
+| `compute-container-registry` | Compute | cm-03 | intermediate | 15 min |
+| `compute-app-service` | Compute | cm-04 | intermediate | 20 min |
+| `compute-app-service-slots` | Compute | cm-04 | intermediate | 25 min |
+| `monitoring-observability` | Monitoring | mn-01 | intermediate | 20 min |
+| `monitoring-metric-alerts` | Monitoring | mn-01 | intermediate | 20 min |
+| `monitoring-backup` | Monitoring | mn-02 | intermediate | 15 min |
+| `monitoring-vm-backup` | Monitoring | mn-02 | advanced | 30 min |
 
-The interface language and the question language are independent settings:
+### Como a validação funciona
 
-| Setting | Scope | Default | Persistence |
-|---------|-------|---------|-------------|
-| **UI language** | Navigation, labels, buttons, messages | `en` | `localStorage.language` |
-| **Question language** | Question text, options, explanations, difficulty | Follows UI language until manually changed | `localStorage.questionLanguage` |
+O validador usa apenas leitura do control plane:
 
-### Question Language
+- Azure Resource Graph para recursos de primeiro nível.
+- ARM direto para child resources e propriedades específicas.
 
-The `<QuestionLanguageToggle />` component is available in:
+Tipos de check suportados:
 
-- Practice configuration and active session
-- Mock Exam configuration and active exam
-- Single question view
+```text
+resource_exists
+resource_count
+property_equals
+tag_equals
+role_assignment_exists
+group_role_assignment_exists
+nsg_rule_exists
+subnet_exists
+policy_assignment_exists
+resource_lock_exists
+virtual_network_peering_exists
+load_balancer_probe_exists
+app_service_slot_exists
+backup_protected_vm_exists
+file_share_exists
+route_exists
+manual
+```
 
-When the UI language changes, the question language follows it until the user explicitly selects a question language. The choice is then persisted and used across sessions.
+Regras:
 
-### Translation Flow
+- Checks obrigatórios reprovados impedem a aprovação do lab.
+- Checks `manual` são informativos.
+- Se todos os checks obrigatórios passam, o status vira `passed`, os steps são marcados como concluídos e a pontuação é salva.
 
-Questions are stored in English in the database. When the question language is **PT-BR**:
+### Limpeza
 
-1. The original content is kept as a safe fallback.
-2. Azure terms are replaced with temporary tokens before translation and restored afterward, so names such as `Virtual Networks` stay in English.
-3. Question, options, and explanation are translated on demand.
-4. **Google Translate** (public gtx endpoint) is tried first.
-5. **MyMemory** is used as fallback if Google fails or is rate-limited.
-6. Successful translations are cached in memory and in `localStorage`.
-7. Results are applied incrementally, so the current question is translated in about one second while the rest of the exam is translated in the background.
+Cada lab usa um resource group próprio e traz um comando de cleanup:
 
-Relevant files:
+```bash
+az group delete --name rg-az104-lab-vnet --yes --no-wait
+```
 
-- `frontend/src/context/LanguageContext.tsx` — UI/question language state
-- `frontend/src/components/QuestionLanguageToggle.tsx` — EN/PT-BR selector
-- `frontend/src/i18n/questions.ts` — translation providers, term protection, and cache
-- `frontend/src/i18n/azureTerms.ts` — Azure resource/service names kept in English
-
-### Adding a New Language
-
-1. Create a new translation file in `frontend/src/i18n/`:
-   ```typescript
-   // frontend/src/i18n/es.ts
-   import type { Translations } from './en'
-   
-   const es: Translations = {
-     lang: 'es',
-     langLabel: 'Español',
-     langFlag: '🇪🇸',
-     // ... translations
-   }
-   
-   export default es
-   ```
-
-2. Register the language in `frontend/src/i18n/index.ts`:
-   ```typescript
-   import es from './es'
-   
-   export const languages = {
-     en,
-     'pt-BR': pt,
-     es,  // Add here
-   } as const
-   ```
-
-3. Add the language to `QuestionLanguageToggle.tsx` and to the translation provider logic in `i18n/questions.ts`.
-
----
-
-## 🧠 Skills & Prompts
-
-### OpenCode Skills
-
-The project includes AI assistant skills in `.opencode/skills/`:
-
-| Skill | Purpose |
-|-------|---------|
-| `question-generator.md` | Generate single-choice and advanced-format AZ-104 questions |
-| `code-reviewer.md` | Review code quality and security |
-| `docker-expert.md` | Docker builds, image tagging, and container guidance |
-| `api-designer.md` | RESTful API design, sanitized reads, and type-aware scoring |
-| `frontend-builder.md` | React frontend, shared question renderer, and EN/PT-BR i18n |
-
-### Claude Skills
-
-Claude-specific skills in `.claude/skills/`:
-
-| Skill | Purpose |
-|-------|---------|
-| `az104-domain-expert.md` | Deep AZ-104 domain knowledge and format guidance |
-| `database-expert.md` | PostgreSQL, SQLAlchemy, and JSONB question data |
-
-### AI Prompts
-
-Collection of prompts in `prompts/README.md`:
-
-- **Question Generation**: Create single-choice and advanced-format practice questions
-- **Advanced Format Generation**: Multiple choice, case study, drag-and-drop, and hotspot prompts
-- **Question Validation**: Verify question accuracy and format-specific correctness
-- **AI Explanation**: Generate student-friendly explanations
-- **Study Recommendations**: Personalized study plans
-- **Performance Analysis**: Mock exam result analysis
-- **Question Translation**: Translate questions, options, and explanations from EN to PT-BR
-- **Code Review**: Automated code quality checks
+Sempre apague os grupos após o estudo para evitar custos.
 
 ---
 
-## 📊 Project Metrics
+## 📥 Importação e migrações
 
-| Metric | Value |
-|--------|-------|
-| Questions | 411 approved |
-| Question Formats | 5 |
-| Advanced Format Samples | 4 (one per format) |
-| Azure Labs | 23 bilingual labs with OAuth login, progress and read-only validation |
-| Certification Domains | 5 |
-| API Endpoints | 15+ |
-| Supported Languages | 2 (EN, PT-BR) |
-| Question Language Toggle | EN / PT-BR |
-| Frontend Components | 8 pages + shared question renderer + language toggle |
-| Backend Services | FastAPI + PostgreSQL |
-| Containerization | Docker + Docker Compose |
+```bash
+# Questões
+docker compose exec backend python scripts/import_questions.py
+docker compose exec backend python scripts/migrate_advanced_formats.py
+docker compose exec backend python scripts/seed_advanced_formats.py
 
----
+# Labs
+docker compose exec backend python scripts/migrate_lab_checks.py
+docker compose exec backend python scripts/migrate_lab_portal_steps.py
+docker compose exec backend python scripts/import_labs.py
+```
 
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+`scripts/import_labs.py` é idempotente: usa UUIDs determinísticos derivados de `lab slug`, `step key` e `check key`, preservando progresso e histórico.
 
 ---
 
-## 📄 License
+## 📡 API
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Documentação interativa:
+
+- Swagger: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+### Autenticação
+
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `POST` | `/api/v1/auth/register` | Criar conta |
+| `POST` | `/api/v1/auth/login` | Login |
+| `GET` | `/api/v1/auth/me` | Usuário atual |
+
+### Questões
+
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `GET` | `/api/v1/questions/` | Listar questões |
+| `GET` | `/api/v1/questions/random` | Questões aleatórias |
+| `GET` | `/api/v1/questions/stats` | Estatísticas |
+| `GET` | `/api/v1/questions/{id}` | Detalhe sanitizado |
+| `POST` | `/api/v1/questions/{id}/answer` | Responder uma questão |
+| `POST` | `/api/v1/questions/submit-exam` | Corrigir simulado |
+
+### Labs
+
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `GET` | `/api/v1/labs` | Catálogo com progresso |
+| `GET` | `/api/v1/labs/progress/summary` | Resumo para dashboard |
+| `GET` | `/api/v1/labs/{slug}` | Detalhe do lab |
+| `POST` | `/api/v1/labs/{slug}/start` | Iniciar/retomar |
+| `PATCH` | `/api/v1/labs/{slug}/steps/{step_id}` | Marcar passo |
+| `POST` | `/api/v1/labs/{slug}/validate` | Validar no Azure |
+
+### Azure
+
+| Método | Endpoint | Descrição |
+|---|---|---|
+| `GET` | `/api/v1/azure/subscriptions` | Assinaturas visíveis |
+| `GET` | `/api/v1/azure/settings` | Config salva do usuário |
+| `PUT` | `/api/v1/azure/settings` | Salvar assinatura |
+
+Headers:
+
+```text
+Authorization: Bearer <app_jwt>
+X-Azure-Authorization: Bearer <azure_access_token>
+```
 
 ---
 
-## 👨‍💻 Author
+## 🔐 Segurança
+
+- `.env` e `.env.local` estão no `.gitignore`.
+- Nenhum token Azure é persistido; o token fica apenas em memória/`sessionStorage`.
+- Nenhum header de autorização é logado.
+- App registration é single-tenant com permissão delegada `user_impersonation`.
+- Tenant e assinatura podem ser restringidos por allowlist.
+- Validação usa somente leitura (`Reader`).
+- Respostas de questões não vazam gabarito em leituras.
+- Keep `bcrypt==4.0.1` pinned for compatibility with `passlib`.
+
+### Varredura de segredos
+
+```bash
+# Instalar hook local
+bash scripts/install_hooks.sh
+
+# Escanear manualmente todos os arquivos versionados
+python3 scripts/scan_secrets.py --all
+```
+
+O hook usa `gitleaks` se disponível; caso contrário, usa o scanner Python incluído.
+
+CI:
+
+```text
+.github/workflows/secret-scan.yml
+```
+
+Ele roda em todo `push` e `pull_request`.
+
+Para camada extra, habilite **GitHub Secret Scanning** em **Settings > Code security and analysis**.
+
+---
+
+## 🧠 Prompts e Skills
+
+### Prompts
+
+O arquivo [`prompts/README.md`](prompts/README.md) contém prompts para:
+
+- Geração de questões `single_choice`.
+- Geração de formatos avançados.
+- Validação de questões.
+- Explicações com IA.
+- Plano de estudo.
+- Análise de desempenho.
+- Tradução EN → PT-BR.
+- Revisão de tradução.
+- Revisão de código.
+- Documentação.
+- Testes.
+- Autoria de labs Azure.
+- Criação de checks de validação.
+- Revisão de segurança.
+
+### Skills
+
+Claude:
+
+- `.claude/CLAUDE.md`
+- `.claude/skills/az104-domain-expert.md`
+- `.claude/skills/database-expert.md`
+- `.claude/skills/azure-labs-expert.md`
+
+OpenCode:
+
+- `.opencode/skills/question-generator.md`
+- `.opencode/skills/code-reviewer.md`
+- `.opencode/skills/docker-expert.md`
+- `.opencode/skills/api-designer.md`
+- `.opencode/skills/frontend-builder.md`
+- `.opencode/skills/lab-author.md`
+
+Planejamento e decisões:
+
+```text
+brainstore/brainstorm.md
+```
+
+---
+
+## 🌍 Internacionalização
+
+| Configuração | Escopo | Persistência |
+|---|---|---|
+| UI language | Navegação, botões, mensagens | `localStorage.language` |
+| Question language | Enunciado, opções, explicação | `localStorage.questionLanguage` |
+| Lab content | Título, descrição, passos e checks | JSONB `en` / `pt-BR` |
+
+Nomes de recursos Azure, SKUs, cmdlets e comandos CLI nunca são traduzidos.
+
+---
+
+## 🧰 Comandos úteis
+
+```bash
+# Subir tudo
+docker compose up -d --build
+
+# Logs
+docker compose logs -f backend
+docker compose logs -f frontend
+
+# Parar
+docker compose down
+
+# Status
+docker compose ps
+
+# Rebuild somente frontend (após alterar VITE_AZURE_*)
+docker compose build frontend && docker compose up -d frontend
+
+# Importar labs
+docker compose exec backend python scripts/import_labs.py
+
+# Secret scan
+python3 scripts/scan_secrets.py --all
+
+# Backend lint
+docker compose exec backend ruff check app
+
+# Frontend build
+cd frontend && npm run build
+```
+
+---
+
+## 🗺️ Roadmap
+
+Fases concluídas:
+
+- [x] Base do projeto, API, frontend, PostgreSQL, Redis e Docker Compose.
+- [x] Banco de questões com 5 formatos.
+- [x] Autenticação e registro expostos na UI.
+- [x] Labs, progresso, detalhe e catálogo.
+- [x] OAuth Azure com MSAL.
+- [x] Validação read-only via Resource Graph/ARM.
+- [x] Portal + CLI em todos os labs.
+- [x] Cobertura das 15 skills com 23 labs.
+- [x] Secret scan local e CI.
+
+Próximos possíveis passos:
+
+- [ ] Histórico de respostas com tela dedicada.
+- [ ] Explicações geradas por IA.
+- [ ] Gamificação.
+- [ ] Deploy na Azure.
+- [ ] Pipeline completo de CI/CD.
+
+Detalhes em `brainstore/brainstorm.md`.
+
+---
+
+## 🤝 Contribuindo
+
+1. Faça um fork.
+2. Crie uma branch: `git checkout -b feature/minha-feature`.
+3. Instale o hook: `bash scripts/install_hooks.sh`.
+4. Commit e push.
+5. Abra um Pull Request.
+
+Antes de commitar:
+
+```bash
+git diff --cached
+python3 scripts/scan_secrets.py --all
+npm run build
+docker compose exec backend ruff check app
+```
+
+---
+
+## 📄 Licença
+
+MIT.
+
+---
+
+## 👨‍💻 Autor
 
 **Jefferson Santos**
 
 DevOps Engineer | Cloud Engineer | Site Reliability Engineer
 
-```
 AWS • Azure • Kubernetes • Terraform • CI/CD • GitOps • Python • AI
-```
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jefferson-fsantos/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/jeffersonsantos-sp)
@@ -809,8 +718,6 @@ AWS • Azure • Kubernetes • Terraform • CI/CD • GitOps • Python • A
 
 <div align="center">
 
-**⭐ If this project interests you, consider starring the repository!**
-
-**Build. Practice. Analyze. Improve. Certify. 🚀**
+**Build. Practice. Validate. Improve. Certify. 🚀**
 
 </div>

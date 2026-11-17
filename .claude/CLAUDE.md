@@ -18,7 +18,7 @@ Question formats: `single_choice`, `multiple_choice`, `case_study`, `drag_drop`,
 ├── frontend/          # React application
 ├── backend/           # FastAPI application
 ├── scripts/           # Utility and migration scripts
-├── labs/              # Bilingual Azure lab definitions (YAML)
+├── labs/              # Bilingual Azure lab definitions (YAML, 23 labs)
 ├── skills-measured/   # AZ-104 exam data
 ├── questions/         # Generated questions
 ├── brainstore/        # Brainstorm documents
@@ -151,6 +151,9 @@ Lab content is bilingual: `title`, `description`, `objectives`, `prerequisites`,
 - Validate all user input
 - Use parameterized queries
 - Keep `bcrypt==4.0.1` pinned for compatibility with `passlib` 1.7.4
+- Azure labs use Portal + Azure CLI instructions in `portal_steps` and `commands` respectively; all localized fields use `en` and `pt-BR`
+- Current lab coverage: 23 labs, 101 steps, 99 checks, all 15 AZ-104 skills
+- Lab authoring guidance lives in `.claude/skills/azure-labs-expert.md`; prompts live in `prompts/README.md`
 - Azure lab validation must be read-only (`Reader`), use short-lived tokens, never log authorization headers, and never persist Azure tokens
 - Azure app registration is single-tenant SPA with delegated `user_impersonation` on Azure Service Management
 - `AZURE_TENANT_ALLOWLIST` falls back to `AZURE_TENANT_ID`; validation returns 503 if neither is set
