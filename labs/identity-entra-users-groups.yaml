@@ -1,0 +1,207 @@
+slug: identity-entra-users-groups
+title:
+  en: Create an Entra group and assign access
+  pt-BR: Criar um grupo no Entra e atribuir acesso
+description:
+  en: Create an Entra security group, add your user as a member and grant the group Reader access to a resource group.
+  pt-BR: Crie um grupo de segurança no Entra, adicione seu usuário como membro e conceda ao grupo a função Reader em um resource
+    group.
+objectives:
+  en:
+  - Create an Entra security group
+  - Add the signed-in user as a member
+  - Assign Reader to the group at resource group scope
+  pt-BR:
+  - Criar um grupo de segurança no Entra
+  - Adicionar o usuário conectado como membro
+  - Atribuir Reader ao grupo no escopo do resource group
+prerequisites:
+  en:
+  - Permission to create groups in Microsoft Entra ID
+  - Owner or User Access Administrator on the lab resource group
+  pt-BR:
+  - Permissão para criar grupos no Microsoft Entra ID
+  - Owner ou User Access Administrator no resource group do laboratório
+cost_warning:
+  en: Groups and role assignments do not add cost by themselves.
+  pt-BR: Grupos e atribuições de função não geram custo por si só.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-entra --yes --no-wait
+domain_id: identity-governance
+skill_id: ig-01
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-entra
+content_version: '1'
+status: published
+sort_order: 140
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-entra` with the tag `Environment=Lab`.
+    pt-BR: Crie `rg-az104-lab-entra` com a tag `Environment=Lab`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-entra --location eastus --tags Environment=Lab
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-entra`, escolha **East US** e adicione a tag `Environment=Lab`.
+    - Clique em **Review + create** > **Create**.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-entra`, escolha **East US** e adicione a tag `Environment=Lab`.
+    - Clique em **Review + create** > **Create**.
+  validation_hint:
+    en: The role assignment target resource group must exist.
+    pt-BR: O resource group de destino precisa existir.
+- key: create-group
+  position: 2
+  title:
+    en: Create the Entra group
+    pt-BR: Criar o grupo no Entra
+  instructions:
+    en: Create a security group named `az104-lab-group`.
+    pt-BR: Crie um grupo de segurança chamado `az104-lab-group`.
+  commands:
+  - label:
+      en: Create the group
+      pt-BR: Criar o grupo
+    language: bash
+    command: az ad group create --display-name az104-lab-group --mail-nickname az104labgroup
+  portal_steps:
+    en:
+    - Abra **Microsoft Entra ID** > **Groups** > **New group**.
+    - Selecione **Security**, informe `az104-lab-group` e o mail nickname `az104labgroup`.
+    - Clique em **Create**.
+    pt-BR:
+    - Abra **Microsoft Entra ID** > **Groups** > **New group**.
+    - Selecione **Security**, informe `az104-lab-group` e o mail nickname `az104labgroup`.
+    - Clique em **Create**.
+- key: add-member
+  position: 3
+  title:
+    en: Add your user to the group
+    pt-BR: Adicionar seu usuário ao grupo
+  instructions:
+    en: Add the signed-in user as a member of `az104-lab-group`.
+    pt-BR: Adicione o usuário conectado como membro de `az104-lab-group`.
+  commands:
+  - label:
+      en: Add the signed-in user
+      pt-BR: Adicionar o usuário conectado
+    language: bash
+    command: az ad group member add --group az104-lab-group --member-id $(az ad signed-in-user show --query id -o tsv)
+  portal_steps:
+    en:
+    - Abra **Microsoft Entra ID** > **Groups** > `az104-lab-group`.
+    - Em **Manage** > **Members**, clique em **Add members**.
+    - Selecione seu usuário e confirme.
+    pt-BR:
+    - Abra **Microsoft Entra ID** > **Groups** > `az104-lab-group`.
+    - Em **Manage** > **Members**, clique em **Add members**.
+    - Selecione seu usuário e confirme.
+- key: assign-role
+  position: 4
+  title:
+    en: Assign Reader to the group
+    pt-BR: Atribuir Reader ao grupo
+  instructions:
+    en: Assign the Reader role to `az104-lab-group` at the resource group scope.
+    pt-BR: Atribua a função Reader ao grupo `az104-lab-group` no escopo do resource group.
+  commands:
+  - label:
+      en: Assign Reader to the group
+      pt-BR: Atribuir Reader ao grupo
+    language: bash
+    command: az role assignment create --assignee-object-id $(az ad group show --group az104-lab-group --query id -o tsv)
+      --assignee-principal-type Group --role Reader --scope /subscriptions/$(az account show --query id -o tsv)/resourceGroups/rg-az104-lab-entra
+  portal_steps:
+    en:
+    - Abra **Resource groups** > `rg-az104-lab-entra` > **Access control (IAM)**.
+    - Clique em **Add** > **Add role assignment**.
+    - Selecione **Reader**, clique em **Next** e escolha **User, group, or service principal**.
+    - Selecione `az104-lab-group` e clique em **Review + assign** duas vezes.
+    pt-BR:
+    - Abra **Resource groups** > `rg-az104-lab-entra` > **Access control (IAM)**.
+    - Clique em **Add** > **Add role assignment**.
+    - Selecione **Reader**, clique em **Next** e escolha **User, group, or service principal**.
+    - Selecione `az104-lab-group` e clique em **Review + assign** duas vezes.
+- key: verify
+  position: 5
+  title:
+    en: Verify the group assignment
+    pt-BR: Verificar a atribuição ao grupo
+  instructions:
+    en: Confirm that the group has Reader at the resource group scope.
+    pt-BR: Confirme que o grupo tem Reader no escopo do resource group.
+  commands:
+  - label:
+      en: List group role assignments
+      pt-BR: Listar atribuições de função do grupo
+    language: bash
+    command: az role assignment list --resource-group rg-az104-lab-entra --query "[?principalType==\`Group\`].{role:roleDefinitionName,principalId:principalId}"
+      -o table
+  portal_steps:
+    en:
+    - Em **Access control (IAM)**, clique em **Role assignments** e filtre por **Reader**.
+    - Confirme que `az104-lab-group` aparece com tipo **Group**.
+    pt-BR:
+    - Em **Access control (IAM)**, clique em **Role assignments** e filtre por **Reader**.
+    - Confirme que `az104-lab-group` aparece com tipo **Group**.
+checks:
+- key: resource-group-exists
+  position: 1
+  name:
+    en: Resource group exists
+    pt-BR: Resource group existe
+  description:
+    en: The lab resource group must exist.
+    pt-BR: O resource group do laboratório precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-lab-entra
+  required: true
+  weight: 1
+- key: group-reader-assignment
+  position: 2
+  name:
+    en: Group has Reader role
+    pt-BR: Grupo tem a função Reader
+  description:
+    en: An Entra group must have the Reader role at resource group scope.
+    pt-BR: Um grupo do Entra precisa ter a função Reader no escopo do resource group.
+  check_type: group_role_assignment_exists
+  config:
+    role_definition_name: Reader
+    scope: resource_group
+  required: true
+  weight: 1
+- key: environment-tag
+  position: 3
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The resource group must have Environment=Lab.
+    pt-BR: O resource group precisa ter Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-lab-entra
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1

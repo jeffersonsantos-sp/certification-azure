@@ -1,0 +1,217 @@
+slug: monitoring-metric-alerts
+title:
+  en: Create a metric alert and action group
+  pt-BR: Criar um alerta de métrica e grupo de ação
+description:
+  en: Create a public IP, an action group and a metric alert that watches outbound bytes.
+  pt-BR: Crie um IP público, um grupo de ação e um alerta de métrica que monitora bytes de saída.
+objectives:
+  en:
+  - Create an action group
+  - Create a metric alert scoped to a public IP
+  - Verify the alert is enabled
+  pt-BR:
+  - Criar um grupo de ação
+  - Criar um alerta de métrica no IP público
+  - Verificar se o alerta está ativado
+prerequisites:
+  en:
+  - A subscription where you can create monitor resources
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar recursos de monitoramento
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: The public IP and alert rules have minimal cost. Delete the resource group after the lab.
+  pt-BR: O IP público e as regras de alerta têm custo mínimo. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-alerts --yes --no-wait
+domain_id: monitoring
+skill_id: mn-01
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-alerts
+content_version: '1'
+status: published
+sort_order: 170
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-alerts`.
+    pt-BR: Crie `rg-az104-lab-alerts`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-alerts --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-alerts`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-alerts`, escolha **East US** e crie.
+- key: create-public-ip
+  position: 2
+  title:
+    en: Create the monitored public IP
+    pt-BR: Criar o IP público monitorado
+  instructions:
+    en: Create `alert-pip` as a Standard public IP.
+    pt-BR: Crie `alert-pip` como IP público Standard.
+  commands:
+  - label:
+      en: Create the public IP
+      pt-BR: Criar o IP público
+    language: bash
+    command: az network public-ip create --resource-group rg-az104-lab-alerts --name alert-pip --sku Standard --allocation-method
+      Static
+  portal_steps:
+    en:
+    - Abra **Public IP addresses** > **Create**.
+    - Selecione `rg-az104-lab-alerts`, nomeie como `alert-pip` e use SKU **Standard** com alocação **Static**.
+    pt-BR:
+    - Abra **Public IP addresses** > **Create**.
+    - Selecione `rg-az104-lab-alerts`, nomeie como `alert-pip` e use SKU **Standard** com alocação **Static**.
+- key: create-action-group
+  position: 3
+  title:
+    en: Create the action group
+    pt-BR: Criar o grupo de ação
+  instructions:
+    en: Create `ag-lab-alerts` with an email action.
+    pt-BR: Crie `ag-lab-alerts` com uma ação de e-mail.
+  commands:
+  - label:
+      en: Create the action group
+      pt-BR: Criar o grupo de ação
+    language: bash
+    command: az monitor action-group create --resource-group rg-az104-lab-alerts --name ag-lab-alerts --action email lab-admin
+      admin@example.com
+  portal_steps:
+    en:
+    - Abra **Monitor** > **Alerts** > **Action groups** > **Create**.
+    - Selecione `rg-az104-lab-alerts`, nomeie como `ag-lab-alerts`.
+    - Em **Email**, adicione `admin@example.com` e crie.
+    pt-BR:
+    - Abra **Monitor** > **Alerts** > **Action groups** > **Create**.
+    - Selecione `rg-az104-lab-alerts`, nomeie como `ag-lab-alerts`.
+    - Em **Email**, adicione `admin@example.com` e crie.
+- key: create-alert
+  position: 4
+  title:
+    en: Create the metric alert
+    pt-BR: Criar o alerta de métrica
+  instructions:
+    en: Create a metric alert on `alert-pip` for outbound bytes.
+    pt-BR: Crie um alerta de métrica em `alert-pip` para bytes de saída.
+  commands:
+  - label:
+      en: Create the metric alert
+      pt-BR: Criar o alerta de métrica
+    language: bash
+    command: 'PIP_ID=$(az network public-ip show --resource-group rg-az104-lab-alerts --name alert-pip --query id -o tsv)
+
+      az monitor metrics alert create --name alert-lab-high-traffic --resource-group rg-az104-lab-alerts --scopes "$PIP_ID"
+      --condition "avg ByteCount > 1000" --action ag-lab-alerts --description "High outbound traffic"'
+  portal_steps:
+    en:
+    - Abra **Monitor** > **Alerts** > **Create** > **Alert rule**.
+    - Selecione o IP público `alert-pip` como recurso de destino.
+    - Adicione a condição `Average ByteCount greater than 1000`.
+    - Em **Action group**, selecione `ag-lab-alerts` e crie a regra.
+    pt-BR:
+    - Abra **Monitor** > **Alerts** > **Create** > **Alert rule**.
+    - Selecione o IP público `alert-pip` como recurso de destino.
+    - Adicione a condição `Average ByteCount greater than 1000`.
+    - Em **Action group**, selecione `ag-lab-alerts` e crie a regra.
+- key: verify
+  position: 5
+  title:
+    en: Verify the alert
+    pt-BR: Verificar o alerta
+  instructions:
+    en: Confirm that the action group and alert exist and the alert is enabled.
+    pt-BR: Confirme que o grupo de ação e o alerta existem e que o alerta está ativado.
+  commands:
+  - label:
+      en: Show the metric alert
+      pt-BR: Mostrar o alerta de métrica
+    language: bash
+    command: az monitor metrics alert show --resource-group rg-az104-lab-alerts --name alert-lab-high-traffic --query "{name:name,enabled:enabled,severity:severity}"
+      -o json
+  portal_steps:
+    en:
+    - Abra **Monitor** > **Alerts** > **Alert rules** e confirme `alert-lab-high-traffic` como **Enabled**.
+    - Abra **Action groups** e confirme `ag-lab-alerts`.
+    pt-BR:
+    - Abra **Monitor** > **Alerts** > **Alert rules** e confirme `alert-lab-high-traffic` como **Enabled**.
+    - Abra **Action groups** e confirme `ag-lab-alerts`.
+checks:
+- key: public-ip-exists
+  position: 1
+  name:
+    en: Public IP exists
+    pt-BR: IP público existe
+  description:
+    en: The alert-pip public IP must exist.
+    pt-BR: O IP público alert-pip precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/publicIPAddresses
+    name: alert-pip
+  required: true
+  weight: 1
+- key: action-group-exists
+  position: 2
+  name:
+    en: Action group exists
+    pt-BR: Grupo de ação existe
+  description:
+    en: The ag-lab-alerts action group must exist.
+    pt-BR: O grupo de ação ag-lab-alerts precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Insights/actionGroups
+    name: ag-lab-alerts
+  required: true
+  weight: 1
+- key: metric-alert-exists
+  position: 3
+  name:
+    en: Metric alert exists
+    pt-BR: Alerta de métrica existe
+  description:
+    en: The alert-lab-high-traffic rule must exist.
+    pt-BR: A regra alert-lab-high-traffic precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Insights/metricAlerts
+    name: alert-lab-high-traffic
+  required: true
+  weight: 1
+- key: metric-alert-enabled
+  position: 4
+  name:
+    en: Metric alert is enabled
+    pt-BR: Alerta de métrica está ativado
+  description:
+    en: The metric alert must be enabled.
+    pt-BR: O alerta de métrica precisa estar ativado.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Insights/metricAlerts
+    name: alert-lab-high-traffic
+    path: properties.enabled
+    value: true
+  required: true
+  weight: 1

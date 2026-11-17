@@ -14,6 +14,7 @@ from app.core.database import engine
 NEW_CHECK_TYPES = (
     "policy_assignment_exists",
     "resource_lock_exists",
+    "group_role_assignment_exists",
     "virtual_network_peering_exists",
     "load_balancer_probe_exists",
 )

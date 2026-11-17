@@ -1,0 +1,227 @@
+slug: storage-redundancy-encryption
+title:
+  en: Configure Storage redundancy and encryption
+  pt-BR: Configurar redundância e criptografia da Storage
+description:
+  en: Create a Storage Account, change redundancy to GRS, enforce TLS 1.2 and review blob encryption.
+  pt-BR: Crie uma Storage Account, altere a redundância para GRS, exija TLS 1.2 e revise a criptografia de blobs.
+objectives:
+  en:
+  - Create a Standard Storage Account
+  - Change redundancy to GRS
+  - Verify encryption and TLS settings
+  pt-BR:
+  - Criar uma Storage Account Standard
+  - Alterar a redundância para GRS
+  - Verificar criptografia e TLS
+prerequisites:
+  en:
+  - A subscription where you can create storage accounts
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar storage accounts
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: GRS storage may have a small cost. Delete the resource group after the lab.
+  pt-BR: O armazenamento GRS pode ter um custo pequeno. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-storage-redundancy --yes --no-wait
+domain_id: storage
+skill_id: st-02
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-storage-redundancy
+content_version: '1'
+status: published
+sort_order: 150
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-storage-redundancy`.
+    pt-BR: Crie `rg-az104-lab-storage-redundancy`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-storage-redundancy --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-storage-redundancy`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-storage-redundancy`, escolha **East US** e crie.
+- key: create-storage
+  position: 2
+  title:
+    en: Create the Storage Account
+    pt-BR: Criar a Storage Account
+  instructions:
+    en: Create `stredlab<unique>` with Standard_GRS and tag Environment=Lab.
+    pt-BR: Crie `stredlab<unique>` com Standard_GRS e tag Environment=Lab.
+  commands:
+  - label:
+      en: Create the Storage Account
+      pt-BR: Criar a Storage Account
+    language: bash
+    command: az storage account create --name stredlab<unique> --resource-group rg-az104-lab-storage-redundancy --location
+      eastus --sku Standard_GRS --kind StorageV2 --min-tls-version TLS1_2 --allow-blob-public-access false --tags Environment=Lab
+  portal_steps:
+    en:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-lab-storage-redundancy`, nomeie como `stredlab<unique>` e escolha **East US**.
+    - Use **Standard** e **Geo-redundant storage (GRS)** e adicione a tag `Environment=Lab`.
+    pt-BR:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-lab-storage-redundancy`, nomeie como `stredlab<unique>` e escolha **East US**.
+    - Use **Standard** e **Geo-redundant storage (GRS)** e adicione a tag `Environment=Lab`.
+- key: change-redundancy
+  position: 3
+  title:
+    en: Confirm redundancy
+    pt-BR: Confirmar a redundância
+  instructions:
+    en: Confirm that the Storage Account uses Standard_GRS.
+    pt-BR: Confirme que a Storage Account usa Standard_GRS.
+  commands:
+  - label:
+      en: Update redundancy
+      pt-BR: Atualizar redundância
+    language: bash
+    command: az storage account show --name stredlab<unique> --resource-group rg-az104-lab-storage-redundancy --query "{sku:sku.name}"
+      -o json
+  portal_steps:
+    en:
+    - Abra a Storage Account > **Overview** e confirme **Standard_GRS** em **Redundancy**.
+    pt-BR:
+    - Abra a Storage Account > **Overview** e confirme **Standard_GRS** em **Redundancy**.
+- key: encryption-tls
+  position: 4
+  title:
+    en: Review TLS and encryption
+    pt-BR: Revisar TLS e criptografia
+  instructions:
+    en: Review the TLS and blob encryption settings.
+    pt-BR: Revise as configurações de TLS e criptografia de blobs.
+  commands:
+  - label:
+      en: Set TLS 1.2
+      pt-BR: Definir TLS 1.2
+    language: bash
+    command: az storage account show --name stredlab<unique> --resource-group rg-az104-lab-storage-redundancy --query "{tls:minimumTlsVersion,public:allowBlobPublicAccess,encryption:encryption.services.blob.enabled}"
+      -o json
+  portal_steps:
+    en:
+    - Em **Configuration**, confirme **Minimum TLS version** `TLS1_2` e **Allow blob public access** desativado.
+    - Em **Settings** > **Encryption**, confirme a criptografia de blobs.
+    pt-BR:
+    - Em **Configuration**, confirme **Minimum TLS version** `TLS1_2` e **Allow blob public access** desativado.
+    - Em **Settings** > **Encryption**, confirme a criptografia de blobs.
+- key: verify
+  position: 5
+  title:
+    en: Verify the configuration
+    pt-BR: Verificar a configuração
+  instructions:
+    en: Show the final SKU and encryption settings.
+    pt-BR: Mostre o SKU e as configurações de criptografia finais.
+  commands:
+  - label:
+      en: Show the Storage Account
+      pt-BR: Mostrar a Storage Account
+    language: bash
+    command: az storage account show --name stredlab<unique> --resource-group rg-az104-lab-storage-redundancy --query "{sku:sku.name,tls:minimumTlsVersion,encryption:encryption.services.blob.enabled}"
+      -o json
+  portal_steps:
+    en:
+    - Em **Overview**, confirme `Standard_GRS`; em **Configuration**, confirme `TLS1_2`; em **Encryption**, confirme a criptografia.
+    pt-BR:
+    - Em **Overview**, confirme `Standard_GRS`; em **Configuration**, confirme `TLS1_2`; em **Encryption**, confirme a criptografia.
+checks:
+- key: storage-account-exists
+  position: 1
+  name:
+    en: Storage Account exists
+    pt-BR: Storage Account existe
+  description:
+    en: A Storage Account with stredlab prefix must exist.
+    pt-BR: Uma Storage Account com o prefixo stredlab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stredlab
+  required: true
+  weight: 1
+- key: storage-sku-grs
+  position: 2
+  name:
+    en: Redundancy is GRS
+    pt-BR: Redundância é GRS
+  description:
+    en: The Storage Account must use Standard_GRS.
+    pt-BR: A Storage Account precisa usar Standard_GRS.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stredlab
+    path: sku.name
+    value: Standard_GRS
+  required: true
+  weight: 1
+- key: tls-1-2
+  position: 3
+  name:
+    en: Minimum TLS is 1.2
+    pt-BR: TLS mínimo é 1.2
+  description:
+    en: The minimum TLS version must be TLS1_2.
+    pt-BR: A versão mínima de TLS precisa ser TLS1_2.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stredlab
+    path: properties.minimumTlsVersion
+    value: TLS1_2
+  required: true
+  weight: 1
+- key: blob-encryption
+  position: 4
+  name:
+    en: Blob encryption is enabled
+    pt-BR: Criptografia de blobs ativada
+  description:
+    en: Blob encryption at rest must be enabled.
+    pt-BR: A criptografia de blobs em repouso precisa estar ativada.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stredlab
+    path: properties.encryption.services.blob.enabled
+    value: true
+  required: true
+  weight: 1
+- key: environment-tag
+  position: 5
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The Storage Account must have Environment=Lab.
+    pt-BR: A Storage Account precisa ter Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stredlab
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1

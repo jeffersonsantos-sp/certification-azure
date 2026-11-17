@@ -1,0 +1,268 @@
+slug: networking-private-endpoint
+title:
+  en: Create a private endpoint for Blob Storage
+  pt-BR: Criar um private endpoint para Blob Storage
+description:
+  en: Create a VNet, a private DNS zone and a private endpoint to a Storage Account blob service.
+  pt-BR: Crie uma VNet, uma zona DNS privada e um private endpoint para o serviço Blob de uma Storage Account.
+objectives:
+  en:
+  - Create a VNet and subnet prepared for private endpoints
+  - Create a private DNS zone
+  - Create a private endpoint to the Storage Account
+  pt-BR:
+  - Criar uma VNet e subnet preparada para private endpoints
+  - Criar uma zona DNS privada
+  - Criar um private endpoint para a Storage Account
+prerequisites:
+  en:
+  - A subscription where you can create private endpoints
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar private endpoints
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: The Storage Account and private endpoint may have a small cost. Delete the resource group after the lab.
+  pt-BR: A Storage Account e o private endpoint podem ter um custo pequeno. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-private --yes --no-wait
+domain_id: networking
+skill_id: vn-03
+difficulty: advanced
+estimated_minutes: 30
+resource_group_name: rg-az104-lab-private
+content_version: '1'
+status: published
+sort_order: 180
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-private`.
+    pt-BR: Crie `rg-az104-lab-private`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-private --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-private`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-private`, escolha **East US** e crie.
+- key: create-vnet
+  position: 2
+  title:
+    en: Create the VNet and prepare the subnet
+    pt-BR: Criar a VNet e preparar a subnet
+  instructions:
+    en: Create `pe-vnet` 10.60.0.0/16 with `default` 10.60.0.0/24 and disable private endpoint network policies.
+    pt-BR: Crie `pe-vnet` 10.60.0.0/16 com `default` 10.60.0.0/24 e desative as políticas de rede para private endpoint.
+  commands:
+  - label:
+      en: Create the VNet
+      pt-BR: Criar a VNet
+    language: bash
+    command: az network vnet create --resource-group rg-az104-lab-private --name pe-vnet --address-prefix 10.60.0.0/16 --subnet-name
+      default --subnet-prefix 10.60.0.0/24
+  - label:
+      en: Disable private endpoint policies
+      pt-BR: Desativar políticas de private endpoint
+    language: bash
+    command: az network vnet subnet update --resource-group rg-az104-lab-private --vnet-name pe-vnet --name default --disable-private-endpoint-network-policies
+      true
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create** e crie `pe-vnet` com `10.60.0.0/16` e subnet `default` `10.60.0.0/24`.
+    - Abra a subnet `default` > **Private endpoint network policies** e desative as políticas.
+    pt-BR:
+    - Abra **Virtual networks** > **Create** e crie `pe-vnet` com `10.60.0.0/16` e subnet `default` `10.60.0.0/24`.
+    - Abra a subnet `default` > **Private endpoint network policies** e desative as políticas.
+- key: create-storage
+  position: 3
+  title:
+    en: Create the Storage Account
+    pt-BR: Criar a Storage Account
+  instructions:
+    en: Create `stpelab<unique>` with Standard_LRS.
+    pt-BR: Crie `stpelab<unique>` com Standard_LRS.
+  commands:
+  - label:
+      en: Create the Storage Account
+      pt-BR: Criar a Storage Account
+    language: bash
+    command: az storage account create --name stpelab<unique> --resource-group rg-az104-lab-private --location eastus --sku
+      Standard_LRS --kind StorageV2
+  portal_steps:
+    en:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-lab-private`, nomeie como `stpelab<unique>` e use **Standard_LRS**.
+    pt-BR:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-lab-private`, nomeie como `stpelab<unique>` e use **Standard_LRS**.
+- key: create-private-dns-zone
+  position: 4
+  title:
+    en: Create the private DNS zone
+    pt-BR: Criar a zona DNS privada
+  instructions:
+    en: Create `privatelink.blob.core.windows.net` and link it to `pe-vnet`.
+    pt-BR: Crie `privatelink.blob.core.windows.net` e vincule-a à `pe-vnet`.
+  commands:
+  - label:
+      en: Create the private DNS zone
+      pt-BR: Criar a zona DNS privada
+    language: bash
+    command: az network private-dns zone create --resource-group rg-az104-lab-private --name privatelink.blob.core.windows.net
+  - label:
+      en: Link the VNet
+      pt-BR: Vincular a VNet
+    language: bash
+    command: az network private-dns link vnet create --resource-group rg-az104-lab-private --zone-name privatelink.blob.core.windows.net
+      --name pe-dns-link --virtual-network pe-vnet --registration-enabled false
+  portal_steps:
+    en:
+    - Abra **Private DNS zones** > **Create**.
+    - Informe `privatelink.blob.core.windows.net` no resource group `rg-az104-lab-private`.
+    - Abra a zona > **Virtual network links** > **Add** e vincule `pe-vnet`.
+    pt-BR:
+    - Abra **Private DNS zones** > **Create**.
+    - Informe `privatelink.blob.core.windows.net` no resource group `rg-az104-lab-private`.
+    - Abra a zona > **Virtual network links** > **Add** e vincule `pe-vnet`.
+- key: create-private-endpoint
+  position: 5
+  title:
+    en: Create the private endpoint
+    pt-BR: Criar o private endpoint
+  instructions:
+    en: Create `pe-blob` connected to the Storage Account blob service.
+    pt-BR: Crie `pe-blob` conectado ao serviço Blob da Storage Account.
+  commands:
+  - label:
+      en: Create the private endpoint
+      pt-BR: Criar o private endpoint
+    language: bash
+    command: 'STORAGE_ID=$(az storage account show --name stpelab<unique> --resource-group rg-az104-lab-private --query id
+      -o tsv)
+
+      az network private-endpoint create --resource-group rg-az104-lab-private --name pe-blob --vnet-name pe-vnet --subnet
+      default --private-connection-resource-id "$STORAGE_ID" --group-id blob --connection-name pe-blob-conn'
+  portal_steps:
+    en:
+    - Abra **Private endpoints** > **Create**.
+    - Selecione `rg-az104-lab-private`, nomeie como `pe-blob` e escolha **East US**.
+    - Em **Resource**, selecione **Microsoft.Storage/storageAccounts** e a conta `stpelab<unique>`.
+    - Em **Target sub-resource**, selecione **blob**.
+    - Em **Virtual Network**, selecione `pe-vnet` e a subnet `default`, depois crie.
+    pt-BR:
+    - Abra **Private endpoints** > **Create**.
+    - Selecione `rg-az104-lab-private`, nomeie como `pe-blob` e escolha **East US**.
+    - Em **Resource**, selecione **Microsoft.Storage/storageAccounts** e a conta `stpelab<unique>`.
+    - Em **Target sub-resource**, selecione **blob**.
+    - Em **Virtual Network**, selecione `pe-vnet` e a subnet `default`, depois crie.
+- key: verify
+  position: 6
+  title:
+    en: Verify the private endpoint
+    pt-BR: Verificar o private endpoint
+  instructions:
+    en: Confirm the private endpoint, DNS zone and storage account.
+    pt-BR: Confirme o private endpoint, a zona DNS e a Storage Account.
+  commands:
+  - label:
+      en: Show the private endpoint
+      pt-BR: Mostrar o private endpoint
+    language: bash
+    command: az network private-endpoint show --resource-group rg-az104-lab-private --name pe-blob --query "{name:name,connections:privateLinkServiceConnections[].name}"
+      -o json
+  portal_steps:
+    en:
+    - Abra `pe-blob` > **Overview** e confirme o status **Approved**.
+    - Abra a zona DNS privada e confirme o vínculo com `pe-vnet`.
+    - Abra a Storage Account > **Networking** > **Private endpoint connections** e confirme `pe-blob`.
+    pt-BR:
+    - Abra `pe-blob` > **Overview** e confirme o status **Approved**.
+    - Abra a zona DNS privada e confirme o vínculo com `pe-vnet`.
+    - Abra a Storage Account > **Networking** > **Private endpoint connections** e confirme `pe-blob`.
+checks:
+- key: vnet-exists
+  position: 1
+  name:
+    en: Virtual Network exists
+    pt-BR: Virtual Network existe
+  description:
+    en: The pe-vnet must exist.
+    pt-BR: A pe-vnet precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: pe-vnet
+  required: true
+  weight: 1
+- key: subnet-exists
+  position: 2
+  name:
+    en: Default subnet exists
+    pt-BR: Subnet default existe
+  description:
+    en: The default subnet with 10.60.0.0/24 must exist.
+    pt-BR: A subnet default com 10.60.0.0/24 precisa existir.
+  check_type: subnet_exists
+  config:
+    vnet_name: pe-vnet
+    subnet_name: default
+    address_prefix: 10.60.0.0/24
+  required: true
+  weight: 1
+- key: storage-account-exists
+  position: 3
+  name:
+    en: Storage Account exists
+    pt-BR: Storage Account existe
+  description:
+    en: A Storage Account with stpelab prefix must exist.
+    pt-BR: Uma Storage Account com o prefixo stpelab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stpelab
+  required: true
+  weight: 1
+- key: private-dns-zone-exists
+  position: 4
+  name:
+    en: Private DNS zone exists
+    pt-BR: Zona DNS privada existe
+  description:
+    en: The privatelink.blob.core.windows.net zone must exist.
+    pt-BR: A zona privatelink.blob.core.windows.net precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/privateDnsZones
+    name: privatelink.blob.core.windows.net
+  required: true
+  weight: 1
+- key: private-endpoint-exists
+  position: 5
+  name:
+    en: Private endpoint exists
+    pt-BR: Private endpoint existe
+  description:
+    en: The pe-blob private endpoint must exist.
+    pt-BR: O private endpoint pe-blob precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/privateEndpoints
+    name: pe-blob
+  required: true
+  weight: 1

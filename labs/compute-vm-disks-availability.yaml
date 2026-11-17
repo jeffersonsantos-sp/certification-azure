@@ -1,0 +1,279 @@
+slug: compute-vm-disks-availability
+title:
+  en: Create a VM with availability and data disk
+  pt-BR: Criar uma VM com disponibilidade e disco de dados
+description:
+  en: Create an availability set, a Linux VM inside it and attach a 10 GB managed data disk.
+  pt-BR: Crie um availability set, uma VM Linux dentro dele e anexe um disco gerenciado de dados de 10 GB.
+objectives:
+  en:
+  - Create an availability set with 2 fault domains
+  - Create a VM in the availability set
+  - Attach a 10 GB data disk
+  pt-BR:
+  - Criar um availability set com 2 fault domains
+  - Criar uma VM dentro do availability set
+  - Anexar um disco de dados de 10 GB
+prerequisites:
+  en:
+  - A subscription where you can create VMs and disks
+  - Reader access to the lab resource group
+  pt-BR:
+  - Uma assinatura onde você possa criar VMs e discos
+  - Acesso Reader ao resource group do laboratório
+cost_warning:
+  en: A Standard_B1s VM and a 10 GB disk may incur cost. Delete the resource group after the lab.
+  pt-BR: A VM Standard_B1s e um disco de 10 GB podem gerar custo. Exclua o resource group após o laboratório.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-vmdisks --yes --no-wait
+domain_id: compute
+skill_id: cm-02
+difficulty: advanced
+estimated_minutes: 30
+resource_group_name: rg-az104-lab-vmdisks
+content_version: '1'
+status: published
+sort_order: 160
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-vmdisks`.
+    pt-BR: Crie `rg-az104-lab-vmdisks`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-vmdisks --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-vmdisks`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-vmdisks`, escolha **East US** e crie.
+- key: create-availability-set
+  position: 2
+  title:
+    en: Create the availability set
+    pt-BR: Criar o availability set
+  instructions:
+    en: Create `lab-avset` with 2 fault domains and 5 update domains.
+    pt-BR: Crie `lab-avset` com 2 fault domains e 5 update domains.
+  commands:
+  - label:
+      en: Create the availability set
+      pt-BR: Criar o availability set
+    language: bash
+    command: az vm availability-set create --resource-group rg-az104-lab-vmdisks --name lab-avset --platform-fault-domain-count
+      2 --platform-update-domain-count 5
+  portal_steps:
+    en:
+    - Abra **Availability sets** > **Create**.
+    - Selecione `rg-az104-lab-vmdisks` e nomeie como `lab-avset`.
+    - Defina **Fault domains** = 2 e **Update domains** = 5 e crie.
+    pt-BR:
+    - Abra **Availability sets** > **Create**.
+    - Selecione `rg-az104-lab-vmdisks` e nomeie como `lab-avset`.
+    - Defina **Fault domains** = 2 e **Update domains** = 5 e crie.
+- key: create-network
+  position: 3
+  title:
+    en: Create the VNet and NIC
+    pt-BR: Criar a VNet e a NIC
+  instructions:
+    en: Create `disks-vnet` 10.50.0.0/16 with `default` 10.50.0.0/24 and a NIC named `disks-nic`.
+    pt-BR: Crie `disks-vnet` 10.50.0.0/16 com `default` 10.50.0.0/24 e uma NIC chamada `disks-nic`.
+  commands:
+  - label:
+      en: Create the VNet
+      pt-BR: Criar a VNet
+    language: bash
+    command: az network vnet create --resource-group rg-az104-lab-vmdisks --name disks-vnet --address-prefix 10.50.0.0/16
+      --subnet-name default --subnet-prefix 10.50.0.0/24
+  - label:
+      en: Create the NIC
+      pt-BR: Criar a NIC
+    language: bash
+    command: az network nic create --resource-group rg-az104-lab-vmdisks --name disks-nic --vnet-name disks-vnet --subnet
+      default
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create** e crie `disks-vnet` com `10.50.0.0/16` e subnet `default` `10.50.0.0/24`.
+    - Abra **Network interfaces** > **Create** e crie `disks-nic` nessa subnet.
+    pt-BR:
+    - Abra **Virtual networks** > **Create** e crie `disks-vnet` com `10.50.0.0/16` e subnet `default` `10.50.0.0/24`.
+    - Abra **Network interfaces** > **Create** e crie `disks-nic` nessa subnet.
+- key: create-vm
+  position: 4
+  title:
+    en: Create the VM
+    pt-BR: Criar a VM
+  instructions:
+    en: Create `vmdisks-lab01` in `lab-avset` with size Standard_B1s and tag Environment=Lab.
+    pt-BR: Crie `vmdisks-lab01` em `lab-avset` com tamanho Standard_B1s e tag Environment=Lab.
+  commands:
+  - label:
+      en: Create the VM
+      pt-BR: Criar a VM
+    language: bash
+    command: az vm create --resource-group rg-az104-lab-vmdisks --name vmdisks-lab01 --image Ubuntu2204 --size Standard_B1s
+      --admin-username azureuser --generate-ssh-keys --nics disks-nic --availability-set lab-avset --tags Environment=Lab
+  portal_steps:
+    en:
+    - Abra **Virtual machines** > **Create** > **Azure virtual machine**.
+    - Use `vmdisks-lab01`, imagem **Ubuntu Server 22.04 LTS**, tamanho `Standard_B1s`.
+    - Em **Availability options**, selecione **Availability set** > `lab-avset`.
+    - Em **Tags**, adicione `Environment=Lab` e crie.
+    pt-BR:
+    - Abra **Virtual machines** > **Create** > **Azure virtual machine**.
+    - Use `vmdisks-lab01`, imagem **Ubuntu Server 22.04 LTS**, tamanho `Standard_B1s`.
+    - Em **Availability options**, selecione **Availability set** > `lab-avset`.
+    - Em **Tags**, adicione `Environment=Lab` e crie.
+- key: attach-disk
+  position: 5
+  title:
+    en: Attach the data disk
+    pt-BR: Anexar o disco de dados
+  instructions:
+    en: Create a 10 GB managed disk and attach it to the VM.
+    pt-BR: Crie um disco gerenciado de 10 GB e anexe-o à VM.
+  commands:
+  - label:
+      en: Create the disk
+      pt-BR: Criar o disco
+    language: bash
+    command: az disk create --resource-group rg-az104-lab-vmdisks --name data-disk-lab --size-gb 10
+  - label:
+      en: Attach the disk
+      pt-BR: Anexar o disco
+    language: bash
+    command: az vm disk attach --resource-group rg-az104-lab-vmdisks --vm-name vmdisks-lab01 --name data-disk-lab
+  portal_steps:
+    en:
+    - Abra **Disks** > **Create** e crie `data-disk-lab` com 10 GB.
+    - Abra `vmdisks-lab01` > **Disks** > **Attach existing disks** e selecione `data-disk-lab`.
+    pt-BR:
+    - Abra **Disks** > **Create** e crie `data-disk-lab` com 10 GB.
+    - Abra `vmdisks-lab01` > **Disks** > **Attach existing disks** e selecione `data-disk-lab`.
+- key: verify
+  position: 6
+  title:
+    en: Verify the configuration
+    pt-BR: Verificar a configuração
+  instructions:
+    en: Confirm the VM, availability set and data disk.
+    pt-BR: Confirme a VM, o availability set e o disco de dados.
+  commands:
+  - label:
+      en: Show the VM
+      pt-BR: Mostrar a VM
+    language: bash
+    command: az vm show --resource-group rg-az104-lab-vmdisks --name vmdisks-lab01 --query "{size:hardwareProfile.vmSize,avSet:availabilitySet.id}"
+      -o json
+  portal_steps:
+    en:
+    - Abra `vmdisks-lab01` > **Overview** e **Disks**; confirme o tamanho e o disco anexado.
+    - Abra `lab-avset` > **Virtual machines** e confirme a VM.
+    pt-BR:
+    - Abra `vmdisks-lab01` > **Overview** e **Disks**; confirme o tamanho e o disco anexado.
+    - Abra `lab-avset` > **Virtual machines** e confirme a VM.
+checks:
+- key: avset-exists
+  position: 1
+  name:
+    en: Availability set exists
+    pt-BR: Availability set existe
+  description:
+    en: The lab-avset must exist.
+    pt-BR: O lab-avset precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Compute/availabilitySets
+    name: lab-avset
+  required: true
+  weight: 1
+- key: avset-fault-domains
+  position: 2
+  name:
+    en: Availability set has 2 fault domains
+    pt-BR: Availability set tem 2 fault domains
+  description:
+    en: The availability set must use 2 fault domains.
+    pt-BR: O availability set precisa usar 2 fault domains.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Compute/availabilitySets
+    name: lab-avset
+    path: properties.platformFaultDomainCount
+    value: 2
+  required: true
+  weight: 1
+- key: vm-exists
+  position: 3
+  name:
+    en: VM exists
+    pt-BR: VM existe
+  description:
+    en: The vmdisks-lab01 VM must exist.
+    pt-BR: A VM vmdisks-lab01 precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Compute/virtualMachines
+    name: vmdisks-lab01
+  required: true
+  weight: 1
+- key: vm-size
+  position: 4
+  name:
+    en: VM size is Standard_B1s
+    pt-BR: Tamanho da VM é Standard_B1s
+  description:
+    en: The VM must use Standard_B1s.
+    pt-BR: A VM precisa usar Standard_B1s.
+  check_type: property_equals
+  config:
+    resource_type: Microsoft.Compute/virtualMachines
+    name: vmdisks-lab01
+    path: hardwareProfile.vmSize
+    value: Standard_B1s
+  required: true
+  weight: 1
+- key: data-disk-exists
+  position: 5
+  name:
+    en: Data disk exists
+    pt-BR: Disco de dados existe
+  description:
+    en: The data-disk-lab managed disk must exist.
+    pt-BR: O disco gerenciado data-disk-lab precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Compute/disks
+    name: data-disk-lab
+  required: true
+  weight: 1
+- key: environment-tag
+  position: 6
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The VM must have Environment=Lab.
+    pt-BR: A VM precisa ter Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Compute/virtualMachines
+    name: vmdisks-lab01
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1

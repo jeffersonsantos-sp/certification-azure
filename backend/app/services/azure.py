@@ -323,6 +323,8 @@ class LabValidator:
             return await self._check_subnet_exists(config)
         if check_type == "nsg_rule_exists":
             return await self._check_nsg_rule_exists(config)
+        if check_type == "group_role_assignment_exists":
+            return await self._check_group_role_assignment_exists(config)
         if check_type == "policy_assignment_exists":
             return await self._check_policy_assignment_exists(config)
         if check_type == "resource_lock_exists":
@@ -533,6 +535,47 @@ class LabValidator:
         return (
             "failed",
             f"{role_name} is not assigned to the signed-in user at resource group scope.",
+            {},
+        )
+
+    async def _check_group_role_assignment_exists(self, config: dict) -> tuple[str, str, dict]:
+        role_name = str(config.get("role_definition_name", "Reader"))
+        if self._role_definition_id is None:
+            self._role_definition_id = await self.client.get_role_definition_id(
+                self.subscription_id,
+                role_name,
+            )
+        if not self._role_definition_id:
+            return "error", f"Role definition {role_name} was not found.", {}
+
+        expected_scope = (
+            f"/subscriptions/{self.subscription_id}"
+            f"/resourceGroups/{self.resource_group}"
+        ).lower()
+        assignments = await self.client.list_role_assignments(
+            self.subscription_id,
+            self.resource_group,
+        )
+        for assignment in assignments:
+            properties = assignment.get("properties") or {}
+            principal_type = str(properties.get("principalType", "")).lower()
+            role_id = str(properties.get("roleDefinitionId", "")).lower()
+            scope = str(properties.get("scope", "")).lower()
+            if principal_type != "group":
+                continue
+            if not role_id.endswith(self._role_definition_id.lower()):
+                continue
+            if not scope.startswith(expected_scope):
+                continue
+            return (
+                "passed",
+                f"{role_name} is assigned to an Entra group at resource group scope.",
+                {"assignment_id": assignment.get("id")},
+            )
+
+        return (
+            "failed",
+            f"No Entra group has the {role_name} role at resource group scope.",
             {},
         )
 
