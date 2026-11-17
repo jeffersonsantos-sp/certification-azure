@@ -143,6 +143,9 @@ Lab content is bilingual: `title`, `description`, `objectives`, `prerequisites`,
 
 ## Security Notes
 - Never commit `.env` files
+- Run `bash scripts/install_hooks.sh` once per clone to enable the pre-commit secret scanner
+- `python3 scripts/scan_secrets.py --all` scans tracked files; CI runs the same check via `.github/workflows/secret-scan.yml`
+- GitHub Secret Scanning must be enabled in repository settings when the CLI is unavailable
 - Use environment variables for secrets
 - Implement proper CORS configuration
 - Validate all user input

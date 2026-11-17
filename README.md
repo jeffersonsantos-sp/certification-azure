@@ -444,6 +444,22 @@ VITE_AZURE_REDIRECT_URI=http://localhost:3000
 
 ---
 
+### Secret scanning
+
+This repository includes a local secret scanner and a CI check:
+
+```bash
+# Install the pre-commit hook (uses gitleaks if available, otherwise the bundled Python scanner)
+bash scripts/install_hooks.sh
+
+# Scan tracked files manually
+python3 scripts/scan_secrets.py --all
+```
+
+`.github/workflows/secret-scan.yml` runs the same scanner on every push and pull request. Enable **GitHub Secret Scanning** in **Settings > Code security and analysis** for an additional layer of protection; it cannot be enabled from the CLI in this environment.
+
+Never commit `.env` or `.env.local`. Only the `.env.example` placeholders belong in version control.
+
 ## 🏃 Running the Application
 
 ### Docker Compose Commands
