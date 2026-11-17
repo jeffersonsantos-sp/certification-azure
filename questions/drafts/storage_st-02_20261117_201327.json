@@ -1,0 +1,159 @@
+{
+  "metadata": {
+    "skill_id": "st-02",
+    "domain_id": "storage",
+    "generated_at": "2026-11-17T20:13:27.565456",
+    "count": 4,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to create a storage account that provides high availability by replicating data across multiple regions. Which redundancy option should you choose?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Locally-redundant storage (LRS)",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Zone-redundant storage (ZRS)",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Geo-redundant storage (GRS)",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Geo-zone-redundant storage (GZRS)",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Geo-zone-redundant storage (GZRS) provides high availability by replicating your data across multiple regions, ensuring data durability even in the event of a regional outage. More details can be found in the Microsoft Learn documentation.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+      "difficulty": "intermediate",
+      "tags": [
+        "storage",
+        "redundancy",
+        "availability"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Which encryption type is enabled by default when you create a new Azure Storage account?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Customer-managed keys (CMK)",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Server-side encryption using Microsoft-managed keys (SSE with MMK)",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Client-side encryption",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Data encryption at rest using Transparent Data Encryption (TDE)",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "By default, Azure Storage accounts use server-side encryption with Microsoft-managed keys (SSE with MMK) to encrypt data at rest. For more information, refer to the Microsoft Learn page on Azure Storage encryption.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-service-encryption",
+      "difficulty": "easy",
+      "tags": [
+        "encryption",
+        "security",
+        "azure storage"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "As an administrator, you need to copy a large amount of data from an on-premises location to Azure Blob Storage. Which tool would be most efficient for this task?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Portal",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Azure Storage Explorer",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "AzCopy",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Data Factory",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "AzCopy is a command-line utility designed for high-performance data transfers to and from Azure Storage, making it the most efficient choice for transferring large amounts of data. Further details can be found on Microsoft Learn.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10",
+      "difficulty": "intermediate",
+      "tags": [
+        "data transfer",
+        "AzCopy",
+        "blob storage"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You are configuring object replication between two storage accounts. Which of the following must be identical in both source and destination storage accounts?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Access tier",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Replication type",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Container names",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Account kind",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "For object replication in Azure Storage, the container names must be the same in both source and destination storage accounts. Refer to the Microsoft Learn documentation for more details.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/object-replication-overview",
+      "difficulty": "advanced",
+      "tags": [
+        "object replication",
+        "containers",
+        "storage accounts"
+      ],
+      "status": "draft"
+    }
+  ]
+}

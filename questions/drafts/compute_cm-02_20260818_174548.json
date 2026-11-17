@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "cm-02",
+    "domain_id": "compute",
+    "generated_at": "2026-11-17T19:58:54.983936",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "Which Azure portal option is used to create a new virtual machine?",
@@ -156,7 +164,7 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Availability Zones provide zone\u2011redundant placement for a single VM, protecting it from a single datacenter outage.",
+      "explanation": "Availability Zones provide zone‑redundant placement for a single VM, protecting it from a single datacenter outage.",
       "difficulty": "intermediate",
       "tags": [
         "availability"
@@ -190,7 +198,7 @@
       ]
     },
     {
-      "question_text": "When creating a VM, which setting enables encryption of the OS disk using a customer\u2011managed key?",
+      "question_text": "When creating a VM, which setting enables encryption of the OS disk using a customer‑managed key?",
       "options": [
         {
           "label": "A",
@@ -210,7 +218,7 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Azure Disk Encryption can be enabled during VM creation and uses keys stored in Azure Key Vault for customer\u2011managed encryption.",
+      "explanation": "Azure Disk Encryption can be enabled during VM creation and uses keys stored in Azure Key Vault for customer‑managed encryption.",
       "difficulty": "intermediate",
       "tags": [
         "encryption",

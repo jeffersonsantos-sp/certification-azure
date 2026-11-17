@@ -1,0 +1,428 @@
+{
+  "metadata": {
+    "skill_id": "mn-01",
+    "domain_id": "monitoring",
+    "generated_at": "2026-11-17T23:18:06.256003",
+    "count": 12,
+    "status": "draft",
+    "generated_by": "manual_rebalance"
+  },
+  "questions": [
+    {
+      "question_text": "Which Azure service is the central platform for collecting metrics, logs, and telemetry from Azure resources?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure Monitor",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure Backup",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure DNS",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Monitor is the central platform that collects metrics, activity logs, and telemetry from Azure resources.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/overview",
+      "difficulty": "easy",
+      "tags": [
+        "azure-monitor",
+        "fundamentals"
+      ]
+    },
+    {
+      "question_text": "Which Log Analytics table stores Azure subscription-level events such as resource creation and role assignments?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "AzureActivity",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "AzureMetrics",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "AzureDiagnostics",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "AzureStorageBlobLogs",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The AzureActivity table records subscription-level management events captured by Azure Activity Log.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/logs/manage-activity-logs",
+      "difficulty": "intermediate",
+      "tags": [
+        "kql",
+        "activity-log"
+      ]
+    },
+    {
+      "question_text": "Which diagnostic setting destination allows log data to be queried with Kusto Query Language?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Storage account",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Event Hubs",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Log Analytics workspace",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Azure Policy",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Log Analytics workspaces store data in tables that can be queried with Kusto Query Language.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/essentials/diagnostic-settings",
+      "difficulty": "intermediate",
+      "tags": [
+        "diagnostic-settings",
+        "kql"
+      ]
+    },
+    {
+      "question_text": "Which alert type evaluates a numeric metric at regular intervals and is suited for near real-time threshold alerts?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Metric alert",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Log alert",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Activity log alert",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Policy compliance alert",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Metric alerts evaluate platform or custom metrics on a schedule and are appropriate for near real-time numeric thresholds.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/alerts/alerts-metric",
+      "difficulty": "easy",
+      "tags": [
+        "alerts",
+        "metrics"
+      ]
+    },
+    {
+      "question_text": "What is an Azure Monitor action group?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "A group of virtual machines that share a load balancer",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "A collection of notification actions used by alerts",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "A resource group for monitoring resources",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "A set of policy definitions",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Action groups define the notifications and automated actions that Azure Monitor alerts invoke.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/alerts/action-groups",
+      "difficulty": "easy",
+      "tags": [
+        "alerts",
+        "action-groups"
+      ]
+    },
+    {
+      "question_text": "Which Network Watcher feature tests connectivity between a virtual machine and an endpoint over time?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Connection Monitor",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Azure Traffic Manager",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Network Security Group",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Route table",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Connection Monitor in Network Watcher monitors connectivity and communication between Azure resources and endpoints.",
+      "reference_url": "https://learn.microsoft.com/azure/network-watcher/connection-monitor",
+      "difficulty": "intermediate",
+      "tags": [
+        "network-watcher",
+        "connectivity"
+      ]
+    },
+    {
+      "question_text": "Which resource is required as the destination when enabling NSG flow logs?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Firewall",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Storage account",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Application Gateway",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Bastion host",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "NSG flow logs are written to a storage account and can also be integrated with Log Analytics or Traffic Analytics.",
+      "reference_url": "https://learn.microsoft.com/azure/network-watcher/network-watcher-nsg-flow-logging-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "network-watcher",
+        "nsg"
+      ]
+    },
+    {
+      "question_text": "Which agent is required for VM insights dependency mapping in addition to the Log Analytics agent?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy extension",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Dependency agent",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Network Watcher agent",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Backup extension",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "VM insights dependency mapping uses the dependency agent together with Log Analytics to discover processes and connections.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/vm/vminsights-enable-overview",
+      "difficulty": "advanced",
+      "tags": [
+        "vm-insights",
+        "agents"
+      ]
+    },
+    {
+      "question_text": "Which KQL operator filters rows based on a condition?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "project",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "where",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "summarize",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "extend",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The where operator filters a table to rows that match a specified condition.",
+      "reference_url": "https://learn.microsoft.com/azure/data-explorer/kusto/query/whereoperator",
+      "difficulty": "easy",
+      "tags": [
+        "kql"
+      ]
+    },
+    {
+      "question_text": "Which KQL operator groups rows and computes aggregates such as counts or averages?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "summarize",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "where",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "project",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "sort",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The summarize operator groups rows and calculates aggregate functions.",
+      "reference_url": "https://learn.microsoft.com/azure/data-explorer/kusto/query/summarizeoperator",
+      "difficulty": "intermediate",
+      "tags": [
+        "kql"
+      ]
+    },
+    {
+      "question_text": "Which Azure Monitor feature provides prebuilt monitoring dashboards for specific Azure services?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Monitor Insights",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Azure AD Conditional Access",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Site Recovery",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Container Registry",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Monitor Insights provides tailored monitoring experiences and workbooks for specific services.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/insights/insights-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "insights"
+      ]
+    },
+    {
+      "question_text": "Where can you view the health and operational state of an Azure virtual machine from Azure Monitor?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "VM insights",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Azure DNS zone",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Resource lock",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Management group",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "VM insights provides performance, availability, and dependency information for Azure virtual machines.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/vm/vminsights-overview",
+      "difficulty": "easy",
+      "tags": [
+        "vm-insights"
+      ]
+    }
+  ]
+}

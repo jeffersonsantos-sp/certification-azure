@@ -5,6 +5,7 @@ Validates generated questions against Azure documentation.
 """
 
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Optional
@@ -35,6 +36,10 @@ def validate_structure(data: dict) -> list[str]:
             issues.append(f"{prefix}: Missing explanation")
         if "difficulty" not in q:
             issues.append(f"{prefix}: Missing difficulty")
+        elif q.get("difficulty") not in ("easy", "intermediate", "advanced"):
+            issues.append(f"{prefix}: Invalid difficulty '{q.get('difficulty')}'")
+        if not q.get("tags"):
+            issues.append(f"{prefix}: Missing tags")
 
         question_type = q.get("question_type", "single_choice")
         options = q.get("options", [])
@@ -75,16 +80,25 @@ def validate_content(data: dict) -> list[str]:
     """Basic content validation rules."""
     issues = []
 
+    warnings = []
+
     for i, q in enumerate(data.get("questions", [])):
         prefix = f"Question {i+1}"
         text = q.get("question_text", "")
 
         # Check for forbidden patterns
-        forbidden = ["all of the above", "none of the above", "always", "never", "only"]
+        forbidden = ["all of the above", "none of the above"]
         text_lower = text.lower()
         for pattern in forbidden:
             if pattern in text_lower:
                 issues.append(f"{prefix}: Contains forbidden pattern '{pattern}'")
+        for pattern in ("always", "never"):
+            if re.search(rf"\b{pattern}\b", text_lower):
+                issues.append(f"{prefix}: Contains forbidden pattern '{pattern}'")
+        if re.search(r"\bonly\b", text_lower) and not re.search(
+            r"read[- ]only|only allow|only if|only when|only from|only to|only have", text_lower
+        ):
+            warnings.append(f"{prefix}: Contains ambiguous absolute term 'only'")
 
         # Check options don't repeat
         options = [o.get("text", "") for o in q.get("options", [])]
@@ -95,7 +109,10 @@ def validate_content(data: dict) -> list[str]:
         explanation = q.get("explanation", "")
         if len(explanation) < 20:
             issues.append(f"{prefix}: Explanation too short ({len(explanation)} chars)")
+        if not q.get("reference_url"):
+            warnings.append(f"{prefix}: Missing reference_url (legacy draft)")
 
+    data.setdefault("_warnings", warnings)
     return issues
 
 
@@ -114,6 +131,7 @@ def review_file(filepath: str) -> dict:
         "issue_count": len(all_issues),
         "structure_issues": structure_issues,
         "content_issues": content_issues,
+        "warnings": data.get("_warnings", []),
         "status": data.get("metadata", {}).get("status", "unknown"),
         "question_count": len(data.get("questions", []))
     }

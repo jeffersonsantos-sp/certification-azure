@@ -76,7 +76,7 @@
         },
         {
           "label": "C",
-          "text": "The user can read virtual networks and write to virtual machines."
+          "text": "The user can read virtual machines and write to virtual networks."
         },
         {
           "label": "D",

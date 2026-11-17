@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "cm-01",
+    "domain_id": "compute",
+    "generated_at": "2026-11-17T19:58:55.032158",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "In the following ARM template snippet, which resource group is being created?\n```json\n{\n  \"type\": \"Microsoft.Resources/resourceGroups\",\n  \"apiVersion\": \"2021-04-01\",\n  \"name\": \"rg-prod\",\n  \"location\": \"EastUS\"\n}\n```",

@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "mn-02",
+    "domain_id": "monitoring",
+    "generated_at": "2026-11-17T19:58:55.018026",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "What is the primary purpose of a Recovery Services vault in Azure?",
@@ -56,7 +64,7 @@
       ]
     },
     {
-      "question_text": "When creating a backup vault, which type of storage account redundancy is recommended for geo\u2011redundant protection?",
+      "question_text": "When creating a backup vault, which type of storage account redundancy is recommended for geo‑redundant protection?",
       "options": [
         {
           "label": "A",
@@ -76,7 +84,7 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Standard_GRS provides geo\u2011redundant storage, which is recommended for backup vaults to ensure data resilience across regions.",
+      "explanation": "Standard_GRS provides geo‑redundant storage, which is recommended for backup vaults to ensure data resilience across regions.",
       "difficulty": "intermediate",
       "tags": [
         "Backup vault"
@@ -185,7 +193,7 @@
         }
       ],
       "correct_answer": "A",
-      "explanation": "Azure Monitor includes built\u2011in alerts for backup, which surface health and issue notifications for backup jobs and items.",
+      "explanation": "Azure Monitor includes built‑in alerts for backup, which surface health and issue notifications for backup jobs and items.",
       "difficulty": "intermediate",
       "tags": [
         "Reports and alerts"
@@ -212,7 +220,7 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Snapshot frequency determines the interval at which Azure Files creates point\u2011in\u2011time copies for backup.",
+      "explanation": "Snapshot frequency determines the interval at which Azure Files creates point‑in‑time copies for backup.",
       "difficulty": "advanced",
       "tags": [
         "Backup policy"

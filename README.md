@@ -70,7 +70,7 @@ cd certification-azure
 
 ### Banco de questões
 
-- Banco atual com **546 questões aprovadas** (número dinâmico: `GET /api/v1/questions/stats`).
+- Banco atual com **350 questões aprovadas** (número dinâmico: `GET /api/v1/questions/stats`).
 - 5 domínios oficiais do AZ-104.
 - 3 níveis de dificuldade: `easy`, `intermediate`, `advanced`.
 - 5 formatos:
@@ -455,10 +455,8 @@ Sempre apague os grupos após o estudo para evitar custos.
 ## 📥 Importação e migrações
 
 ```bash
-# Questões
-docker compose exec backend python scripts/import_questions.py
-docker compose exec backend python scripts/migrate_advanced_formats.py
-docker compose exec backend python scripts/seed_advanced_formats.py
+# Questões — etapa canônica de distribuição
+docker compose exec backend python scripts/rebalance_questions.py
 
 # Labs
 docker compose exec backend python scripts/migrate_lab_checks.py

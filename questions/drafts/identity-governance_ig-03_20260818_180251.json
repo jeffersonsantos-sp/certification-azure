@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "ig-03",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-17T19:58:55.050656",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "What is the primary purpose of Azure Policy?",
@@ -23,7 +31,10 @@
       "correct_answer": "A",
       "explanation": "Azure Policy evaluates resource properties against defined rules to enforce compliance and governance.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     },
     {
       "question_text": "Which Azure feature allows you to lock a resource to prevent accidental deletion or modification?",
@@ -47,8 +58,11 @@
       ],
       "correct_answer": "B",
       "explanation": "Resource locks (CanNotDelete or ReadOnly) protect resources from being deleted or altered.",
-      "difficulty": "basic",
-      "tags": []
+      "difficulty": "intermediate",
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     },
     {
       "question_text": "How do tags help with cost management in Azure?",
@@ -72,8 +86,11 @@
       ],
       "correct_answer": "B",
       "explanation": "Tags enable grouping and categorization of resources, making cost analysis and allocation easier.",
-      "difficulty": "basic",
-      "tags": []
+      "difficulty": "intermediate",
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     },
     {
       "question_text": "Which of the following is NOT a recommended practice for organizing resources into resource groups?",
@@ -98,7 +115,10 @@
       "correct_answer": "C",
       "explanation": "A single group defeats the purpose of segmentation, hindering management, access control, and cost tracking.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     },
     {
       "question_text": "What is the main purpose of Management Groups in Azure?",
@@ -123,7 +143,10 @@
       "correct_answer": "A",
       "explanation": "Management Groups provide a hierarchical scope to apply governance, such as Azure Policy, across many subscriptions.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     },
     {
       "question_text": "Which Azure service provides recommendations for cost optimization?",
@@ -147,8 +170,11 @@
       ],
       "correct_answer": "B",
       "explanation": "Azure Advisor analyzes usage and offers actionable recommendations to reduce costs.",
-      "difficulty": "basic",
-      "tags": []
+      "difficulty": "intermediate",
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     },
     {
       "question_text": "To restrict the creation of new resources in a subscription, which Azure feature should you use?",
@@ -173,7 +199,10 @@
       "correct_answer": "C",
       "explanation": "Azure Policy can deny or audit the creation of resources, effectively restricting what can be deployed.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     },
     {
       "question_text": "What is the effect of applying a 'ReadOnly' resource lock?",
@@ -197,8 +226,11 @@
       ],
       "correct_answer": "B",
       "explanation": "A ReadOnly lock blocks any write operations, including updates and deletions, on the locked resource.",
-      "difficulty": "basic",
-      "tags": []
+      "difficulty": "intermediate",
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     },
     {
       "question_text": "Which statement about Azure subscriptions is true?",
@@ -222,8 +254,11 @@
       ],
       "correct_answer": "B",
       "explanation": "A subscription can contain many resource groups, which help organize resources within that subscription.",
-      "difficulty": "basic",
-      "tags": []
+      "difficulty": "intermediate",
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     },
     {
       "question_text": "How do you assign a tag to multiple resources at once?",
@@ -248,7 +283,10 @@
       "correct_answer": "A",
       "explanation": "The Azure portal provides a bulk edit feature that lets you apply the same tag to several resources simultaneously.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-03"
+      ]
     }
   ]
 }

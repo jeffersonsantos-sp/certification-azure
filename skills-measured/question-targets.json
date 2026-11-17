@@ -1,0 +1,102 @@
+{
+  "exam_weights": {
+    "identity-governance": "20-25%",
+    "storage": "15-20%",
+    "compute": "20-25%",
+    "networking": "15-20%",
+    "monitoring": "10-15%"
+  },
+  "target_total": 350,
+  "domains": [
+    {
+      "id": "identity-governance",
+      "target": 85,
+      "skills": [
+        {
+          "id": "ig-01",
+          "target": 40
+        },
+        {
+          "id": "ig-02",
+          "target": 25
+        },
+        {
+          "id": "ig-03",
+          "target": 20
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "target": 70,
+      "skills": [
+        {
+          "id": "st-01",
+          "target": 30
+        },
+        {
+          "id": "st-02",
+          "target": 26
+        },
+        {
+          "id": "st-03",
+          "target": 14
+        }
+      ]
+    },
+    {
+      "id": "compute",
+      "target": 75,
+      "skills": [
+        {
+          "id": "cm-01",
+          "target": 25
+        },
+        {
+          "id": "cm-02",
+          "target": 30
+        },
+        {
+          "id": "cm-03",
+          "target": 10
+        },
+        {
+          "id": "cm-04",
+          "target": 10
+        }
+      ]
+    },
+    {
+      "id": "networking",
+      "target": 65,
+      "skills": [
+        {
+          "id": "vn-01",
+          "target": 30
+        },
+        {
+          "id": "vn-02",
+          "target": 10
+        },
+        {
+          "id": "vn-03",
+          "target": 25
+        }
+      ]
+    },
+    {
+      "id": "monitoring",
+      "target": 55,
+      "skills": [
+        {
+          "id": "mn-01",
+          "target": 27
+        },
+        {
+          "id": "mn-02",
+          "target": 28
+        }
+      ]
+    }
+  ]
+}

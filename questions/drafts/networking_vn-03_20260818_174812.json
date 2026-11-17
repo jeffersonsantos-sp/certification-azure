@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "vn-03",
+    "domain_id": "networking",
+    "generated_at": "2026-11-17T19:58:54.939656",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "Which Azure DNS zone type is used for internal name resolution within a virtual network?",
@@ -48,7 +56,7 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Only the Standard SKU of Azure Load Balancer provides floating IPs for additional scenarios such as on\u2011premises hybrid connectivity.",
+      "explanation": "Only the Standard SKU of Azure Load Balancer provides floating IPs for additional scenarios such as on‑premises hybrid connectivity.",
       "difficulty": "intermediate",
       "tags": [
         "Load balancer"

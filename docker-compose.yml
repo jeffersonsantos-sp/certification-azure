@@ -32,6 +32,7 @@ services:
       - ./questions:/app/questions
       - ./scripts:/app/scripts
       - ./labs:/app/labs
+      - ./skills-measured:/app/skills-measured
 
   postgres:
     image: postgres:16-alpine

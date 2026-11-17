@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "st-02",
+    "domain_id": "storage",
+    "generated_at": "2026-11-17T19:58:54.970939",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "Which storage account kind supports Object Replication?",
@@ -37,11 +45,11 @@
         },
         {
           "label": "B",
-          "text": "GRS (Geo\u2011Redundant Storage)"
+          "text": "GRS (Geo‑Redundant Storage)"
         },
         {
           "label": "C",
-          "text": "ZRS (Zone\u2011Redundant Storage)"
+          "text": "ZRS (Zone‑Redundant Storage)"
         },
         {
           "label": "D",
@@ -60,15 +68,15 @@
       "options": [
         {
           "label": "A",
-          "text": "Customer\u2011managed keys only"
+          "text": "Customer‑managed keys only"
         },
         {
           "label": "B",
-          "text": "Service\u2011managed keys only"
+          "text": "Service‑managed keys only"
         },
         {
           "label": "C",
-          "text": "Both service\u2011managed and customer\u2011managed keys"
+          "text": "Both service‑managed and customer‑managed keys"
         },
         {
           "label": "D",
@@ -76,7 +84,7 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Azure Storage encrypts data at rest by default using Microsoft\u2011managed keys.",
+      "explanation": "Azure Storage encrypts data at rest by default using Microsoft‑managed keys.",
       "difficulty": "easy",
       "tags": [
         "encryption"
@@ -180,7 +188,7 @@
         },
         {
           "label": "D",
-          "text": "Geo\u2011redundancy"
+          "text": "Geo‑redundancy"
         }
       ],
       "correct_answer": "B",
@@ -207,11 +215,11 @@
         },
         {
           "label": "D",
-          "text": "RA\u2011GRS"
+          "text": "RA‑GRS"
         }
       ],
       "correct_answer": "B",
-      "explanation": "GRS (Geo\u2011Redundant Storage) asynchronously replicates data to a secondary region, suitable for DR scenarios.",
+      "explanation": "GRS (Geo‑Redundant Storage) asynchronously replicates data to a secondary region, suitable for DR scenarios.",
       "difficulty": "intermediate",
       "tags": [
         "replication",
@@ -219,7 +227,7 @@
       ]
     },
     {
-      "question_text": "To configure encryption with customer\u2011managed keys, which Azure resource must be linked to the storage account?",
+      "question_text": "To configure encryption with customer‑managed keys, which Azure resource must be linked to the storage account?",
       "options": [
         {
           "label": "A",
@@ -239,7 +247,7 @@
         }
       ],
       "correct_answer": "A",
-      "explanation": "Customer\u2011managed keys are stored in Azure Key Vault and must be linked to the storage account for encryption.",
+      "explanation": "Customer‑managed keys are stored in Azure Key Vault and must be linked to the storage account for encryption.",
       "difficulty": "advanced",
       "tags": [
         "encryption",

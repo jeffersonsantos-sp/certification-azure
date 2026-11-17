@@ -1,0 +1,231 @@
+{
+  "metadata": {
+    "skill_id": "ig-03",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-17T20:02:35.100849",
+    "count": 6,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to ensure that a specific Azure resource group cannot be accidentally deleted by administrators. Which feature should you use?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Resource lock",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure Blueprint",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Management group",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Resource locks can be applied to prevent accidental deletion or modification of resources. The 'Delete' lock ensures that users cannot delete the resource group unless the lock is removed.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+      "difficulty": "easy",
+      "tags": [
+        "resource locks",
+        "resource management"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Your company needs to ensure that all Azure resources are tagged with 'Environment: Production'. Which tool can enforce this policy?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Monitor",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure Policy",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Cost Management",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Azure Advisor",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Policy allows you to enforce organizational standards and assess compliance at-scale. You can create a policy definition to ensure all resources have the required tags.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "azure policy",
+        "tags",
+        "governance"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "How can you ensure that certain users in your organization can only view the cost details of an Azure subscription without modifying any resources?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign them the 'Owner' role at the subscription level.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Assign them the 'Reader' role at the subscription level.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Assign them the 'Contributor' role at the resource group level.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Assign them the 'Cost Management Reader' role at the resource level.",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "The 'Reader' role provides read-only access to Azure resources and allows users to view cost details without the ability to make changes.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#reader",
+      "difficulty": "intermediate",
+      "tags": [
+        "access control",
+        "cost management"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You want to manage multiple Azure subscriptions under a single organizational hierarchy. What should you configure?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Resource groups",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Management groups",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Blueprints",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Management groups in Azure provide a way to manage access, policy, and compliance across multiple Azure subscriptions.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview",
+      "difficulty": "advanced",
+      "tags": [
+        "management groups",
+        "subscriptions",
+        "governance"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Your organization wants to receive notifications when spending reaches 80% of the allocated budget for an Azure subscription. What should you configure?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure Budgets",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Resource locks",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Monitor Alerts",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Budgets allow you to set spending limits and receive alerts when spending reaches a specified percentage of the budget.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/budgets-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "cost management",
+        "alerts",
+        "budgets"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You need to prevent all virtual machines in a resource group from being started or stopped. Which Azure feature should you use?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Read-only lock",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure Policy",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure Blueprints",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Resource tags",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A read-only lock can be applied to a resource group to prevent any changes, including starting or stopping virtual machines.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+      "difficulty": "easy",
+      "tags": [
+        "resource locks",
+        "read-only",
+        "virtual machines"
+      ],
+      "status": "draft"
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "metadata": {
+    "skill_id": "ig-03",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-17T20:02:24.430452",
+    "count": 6,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You have been assigned to ensure that all resources in your subscription comply with company policies. Which Azure service should you use to enforce compliance across resources?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Monitor",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure Policy",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure Blueprints",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Security Center",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Policy helps enforce organizational standards and assess compliance at-scale. It is used to create, assign, and manage policies.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "Azure Policy",
+        "Compliance"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You want to prevent accidental deletion of a resource group in your subscription. Which feature should you use?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Resource Tags",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Resource Locks",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Management Groups",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Resource Locks prevent accidental deletion or modification of critical resources by applying a 'Delete' or 'Read-only' lock.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+      "difficulty": "easy",
+      "tags": [
+        "Resource Locks",
+        "Protection"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Your organization uses multiple subscriptions, and you need to ensure consistent policy application across all of them. What should you configure?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Resource Groups",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Management Groups",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Tags",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Blueprints",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Management Groups allow you to organize your subscriptions into a hierarchy for unified policy application and management.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "Management Groups",
+        "Subscriptions"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You need to identify underutilized resources to optimize costs. Which Azure service provides recommendations based on usage?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Cost Management",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Azure Advisor",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Monitor",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Policy",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Advisor provides recommendations to help you optimize and reduce your overall Azure spending by identifying underutilized resources.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/advisor/advisor-cost-recommendations",
+      "difficulty": "easy",
+      "tags": [
+        "Cost Management",
+        "Azure Advisor"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "As an administrator, you need to organize resources by department to enable easier reporting. What feature should you use?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Resource Groups",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Tags",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Management Groups",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Tags are name-value pairs that enable you to categorize resources, making it easier to report on resources by department or other criteria.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+      "difficulty": "easy",
+      "tags": [
+        "Tags",
+        "Resource Management"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Your company has a strict budget for each Azure subscription. How can you ensure that spending does not exceed the allocated budget?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure Cost Management + Billing",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Monitor",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Azure Security Center",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Azure Cost Management + Billing allows you to set budgets and alerts to ensure spending does not exceed the allocated budget.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/cost-management-billing-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "Budget",
+        "Cost Management"
+      ],
+      "status": "draft"
+    }
+  ]
+}

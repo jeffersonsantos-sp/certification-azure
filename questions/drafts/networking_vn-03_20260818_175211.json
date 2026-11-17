@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "vn-03",
+    "domain_id": "networking",
+    "generated_at": "2026-11-17T19:58:54.929391",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "Which Azure DNS zone type is used for private name resolution within a virtual network?",
@@ -163,7 +171,7 @@
       ]
     },
     {
-      "question_text": "A virtual machine cannot be reached via the load balancer\u2019s public IP, but can be accessed directly via its private IP. Which is the most likely cause?",
+      "question_text": "A virtual machine cannot be reached via the load balancer’s public IP, but can be accessed directly via its private IP. Which is the most likely cause?",
       "options": [
         {
           "label": "A",

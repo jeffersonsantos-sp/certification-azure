@@ -264,23 +264,23 @@
       "options": [
         {
           "label": "A",
-          "text": "Delete the user"
+          "text": "Delete the user",
+          "is_correct": false
         },
         {
           "label": "B",
-          "text": "Remove the user from each group individually"
+          "text": "Remove the user from each group individually",
+          "is_correct": true
         },
         {
           "label": "C",
-          "text": "Deactivate the user"
+          "text": "Deactivate the user",
+          "is_correct": false
         },
         {
           "label": "D",
-          "text": "Convert the user to a guest"
-        },
-        {
-          "label": "E",
-          "text": "Remove the user from the directory"
+          "text": "Convert the user to a guest",
+          "is_correct": false
         }
       ],
       "correct_answer": "B",

@@ -147,17 +147,44 @@ Return:
 
 ## Contagem de Questões por Domínio
 
-| Domínio | Peso | Questões Atuais | Meta |
-|---------|------|-----------------|------|
-| Identity & Governance | 20-25% | 155 | 150 |
-| Storage | 15-20% | 61 | 120 |
-| Compute | 20-25% | 91 | 150 |
-| Networking | 15-20% | 69 | 120 |
-| Monitoring | 10-15% | 35 | 100 |
-| **Total** | | **411** | **~640** |
+A distribuição seeded no repositório foi rebalanceada para seguir os pesos oficiais.
+A fonte de verdade dos alvos é `skills-measured/question-targets.json`.
 
-Os totais atuais refletem o banco aprovado. O total de 411 inclui 407 questões
-de escolha única e 4 exemplos de formatos avançados (um de cada tipo).
+| Domínio | Peso | Baseline 2026-11-17 | Alvo |
+|---------|------|---------------------|------|
+| Identity & Governance | 20-25% | 155 | 85 |
+| Storage | 15-20% | 59 | 70 |
+| Compute | 20-25% | 90 | 75 |
+| Networking | 15-20% | 69 | 65 |
+| Monitoring | 10-15% | 35 | 55 |
+| **Total** | | **408** | **350** |
+
+Skills famintas no baseline (`st-03`, `cm-03`, `cm-04`, `vn-02`, `mn-01` e `mn-02`)
+receberam geração prioritária. `ig-01` já estava super-representado e não recebeu novas questões
+neste lote.
+
+### Comandos de rebalanceamento
+
+```bash
+# Mostrar o plano sem chamar a API
+python3 scripts/generate.py --balance --dry-run
+
+# Gerar apenas o deficit ate os alvos
+python3 scripts/generate.py --balance --batch-size 8
+
+# Validar drafts
+python3 scripts/validate.py review --dir questions/drafts
+
+# Aplicar distribuição equilibrada ao banco
+docker compose exec backend python scripts/rebalance_questions.py
+```
+
+O importador legado continua disponível com `--include-drafts` e `--approve`, mas o
+`rebalance_questions.py` é a etapa canônica: ele deduplica, seleciona por skill,
+preserva IDs usados em respostas e marca excedentes como `review`.
+
+O gerador agora exige `reference_url`, `difficulty` valido, `tags` e metadados completos.
+O validador trata `reference_url` ausente em drafts antigos como aviso, nao como erro bloqueante.
 
 ## Execução
 

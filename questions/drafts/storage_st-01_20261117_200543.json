@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "skill_id": "st-01",
+    "domain_id": "storage",
+    "generated_at": "2026-11-17T20:05:43.798130",
+    "count": 1,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You are an administrator tasked with securing access to your Azure Storage account. You need to ensure that only specific IP addresses can access your storage resources. Which feature should you configure to achieve this?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Shared access signature (SAS) tokens",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure Storage firewalls and virtual networks",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Stored access policies",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Identity-based access for Azure Files",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Storage firewalls and virtual networks allow you to restrict access to your storage account to specific IP addresses or ranges, enhancing security by ensuring only authorized networks can reach your resources. For more information, visit the official documentation on configuring firewalls and virtual networks for Azure Storage.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security",
+      "difficulty": "intermediate",
+      "tags": [
+        "storage",
+        "security",
+        "firewalls",
+        "network"
+      ],
+      "status": "draft"
+    }
+  ]
+}

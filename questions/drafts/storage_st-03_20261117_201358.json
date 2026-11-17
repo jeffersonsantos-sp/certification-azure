@@ -1,0 +1,159 @@
+{
+  "metadata": {
+    "skill_id": "st-03",
+    "domain_id": "storage",
+    "generated_at": "2026-11-17T20:13:58.109204",
+    "count": 4,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You have been tasked with creating a file share in Azure Files for your company's shared documents. Which of the following steps should you perform first?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a storage account.",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Configure the file share access permissions.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Mount the file share on a virtual machine.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Enable soft delete for the file share.",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The first step in creating a file share in Azure Files is to create a storage account. This storage account will host the file share and allow you to configure additional settings and permissions.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-how-to-create-file-share",
+      "difficulty": "easy",
+      "tags": [
+        "Azure Files",
+        "storage account",
+        "file share"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "How can you configure Azure Blob Storage to automatically move data to a cooler tier based on the last modified date?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Configure soft delete for blobs.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Set up a blob lifecycle management policy.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Enable blob versioning.",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Create a new blob container with a cooler default tier.",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Blob lifecycle management policies allow you to define rules that automatically transition blobs to different access tiers, such as moving data to a cooler tier based on the last modified date.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-lifecycle-management-concepts",
+      "difficulty": "intermediate",
+      "tags": [
+        "blob storage",
+        "lifecycle management",
+        "storage tiers"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Which feature must be enabled to restore deleted blobs to their previous state within a specified retention period?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Blob versioning.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Soft delete for blobs.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Blob snapshots.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Soft delete for containers.",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Enabling soft delete for containers allows you to restore deleted blobs to their previous state within the retention period specified, helping to protect against accidental deletions.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "soft delete",
+        "blob storage",
+        "data protection"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Your organization wants to protect file share data from accidental deletion. Which feature should you enable to achieve this?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable blob versioning.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Configure storage tiers.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Enable soft delete for Azure Files.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Use Microsoft Entra ID for authentication.",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Enabling soft delete for Azure Files allows you to recover file shares that have been accidentally deleted, thus providing an additional layer of data protection.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-prevent-deletion",
+      "difficulty": "advanced",
+      "tags": [
+        "Azure Files",
+        "data recovery",
+        "soft delete"
+      ],
+      "status": "draft"
+    }
+  ]
+}

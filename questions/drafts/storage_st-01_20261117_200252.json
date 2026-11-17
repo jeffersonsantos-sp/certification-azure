@@ -1,0 +1,233 @@
+{
+  "metadata": {
+    "skill_id": "st-01",
+    "domain_id": "storage",
+    "generated_at": "2026-11-17T20:02:52.584637",
+    "count": 6,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to configure an Azure Storage account to restrict access to a specific virtual network. Which of the following steps would you perform first?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a network security group (NSG) rule.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Add the virtual network to the storage account's firewall settings.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Enable the Azure Storage firewall feature.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Configure IP address filtering.",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "To restrict access to a specific virtual network, you must first add the virtual network to the storage account's firewall settings. This allows only the specified virtual network to access the storage account.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security",
+      "difficulty": "intermediate",
+      "tags": [
+        "Azure Storage",
+        "Firewall",
+        "Virtual Network"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "A developer needs temporary access to upload files to your Azure Blob storage. What is the most secure way to provide access?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Share the storage account access key.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Create a shared access signature (SAS) token with write permissions.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Add the developer's IP to the storage firewall.",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Create a stored access policy with full permissions.",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Creating a shared access signature (SAS) token with write permissions is the most secure way to provide temporary access to Azure Blob storage, as it limits the scope and duration of the access.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview",
+      "difficulty": "easy",
+      "tags": [
+        "SAS",
+        "Blob Storage",
+        "Security"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Which of the following methods can be used to regenerate access keys for an Azure Storage account?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Portal",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure CLI",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure PowerShell",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "All of the above",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Access keys for an Azure Storage account can be regenerated using the Azure Portal, Azure CLI, or Azure PowerShell. Each method provides a way to manage and rotate keys to maintain security.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage",
+      "difficulty": "easy",
+      "tags": [
+        "Access Keys",
+        "Azure CLI",
+        "PowerShell"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You need to configure identity-based access for Azure Files using Microsoft Entra ID. What is the first step you should take?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable Azure Files Identity-based Authentication.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Create an Azure Files share.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Assign a role to a Microsoft Entra ID user.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Configure the storage account's firewall settings.",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "To configure identity-based access for Azure Files using Microsoft Entra ID, you must first enable Azure Files Identity-based Authentication on the storage account. This allows the use of Microsoft Entra ID for authentication.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-ad-ds-enable",
+      "difficulty": "advanced",
+      "tags": [
+        "Azure Files",
+        "Identity",
+        "Microsoft Entra ID"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "What is a key advantage of using stored access policies with shared access signatures (SAS) in Azure Storage?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "They provide unlimited access duration.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "They allow you to revoke SAS tokens without modifying them.",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "They automatically encrypt data.",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "They can be used to track usage metrics.",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Stored access policies allow you to revoke shared access signatures (SAS) without modifying the tokens themselves by changing the policy. This provides flexibility in managing access.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "SAS",
+        "Stored Access Policies",
+        "Security"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "When configuring an Azure Storage firewall, what is the purpose of adding an IP address range?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "To enable data encryption.",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "To allow specific clients to access the storage account.",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "To improve storage performance.",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "To reduce storage costs.",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "By adding an IP address range to the Azure Storage firewall, you specify which clients are allowed to access the storage account, enhancing security by restricting access.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security",
+      "difficulty": "easy",
+      "tags": [
+        "Firewall",
+        "Security",
+        "IP Address"
+      ],
+      "status": "draft"
+    }
+  ]
+}

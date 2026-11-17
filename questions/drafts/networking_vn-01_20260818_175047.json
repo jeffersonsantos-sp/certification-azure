@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "vn-01",
+    "domain_id": "networking",
+    "generated_at": "2026-11-17T19:58:54.932193",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "Which Azure resource defines a subnet?",
@@ -187,7 +195,7 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "UDRs allow you to specify custom routes that override Azure\u2019s default system routes.",
+      "explanation": "UDRs allow you to specify custom routes that override Azure’s default system routes.",
       "difficulty": "intermediate",
       "tags": [
         "UDR"

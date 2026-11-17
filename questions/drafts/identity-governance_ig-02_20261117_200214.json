@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "skill_id": "ig-02",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-17T20:02:14.851972",
+    "count": 5,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You have been asked to manage access to an Azure subscription. Which built-in role should you assign to a user to allow them to only view all resources in the subscription without making any changes?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Owner",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Reader",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Contributor",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "User Access Administrator",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Reader role allows a user to view all resources in a subscription but not make any changes. It is a read-only role suitable for monitoring and reporting purposes.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#reader",
+      "difficulty": "easy",
+      "tags": [
+        "Azure roles",
+        "built-in roles",
+        "access control"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "A developer needs to manage virtual machines in a specific resource group but should not have the ability to manage other resources. Which role and scope should you assign?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Owner role at the subscription scope",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Contributor role at the resource group scope",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Virtual Machine Contributor role at the resource group scope",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Reader role at the resource group scope",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Assigning the Contributor role at the resource group scope allows the developer to manage all resources within that resource group but not beyond it.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor",
+      "difficulty": "intermediate",
+      "tags": [
+        "role assignment",
+        "scope",
+        "resource management"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You need to ensure a user can grant access to other users in a resource group but cannot alter resources. Which role should you assign?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Contributor",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "User Access Administrator",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Reader",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Owner",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "The User Access Administrator role allows a user to manage access to resources and assign roles in Azure without altering the resources themselves.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#user-access-administrator",
+      "difficulty": "intermediate",
+      "tags": [
+        "access management",
+        "role-based access control",
+        "permissions"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "A security audit requires you to review the access assignments for a specific resource in Azure. Which tool or feature should you use to interpret these assignments effectively?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Monitor",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure Activity Log",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Resource Graph",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Azure Role-Based Access Control (RBAC) Access Control (IAM) blade",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "The Access Control (IAM) blade in Azure allows you to view and manage role assignments for resources, which is essential for interpreting access assignments.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal",
+      "difficulty": "intermediate",
+      "tags": [
+        "access review",
+        "IAM",
+        "Azure portal"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You need to ensure that a user can manage only the billing information for an Azure subscription but cannot modify any other resources. Which built-in role would you assign?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Billing Reader",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Billing Contributor",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Owner",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Reader",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "The Billing Contributor role allows a user to manage billing information but does not grant access to modify resources in the subscription.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#billing-contributor",
+      "difficulty": "advanced",
+      "tags": [
+        "billing",
+        "role assignment",
+        "Azure roles"
+      ],
+      "status": "draft"
+    }
+  ]
+}

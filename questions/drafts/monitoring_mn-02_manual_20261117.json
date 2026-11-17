@@ -1,0 +1,292 @@
+{
+  "metadata": {
+    "skill_id": "mn-02",
+    "domain_id": "monitoring",
+    "generated_at": "2026-11-17T23:18:06.261447",
+    "count": 8,
+    "status": "draft",
+    "generated_by": "manual_rebalance"
+  },
+  "questions": [
+    {
+      "question_text": "Where do you configure backup policies and protected items for Azure virtual machines?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Recovery Services vault",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Log Analytics workspace",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure DNS zone",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "App Service plan",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Recovery Services vaults store backup policies, protected items, and recovery points for Azure VM backups.",
+      "reference_url": "https://learn.microsoft.com/azure/backup/backup-azure-vms-introduction",
+      "difficulty": "easy",
+      "tags": [
+        "backup",
+        "vault"
+      ]
+    },
+    {
+      "question_text": "What does an Azure Backup policy define?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Virtual machine size and region",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Backup schedule and retention range",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Network security rules",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "DNS name label",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "A backup policy defines when backups run and how long recovery points are retained.",
+      "reference_url": "https://learn.microsoft.com/azure/backup/backup-azure-arm-vms-prepare",
+      "difficulty": "easy",
+      "tags": [
+        "backup",
+        "policy"
+      ]
+    },
+    {
+      "question_text": "Which object contains the point-in-time copies used to restore an Azure virtual machine?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Recovery point",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Snapshot of a managed disk only",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Diagnostic setting",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Metric alert",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Backup stores recovery points in the Recovery Services vault and uses them for restore operations.",
+      "reference_url": "https://learn.microsoft.com/azure/backup/backup-azure-recovery-vm",
+      "difficulty": "intermediate",
+      "tags": [
+        "backup",
+        "restore"
+      ]
+    },
+    {
+      "question_text": "Which Azure service provides replication and failover for virtual machines and physical servers during a disaster?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Site Recovery",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Azure Traffic Manager",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure DNS",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Monitor",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Site Recovery orchestrates replication, failover, and failback for disaster recovery scenarios.",
+      "reference_url": "https://learn.microsoft.com/azure/site-recovery/site-recovery-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "site-recovery",
+        "dr"
+      ]
+    },
+    {
+      "question_text": "In Azure Site Recovery, what does a recovery plan define?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "The order and script actions used during failover",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "The backup retention period",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "The NSG inbound rules",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "The VM size after failover",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Recovery plans group machines and define the failover sequence, including optional scripts.",
+      "reference_url": "https://learn.microsoft.com/azure/site-recovery/site-recovery-create-recovery-plans",
+      "difficulty": "advanced",
+      "tags": [
+        "site-recovery",
+        "failover"
+      ]
+    },
+    {
+      "question_text": "What is the purpose of soft delete for a Recovery Services vault?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "To keep deleted backup items recoverable for a temporary period",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "To delete all recovery points immediately",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "To stop all backup jobs",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "To replicate vaults to another region",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Soft delete protects backup items from accidental deletion by retaining them for a configured period.",
+      "reference_url": "https://learn.microsoft.com/azure/backup/soft-delete-overview",
+      "difficulty": "advanced",
+      "tags": [
+        "backup",
+        "soft-delete"
+      ]
+    },
+    {
+      "question_text": "Which Azure Monitor capability can be used to notify administrators about backup job failures?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Metric alerts with action groups",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "NSG flow logs",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy tags",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Private DNS zones",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Backup-related metrics and alerts can be monitored through Azure Monitor and routed with action groups.",
+      "reference_url": "https://learn.microsoft.com/azure/backup/backup-azure-monitoring-use-azuremonitor",
+      "difficulty": "advanced",
+      "tags": [
+        "backup",
+        "alerts"
+      ]
+    },
+    {
+      "question_text": "Which recovery option restores files and folders from a VM backup without replacing the entire virtual machine?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "File recovery",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "VM replacement",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Zone failover",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Policy export",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "File recovery mounts a recovery point so individual files and folders can be restored.",
+      "reference_url": "https://learn.microsoft.com/azure/backup/restore-files-virtual-machine",
+      "difficulty": "intermediate",
+      "tags": [
+        "backup",
+        "restore"
+      ]
+    }
+  ]
+}

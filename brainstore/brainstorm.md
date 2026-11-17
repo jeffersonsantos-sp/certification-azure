@@ -32,7 +32,7 @@ Profissionais de TI precisam de:
 
 ### 1. Banco de questões
 
-- Banco local atual: **546 questões aprovadas**.
+- Banco local atual: **350 questões aprovadas**, com distribuição equilibrada por domínio/skill.
 - 5 domínios e 15 skills.
 - 5 formatos: `single_choice`, `multiple_choice`, `case_study`, `drag_drop`, `hotspot`.
 - Explicações, referências e tags.
@@ -301,7 +301,7 @@ Regras:
 
 | Métrica | Valor |
 |---|---|
-| Questões aprovadas | 546 no banco local |
+| Questões aprovadas | 350 no banco local (balanceadas) |
 | Formatos de questão | 5 |
 | Domínios | 5 |
 | Skills | 15 |

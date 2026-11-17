@@ -1,0 +1,159 @@
+{
+  "metadata": {
+    "skill_id": "st-02",
+    "domain_id": "storage",
+    "generated_at": "2026-11-17T20:13:43.069655",
+    "count": 4,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to create a new storage account for your organization that requires high availability and durability. Which redundancy option should you choose to ensure data is replicated across multiple regions?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Locally-redundant storage (LRS)",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Zone-redundant storage (ZRS)",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Geo-redundant storage (GRS)",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Geo-zone-redundant storage (GZRS)",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Geo-zone-redundant storage (GZRS) replicates data across multiple regions and provides high availability and durability. It combines the benefits of both GRS and ZRS.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+      "difficulty": "intermediate",
+      "tags": [
+        "storage",
+        "redundancy",
+        "high availability"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You are tasked with setting up object replication between two storage accounts in different regions. Which feature should you use to accomplish this task?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Backup",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Blob soft delete",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure File Sync",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Object replication",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Object replication allows for asynchronous replication of block blobs between accounts in different Azure regions, facilitating disaster recovery and data distribution scenarios.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/object-replication-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "object replication",
+        "data distribution",
+        "disaster recovery"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "To ensure data in your storage account is encrypted, which of the following should you configure?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable storage account firewall",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Configure Virtual Network (VNet) integration",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Enable storage encryption with customer-managed keys",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Configure Private Endpoint",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Enabling storage encryption with customer-managed keys allows you to control and manage the encryption keys used to secure your data at rest.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-service-encryption",
+      "difficulty": "easy",
+      "tags": [
+        "encryption",
+        "security",
+        "customer-managed keys"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You need to copy a large amount of data from your on-premises server to an Azure Blob Storage account. Which tool is best suited for this task?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure PowerShell",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure CLI",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "AzCopy",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Data Factory",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "AzCopy is a command-line utility designed for copying data to and from Azure Blob Storage efficiently, making it ideal for large data transfers.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10",
+      "difficulty": "easy",
+      "tags": [
+        "AzCopy",
+        "data transfer",
+        "blob storage"
+      ],
+      "status": "draft"
+    }
+  ]
+}

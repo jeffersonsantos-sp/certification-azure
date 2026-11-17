@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "cm-02",
+    "domain_id": "compute",
+    "generated_at": "2026-11-17T19:58:55.004492",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "Which of the following steps is required to enable encryption for both the OS and data disks when creating a new Azure virtual machine?",
@@ -23,10 +31,13 @@
       "correct_answer": "B",
       "explanation": "Encryption must be enabled during creation using Azure Disk Encryption with a customer-managed key; the portal checkbox alone does not cover both OS and data disks.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     },
     {
-      "question_text": "You need to deploy a virtual machine that will host a database requiring 8 vCPUs and 64\u202fGB of RAM. Which VM size should you choose?",
+      "question_text": "You need to deploy a virtual machine that will host a database requiring 8 vCPUs and 64 GB of RAM. Which VM size should you choose?",
       "options": [
         {
           "label": "A",
@@ -46,9 +57,12 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "The E8s_v3 size provides 8 vCPUs and 64\u202fGB memory, matching the required resources.",
+      "explanation": "The E8s_v3 size provides 8 vCPUs and 64 GB memory, matching the required resources.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     },
     {
       "question_text": "How can you move an existing virtual machine to a different resource group while preserving its disk encryption settings?",
@@ -73,7 +87,10 @@
       "correct_answer": "A",
       "explanation": "The portal's 'Move' blade allows moving a VM to another resource group while preserving its configuration, including disk encryption settings.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     },
     {
       "question_text": "After creating a VM, you want to attach a data disk and enable encryption for that disk. Which option should you use?",
@@ -98,7 +115,10 @@
       "correct_answer": "A",
       "explanation": "Azure Disk Encryption can be applied to a data disk after it's attached, using the encryption settings in the VM creation or update process.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     },
     {
       "question_text": "In a region that supports Availability Zones, what is the default zone for a newly created virtual machine?",
@@ -121,9 +141,12 @@
         }
       ],
       "correct_answer": "A",
-      "explanation": "When Availability Zones are enabled, the default placement is Zone\u202f1 unless otherwise specified.",
+      "explanation": "When Availability Zones are enabled, the default placement is Zone 1 unless otherwise specified.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     },
     {
       "question_text": "To create a VM Scale Set with three instances and enable automatic scaling based on CPU usage, which Azure CLI command includes the necessary parameters?",
@@ -148,7 +171,10 @@
       "correct_answer": "A",
       "explanation": "The instance-count parameter in az vmss create sets the number of VM instances; the command in option A sets it to 3.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     },
     {
       "question_text": "What is the recommended approach for selecting the appropriate VM size to balance cost and performance?",
@@ -173,7 +199,10 @@
       "correct_answer": "B",
       "explanation": "Azure Advisor analyzes your workload and suggests the optimal VM size for cost and performance.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     },
     {
       "question_text": "When you delete a virtual machine (not deallocate) in Azure, what happens to its OS disk?",
@@ -198,7 +227,10 @@
       "correct_answer": "B",
       "explanation": "Deleting a VM (not deallocating) removes the associated OS disk unless you explicitly choose to keep it.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     },
     {
       "question_text": "Which method enables encryption of a premium SSD data disk attached to a VM?",
@@ -223,7 +255,10 @@
       "correct_answer": "B",
       "explanation": "Customer-managed keys allow you to control encryption keys for premium SSD data disks via Azure Disk Encryption.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     },
     {
       "question_text": "What is the primary purpose of the 'Provisioned IOPS' SKU for Azure managed disks?",
@@ -248,7 +283,10 @@
       "correct_answer": "A",
       "explanation": "Provisioned IOPS SKU lets you specify a guaranteed level of IOPS, providing predictable performance for demanding workloads.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "compute",
+        "cm-02"
+      ]
     }
   ]
 }

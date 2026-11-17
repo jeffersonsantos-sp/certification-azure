@@ -1,0 +1,307 @@
+{
+  "metadata": {
+    "skill_id": "st-02",
+    "domain_id": "storage",
+    "generated_at": "2026-11-17T20:06:08.923154",
+    "count": 8,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "Which storage redundancy type should you choose to ensure data is replicated to a secondary region in case of a regional outage?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Locally-redundant storage (LRS)",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Zone-redundant storage (ZRS)",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Geo-redundant storage (GRS)",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Read-access geo-redundant storage (RA-GRS)",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Geo-redundant storage (GRS) replicates your data to a secondary region, providing durability in case of a regional outage. Reference: [Azure Storage redundancy](https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy).",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+      "difficulty": "intermediate",
+      "tags": [
+        "redundancy",
+        "storage",
+        "disaster-recovery"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You need to allow secure transfer of data to your Azure Storage account. Which setting should you configure?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Enable HTTP only",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Enable HTTPS only",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Enable FTP only",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Enable SMB only",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Enabling HTTPS only ensures that data is securely transferred to and from your storage account. Reference: [Azure Storage account overview](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview).",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview",
+      "difficulty": "easy",
+      "tags": [
+        "security",
+        "https",
+        "storage-account"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Which tool can you use to upload data to Azure Blob Storage from the command line?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Storage Explorer",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "AzCopy",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure CLI",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "PowerShell",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "AzCopy is a command-line utility designed to efficiently transfer data to and from Azure Blob Storage. Reference: [AzCopy overview](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10).",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10",
+      "difficulty": "intermediate",
+      "tags": [
+        "azcopy",
+        "blob-storage",
+        "data-transfer"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "What is the primary benefit of enabling object replication across Azure Storage accounts?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Reduces storage costs",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Improves data durability",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Enables data consistency across regions",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Increases data retrieval speed",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Object replication enables data consistency by automatically replicating objects across different storage accounts in different regions. Reference: [Object replication overview](https://learn.microsoft.com/en-us/azure/storage/blobs/object-replication-overview).",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/object-replication-overview",
+      "difficulty": "advanced",
+      "tags": [
+        "object-replication",
+        "consistency",
+        "cross-region"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "If you want to encrypt data at rest in your Azure Storage account using your own keys, which encryption option should you select?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Microsoft-managed keys",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Customer-managed keys (CMK)",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Server-side encryption with Azure AD",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Client-side encryption",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Customer-managed keys (CMK) allow you to control encryption keys used to protect your data, providing greater control over your encryption settings. Reference: [Azure Storage encryption for data at rest](https://learn.microsoft.com/en-us/azure/storage/common/storage-service-encryption).",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-service-encryption",
+      "difficulty": "intermediate",
+      "tags": [
+        "encryption",
+        "security",
+        "customer-managed-keys"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "How can you monitor the access patterns and performance of your Azure Storage account?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Monitor",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Microsoft Entra ID",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure DevOps",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Policy",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Monitor provides comprehensive monitoring of Azure services, including access patterns and performance metrics for storage accounts. Reference: [Azure Monitor overview](https://learn.microsoft.com/en-us/azure/azure-monitor/overview).",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/azure-monitor/overview",
+      "difficulty": "easy",
+      "tags": [
+        "monitoring",
+        "performance",
+        "azure-monitor"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Which feature allows you to configure access to a storage account using private endpoints?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Network Security Groups",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Virtual Network Service Endpoints",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Private Link",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Firewall",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Private Link allows you to access Azure services, like Storage accounts, over a private endpoint in your virtual network. Reference: [Azure Private Link for Azure Storage](https://learn.microsoft.com/en-us/azure/storage/common/storage-private-endpoints).",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-private-endpoints",
+      "difficulty": "intermediate",
+      "tags": [
+        "networking",
+        "private-link",
+        "security"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Which Azure tool provides a graphical interface for managing storage accounts and their contents?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Portal",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Storage Account Manager",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure Storage Explorer",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Data Factory",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Storage Explorer is a standalone app that allows you to manage your storage accounts and their contents using a graphical interface. Reference: [Azure Storage Explorer](https://learn.microsoft.com/en-us/azure/storage/common/storage-explorer).",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-explorer",
+      "difficulty": "easy",
+      "tags": [
+        "storage-explorer",
+        "management",
+        "gui"
+      ],
+      "status": "draft"
+    }
+  ]
+}

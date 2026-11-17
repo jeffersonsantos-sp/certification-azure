@@ -28,3 +28,6 @@ Thumbs.db
 
 # Docker
 docker-compose.override.yml
+
+# Local setup notes
+Config_New_Account.md

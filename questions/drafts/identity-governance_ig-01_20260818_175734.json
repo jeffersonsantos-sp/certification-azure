@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-17T19:58:55.014446",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "How can you create a new user in Microsoft Entra ID?",
@@ -23,7 +31,10 @@
       "correct_answer": "A",
       "explanation": "The Azure portal provides a user-friendly UI to create users; PowerShell and Graph API are alternative methods but the most common approach is the portal.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     },
     {
       "question_text": "Which PowerShell cmdlet creates a new user in Microsoft Entra ID?",
@@ -48,7 +59,10 @@
       "correct_answer": "A",
       "explanation": "New-AzureADUser creates a new user object; the other cmdlets are used for different operations such as adding an existing user or modifying properties.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     },
     {
       "question_text": "When managing user properties, which attribute determines whether a user can sign in to Azure AD?",
@@ -73,7 +87,10 @@
       "correct_answer": "B",
       "explanation": "The AccountEnabled property indicates if the account is active; a disabled account cannot sign in, even if other properties are correct.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     },
     {
       "question_text": "How do you assign a license to an existing user in Microsoft Entra ID?",
@@ -98,7 +115,10 @@
       "correct_answer": "A",
       "explanation": "Licenses are managed per user via the Azure portal's Licenses blade; you select the user and assign the required license there.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     },
     {
       "question_text": "What is the primary purpose of managing external users (B2B) in Microsoft Entra ID?",
@@ -121,9 +141,12 @@
         }
       ],
       "correct_answer": "A",
-      "explanation": "B2B collaboration lets external users sign in with their own credentials while being managed in your tenant, enabling secure cross\u2011organization access.",
+      "explanation": "B2B collaboration lets external users sign in with their own credentials while being managed in your tenant, enabling secure cross‑organization access.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     },
     {
       "question_text": "Which feature enables self-service password reset for users in Microsoft Entra ID?",
@@ -148,7 +171,10 @@
       "correct_answer": "C",
       "explanation": "Self-Service Password Reset (SSPR) allows users to reset their passwords without contacting an administrator.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     },
     {
       "question_text": "When creating a group, which type supports dynamic membership based on rule definitions?",
@@ -171,9 +197,12 @@
         }
       ],
       "correct_answer": "D",
-      "explanation": "Dynamic groups are created using membership rules; they can be security\u2011based or Microsoft 365\u2011based, but the type is called a Dynamic group.",
-      "difficulty": "medium",
-      "tags": []
+      "explanation": "Dynamic groups are created using membership rules; they can be security‑based or Microsoft 365‑based, but the type is called a Dynamic group.",
+      "difficulty": "intermediate",
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     },
     {
       "question_text": "Which API is used to manage external user invitations (B2B) in Microsoft Entra ID?",
@@ -198,7 +227,10 @@
       "correct_answer": "A",
       "explanation": "Microsoft Graph provides endpoints for inviting, confirming, and managing B2B external users.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     },
     {
       "question_text": "Before deleting a user, what step ensures the user's license remains available for another user?",
@@ -222,8 +254,11 @@
       ],
       "correct_answer": "A",
       "explanation": "Reassigning the license frees it for another user while preserving the license assignment in the tenant.",
-      "difficulty": "medium",
-      "tags": []
+      "difficulty": "intermediate",
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     },
     {
       "question_text": "Which setting enables password reset without admin assistance for users?",
@@ -248,7 +283,10 @@
       "correct_answer": "B",
       "explanation": "Self-Service Password Reset (SSPR) lets users reset their passwords independently of an administrator.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-01"
+      ]
     }
   ]
 }

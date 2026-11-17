@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "skill_id": "ig-03",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-17T20:02:40.909754",
+    "count": 3,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You are responsible for managing multiple Azure subscriptions and need to ensure consistent policy application across all of them. Which Azure feature should you use to group these subscriptions for easier management?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Resource Groups",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Management Groups",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure Blueprints",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Resource Locks",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Management Groups in Azure allow you to organize subscriptions into a hierarchy for unified policy and access management. They help apply governance controls across multiple subscriptions effectively.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/governance/management-groups/overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "management groups",
+        "subscriptions",
+        "governance"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You have been tasked with preventing accidental deletion of a critical Azure Resource Group. Which feature should you implement to achieve this?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Policy",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Resource Locks",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Tags",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Azure Blueprints",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Resource Locks can be applied to prevent accidental deletion or modification of Azure resources. By setting a 'Delete' lock on a resource group, you ensure that resources cannot be deleted without removing the lock first.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/lock-resources",
+      "difficulty": "easy",
+      "tags": [
+        "resource locks",
+        "resource management",
+        "security"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "As an Azure administrator, you need to ensure that all resources in your subscription adhere to a naming convention. Which Azure service can help you enforce this policy?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Monitor",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Azure Policy",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Tags",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Blueprints",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Azure Policy helps enforce organizational standards and assess compliance at-scale. It can be used to enforce a naming convention by applying a policy definition that checks the naming of resources.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/governance/policy/overview",
+      "difficulty": "advanced",
+      "tags": [
+        "azure policy",
+        "compliance",
+        "resource management"
+      ],
+      "status": "draft"
+    }
+  ]
+}

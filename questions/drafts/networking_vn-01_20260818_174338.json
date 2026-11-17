@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "vn-01",
+    "domain_id": "networking",
+    "generated_at": "2026-11-17T19:58:55.046519",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "Which of the following best describes a subnet in Azure Virtual Network?",
@@ -23,7 +31,10 @@
       "correct_answer": "B",
       "explanation": "A subnet is a range of IP addresses within a VNet that groups resources.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     },
     {
       "question_text": "When two VNets are peered, can they have overlapping IP address spaces?",
@@ -46,9 +57,12 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Peering requires non\u2011overlapping address spaces to prevent routing conflicts.",
+      "explanation": "Peering requires non‑overlapping address spaces to prevent routing conflicts.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     },
     {
       "question_text": "What is the default behavior of traffic between resources in two peered virtual networks?",
@@ -71,9 +85,12 @@
         }
       ],
       "correct_answer": "C",
-      "explanation": "Peering enables direct, low\u2011latency traffic flow between peered VNets.",
+      "explanation": "Peering enables direct, low‑latency traffic flow between peered VNets.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     },
     {
       "question_text": "Which statement about a Public IP address in Azure is correct?",
@@ -98,10 +115,13 @@
       "correct_answer": "B",
       "explanation": "A Public IP can be attached to many resources, including load balancers, VMs, and services.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     },
     {
-      "question_text": "In Azure, what component is used to define user\u2011defined routes (UDR)?",
+      "question_text": "In Azure, what component is used to define user‑defined routes (UDR)?",
       "options": [
         {
           "label": "A",
@@ -123,7 +143,10 @@
       "correct_answer": "B",
       "explanation": "UDR entries are stored in route tables that are associated with subnets or NICs.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     },
     {
       "question_text": "Which Azure tool is most appropriate for troubleshooting connectivity between a VM and a public endpoint?",
@@ -146,9 +169,12 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Network Watcher includes the Connectivity Test tool for diagnosing VM\u2011to\u2011endpoint reachability.",
+      "explanation": "Network Watcher includes the Connectivity Test tool for diagnosing VM‑to‑endpoint reachability.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     },
     {
       "question_text": "What is the purpose of the 'Service Endpoint' feature in Azure?",
@@ -173,7 +199,10 @@
       "correct_answer": "B",
       "explanation": "Service Endpoints extend the VNet to Azure PaaS services over a private link, keeping traffic off the public internet.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     },
     {
       "question_text": "Which of the following statements about Network Security Groups (NSG) is true?",
@@ -198,7 +227,10 @@
       "correct_answer": "C",
       "explanation": "NSG rules can be bound to a network interface, a subnet, or both, providing flexible security enforcement.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     },
     {
       "question_text": "What Azure feature is used to enforce a custom routing flow for traffic in a VNet?",
@@ -221,9 +253,12 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "User\u2011Defined Routes (UDR) let you specify custom routes for traffic within a VNet.",
+      "explanation": "User‑Defined Routes (UDR) let you specify custom routes for traffic within a VNet.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     },
     {
       "question_text": "When peering two VNets, can the peering be transitive by default?",
@@ -246,9 +281,12 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Peering is non\u2011transitive; traffic between two VNets requires a hub VNet or explicit peering connections.",
+      "explanation": "Peering is non‑transitive; traffic between two VNets requires a hub VNet or explicit peering connections.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "networking",
+        "vn-01"
+      ]
     }
   ]
 }

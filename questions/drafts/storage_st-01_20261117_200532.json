@@ -1,0 +1,307 @@
+{
+  "metadata": {
+    "skill_id": "st-01",
+    "domain_id": "storage",
+    "generated_at": "2026-11-17T20:05:32.439120",
+    "count": 8,
+    "status": "draft"
+  },
+  "questions": [
+    {
+      "question_text": "You need to ensure that only specific IP addresses can access your Azure Storage account. Which feature should you configure?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Storage firewalls",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Shared access signature (SAS) tokens",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Stored access policies",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Access keys",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Storage firewalls allow you to specify IP address ranges that are granted access to your storage account.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security",
+      "difficulty": "easy",
+      "tags": [
+        "firewalls",
+        "security",
+        "IP"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You are tasked with granting temporary access to a specific blob in your Azure Storage account. What should you use?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Access keys",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Shared access signature (SAS) tokens",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Stored access policies",
+          "is_correct": true
+        },
+        {
+          "label": "D",
+          "text": "Azure Storage firewalls",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "C",
+      "explanation": "Shared access signature (SAS) tokens provide a secure way to grant granular and temporary access to resources.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "SAS",
+        "security",
+        "temporary access"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Which of the following is used to set the start and expiry time for a SAS token?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Access keys",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Azure Storage firewalls",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Stored access policies",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Microsoft Entra ID",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Stored access policies allow you to manage constraints for one or more shared access signatures.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview#stored-access-policy",
+      "difficulty": "advanced",
+      "tags": [
+        "SAS",
+        "stored access policies",
+        "timing"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "You need to rotate the access keys for your Azure Storage account. What is the recommended approach?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Recreate the storage account",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Use Microsoft Entra ID integration",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Use Azure Key Vault to manage keys",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Disable and re-enable the storage account",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Azure Key Vault is recommended for managing access keys securely, including automated key rotation.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage",
+      "difficulty": "intermediate",
+      "tags": [
+        "key rotation",
+        "security",
+        "Azure Key Vault"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "How can you configure identity-based access for Azure Files?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "By using Azure AD DS",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Through access keys",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Via stored access policies",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "With Azure CLI only",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure AD DS allows the integration of identity-based access for Azure Files through domain services.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-identity-auth-active-directory-domain-service-enable",
+      "difficulty": "advanced",
+      "tags": [
+        "Azure Files",
+        "identity",
+        "Azure AD DS"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "A company wants to ensure that only their on-premises network can access their Azure Storage account. What should be configured?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Stored access policies",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Shared access signature (SAS) tokens",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Azure Storage firewalls and virtual networks",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Access keys",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Configuring Azure Storage firewalls and virtual networks allows you to restrict access to specific network ranges.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security",
+      "difficulty": "intermediate",
+      "tags": [
+        "network security",
+        "firewalls",
+        "virtual networks"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "What is the purpose of managing stored access policies in Azure Storage?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "To permanently grant access to resources",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "To define and manage constraints for SAS tokens",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "To restrict access to specific IP ranges",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "To encrypt data at rest",
+          "is_correct": true
+        }
+      ],
+      "correct_answer": "D",
+      "explanation": "Stored access policies help in defining constraints like start and expiry times for SAS tokens.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview#stored-access-policy",
+      "difficulty": "advanced",
+      "tags": [
+        "access control",
+        "SAS",
+        "policies"
+      ],
+      "status": "draft"
+    },
+    {
+      "question_text": "Which method is NOT used to manage access keys in Azure Storage?",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Rotate keys manually using the Azure portal",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Use Azure Key Vault for secure storage",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Delete the storage account and recreate it",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Use PowerShell to regenerate keys",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "B",
+      "explanation": "Deleting and recreating the storage account is not a recommended method for managing access keys.",
+      "reference_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage",
+      "difficulty": "easy",
+      "tags": [
+        "access keys",
+        "security",
+        "key management"
+      ],
+      "status": "draft"
+    }
+  ]
+}

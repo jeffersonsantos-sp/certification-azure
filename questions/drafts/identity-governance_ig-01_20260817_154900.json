@@ -12,15 +12,23 @@
       "options": [
         {
           "label": "A",
-          "text": "Azure Active Directory > Users > New user"
+          "text": "Microsoft Entra ID > Users > New user",
+          "is_correct": true
         },
         {
           "label": "B",
-          "text": "Resource groups > New resource > User"
+          "text": "Resource groups > New resource > User",
+          "is_correct": false
         },
         {
           "label": "C",
-          "text": "Azure AD Connect > Synchronize now"
+          "text": "Microsoft Entra ID > Groups > New group",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Portal > Subscriptions > Access control (IAM)",
+          "is_correct": false
         }
       ],
       "correct_answer": "A",

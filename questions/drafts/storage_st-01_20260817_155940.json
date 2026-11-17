@@ -40,23 +40,23 @@
       "options": [
         {
           "label": "A",
-          "text": "az storage container generate-sas --account-name <name> --name <container> --key <key> --permissions rw --expiry 2025-01-01T00:00:00Z"
+          "text": "az storage container generate-sas --account-name <name> --name <container> --key <key> --permissions rw --expiry <expiry>",
+          "is_correct": false
         },
         {
           "label": "B",
-          "text": "az storage container generate-sas --account-name <name> --name <container> --key <key> --permissions rw --start-time <start> --expiry <expiry> --policy <policy-id>"
+          "text": "az storage container generate-sas --account-name <name> --name <container> --key <key> --permissions rw --start-time <start> --expiry <expiry> --policy <policy-id>",
+          "is_correct": true
         },
         {
           "label": "C",
-          "text": "az storage container generate-sas --account-name <name> --name <container> --permissions rw --expiry <expiry>"
+          "text": "az storage container set --account-name <name> --name <container> --public-access container",
+          "is_correct": false
         },
         {
           "label": "D",
-          "text": "az storage container generate-sas --account-name <name> --name <container> --permissions rw"
-        },
-        {
-          "label": "E",
-          "text": "Not answerable"
+          "text": "az storage account show --name <name> --query primaryEndpoints.blob",
+          "is_correct": false
         }
       ],
       "correct_answer": "B",

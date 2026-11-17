@@ -71,14 +71,13 @@ async def seed_domains_and_skills():
         print(f"Seeded {len(DOMAINS)} domains and {len(SKILLS)} skills")
 
 
-def load_questions_from_file(filepath: str) -> list[dict]:
-    """Load questions from a JSON file."""
-    with open(filepath) as f:
-        data = json.load(f)
-    return data.get("questions", [])
+def load_question_file(filepath: str) -> dict:
+    """Load a question file including metadata."""
+    with open(filepath) as handle:
+        return json.load(handle)
 
 
-async def import_questions(questions_dir: str = "questions/drafts"):
+async def import_questions(questions_dir: str = "questions/drafts", *, include_drafts: bool = False, approve: bool = False):
     """Import all questions from JSON files into database."""
     async with async_session() as session:
         total_imported = 0
@@ -86,8 +85,13 @@ async def import_questions(questions_dir: str = "questions/drafts"):
 
         for filepath in Path(questions_dir).glob("*.json"):
             try:
-                questions_data = load_questions_from_file(str(filepath))
+                document = load_question_file(str(filepath))
+                file_status = (document.get("metadata") or {}).get("status", "draft")
+                questions_data = document.get("questions", [])
                 filename = filepath.stem
+                if file_status == "draft" and not include_drafts:
+                    print(f"Skipping draft file {filename}; use --include-drafts")
+                    continue
                 parts = filename.split("_")
 
                 if len(parts) >= 2:
@@ -149,7 +153,7 @@ async def import_questions(questions_dir: str = "questions/drafts"):
                         difficulty=difficulty,
                         tags=q.get("tags", []),
                         reference_url=q.get("reference_url"),
-                        status=QuestionStatus.approved,
+                        status=QuestionStatus.approved if approve else QuestionStatus.draft,
                         created_at=datetime.utcnow()
                     )
                     session.add(question)
@@ -168,6 +172,15 @@ async def import_questions(questions_dir: str = "questions/drafts"):
 
 
 async def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Import questions from JSON files")
+    parser.add_argument("--file", help="Import a specific JSON file")
+    parser.add_argument("--dir", default="questions/drafts", help="Questions directory")
+    parser.add_argument("--include-drafts", action="store_true", help="Include files marked as draft")
+    parser.add_argument("--approve", action="store_true", help="Import as approved instead of draft")
+    args = parser.parse_args()
+
     print("Creating tables...")
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
@@ -176,7 +189,10 @@ async def main():
     await seed_domains_and_skills()
 
     print("\nImporting questions...")
-    await import_questions()
+    if args.file:
+        await import_questions(args.file, include_drafts=True, approve=args.approve)
+    else:
+        await import_questions(args.dir, include_drafts=args.include_drafts, approve=args.approve)
 
     print("\nDone!")
 

@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "st-03",
+    "domain_id": "storage",
+    "generated_at": "2026-11-17T19:58:54.993167",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "Which Azure service provides managed file shares in the cloud?",
@@ -23,32 +31,38 @@
       "correct_answer": "B",
       "explanation": "Azure Files is a fully managed service that provides SMB file shares in the cloud.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     },
     {
       "question_text": "Which access level provides anonymous read access to the container and its blobs?",
       "options": [
         {
           "label": "A",
-          "text": "Private (Blob) access \u2013 no anonymous access"
+          "text": "Private (Blob) access – no anonymous access"
         },
         {
           "label": "B",
-          "text": "Public (Blob) access \u2013 anonymous read for blobs only"
+          "text": "Public (Blob) access – anonymous read for blobs only"
         },
         {
           "label": "C",
-          "text": "Public (Container) access \u2013 anonymous read for containers and blobs"
+          "text": "Public (Container) access – anonymous read for containers and blobs"
         },
         {
           "label": "D",
-          "text": "Private (Container) access \u2013 no anonymous access"
+          "text": "Private (Container) access – no anonymous access"
         }
       ],
       "correct_answer": "C",
       "explanation": "Public (Container) access allows anyone to read data in the container and its blobs without authentication.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     },
     {
       "question_text": "Which storage tier in Azure Blob Storage is optimized for data that is accessed less than once per month?",
@@ -73,7 +87,10 @@
       "correct_answer": "C",
       "explanation": "The Archive tier is designed for infrequently accessed data with the lowest storage cost.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     },
     {
       "question_text": "What is the purpose of soft delete for Azure Files?",
@@ -98,7 +115,10 @@
       "correct_answer": "C",
       "explanation": "Soft delete keeps a deleted file for a configurable retention period, allowing recovery before permanent removal.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     },
     {
       "question_text": "How many snapshots can be taken for an Azure Blob?",
@@ -123,7 +143,10 @@
       "correct_answer": "C",
       "explanation": "Azure Blob Storage allows up to 50 snapshots per blob.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     },
     {
       "question_text": "Which lifecycle management action can be used to transition blobs from the hot tier to the cool tier after 30 days?",
@@ -148,7 +171,10 @@
       "correct_answer": "C",
       "explanation": "Lifecycle management rules with a transition action move blobs between tiers after a specified number of days.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     },
     {
       "question_text": "When configuring versioning for an Azure File share, which statement is true?",
@@ -173,7 +199,10 @@
       "correct_answer": "B",
       "explanation": "File versioning keeps a history of multiple versions of each file inside the same file share.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     },
     {
       "question_text": "Which of the following best describes the purpose of a blob snapshot?",
@@ -184,7 +213,7 @@
         },
         {
           "label": "B",
-          "text": "It creates a read\u2011only copy of the blob at a point in time."
+          "text": "It creates a read‑only copy of the blob at a point in time."
         },
         {
           "label": "C",
@@ -196,9 +225,12 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "A snapshot is a read\u2011only point\u2011in\u2011time copy of a blob, useful for backup and recovery.",
+      "explanation": "A snapshot is a read‑only point‑in‑time copy of a blob, useful for backup and recovery.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     },
     {
       "question_text": "In Azure Files, what is the recommended practice for enabling soft delete?",
@@ -223,10 +255,13 @@
       "correct_answer": "B",
       "explanation": "Soft delete is a setting applied to the storage account, protecting all file shares within it.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     },
     {
-      "question_text": "Which storage tier is most cost\u2011effective for rarely accessed data that does not require high performance?",
+      "question_text": "Which storage tier is most cost‑effective for rarely accessed data that does not require high performance?",
       "options": [
         {
           "label": "A",
@@ -248,7 +283,10 @@
       "correct_answer": "C",
       "explanation": "The Archive tier offers the lowest cost for data that is accessed very infrequently.",
       "difficulty": "easy",
-      "tags": []
+      "tags": [
+        "storage",
+        "st-03"
+      ]
     }
   ]
 }

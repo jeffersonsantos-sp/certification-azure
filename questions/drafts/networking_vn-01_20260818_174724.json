@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "vn-01",
+    "domain_id": "networking",
+    "generated_at": "2026-11-17T19:58:54.914768",
+    "count": 9,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "You need to create a subnet that spans the entire 10.0.0.0/8 address space. Which of the following is the most appropriate CIDR notation for the subnet mask?",
@@ -140,7 +148,7 @@
       "options": [
         {
           "label": "A",
-          "text": "Traffic is NAT\u2011ed to the public IP of the NAT gateway and leaves the Azure backbone"
+          "text": "Traffic is NAT‑ed to the public IP of the NAT gateway and leaves the Azure backbone"
         },
         {
           "label": "B",
@@ -156,7 +164,7 @@
         }
       ],
       "correct_answer": "A",
-      "explanation": "A Standard public IP together with a NAT gateway enables outbound internet access while keeping the VM's private IP hidden; traffic is NAT\u2011ed at the gateway before leaving Azure.",
+      "explanation": "A Standard public IP together with a NAT gateway enables outbound internet access while keeping the VM's private IP hidden; traffic is NAT‑ed at the gateway before leaving Azure.",
       "difficulty": "easy",
       "tags": [
         "Public IPs",
@@ -172,7 +180,7 @@
         },
         {
           "label": "B",
-          "text": "Azure Network Watcher \u2013 Connection Troubleshoot"
+          "text": "Azure Network Watcher – Connection Troubleshoot"
         },
         {
           "label": "C",
@@ -184,7 +192,7 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "Network Watcher\u2019s Connection Troubleshoot simulates traffic flow and shows where a packet is dropped, making it ideal for diagnosing VNet\u2011to\u2011private\u2011endpoint connectivity issues.",
+      "explanation": "Network Watcher’s Connection Troubleshoot simulates traffic flow and shows where a packet is dropped, making it ideal for diagnosing VNet‑to‑private‑endpoint connectivity issues.",
       "difficulty": "intermediate",
       "tags": [
         "Troubleshoot connectivity"
@@ -211,7 +219,7 @@
         }
       ],
       "correct_answer": "A",
-      "explanation": "A /21 provides 2,048 IP addresses (2^(32\u201121)), enough for 1,000 VMs, while a /22 only offers 512 addresses, which is insufficient.",
+      "explanation": "A /21 provides 2,048 IP addresses (2^(32‑21)), enough for 1,000 VMs, while a /22 only offers 512 addresses, which is insufficient.",
       "difficulty": "easy",
       "tags": [
         "VNets and subnets"

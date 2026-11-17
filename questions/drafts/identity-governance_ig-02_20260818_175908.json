@@ -1,4 +1,12 @@
 {
+  "metadata": {
+    "skill_id": "ig-02",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-17T19:58:54.964475",
+    "count": 10,
+    "status": "draft",
+    "backfilled": true
+  },
   "questions": [
     {
       "question_text": "What is the built-in role that grants read-only access to all resources in a subscription?",
@@ -21,9 +29,12 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "The Reader role provides read\u2011only permissions across the entire subscription.",
+      "explanation": "The Reader role provides read‑only permissions across the entire subscription.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     },
     {
       "question_text": "Which built-in role allows management of access to Azure resources but not to the subscription itself?",
@@ -48,7 +59,10 @@
       "correct_answer": "B",
       "explanation": "User Access Administrator can assign roles to users and groups but cannot modify subscription settings.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     },
     {
       "question_text": "How do you assign a custom role to a resource group?",
@@ -71,9 +85,12 @@
         }
       ],
       "correct_answer": "A",
-      "explanation": "In the portal you navigate to the resource group\u2019s IAM, click Add role assignment, choose the custom role, and assign it to the resource group.",
+      "explanation": "In the portal you navigate to the resource group’s IAM, click Add role assignment, choose the custom role, and assign it to the resource group.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     },
     {
       "question_text": "Which PowerShell cmdlet is used to assign a role at the subscription scope?",
@@ -96,9 +113,12 @@
         }
       ],
       "correct_answer": "B",
-      "explanation": "New\u2011AzRoleAssignment creates a role assignment at the specified scope (subscription, resource group, or resource).",
+      "explanation": "New‑AzRoleAssignment creates a role assignment at the specified scope (subscription, resource group, or resource).",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     },
     {
       "question_text": "If a user has the 'User Access Administrator' role, what can they do that the 'Contributor' role cannot?",
@@ -123,7 +143,10 @@
       "correct_answer": "A",
       "explanation": "User Access Administrator can assign roles; Contributor cannot perform role assignments.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     },
     {
       "question_text": "What does the 'Effective permissions' blade show?",
@@ -148,7 +171,10 @@
       "correct_answer": "B",
       "explanation": "Effective permissions combine the user's role assignments, inheritance, and any denied permissions to show the final rights.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     },
     {
       "question_text": "Which scenario illustrates an inherited role assignment?",
@@ -173,7 +199,10 @@
       "correct_answer": "A",
       "explanation": "A role assigned at the subscription level cascades down to all child scopes, providing inheritance.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     },
     {
       "question_text": "How can you verify which roles are assigned to a specific user?",
@@ -198,32 +227,38 @@
       "correct_answer": "B",
       "explanation": "The az role assignment list command filters by the assignee to show all role assignments for that user.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     },
     {
       "question_text": "What is the difference between 'AssignableScopes' of a built-in role and a custom role?",
       "options": [
         {
           "label": "A",
-          "text": "AssignableScopes defines where the role can be assigned; built\u2011in roles have fixed scopes, custom roles can define assignable scopes."
+          "text": "AssignableScopes defines where the role can be assigned; built‑in roles have fixed scopes, custom roles can define assignable scopes."
         },
         {
           "label": "B",
-          "text": "Only custom roles have AssignableScopes; built\u2011in roles do not have this property."
+          "text": "Only custom roles have AssignableScopes; built‑in roles do not have this property."
         },
         {
           "label": "C",
-          "text": "AssignableScopes are used only for resource\u2011level assignments."
+          "text": "AssignableScopes are used only for resource‑level assignments."
         },
         {
           "label": "D",
-          "text": "There is no difference between built\u2011in and custom roles regarding AssignableScopes."
+          "text": "There is no difference between built‑in and custom roles regarding AssignableScopes."
         }
       ],
       "correct_answer": "A",
-      "explanation": "AssignableScopes determines the scope levels at which a role can be assigned; built\u2011in roles have predefined scopes while custom roles can specify their own assignable scopes.",
+      "explanation": "AssignableScopes determines the scope levels at which a role can be assigned; built‑in roles have predefined scopes while custom roles can specify their own assignable scopes.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     },
     {
       "question_text": "When interpreting role assignments, which of the following is true?",
@@ -246,9 +281,12 @@
         }
       ],
       "correct_answer": "A",
-      "explanation": "Role assignments can be applied at various scopes\u2014management group, subscription, resource group, or individual resource.",
+      "explanation": "Role assignments can be applied at various scopes—management group, subscription, resource group, or individual resource.",
       "difficulty": "intermediate",
-      "tags": []
+      "tags": [
+        "identity-governance",
+        "ig-02"
+      ]
     }
   ]
 }
