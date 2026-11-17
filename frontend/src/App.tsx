@@ -269,23 +269,44 @@ function AppLayout() {
         </Routes>
       </main>
 
-      <footer className="border-t border-gray-200/50 mt-12">
-        <div className="container-app py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="mt-16 border-t border-white/10 bg-[#080e1a]/80 backdrop-blur-xl">
+        <div className="container-app py-10">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#0078D4] to-[#50E6FF] rounded-lg flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#0078D4] to-[#38bdf8] shadow-lg shadow-sky-500/20">
+                <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <span className="text-sm text-gray-500">AZ-104 Trainer</span>
+              <div>
+                <p className="text-sm font-bold text-white">AZ-104 Trainer</p>
+                <p className="text-xs text-gray-500">Azure Administrator Associate</p>
+              </div>
             </div>
-            <div className="flex items-center gap-6 text-sm text-gray-400">
+
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-400">
               <span>{t('footer.skills')}</span>
-              <span className="w-1 h-1 bg-gray-300 rounded-full" />
+              <span className="h-1 w-1 rounded-full bg-sky-400/60" />
               <span>{t('footer.questions')}</span>
-              <span className="w-1 h-1 bg-gray-300 rounded-full" />
+              <span className="h-1 w-1 rounded-full bg-sky-400/60" />
               <span>{t('footer.domains')}</span>
+            </div>
+
+            <div className="flex flex-col gap-1 text-sm lg:items-end">
+              <span className="font-medium text-gray-300">
+                Developed by <span className="text-white">Jefferson Santos</span>
+              </span>
+              <a
+                href="https://www.linkedin.com/in/jefferson-fsantos/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-link inline-flex items-center gap-1.5 text-sm font-medium text-sky-400"
+              >
+                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20.45 2H3.55C2.7 2 2 2.7 2 3.55v16.9c0 .85.7 1.55 1.55 1.55h16.9c.85 0 1.55-.7 1.55-1.55V3.55c0-.85-.7-1.55-1.55-1.55ZM8.2 18.7H5.1V9.3h3.1v9.4ZM6.65 7.9a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6Zm12.05 10.8h-3.1v-4.55c0-1.1-.02-2.5-1.52-2.5-1.52 0-1.75 1.18-1.75 2.42v4.63H9.23V9.3h2.97v1.29h.04c.42-.78 1.44-1.6 2.96-1.6 3.16 0 3.75 2.08 3.75 4.79v5.22Z" />
+                </svg>
+                linkedin.com/in/jefferson-fsantos
+              </a>
             </div>
           </div>
         </div>
