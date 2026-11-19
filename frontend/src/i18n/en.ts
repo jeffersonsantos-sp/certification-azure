@@ -175,6 +175,11 @@ const en = {
     startLab: 'Start lab',
     continueLab: 'Continue lab',
     reviewLab: 'Review lab',
+    resetLab: 'Reset lab',
+    resetConfirm: 'Reset progress for this lab? Completed steps and validation history will be removed.',
+    resetting: 'Resetting...',
+    resetError: 'Failed to reset the lab. Please try again.',
+
     progress: 'Progress',
     steps: 'Steps',
     stepsCount: '{completed} of {total} steps',

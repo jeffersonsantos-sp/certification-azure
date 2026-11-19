@@ -177,6 +177,11 @@ const pt: Translations = {
     startLab: 'Iniciar lab',
     continueLab: 'Continuar lab',
     reviewLab: 'Revisar lab',
+    resetLab: 'Reiniciar lab',
+    resetConfirm: 'Reiniciar o progresso deste lab? Os passos concluídos e o histórico de validação serão removidos.',
+    resetting: 'Reiniciando...',
+    resetError: 'Falha ao reiniciar o lab. Por favor, tente novamente.',
+
     progress: 'Progresso',
     steps: 'Passos',
     stepsCount: '{completed} de {total} passos',

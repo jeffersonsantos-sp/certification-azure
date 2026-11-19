@@ -262,6 +262,11 @@ export const startLab = async (slug: string): Promise<LabProgress> => {
   return data
 }
 
+export const resetLabProgress = async (slug: string): Promise<LabProgress> => {
+  const { data } = await api.post(`/labs/${slug}/reset`)
+  return data
+}
+
 export const updateLabStep = async (
   slug: string,
   stepId: string,

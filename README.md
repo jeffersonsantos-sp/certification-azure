@@ -105,6 +105,7 @@ cd certification-azure
 - Inclui labs de criação, **labs de troubleshooting** e um **capstone multidomínio**.
 - Validação automática via **Azure Resource Graph + ARM**, sem modificar recursos.
 - Progresso por usuário, melhor score, histórico de validações e marcação automática de passos após aprovação.
+- Botão **Reset lab / Reiniciar lab** no detalhe do lab: redefine progresso, steps e histórico de validação para começar do zero.
 - Tokens Azure nunca são gravados no banco.
 
 ### Internacionalização
@@ -524,6 +525,7 @@ Documentação interativa:
 | `POST` | `/api/v1/labs/{slug}/start` | Iniciar/retomar |
 | `PATCH` | `/api/v1/labs/{slug}/steps/{step_id}` | Marcar passo |
 | `POST` | `/api/v1/labs/{slug}/validate` | Validar no Azure |
+| `POST` | `/api/v1/labs/{slug}/reset` | Redefinir progresso e histórico do lab |
 
 ### Azure
 

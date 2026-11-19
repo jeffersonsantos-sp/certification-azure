@@ -5,7 +5,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -383,6 +383,39 @@ async def update_step_progress(
     progress = await _get_progress(db, current_user.id, lab.id)
     completed = await _get_completed_step_ids(db, progress)
     return _progress_payload(lab, progress, completed)
+
+
+@router.post("/{slug}/reset")
+async def reset_lab(
+    slug: str,
+    db: DbSession,
+    current_user: CurrentUser,
+):
+    lab = await _get_lab(db, slug)
+
+    progress = await db.scalar(
+        select(LabProgress).where(
+            LabProgress.user_id == current_user.id,
+            LabProgress.lab_id == lab.id,
+        )
+    )
+    if progress is not None:
+        await db.execute(
+            delete(LabStepProgress).where(
+                LabStepProgress.lab_progress_id == progress.id
+            )
+        )
+        await db.delete(progress)
+
+    await db.execute(
+        delete(LabValidationRun).where(
+            LabValidationRun.user_id == current_user.id,
+            LabValidationRun.lab_id == lab.id,
+        )
+    )
+    await db.commit()
+
+    return _progress_payload(lab, None, set())
 
 
 @router.post("/{slug}/validate")

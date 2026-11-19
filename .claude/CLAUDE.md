@@ -118,7 +118,7 @@ python scripts/import_labs.py
 - `POST /questions/submit-exam` scores complete exams; `POST /questions/{id}/answer` scores one question
 - Authentication is optional for practice and exam scoring; a valid JWT persists `UserAnswer` rows
 - `_normalise_answer`, `_is_correct`, and `_question_payload` centralize type-aware answer handling
-- Lab endpoints: `GET /labs`, `GET /labs/progress/summary`, `GET /labs/{slug}`, `POST /labs/{slug}/start`, `PATCH /labs/{slug}/steps/{step_id}`, `POST /labs/{slug}/validate`
+- Lab endpoints: `GET /labs`, `GET /labs/progress/summary`, `GET /labs/{slug}`, `POST /labs/{slug}/start`, `PATCH /labs/{slug}/steps/{step_id}`, `POST /labs/{slug}/validate`, `POST /labs/{slug}/reset`
 - Azure endpoints: `GET /azure/subscriptions`, `GET /azure/settings`, `PUT /azure/settings`
 - All lab/Azure settings endpoints require the app JWT; Azure data endpoints additionally require `X-Azure-Authorization: Bearer <azure_access_token>`
 - Azure tokens are validated from claims and allowlists, never persisted or logged; frontend MSAL tokens stay in memory/sessionStorage only

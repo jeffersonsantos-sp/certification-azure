@@ -6,6 +6,7 @@ import {
   LabStep,
   LocalizedList,
   LocalizedString,
+  resetLabProgress,
   startLab,
   updateLabStep,
 } from '../services/api'
@@ -53,6 +54,8 @@ export default function LabDetail() {
   const [actionError, setActionError] = useState<string | null>(null)
   const [starting, setStarting] = useState(false)
   const [updatingStep, setUpdatingStep] = useState<string | null>(null)
+  const [resetting, setResetting] = useState(false)
+  const [resetToken, setResetToken] = useState(0)
   const [copied, setCopied] = useState<string | null>(null)
 
   useEffect(() => {
@@ -107,6 +110,28 @@ export default function LabDetail() {
       setActionError(t('labs.startError'))
     } finally {
       setStarting(false)
+    }
+  }
+
+  const handleReset = async () => {
+    if (!lab || resetting) return
+    if (!window.confirm(t('labs.resetConfirm'))) return
+
+    setResetting(true)
+    setActionError(null)
+    try {
+      const progress = await resetLabProgress(lab.slug)
+      setLab({
+        ...lab,
+        progress,
+        steps: lab.steps.map((item) => ({ ...item, completed: false })),
+      })
+      setResetToken((current) => current + 1)
+    } catch (err) {
+      console.error('Failed to reset lab:', err)
+      setActionError(t('labs.resetError'))
+    } finally {
+      setResetting(false)
     }
   }
 
@@ -224,11 +249,21 @@ export default function LabDetail() {
             <button
               type="button"
               onClick={handleStart}
-              disabled={starting}
+              disabled={starting || resetting}
               className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#0078D4] shadow-lg transition-all hover:-translate-y-0.5 hover:bg-blue-50 disabled:opacity-60"
             >
               {starting ? '...' : startLabel}
             </button>
+            {progress.status !== 'not_started' && (
+              <button
+                type="button"
+                onClick={handleReset}
+                disabled={starting || resetting}
+                className="inline-flex items-center justify-center rounded-xl border border-white/30 bg-white/15 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-white/25 disabled:opacity-60"
+              >
+                {resetting ? t('labs.resetting') : t('labs.resetLab')}
+              </button>
+            )}
             <span className="font-mono text-xs text-blue-100">{lab.resource_group_name}</span>
           </div>
 
@@ -278,6 +313,7 @@ export default function LabDetail() {
       )}
 
       <AzureValidationPanel
+        key={`${lab.slug}-${resetToken}`}
         slug={lab.slug}
         resourceGroupName={lab.resource_group_name}
         onProgress={(newProgress) =>

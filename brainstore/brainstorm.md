@@ -213,6 +213,7 @@ Regras:
 | `POST` | `/api/v1/labs/{slug}/start` | Cria/retoma progresso |
 | `PATCH` | `/api/v1/labs/{slug}/steps/{step_id}` | Marca passo |
 | `POST` | `/api/v1/labs/{slug}/validate` | Executa validação |
+| `POST` | `/api/v1/labs/{slug}/reset` | Redefine progresso e histórico |
 | `GET` | `/api/v1/azure/subscriptions` | Lista assinaturas |
 | `GET` | `/api/v1/azure/settings` | Lê config salva |
 | `PUT` | `/api/v1/azure/settings` | Salva assinatura |
