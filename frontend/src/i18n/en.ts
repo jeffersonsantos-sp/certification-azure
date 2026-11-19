@@ -14,7 +14,7 @@ const en = {
     ptBR: 'Portuguese',
   },
   header: {
-    readiness: 'Ready',
+    labProgress: 'Labs complete',
     logout: 'Logout',
     signIn: 'Sign In',
   },
@@ -287,9 +287,10 @@ const en = {
     documentation: 'Official documentation',
   },
   footer: {
-    skills: '13 Skills',
-    questions: '400+ Questions',
+    skills: '15 Skills',
+    questions: '350 Questions',
     domains: '5 Domains',
+    labs: '28 Labs',
   },
 }
 

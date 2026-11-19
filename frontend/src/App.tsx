@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, NavLink, useNavigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Dashboard from './pages/Dashboard'
 import Practice from './pages/Practice'
 import MockExam from './pages/MockExam'
@@ -14,6 +14,7 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 import { LanguageProvider, useLanguage } from './context/LanguageContext'
 import { AzureProvider } from './context/AzureContext'
 import { languages, Language } from './i18n'
+import { getLabProgressSummary } from './services/api'
 
 const queryClient = new QueryClient()
 
@@ -152,6 +153,18 @@ function AppLayout() {
   const { user, isAuthenticated, signOut } = useAuth()
   const navigate = useNavigate()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [labProgress, setLabProgress] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setLabProgress(null)
+      return
+    }
+
+    getLabProgressSummary()
+      .then((summary) => setLabProgress(summary.completion_percentage))
+      .catch(() => setLabProgress(null))
+  }, [isAuthenticated])
 
   const handleSignOut = () => {
     signOut()
@@ -210,10 +223,14 @@ function AppLayout() {
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-full">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-sm font-semibold text-gray-700">78% {t('header.readiness')}</span>
-              </div>
+              {isAuthenticated && labProgress !== null && (
+                <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-full">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-semibold text-gray-700">
+                    {labProgress}% {t('header.labProgress')}
+                  </span>
+                </div>
+              )}
 
               {isAuthenticated ? (
                 <div className="hidden sm:flex items-center gap-3">
@@ -290,6 +307,8 @@ function AppLayout() {
               <span>{t('footer.questions')}</span>
               <span className="h-1 w-1 rounded-full bg-sky-400/60" />
               <span>{t('footer.domains')}</span>
+              <span className="h-1 w-1 rounded-full bg-sky-400/60" />
+              <span>{t('footer.labs')}</span>
             </div>
 
             <div className="flex flex-col gap-1 text-sm lg:items-end">

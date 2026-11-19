@@ -16,7 +16,7 @@ const pt: Translations = {
     ptBR: 'Português',
   },
   header: {
-    readiness: 'Pronto',
+    labProgress: 'Labs concluídos',
     logout: 'Sair',
     signIn: 'Entrar',
   },
@@ -289,9 +289,10 @@ const pt: Translations = {
     documentation: 'Documentação oficial',
   },
   footer: {
-    skills: '13 Habilidades',
-    questions: '400+ Questões',
+    skills: '15 Habilidades',
+    questions: '350 Questões',
     domains: '5 Domínios',
+    labs: '28 Labs',
   },
 }
 
