@@ -17,6 +17,7 @@ NEW_CHECK_TYPES = (
     "group_role_assignment_exists",
     "app_service_slot_exists",
     "backup_protected_vm_exists",
+    "backup_policy_exists",
     "file_share_exists",
     "route_exists",
     "virtual_network_peering_exists",

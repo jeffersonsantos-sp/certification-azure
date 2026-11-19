@@ -1,0 +1,187 @@
+slug: monitoring-troubleshooting-backup
+title:
+  en: Troubleshoot a missing Azure Backup policy
+  pt-BR: Solucionar política de backup ausente
+description:
+  en: A Recovery Services vault exists without the required backup policy. Diagnose the vault configuration and create the
+    missing policy.
+  pt-BR: Um Recovery Services vault existe sem a política de backup exigida. Diagnostique o vault e crie a política ausente.
+objectives:
+  en:
+  - Inspect existing backup policies
+  - Identify the missing policy
+  - Create the required policy
+  pt-BR:
+  - Inspecionar as políticas de backup existentes
+  - Identificar a política ausente
+  - Criar a política exigida
+prerequisites:
+  en:
+  - Permission to create a Recovery Services vault
+  - Basic knowledge of Azure Backup policies
+  pt-BR:
+  - Permissão para criar Recovery Services vault
+  - Conhecimento básico de políticas do Azure Backup
+cost_warning:
+  en: Backup policies do not add cost by themselves; protected data may.
+  pt-BR: Políticas de backup não geram custo por si só; dados protegidos podem gerar.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-backup-fix --yes --no-wait
+domain_id: monitoring
+skill_id: mn-02
+difficulty: advanced
+estimated_minutes: 25
+resource_group_name: rg-az104-lab-backup-fix
+content_version: '1'
+status: published
+sort_order: 270
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-backup-fix`.
+    pt-BR: Crie `rg-az104-lab-backup-fix`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-backup-fix --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-backup-fix`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-backup-fix`, escolha **East US** e crie.
+- key: create-vault
+  position: 2
+  title:
+    en: Create the Recovery Services vault
+    pt-BR: Criar o Recovery Services vault
+  instructions:
+    en: Create `rsv-lab-backup-fix<unique>` without creating the required policy.
+    pt-BR: Crie `rsv-lab-backup-fix<unique>` sem criar a política exigida.
+  commands:
+  - label:
+      en: Create the vault
+      pt-BR: Criar o vault
+    language: bash
+    command: az backup vault create --resource-group rg-az104-lab-backup-fix --name rsv-lab-backup-fix<unique> --location
+      eastus
+  portal_steps:
+    en:
+    - Abra **Recovery Services vaults** > **Create**.
+    - Selecione `rg-az104-lab-backup-fix`, nomeie como `rsv-lab-backup-fix<unique>` e crie.
+    pt-BR:
+    - Abra **Recovery Services vaults** > **Create**.
+    - Selecione `rg-az104-lab-backup-fix`, nomeie como `rsv-lab-backup-fix<unique>` e crie.
+- key: diagnose
+  position: 3
+  title:
+    en: Diagnose the missing policy
+    pt-BR: Diagnosticar a política ausente
+  instructions:
+    en: List backup policies and confirm `LabDailyPolicy` is missing.
+    pt-BR: Liste as políticas de backup e confirme que `LabDailyPolicy` está ausente.
+  commands:
+  - label:
+      en: List backup policies
+      pt-BR: Listar políticas de backup
+    language: bash
+    command: az backup policy list --resource-group rg-az104-lab-backup-fix --vault-name rsv-lab-backup-fix<unique> -o table
+  portal_steps:
+    en:
+    - Abra o vault > **Settings** > **Backup policies**.
+    - Confirme que `LabDailyPolicy` não existe.
+    pt-BR:
+    - Abra o vault > **Settings** > **Backup policies**.
+    - Confirme que `LabDailyPolicy` não existe.
+- key: create-policy
+  position: 4
+  title:
+    en: Create the backup policy
+    pt-BR: Criar a política de backup
+  instructions:
+    en: Create `LabDailyPolicy` for Azure Storage workloads.
+    pt-BR: Crie `LabDailyPolicy` para cargas de trabalho Azure Storage.
+  commands:
+  - label:
+      en: Create the policy
+      pt-BR: Criar a política
+    language: bash
+    command: "cat > backup-policy.json <<'JSON'\n{\n  \"properties\": {\n    \"backupManagementType\": \"AzureStorage\",\n\
+      \    \"schedulePolicy\": {\n      \"schedulePolicyType\": \"SimpleSchedulePolicy\",\n      \"scheduleRunFrequency\"\
+      : \"Daily\",\n      \"scheduleRunTimes\": [\"2026-01-01T02:00:00Z\"],\n      \"scheduleWeeklyFrequency\": 0\n    },\n\
+      \    \"retentionPolicy\": {\n      \"retentionPolicyType\": \"LongTermRetentionPolicy\",\n      \"dailySchedule\": {\n\
+      \        \"retentionTimes\": [\"2026-01-01T02:00:00Z\"],\n        \"retentionDuration\": {\"count\": 7, \"durationType\"\
+      : \"Days\"}\n      }\n    },\n    \"workloadType\": \"AzureFileShare\",\n    \"policyType\": \"V2\"\n  }\n}\nJSON\n\
+      az backup policy create --resource-group rg-az104-lab-backup-fix --vault-name rsv-lab-backup-fix<unique> --name LabDailyPolicy\
+      \ --backup-management-type AzureStorage --policy backup-policy.json"
+  portal_steps:
+    en:
+    - Abra o vault > **Settings** > **Backup policies** > **Add**.
+    - Escolha **Azure Files** como workload.
+    - Defina execução diária às 02:00 e retenção de 7 dias.
+    - Nomeie como `LabDailyPolicy` e salve.
+    pt-BR:
+    - Abra o vault > **Settings** > **Backup policies** > **Add**.
+    - Escolha **Azure Files** como workload.
+    - Defina execução diária às 02:00 e retenção de 7 dias.
+    - Nomeie como `LabDailyPolicy` e salve.
+- key: verify
+  position: 5
+  title:
+    en: Verify the policy
+    pt-BR: Verificar a política
+  instructions:
+    en: Confirm that `LabDailyPolicy` exists.
+    pt-BR: Confirme que `LabDailyPolicy` existe.
+  commands:
+  - label:
+      en: Show the policy
+      pt-BR: Mostrar a política
+    language: bash
+    command: az backup policy show --resource-group rg-az104-lab-backup-fix --vault-name rsv-lab-backup-fix<unique> --name
+      LabDailyPolicy --query "{name:name,type:properties.backupManagementType}" -o json
+  portal_steps:
+    en:
+    - Abra o vault > **Backup policies** e confirme `LabDailyPolicy`.
+    pt-BR:
+    - Abra o vault > **Backup policies** e confirme `LabDailyPolicy`.
+checks:
+- key: vault-exists
+  position: 1
+  name:
+    en: Recovery Services vault exists
+    pt-BR: Recovery Services vault existe
+  description:
+    en: A vault with prefix rsv-lab-backup-fix must exist.
+    pt-BR: Um vault com o prefixo rsv-lab-backup-fix precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.RecoveryServices/vaults
+    name_prefix: rsv-lab-backup-fix
+  required: true
+  weight: 1
+- key: backup-policy-exists
+  position: 2
+  name:
+    en: Backup policy exists
+    pt-BR: Política de backup existe
+  description:
+    en: LabDailyPolicy must exist in the vault.
+    pt-BR: LabDailyPolicy precisa existir no vault.
+  check_type: backup_policy_exists
+  config:
+    vault_name_prefix: rsv-lab-backup-fix
+    policy_name: LabDailyPolicy
+  required: true
+  weight: 1

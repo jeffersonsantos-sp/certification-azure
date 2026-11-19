@@ -1,7 +1,7 @@
 # Brainstorm - AZ-104 Trainer
 
 > Documento de brainstorm, decisões e roadmap do projeto AZ-104 Trainer.
-> Última atualização: laboratórios Azure Fases 0–2 concluídos, 23 labs publicados.
+> Última atualização: laboratórios Azure Fases 0–2 concluídos, 28 labs publicados.
 
 ---
 
@@ -66,8 +66,8 @@ Profissionais de TI precisam de:
 
 ### 6. Laboratórios Azure
 
-- **23 labs** cobrindo **todas as 15 skills**.
-- **101 passos**, **99 checks**.
+- **28 labs** cobrindo **todas as 15 skills**.
+- **129 passos**, **121 checks**.
 - Portal + Azure CLI em abas, em EN/PT-BR.
 - OAuth Microsoft via MSAL.
 - Validação somente leitura via Resource Graph + ARM.
@@ -267,7 +267,7 @@ Regras:
 - [x] Labs, progresso e validação.
 - [x] OAuth Microsoft.
 - [x] Portal + CLI nos labs.
-- [x] 23 labs cobrindo 15 skills.
+- [x] 28 labs cobrindo 15 skills.
 - [x] Segredos e CI de segurança.
 
 ### Pendente / futuro

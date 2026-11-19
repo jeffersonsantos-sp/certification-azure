@@ -1,0 +1,242 @@
+slug: networking-troubleshooting-route
+title:
+  en: Troubleshoot an internet route
+  pt-BR: Solucionar problema de rota para a Internet
+description:
+  en: A route table contains an incorrect next hop for 0.0.0.0/0. Diagnose the configuration and change the next hop to Internet.
+  pt-BR: Uma tabela de rotas contém um próximo salto incorreto para 0.0.0.0/0. Diagnostique a configuração e altere o próximo
+    salto para Internet.
+objectives:
+  en:
+  - Inspect the route table and effective configuration
+  - Identify the incorrect next hop
+  - Change the route to use Internet
+  pt-BR:
+  - Inspecionar a tabela de rotas e a configuração efetiva
+  - Identificar o próximo salto incorreto
+  - Alterar a rota para usar Internet
+prerequisites:
+  en:
+  - A subscription where you can create networking resources
+  - Basic understanding of user-defined routes
+  pt-BR:
+  - Uma assinatura onde você possa criar recursos de rede
+  - Noções básicas de rotas definidas pelo usuário
+cost_warning:
+  en: Route tables and routes do not add cost by themselves.
+  pt-BR: Tabelas de rotas e rotas não geram custo por si só.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-route-fix --yes --no-wait
+domain_id: networking
+skill_id: vn-01
+difficulty: intermediate
+estimated_minutes: 25
+resource_group_name: rg-az104-lab-route-fix
+content_version: '1'
+status: published
+sort_order: 240
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-route-fix`.
+    pt-BR: Crie `rg-az104-lab-route-fix`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-route-fix --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-route-fix`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-route-fix`, escolha **East US** e crie.
+- key: create-vnet
+  position: 2
+  title:
+    en: Create the VNet and subnet
+    pt-BR: Criar a VNet e a subnet
+  instructions:
+    en: Create `routes-vnet` with subnet `default`.
+    pt-BR: Crie `routes-vnet` com a subnet `default`.
+  commands:
+  - label:
+      en: Create the VNet
+      pt-BR: Criar a VNet
+    language: bash
+    command: az network vnet create --resource-group rg-az104-lab-route-fix --name routes-vnet --address-prefix 10.90.0.0/16
+      --subnet-name default --subnet-prefix 10.90.0.0/24
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-route-fix`, nomeie como `routes-vnet` e adicione `10.90.0.0/16`.
+    - Crie a subnet `default` com `10.90.0.0/24`.
+    pt-BR:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-lab-route-fix`, nomeie como `routes-vnet` e adicione `10.90.0.0/16`.
+    - Crie a subnet `default` com `10.90.0.0/24`.
+- key: create-broken-route
+  position: 3
+  title:
+    en: Create the broken route
+    pt-BR: Criar a rota com problema
+  instructions:
+    en: Create route table `lab-rt` with route `lab-route` for 0.0.0.0/0 using next hop `None`.
+    pt-BR: Crie a tabela `lab-rt` com a rota `lab-route` para 0.0.0.0/0 usando next hop `None`.
+  commands:
+  - label:
+      en: Create the route table
+      pt-BR: Criar a tabela de rotas
+    language: bash
+    command: az network route-table create --resource-group rg-az104-lab-route-fix --name lab-rt
+  - label:
+      en: Create the incorrect route
+      pt-BR: Criar a rota incorreta
+    language: bash
+    command: az network route-table route create --resource-group rg-az104-lab-route-fix --route-table-name lab-rt --name
+      lab-route --address-prefix 0.0.0.0/0 --next-hop-type None
+  portal_steps:
+    en:
+    - Abra **Route tables** > **Create** e crie `lab-rt`.
+    - Abra `lab-rt` > **Routes** > **Add**.
+    - Informe `lab-route`, prefixo `0.0.0.0/0` e **Next hop type** `None`.
+    pt-BR:
+    - Abra **Route tables** > **Create** e crie `lab-rt`.
+    - Abra `lab-rt` > **Routes** > **Add**.
+    - Informe `lab-route`, prefixo `0.0.0.0/0` e **Next hop type** `None`.
+- key: associate-route-table
+  position: 4
+  title:
+    en: Associate the route table
+    pt-BR: Associar a tabela de rotas
+  instructions:
+    en: Associate `lab-rt` with the `default` subnet.
+    pt-BR: Associe `lab-rt` à subnet `default`.
+  commands:
+  - label:
+      en: Associate the route table
+      pt-BR: Associar a tabela de rotas
+    language: bash
+    command: az network vnet subnet update --resource-group rg-az104-lab-route-fix --vnet-name routes-vnet --name default
+      --route-table lab-rt
+  portal_steps:
+    en:
+    - Abra `routes-vnet` > **Subnets** > `default`.
+    - Em **Route table**, selecione `lab-rt` e salve.
+    pt-BR:
+    - Abra `routes-vnet` > **Subnets** > `default`.
+    - Em **Route table**, selecione `lab-rt` e salve.
+- key: diagnose
+  position: 5
+  title:
+    en: Diagnose the route
+    pt-BR: Diagnosticar a rota
+  instructions:
+    en: Show the route and confirm the next hop is `None`.
+    pt-BR: Mostre a rota e confirme que o next hop é `None`.
+  commands:
+  - label:
+      en: Show the route
+      pt-BR: Mostrar a rota
+    language: bash
+    command: az network route-table route show --resource-group rg-az104-lab-route-fix --route-table-name lab-rt --name lab-route
+      --query "{name:name,prefix:properties.addressPrefix,nextHop:properties.nextHopType}" -o json
+  portal_steps:
+    en:
+    - Abra `lab-rt` > **Routes** e selecione `lab-route`.
+    - Confirme que **Next hop type** está `None`.
+    pt-BR:
+    - Abra `lab-rt` > **Routes** e selecione `lab-route`.
+    - Confirme que **Next hop type** está `None`.
+- key: fix-route
+  position: 6
+  title:
+    en: Fix the route
+    pt-BR: Corrigir a rota
+  instructions:
+    en: Change `lab-route` next hop type to `Internet`.
+    pt-BR: Altere o next hop de `lab-route` para `Internet`.
+  commands:
+  - label:
+      en: Fix the next hop
+      pt-BR: Corrigir o next hop
+    language: bash
+    command: az network route-table route update --resource-group rg-az104-lab-route-fix --route-table-name lab-rt --name
+      lab-route --next-hop-type Internet
+  portal_steps:
+    en:
+    - Abra `lab-rt` > **Routes** > `lab-route`.
+    - Altere **Next hop type** para `Internet` e salve.
+    pt-BR:
+    - Abra `lab-rt` > **Routes** > `lab-route`.
+    - Altere **Next hop type** para `Internet` e salve.
+checks:
+- key: vnet-exists
+  position: 1
+  name:
+    en: Virtual Network exists
+    pt-BR: Virtual Network existe
+  description:
+    en: The routes-vnet must exist.
+    pt-BR: A routes-vnet precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: routes-vnet
+  required: true
+  weight: 1
+- key: subnet-exists
+  position: 2
+  name:
+    en: Default subnet exists
+    pt-BR: Subnet default existe
+  description:
+    en: The default subnet with 10.90.0.0/24 must exist.
+    pt-BR: A subnet default com 10.90.0.0/24 precisa existir.
+  check_type: subnet_exists
+  config:
+    vnet_name: routes-vnet
+    subnet_name: default
+    address_prefix: 10.90.0.0/24
+  required: true
+  weight: 1
+- key: route-table-exists
+  position: 3
+  name:
+    en: Route table exists
+    pt-BR: Tabela de rotas existe
+  description:
+    en: The lab-rt route table must exist.
+    pt-BR: A tabela lab-rt precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/routeTables
+    name: lab-rt
+  required: true
+  weight: 1
+- key: route-fixed
+  position: 4
+  name:
+    en: Internet route is correct
+    pt-BR: Rota para a Internet está correta
+  description:
+    en: The lab-route must use 0.0.0.0/0 with next hop Internet.
+    pt-BR: A rota lab-route precisa usar 0.0.0.0/0 com next hop Internet.
+  check_type: route_exists
+  config:
+    route_table_name: lab-rt
+    route_name: lab-route
+    address_prefix: 0.0.0.0/0
+    next_hop_type: Internet
+  required: true
+  weight: 1

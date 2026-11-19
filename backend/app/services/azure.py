@@ -269,6 +269,24 @@ class AzureClient:
             allow_404=True,
         )
 
+    async def list_backup_policies(
+        self,
+        subscription_id: str,
+        resource_group: str,
+        vault_name: str,
+    ) -> list[dict]:
+        payload = await self._request(
+            "GET",
+            (
+                f"/subscriptions/{quote(subscription_id)}"
+                f"/resourceGroups/{quote(resource_group)}"
+                f"/providers/Microsoft.RecoveryServices/vaults/{quote(vault_name)}"
+                "/backupPolicies"
+            ),
+            params={"api-version": "2023-01-01"},
+        )
+        return (payload or {}).get("value", [])
+
     async def list_backup_protected_items(
         self,
         subscription_id: str,
@@ -411,6 +429,8 @@ class LabValidator:
             return await self._check_app_service_slot_exists(config)
         if check_type == "backup_protected_vm_exists":
             return await self._check_backup_protected_vm_exists(config)
+        if check_type == "backup_policy_exists":
+            return await self._check_backup_policy_exists(config)
         if check_type == "file_share_exists":
             return await self._check_file_share_exists(config)
         if check_type == "route_exists":
@@ -653,6 +673,41 @@ class LabValidator:
                         {"slot_id": slot.get("id")},
                     )
         return "failed", f"Deployment slot {slot_name} was not found.", {}
+
+    async def _check_backup_policy_exists(self, config: dict) -> tuple[str, str, dict]:
+        vault_prefix = str(config.get("vault_name_prefix", ""))
+        policy_name = str(config.get("policy_name", ""))
+        management_type = config.get("backup_management_type")
+
+        vaults = await self._matching_resources(
+            {
+                "resource_type": "Microsoft.RecoveryServices/vaults",
+                "name_prefix": vault_prefix,
+            }
+        )
+        if not vaults:
+            return "failed", "The Recovery Services vault was not found.", {}
+
+        for vault in vaults:
+            vault_name = str(vault.get("name", ""))
+            policies = await self.client.list_backup_policies(
+                self.subscription_id,
+                self.resource_group,
+                vault_name,
+            )
+            for policy in policies:
+                properties = policy.get("properties") or {}
+                if policy_name and str(policy.get("name", "")).lower() != policy_name.lower():
+                    continue
+                if management_type and str(properties.get("backupManagementType", "")).lower() != str(management_type).lower():
+                    continue
+                return (
+                    "passed",
+                    f"Backup policy {policy.get('name')} exists in {vault_name}.",
+                    {"policy_id": policy.get("id")},
+                )
+
+        return "failed", f"Backup policy {policy_name} was not found.", {}
 
     async def _check_backup_protected_vm_exists(self, config: dict) -> tuple[str, str, dict]:
         vault_prefix = str(config.get("vault_name_prefix", ""))

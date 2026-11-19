@@ -1,0 +1,184 @@
+slug: identity-troubleshooting-policy
+title:
+  en: Troubleshoot an Azure Policy compliance failure
+  pt-BR: Solucionar falha de conformidade do Azure Policy
+description:
+  en: A policy requires the Environment tag, but the resource group has a different value. Diagnose the non-compliant resource
+    and fix the tag.
+  pt-BR: Uma política exige a tag Environment, mas o resource group possui outro valor. Diagnostique o recurso não conforme
+    e corrija a tag.
+objectives:
+  en:
+  - Review the policy assignment
+  - Identify the non-compliant tag
+  - Apply the required tag value
+  pt-BR:
+  - Revisar a atribuição de política
+  - Identificar a tag não conforme
+  - Aplicar o valor de tag exigido
+prerequisites:
+  en:
+  - Permission to assign Azure Policy
+  - Permission to update resource group tags
+  pt-BR:
+  - Permissão para atribuir Azure Policy
+  - Permissão para atualizar tags do resource group
+cost_warning:
+  en: Policy assignments and tags do not add cost by themselves.
+  pt-BR: Atribuições de política e tags não geram custo por si só.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-policy-fix --yes --no-wait
+domain_id: identity-governance
+skill_id: ig-03
+difficulty: intermediate
+estimated_minutes: 20
+resource_group_name: rg-az104-lab-policy-fix
+content_version: '1'
+status: published
+sort_order: 260
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the non-compliant resource group
+    pt-BR: Criar o resource group não conforme
+  instructions:
+    en: Create `rg-az104-lab-policy-fix` with `Environment=Dev`.
+    pt-BR: Crie `rg-az104-lab-policy-fix` com `Environment=Dev`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-policy-fix --location eastus --tags Environment=Dev
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-policy-fix`, escolha **East US**.
+    - Em **Tags**, adicione `Environment=Dev` e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-policy-fix`, escolha **East US**.
+    - Em **Tags**, adicione `Environment=Dev` e crie.
+- key: assign-policy
+  position: 2
+  title:
+    en: Assign the required tag policy
+    pt-BR: Atribuir a política de tag obrigatória
+  instructions:
+    en: Assign the built-in policy that requires `Environment=Lab`.
+    pt-BR: Atribua a política integrada que exige `Environment=Lab`.
+  commands:
+  - label:
+      en: Assign the policy
+      pt-BR: Atribuir a política
+    language: bash
+    command: 'az policy assignment create --name require-environment-tag-fix --display-name "Require-Environment-Tag-Fix"
+      --scope "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/rg-az104-lab-policy-fix" --policy "1e30110a-5ceb-460c-a204-c1c3969c6d62"
+      --params ''{"tagName":{"value":"Environment"},"tagValue":{"value":"Lab"}}'' '
+  portal_steps:
+    en:
+    - Abra **Resource groups** > `rg-az104-lab-policy-fix` > **Policies**.
+    - Clique em **Assign policy** e selecione `Require a tag and its value on resources`.
+    - Defina `tagName=Environment` e `tagValue=Lab` e atribua.
+    pt-BR:
+    - Abra **Resource groups** > `rg-az104-lab-policy-fix` > **Policies**.
+    - Clique em **Assign policy** e selecione `Require a tag and its value on resources`.
+    - Defina `tagName=Environment` e `tagValue=Lab` e atribua.
+- key: diagnose
+  position: 3
+  title:
+    en: Diagnose the compliance failure
+    pt-BR: Diagnosticar a falha de conformidade
+  instructions:
+    en: Check the policy assignment and resource group tag.
+    pt-BR: Verifique a atribuição de política e a tag do resource group.
+  commands:
+  - label:
+      en: Show the policy assignment
+      pt-BR: Mostrar a atribuição
+    language: bash
+    command: az policy assignment show --name require-environment-tag-fix --scope "/subscriptions/$(az account show --query
+      id -o tsv)/resourceGroups/rg-az104-lab-policy-fix" --query "{name:name,parameters:properties.parameters}" -o json
+  - label:
+      en: Show the resource group tag
+      pt-BR: Mostrar a tag do resource group
+    language: bash
+    command: az group show --name rg-az104-lab-policy-fix --query tags -o json
+  portal_steps:
+    en:
+    - Abra **Policies** > **Compliance** e localize o recurso não conforme.
+    - Abra o resource group > **Tags** e confirme `Environment=Dev`.
+    pt-BR:
+    - Abra **Policies** > **Compliance** e localize o recurso não conforme.
+    - Abra o resource group > **Tags** e confirme `Environment=Dev`.
+- key: fix-tag
+  position: 4
+  title:
+    en: Fix the tag value
+    pt-BR: Corrigir o valor da tag
+  instructions:
+    en: Update the resource group tag to `Environment=Lab`.
+    pt-BR: Atualize a tag do resource group para `Environment=Lab`.
+  commands:
+  - label:
+      en: Update the tag
+      pt-BR: Atualizar a tag
+    language: bash
+    command: az group update --name rg-az104-lab-policy-fix --tags Environment=Lab
+  portal_steps:
+    en:
+    - Abra o resource group > **Tags**.
+    - Altere `Environment` para `Lab` e salve.
+    pt-BR:
+    - Abra o resource group > **Tags**.
+    - Altere `Environment` para `Lab` e salve.
+checks:
+- key: resource-group-exists
+  position: 1
+  name:
+    en: Resource group exists
+    pt-BR: Resource group existe
+  description:
+    en: The lab resource group must exist.
+    pt-BR: O resource group do laboratório precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-lab-policy-fix
+  required: true
+  weight: 1
+- key: policy-assignment-exists
+  position: 2
+  name:
+    en: Policy assignment exists
+    pt-BR: Atribuição de política existe
+  description:
+    en: The Require-Environment-Tag-Fix assignment must exist.
+    pt-BR: A atribuição Require-Environment-Tag-Fix precisa existir.
+  check_type: policy_assignment_exists
+  config:
+    display_name: Require-Environment-Tag-Fix
+    policy_definition_id: 1e30110a-5ceb-460c-a204-c1c3969c6d62
+  required: true
+  weight: 1
+- key: environment-tag-fixed
+  position: 3
+  name:
+    en: Environment tag is Lab
+    pt-BR: Tag Environment é Lab
+  description:
+    en: The resource group must have Environment=Lab.
+    pt-BR: O resource group precisa ter Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-lab-policy-fix
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1

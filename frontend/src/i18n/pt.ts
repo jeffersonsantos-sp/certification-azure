@@ -213,6 +213,7 @@ const pt: Translations = {
       nsgRuleExists: 'Regra de NSG',
       appServiceSlotExists: 'Slot do App Service',
     backupProtectedVmExists: 'Proteção de backup da VM',
+    backupPolicyExists: 'Política de backup existe',
     fileShareExists: 'Compartilhamento de arquivos',
     routeExists: 'Rota da tabela de rotas',
     groupRoleAssignmentExists: 'Atribuição de função para grupo',

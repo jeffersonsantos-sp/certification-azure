@@ -529,3 +529,44 @@ Return:
   "severity": "critical|warning|info"
 }
 ```
+
+---
+
+## Prompt de Lab de Troubleshooting
+
+```
+You are an Azure AZ-104 lab author creating a troubleshooting lab.
+
+Create a bilingual lab YAML that starts from a broken Azure configuration and requires the student to diagnose and fix it.
+
+Requirements:
+1. Create a small broken environment with Azure CLI commands.
+2. Include a diagnosis step that shows how to inspect the problem in the Portal.
+3. Include a fix step that corrects the configuration.
+4. Checks must validate the final corrected state only.
+5. Use read-only checks such as route_exists, nsg_rule_exists, tag_equals,
+   policy_assignment_exists, backup_policy_exists or property_equals.
+6. Include portal_steps and commands for every step.
+7. Add cleanup that deletes the lab resource group.
+8. Return only valid YAML.
+```
+
+---
+
+## Prompt de Capstone Multidomínio
+
+```
+You are an Azure AZ-104 lab author creating a final capstone lab.
+
+Design a hands-on scenario for a fictional company that combines at least four domains:
+identity, networking, storage, compute and monitoring.
+
+Requirements:
+1. Use one resource group with clear tags.
+2. Include a realistic business scenario.
+3. Include 6-10 steps with both Portal instructions and Azure CLI commands.
+4. Include checks from at least four different domains.
+5. Keep all resources low cost and include cleanup.
+6. Make the final validation prove that the whole environment is consistent.
+7. Return only valid YAML.
+```

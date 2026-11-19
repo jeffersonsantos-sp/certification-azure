@@ -211,6 +211,7 @@ const en = {
       nsgRuleExists: 'NSG rule',
       appServiceSlotExists: 'App Service slot',
     backupProtectedVmExists: 'VM backup protection',
+    backupPolicyExists: 'Backup policy exists',
     fileShareExists: 'File share',
     routeExists: 'Route table route',
     groupRoleAssignmentExists: 'Group role assignment',

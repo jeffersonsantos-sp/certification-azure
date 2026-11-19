@@ -116,3 +116,21 @@ frontend (app JWT + Azure token)
 - `scripts/migrate_lab_portal_steps.py`
 - `frontend/src/components/StepMethodTabs.tsx`
 - `frontend/src/components/AzureValidationPanel.tsx`
+
+## Troubleshooting and Capstone Labs
+
+Troubleshooting labs should:
+
+1. Build a small broken environment in early steps.
+2. Include a diagnosis step with Portal inspection paths.
+3. Include a fix step with both Portal and CLI instructions.
+4. Validate only the final corrected state.
+5. Use existing read-only checks whenever possible:
+   - `route_exists` for incorrect UDR next hops.
+   - `nsg_rule_exists` for blocked traffic.
+   - `tag_equals` or `policy_assignment_exists` for policy failures.
+   - `backup_policy_exists` for missing backup policies.
+
+Capstone labs should combine multiple domains in one scenario. Prefer 6-10 steps,
+one resource group, low-cost resources and checks from at least four domains.
+Current capstone: `labs/capstone-contoso-foundations.yaml`.

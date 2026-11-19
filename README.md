@@ -92,8 +92,8 @@ cd certification-azure
 
 ### Laboratórios Azure
 
-- **23 labs** cobrindo **todas as 15 skills** do AZ-104.
-- **101 passos** e **99 checks** automatizados.
+- **28 labs** cobrindo **todas as 15 skills** do AZ-104.
+- **129 passos** e **121 checks** automatizados.
 - Cada passo traz abas **Portal** e **Azure CLI**, nos idiomas EN e PT-BR.
 - Validação automática via **Azure Resource Graph + ARM**, sem modificar recursos.
 - Progresso por usuário, melhor score, histórico de validações e marcação automática de passos após aprovação.
@@ -661,7 +661,7 @@ Fases concluídas:
 - [x] OAuth Azure com MSAL.
 - [x] Validação read-only via Resource Graph/ARM.
 - [x] Portal + CLI em todos os labs.
-- [x] Cobertura das 15 skills com 23 labs.
+- [x] Cobertura das 15 skills com 28 labs.
 - [x] Secret scan local e CI.
 
 Próximos possíveis passos:

@@ -172,6 +172,7 @@ export default function LabDetail() {
     group_role_assignment_exists: t('labs.checkTypes.groupRoleAssignmentExists'),
     app_service_slot_exists: t('labs.checkTypes.appServiceSlotExists'),
     backup_protected_vm_exists: t('labs.checkTypes.backupProtectedVmExists'),
+    backup_policy_exists: t('labs.checkTypes.backupPolicyExists'),
     file_share_exists: t('labs.checkTypes.fileShareExists'),
     route_exists: t('labs.checkTypes.routeExists'),
     virtual_network_peering_exists: t('labs.checkTypes.vnetPeeringExists'),

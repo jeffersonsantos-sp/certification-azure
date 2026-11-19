@@ -1,0 +1,400 @@
+slug: capstone-contoso-foundations
+title:
+  en: 'Capstone: Contoso Azure foundations'
+  pt-BR: 'Capstone: fundamentos Azure da Contoso'
+description:
+  en: 'Build a complete multi-domain environment: networking, security, storage, identity and monitoring for a fictional company.'
+  pt-BR: 'Construa um ambiente completo e multidomínio: rede, segurança, armazenamento, identidade e monitoramento para uma
+    empresa fictícia.'
+objectives:
+  en:
+  - Create a tagged resource group
+  - Build networking with a secure subnet
+  - Create Storage with a Blob container
+  - Create an Entra group and assign Reader
+  - Create action group and metric alert
+  - Validate the full environment
+  pt-BR:
+  - Criar um resource group com tags
+  - Criar rede com subnet segura
+  - Criar Storage com container Blob
+  - Criar grupo no Entra e atribuir Reader
+  - Criar grupo de ação e alerta de métrica
+  - Validar o ambiente completo
+prerequisites:
+  en:
+  - Subscription with permissions to create all resources
+  - Permission to create Entra groups and role assignments
+  pt-BR:
+  - Assinatura com permissão para criar todos os recursos
+  - Permissão para criar grupos no Entra e atribuições de função
+cost_warning:
+  en: This capstone creates several low-cost resources. Delete the resource group after finishing.
+  pt-BR: Este capstone cria diversos recursos de baixo custo. Exclua o resource group ao finalizar.
+cleanup_commands:
+- label:
+    en: Delete the capstone resource group
+    pt-BR: Excluir o resource group do capstone
+  language: bash
+  command: az group delete --name rg-az104-capstone --yes --no-wait
+domain_id: compute
+skill_id: cm-01
+difficulty: advanced
+estimated_minutes: 60
+resource_group_name: rg-az104-capstone
+content_version: '1'
+status: published
+sort_order: 280
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the capstone resource group
+    pt-BR: Criar o resource group do capstone
+  instructions:
+    en: Create `rg-az104-capstone` with `Environment=Lab` and `Project=Contoso`.
+    pt-BR: Crie `rg-az104-capstone` com `Environment=Lab` e `Project=Contoso`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-capstone --location eastus --tags Environment=Lab Project=Contoso
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-capstone`, escolha **East US**.
+    - Adicione as tags `Environment=Lab` e `Project=Contoso` e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-capstone`, escolha **East US**.
+    - Adicione as tags `Environment=Lab` e `Project=Contoso` e crie.
+- key: create-network
+  position: 2
+  title:
+    en: Create the network and subnet
+    pt-BR: Criar a rede e a subnet
+  instructions:
+    en: Create `capstone-vnet` with subnet `app`.
+    pt-BR: Crie `capstone-vnet` com a subnet `app`.
+  commands:
+  - label:
+      en: Create the VNet
+      pt-BR: Criar a VNet
+    language: bash
+    command: az network vnet create --resource-group rg-az104-capstone --name capstone-vnet --address-prefix 10.100.0.0/16
+      --subnet-name app --subnet-prefix 10.100.1.0/24
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-capstone` e crie `capstone-vnet` com `10.100.0.0/16`.
+    - Crie a subnet `app` com `10.100.1.0/24`.
+    pt-BR:
+    - Abra **Virtual networks** > **Create**.
+    - Selecione `rg-az104-capstone` e crie `capstone-vnet` com `10.100.0.0/16`.
+    - Crie a subnet `app` com `10.100.1.0/24`.
+- key: create-nsg
+  position: 3
+  title:
+    en: Secure the subnet
+    pt-BR: Proteger a subnet
+  instructions:
+    en: Create `capstone-nsg` with inbound rule `AllowHTTPS` for TCP 443 and associate it with `app`.
+    pt-BR: Crie `capstone-nsg` com a regra de entrada `AllowHTTPS` para TCP 443 e associe-a à subnet `app`.
+  commands:
+  - label:
+      en: Create the NSG
+      pt-BR: Criar o NSG
+    language: bash
+    command: az network nsg create --resource-group rg-az104-capstone --name capstone-nsg
+  - label:
+      en: Create the HTTPS rule
+      pt-BR: Criar a regra HTTPS
+    language: bash
+    command: az network nsg rule create --resource-group rg-az104-capstone --nsg-name capstone-nsg --name AllowHTTPS --priority
+      100 --direction Inbound --access Allow --protocol Tcp --destination-port-ranges 443
+  - label:
+      en: Associate the NSG
+      pt-BR: Associar o NSG
+    language: bash
+    command: az network vnet subnet update --resource-group rg-az104-capstone --vnet-name capstone-vnet --name app --network-security-group
+      capstone-nsg
+  portal_steps:
+    en:
+    - Abra **Network security groups** > **Create** e crie `capstone-nsg`.
+    - Adicione a regra de entrada `AllowHTTPS`, prioridade 100, Allow, TCP, porta 443.
+    - Abra `capstone-vnet` > **Subnets** > `app` e associe `capstone-nsg`.
+    pt-BR:
+    - Abra **Network security groups** > **Create** e crie `capstone-nsg`.
+    - Adicione a regra de entrada `AllowHTTPS`, prioridade 100, Allow, TCP, porta 443.
+    - Abra `capstone-vnet` > **Subnets** > `app` e associe `capstone-nsg`.
+- key: create-storage
+  position: 4
+  title:
+    en: Create Storage and a Blob container
+    pt-BR: Criar Storage e um container Blob
+  instructions:
+    en: Create `stcapstone<unique>` with Standard_LRS, `Environment=Lab` and a private container named `labdata`.
+    pt-BR: Crie `stcapstone<unique>` com Standard_LRS, `Environment=Lab` e um container privado chamado `labdata`.
+  commands:
+  - label:
+      en: Create the Storage Account
+      pt-BR: Criar a Storage Account
+    language: bash
+    command: az storage account create --name stcapstone<unique> --resource-group rg-az104-capstone --location eastus --sku
+      Standard_LRS --kind StorageV2 --tags Environment=Lab
+  - label:
+      en: Create the container
+      pt-BR: Criar o container
+    language: bash
+    command: az storage container create --name labdata --account-name stcapstone<unique>
+  portal_steps:
+    en:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-capstone`, nomeie como `stcapstone<unique>` e use Standard_LRS.
+    - Adicione a tag `Environment=Lab` e crie.
+    - Abra a Storage Account > **Containers** > **+ Container** e crie `labdata`.
+    pt-BR:
+    - Abra **Storage accounts** > **Create**.
+    - Selecione `rg-az104-capstone`, nomeie como `stcapstone<unique>` e use Standard_LRS.
+    - Adicione a tag `Environment=Lab` e crie.
+    - Abra a Storage Account > **Containers** > **+ Container** e crie `labdata`.
+- key: create-group
+  position: 5
+  title:
+    en: Create an Entra group
+    pt-BR: Criar um grupo no Entra
+  instructions:
+    en: Create security group `az104-capstone-readers` and add your signed-in user as a member.
+    pt-BR: Crie o grupo de segurança `az104-capstone-readers` e adicione seu usuário conectado como membro.
+  commands:
+  - label:
+      en: Create the group
+      pt-BR: Criar o grupo
+    language: bash
+    command: az ad group create --display-name az104-capstone-readers --mail-nickname az104capstonereaders
+  - label:
+      en: Add the signed-in user
+      pt-BR: Adicionar o usuário conectado
+    language: bash
+    command: az ad group member add --group az104-capstone-readers --member-id $(az ad signed-in-user show --query id -o tsv)
+  portal_steps:
+    en:
+    - Abra **Microsoft Entra ID** > **Groups** > **New group**.
+    - Selecione **Security**, informe `az104-capstone-readers` e crie.
+    - Abra o grupo > **Members** > **Add members** e selecione seu usuário.
+    pt-BR:
+    - Abra **Microsoft Entra ID** > **Groups** > **New group**.
+    - Selecione **Security**, informe `az104-capstone-readers` e crie.
+    - Abra o grupo > **Members** > **Add members** e selecione seu usuário.
+- key: assign-role
+  position: 6
+  title:
+    en: Assign Reader to the group
+    pt-BR: Atribuir Reader ao grupo
+  instructions:
+    en: Assign the Reader role to `az104-capstone-readers` at the resource group scope.
+    pt-BR: Atribua a função Reader ao grupo `az104-capstone-readers` no escopo do resource group.
+  commands:
+  - label:
+      en: Assign Reader
+      pt-BR: Atribuir Reader
+    language: bash
+    command: az role assignment create --assignee-object-id $(az ad group show --group az104-capstone-readers --query id -o
+      tsv) --assignee-principal-type Group --role Reader --scope /subscriptions/$(az account show --query id -o tsv)/resourceGroups/rg-az104-capstone
+  portal_steps:
+    en:
+    - Abra **Resource groups** > `rg-az104-capstone` > **Access control (IAM)**.
+    - Clique em **Add** > **Add role assignment**.
+    - Selecione **Reader**, escolha o grupo `az104-capstone-readers` e atribua.
+    pt-BR:
+    - Abra **Resource groups** > `rg-az104-capstone` > **Access control (IAM)**.
+    - Clique em **Add** > **Add role assignment**.
+    - Selecione **Reader**, escolha o grupo `az104-capstone-readers` e atribua.
+- key: create-monitoring
+  position: 7
+  title:
+    en: Create monitoring resources
+    pt-BR: Criar recursos de monitoramento
+  instructions:
+    en: Create action group `ag-capstone` and a public IP metric alert named `alert-capstone-high-traffic`.
+    pt-BR: Crie o grupo de ação `ag-capstone` e o alerta de métrica de IP público `alert-capstone-high-traffic`.
+  commands:
+  - label:
+      en: Create the public IP
+      pt-BR: Criar o IP público
+    language: bash
+    command: az network public-ip create --resource-group rg-az104-capstone --name capstone-pip --sku Standard --allocation-method
+      Static
+  - label:
+      en: Create the action group
+      pt-BR: Criar o grupo de ação
+    language: bash
+    command: az monitor action-group create --resource-group rg-az104-capstone --name ag-capstone --action email capstone-admin
+      admin@example.com
+  - label:
+      en: Create the metric alert
+      pt-BR: Criar o alerta de métrica
+    language: bash
+    command: 'PIP_ID=$(az network public-ip show --resource-group rg-az104-capstone --name capstone-pip --query id -o tsv)
+
+      az monitor metrics alert create --name alert-capstone-high-traffic --resource-group rg-az104-capstone --scopes "$PIP_ID"
+      --condition "avg ByteCount > 1000" --action ag-capstone'
+  portal_steps:
+    en:
+    - Abra **Public IP addresses** > **Create** e crie `capstone-pip`.
+    - Abra **Monitor** > **Alerts** > **Action groups** > **Create** e crie `ag-capstone`.
+    - Crie um alerta de métrica para `capstone-pip` com condição `Average ByteCount greater than 1000` e ação `ag-capstone`.
+    pt-BR:
+    - Abra **Public IP addresses** > **Create** e crie `capstone-pip`.
+    - Abra **Monitor** > **Alerts** > **Action groups** > **Create** e crie `ag-capstone`.
+    - Crie um alerta de métrica para `capstone-pip` com condição `Average ByteCount greater than 1000` e ação `ag-capstone`.
+checks:
+- key: resource-group-exists
+  position: 1
+  name:
+    en: Resource group exists
+    pt-BR: Resource group existe
+  description:
+    en: The capstone resource group must exist.
+    pt-BR: O resource group do capstone precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-capstone
+  required: true
+  weight: 1
+- key: environment-tag
+  position: 2
+  name:
+    en: Environment tag is present
+    pt-BR: Tag Environment está presente
+  description:
+    en: The resource group must have Environment=Lab.
+    pt-BR: O resource group precisa ter Environment=Lab.
+  check_type: tag_equals
+  config:
+    resource_type: Microsoft.Resources/resourceGroups
+    name: rg-az104-capstone
+    tag: Environment
+    value: Lab
+  required: true
+  weight: 1
+- key: vnet-exists
+  position: 3
+  name:
+    en: Virtual Network exists
+    pt-BR: Virtual Network existe
+  description:
+    en: The capstone-vnet must exist.
+    pt-BR: A capstone-vnet precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: capstone-vnet
+  required: true
+  weight: 1
+- key: app-subnet
+  position: 4
+  name:
+    en: App subnet exists
+    pt-BR: Subnet app existe
+  description:
+    en: The app subnet must have 10.100.1.0/24.
+    pt-BR: A subnet app precisa ter 10.100.1.0/24.
+  check_type: subnet_exists
+  config:
+    vnet_name: capstone-vnet
+    subnet_name: app
+    address_prefix: 10.100.1.0/24
+  required: true
+  weight: 1
+- key: https-rule
+  position: 5
+  name:
+    en: HTTPS rule exists
+    pt-BR: Regra HTTPS existe
+  description:
+    en: AllowHTTPS must allow inbound TCP 443.
+    pt-BR: AllowHTTPS precisa permitir TCP de entrada na porta 443.
+  check_type: nsg_rule_exists
+  config:
+    nsg_name: capstone-nsg
+    rule_name: AllowHTTPS
+    direction: Inbound
+    access: Allow
+    protocol: Tcp
+    destination_port: '443'
+  required: true
+  weight: 1
+- key: storage-exists
+  position: 6
+  name:
+    en: Storage Account exists
+    pt-BR: Storage Account existe
+  description:
+    en: A Storage Account with stcapstone prefix must exist.
+    pt-BR: Uma Storage Account com o prefixo stcapstone precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts
+    name_prefix: stcapstone
+  required: true
+  weight: 1
+- key: blob-container-exists
+  position: 7
+  name:
+    en: Blob container exists
+    pt-BR: Container Blob existe
+  description:
+    en: The labdata container must exist in the capstone Storage Account.
+    pt-BR: O container labdata precisa existir na Storage Account do capstone.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Storage/storageAccounts/blobServices/containers
+    name: labdata
+    parent_name_prefix: stcapstone
+  required: true
+  weight: 1
+- key: group-reader-assignment
+  position: 8
+  name:
+    en: Group has Reader role
+    pt-BR: Grupo tem a função Reader
+  description:
+    en: An Entra group must have Reader at the capstone resource group.
+    pt-BR: Um grupo do Entra precisa ter Reader no resource group do capstone.
+  check_type: group_role_assignment_exists
+  config:
+    role_definition_name: Reader
+    scope: resource_group
+  required: true
+  weight: 1
+- key: action-group-exists
+  position: 9
+  name:
+    en: Action group exists
+    pt-BR: Grupo de ação existe
+  description:
+    en: The ag-capstone action group must exist.
+    pt-BR: O grupo de ação ag-capstone precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Insights/actionGroups
+    name: ag-capstone
+  required: true
+  weight: 1
+- key: metric-alert-exists
+  position: 10
+  name:
+    en: Metric alert exists
+    pt-BR: Alerta de métrica existe
+  description:
+    en: The alert-capstone-high-traffic rule must exist.
+    pt-BR: A regra alert-capstone-high-traffic precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Insights/metricAlerts
+    name: alert-capstone-high-traffic
+  required: true
+  weight: 1

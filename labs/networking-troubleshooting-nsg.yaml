@@ -1,0 +1,231 @@
+slug: networking-troubleshooting-nsg
+title:
+  en: Troubleshoot blocked inbound traffic
+  pt-BR: Solucionar tráfego de entrada bloqueado
+description:
+  en: An NSG contains a deny rule that blocks SSH. Diagnose the effective rules and replace it with an allow rule.
+  pt-BR: Um NSG contém uma regra de negação que bloqueia SSH. Diagnostique as regras efetivas e substitua-a por uma regra
+    de permissão.
+objectives:
+  en:
+  - Identify the blocking NSG rule
+  - Remove the deny rule
+  - Create an allow rule for SSH
+  pt-BR:
+  - Identificar a regra de bloqueio
+  - Remover a regra de negação
+  - Criar uma regra de permissão para SSH
+prerequisites:
+  en:
+  - A subscription where you can create networking resources
+  - Basic understanding of NSG rules
+  pt-BR:
+  - Uma assinatura onde você possa criar recursos de rede
+  - Noções básicas de regras de NSG
+cost_warning:
+  en: Virtual networks and NSGs do not add cost by themselves.
+  pt-BR: Redes virtuais e NSGs não geram custo por si só.
+cleanup_commands:
+- label:
+    en: Delete the lab resource group
+    pt-BR: Excluir o resource group do laboratório
+  language: bash
+  command: az group delete --name rg-az104-lab-nsg-fix --yes --no-wait
+domain_id: networking
+skill_id: vn-02
+difficulty: intermediate
+estimated_minutes: 25
+resource_group_name: rg-az104-lab-nsg-fix
+content_version: '1'
+status: published
+sort_order: 250
+steps:
+- key: create-resource-group
+  position: 1
+  title:
+    en: Create the resource group
+    pt-BR: Criar o resource group
+  instructions:
+    en: Create `rg-az104-lab-nsg-fix`.
+    pt-BR: Crie `rg-az104-lab-nsg-fix`.
+  commands:
+  - label:
+      en: Create the resource group
+      pt-BR: Criar o resource group
+    language: bash
+    command: az group create --name rg-az104-lab-nsg-fix --location eastus
+  portal_steps:
+    en:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-nsg-fix`, escolha **East US** e crie.
+    pt-BR:
+    - Abra **Resource groups** > **Create**.
+    - Informe `rg-az104-lab-nsg-fix`, escolha **East US** e crie.
+- key: create-vnet
+  position: 2
+  title:
+    en: Create the VNet
+    pt-BR: Criar a VNet
+  instructions:
+    en: Create `nsg-vnet` with subnet `default`.
+    pt-BR: Crie `nsg-vnet` com a subnet `default`.
+  commands:
+  - label:
+      en: Create the VNet
+      pt-BR: Criar a VNet
+    language: bash
+    command: az network vnet create --resource-group rg-az104-lab-nsg-fix --name nsg-vnet --address-prefix 10.91.0.0/16 --subnet-name
+      default --subnet-prefix 10.91.0.0/24
+  portal_steps:
+    en:
+    - Abra **Virtual networks** > **Create** e crie `nsg-vnet` com `10.91.0.0/16`.
+    - Crie a subnet `default` com `10.91.0.0/24`.
+    pt-BR:
+    - Abra **Virtual networks** > **Create** e crie `nsg-vnet` com `10.91.0.0/16`.
+    - Crie a subnet `default` com `10.91.0.0/24`.
+- key: create-blocking-rule
+  position: 3
+  title:
+    en: Create the blocking rule
+    pt-BR: Criar a regra de bloqueio
+  instructions:
+    en: Create NSG `lab-nsg` with inbound rule `DenySSH` denying TCP port 22.
+    pt-BR: Crie o NSG `lab-nsg` com a regra de entrada `DenySSH` negando TCP na porta 22.
+  commands:
+  - label:
+      en: Create the NSG
+      pt-BR: Criar o NSG
+    language: bash
+    command: az network nsg create --resource-group rg-az104-lab-nsg-fix --name lab-nsg
+  - label:
+      en: Create the deny rule
+      pt-BR: Criar a regra de negação
+    language: bash
+    command: az network nsg rule create --resource-group rg-az104-lab-nsg-fix --nsg-name lab-nsg --name DenySSH --priority
+      100 --direction Inbound --access Deny --protocol Tcp --destination-port-ranges 22
+  portal_steps:
+    en:
+    - Abra **Network security groups** > **Create** e crie `lab-nsg`.
+    - Abra **Inbound security rules** > **Add**.
+    - Crie `DenySSH`, prioridade 100, **Deny**, TCP, porta 22.
+    pt-BR:
+    - Abra **Network security groups** > **Create** e crie `lab-nsg`.
+    - Abra **Inbound security rules** > **Add**.
+    - Crie `DenySSH`, prioridade 100, **Deny**, TCP, porta 22.
+- key: associate-nsg
+  position: 4
+  title:
+    en: Associate the NSG
+    pt-BR: Associar o NSG
+  instructions:
+    en: Associate `lab-nsg` with the `default` subnet.
+    pt-BR: Associe `lab-nsg` à subnet `default`.
+  commands:
+  - label:
+      en: Associate the NSG
+      pt-BR: Associar o NSG
+    language: bash
+    command: az network vnet subnet update --resource-group rg-az104-lab-nsg-fix --vnet-name nsg-vnet --name default --network-security-group
+      lab-nsg
+  portal_steps:
+    en:
+    - Abra `nsg-vnet` > **Subnets** > `default`.
+    - Selecione `lab-nsg` em **Network security group** e salve.
+    pt-BR:
+    - Abra `nsg-vnet` > **Subnets** > `default`.
+    - Selecione `lab-nsg` em **Network security group** e salve.
+- key: diagnose
+  position: 5
+  title:
+    en: Diagnose the effective rules
+    pt-BR: Diagnosticar as regras efetivas
+  instructions:
+    en: List NSG rules and confirm `DenySSH` is blocking TCP 22.
+    pt-BR: Liste as regras do NSG e confirme que `DenySSH` bloqueia TCP 22.
+  commands:
+  - label:
+      en: List NSG rules
+      pt-BR: Listar regras do NSG
+    language: bash
+    command: az network nsg rule list --resource-group rg-az104-lab-nsg-fix --nsg-name lab-nsg -o table
+  portal_steps:
+    en:
+    - Abra `lab-nsg` > **Inbound security rules**.
+    - Confirme que `DenySSH` está com acesso **Deny** na porta 22.
+    pt-BR:
+    - Abra `lab-nsg` > **Inbound security rules**.
+    - Confirme que `DenySSH` está com acesso **Deny** na porta 22.
+- key: fix-rule
+  position: 6
+  title:
+    en: Replace the deny rule
+    pt-BR: Substituir a regra de negação
+  instructions:
+    en: Delete `DenySSH` and create `AllowSSH` with priority 100 allowing TCP port 22.
+    pt-BR: Exclua `DenySSH` e crie `AllowSSH` com prioridade 100 permitindo TCP na porta 22.
+  commands:
+  - label:
+      en: Delete the deny rule
+      pt-BR: Excluir a regra de negação
+    language: bash
+    command: az network nsg rule delete --resource-group rg-az104-lab-nsg-fix --nsg-name lab-nsg --name DenySSH
+  - label:
+      en: Create the allow rule
+      pt-BR: Criar a regra de permissão
+    language: bash
+    command: az network nsg rule create --resource-group rg-az104-lab-nsg-fix --nsg-name lab-nsg --name AllowSSH --priority
+      100 --direction Inbound --access Allow --protocol Tcp --destination-port-ranges 22
+  portal_steps:
+    en:
+    - Abra `lab-nsg` > **Inbound security rules** e exclua `DenySSH`.
+    - Clique em **Add** e crie `AllowSSH` com prioridade 100, **Allow**, TCP e porta 22.
+    pt-BR:
+    - Abra `lab-nsg` > **Inbound security rules** e exclua `DenySSH`.
+    - Clique em **Add** e crie `AllowSSH` com prioridade 100, **Allow**, TCP e porta 22.
+checks:
+- key: vnet-exists
+  position: 1
+  name:
+    en: Virtual Network exists
+    pt-BR: Virtual Network existe
+  description:
+    en: The nsg-vnet must exist.
+    pt-BR: A nsg-vnet precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/virtualNetworks
+    name: nsg-vnet
+  required: true
+  weight: 1
+- key: nsg-exists
+  position: 2
+  name:
+    en: Network Security Group exists
+    pt-BR: Network Security Group existe
+  description:
+    en: The lab-nsg must exist.
+    pt-BR: O lab-nsg precisa existir.
+  check_type: resource_exists
+  config:
+    resource_type: Microsoft.Network/networkSecurityGroups
+    name: lab-nsg
+  required: true
+  weight: 1
+- key: ssh-allowed
+  position: 3
+  name:
+    en: SSH is allowed
+    pt-BR: SSH está permitido
+  description:
+    en: AllowSSH must allow inbound TCP port 22.
+    pt-BR: AllowSSH precisa permitir TCP de entrada na porta 22.
+  check_type: nsg_rule_exists
+  config:
+    nsg_name: lab-nsg
+    rule_name: AllowSSH
+    direction: Inbound
+    access: Allow
+    protocol: Tcp
+    destination_port: '22'
+  required: true
+  weight: 1
