@@ -6,11 +6,36 @@ import QuestionLanguageToggle from '../components/QuestionLanguageToggle'
 import QuestionContent from '../components/QuestionContent'
 import { translateQuestionTextAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
 import { formatAnswer } from '../utils/answers'
+import { readSession, writeSession, clearSession } from '../utils/sessionStorage'
 
 interface TranslatedQuestion {
   questionText: string
   options: { label: string; text: string }[]
 }
+
+interface ExamResult {
+  question: Question
+  selected: AnswerValue
+  correct: boolean
+  correct_answer: AnswerValue
+  explanation: string
+}
+
+interface MockSession {
+  version: 1
+  savedAt: number
+  started: boolean
+  finished: boolean
+  timeLeft: number
+  config: { questions: number; time: number; domain: string }
+  questions: Question[]
+  currentIndex: number
+  answers: Record<string, AnswerValue>
+  results: ExamResult[]
+}
+
+const MOCK_SESSION_KEY = 'az104-mock-exam-session-v1'
+const SESSION_MAX_AGE_MS = 24 * 60 * 60 * 1000
 
 export default function MockExam() {
   const { t, questionLanguage } = useLanguage()
@@ -26,33 +51,99 @@ export default function MockExam() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({})
   const [translatedQuestions, setTranslatedQuestions] = useState<Map<number, TranslatedQuestion>>(new Map())
-  const [results, setResults] = useState<Array<{
-    question: Question
-    selected: AnswerValue
-    correct: boolean
-    correct_answer: AnswerValue
-    explanation: string
-  }>>([])
+  const [results, setResults] = useState<ExamResult[]>([])
+  const [savedSession, setSavedSession] = useState<MockSession | null>(null)
+  const [sessionReady, setSessionReady] = useState(false)
   const submittingRef = useRef(false)
+  const questionsRef = useRef(questions)
+  const answersRef = useRef(answers)
+  const tRef = useRef(t)
+
+  useEffect(() => { questionsRef.current = questions }, [questions])
+  useEffect(() => { answersRef.current = answers }, [answers])
+  useEffect(() => { tRef.current = t }, [t])
+
+  useEffect(() => {
+    const stored = readSession<MockSession>(MOCK_SESSION_KEY)
+    if (stored && stored.version === 1 && Date.now() - stored.savedAt < SESSION_MAX_AGE_MS) {
+      if (stored.started && !stored.finished) {
+        setSavedSession(stored)
+      } else if (stored.finished) {
+        setFinished(true)
+        setStarted(false)
+        setConfig(stored.config)
+        setQuestions(stored.questions)
+        setAnswers(stored.answers)
+        setResults(stored.results)
+        setTimeLeft(stored.timeLeft)
+      }
+    } else if (stored) {
+      clearSession(MOCK_SESSION_KEY)
+    }
+    setSessionReady(true)
+  }, [])
+
+  useEffect(() => {
+    if (!sessionReady || savedSession) return
+    if (!started && !finished) {
+      clearSession(MOCK_SESSION_KEY)
+      return
+    }
+
+    writeSession<MockSession>(MOCK_SESSION_KEY, {
+      version: 1,
+      savedAt: Date.now(),
+      started,
+      finished,
+      timeLeft,
+      config,
+      questions,
+      currentIndex,
+      answers,
+      results,
+    })
+  }, [sessionReady, started, finished, timeLeft, config, questions, currentIndex, answers, results, savedSession])
+
+  const resumeSession = () => {
+    if (!savedSession) return
+    const elapsed = Math.max(0, Math.floor((Date.now() - savedSession.savedAt) / 1000))
+    setConfig(savedSession.config)
+    setQuestions(savedSession.questions)
+    setCurrentIndex(savedSession.currentIndex)
+    setAnswers(savedSession.answers)
+    setTimeLeft(Math.max(0, savedSession.timeLeft - elapsed))
+    setStarted(true)
+    setFinished(false)
+    setResults(savedSession.results)
+    setSavedSession(null)
+    submittingRef.current = false
+  }
+
+  const discardSession = () => {
+    clearSession(MOCK_SESSION_KEY)
+    setSavedSession(null)
+    setResults([])
+  }
 
   const finishExam = useCallback(async () => {
-    if (submittingRef.current || questions.length === 0) return
+    const currentQuestions = questionsRef.current
+    if (submittingRef.current || currentQuestions.length === 0) return
     submittingRef.current = true
 
     try {
       const response = await submitExam(
-        questions.map((q) => ({
+        currentQuestions.map((q) => ({
           question_id: q.id,
-          answer: answers[q.id] ?? '',
+          answer: answersRef.current[q.id] ?? '',
         }))
       )
 
       const resultsById = new Map(response.results.map((result) => [result.question_id, result]))
-      setResults(questions.map((q) => {
+      setResults(currentQuestions.map((q) => {
         const result = resultsById.get(q.id)
         return {
           question: q,
-          selected: result?.selected ?? answers[q.id] ?? '',
+          selected: result?.selected ?? answersRef.current[q.id] ?? '',
           correct: result?.correct ?? false,
           correct_answer: result?.correct_answer ?? '',
           explanation: result?.explanation ?? '',
@@ -61,27 +152,26 @@ export default function MockExam() {
       setFinished(true)
       setStarted(false)
     } catch (err) {
-      setError(t('mockExam.submitFailed'))
+      setError(tRef.current('mockExam.submitFailed'))
       console.error('Failed to submit exam:', err)
     } finally {
       submittingRef.current = false
     }
-  }, [questions, answers, t])
+  }, [])
 
   useEffect(() => {
     if (!started || finished) return
     const timer = setInterval(() => {
-      setTimeLeft((p) => {
-        if (p <= 0) {
-          clearInterval(timer)
-          finishExam()
-          return 0
-        }
-        return p - 1
-      })
+      setTimeLeft((previous) => Math.max(0, previous - 1))
     }, 1000)
     return () => clearInterval(timer)
-  }, [started, finished, finishExam])
+  }, [started, finished])
+
+  useEffect(() => {
+    if (started && !finished && timeLeft === 0 && questions.length > 0) {
+      finishExam()
+    }
+  }, [started, finished, timeLeft, questions.length, finishExam])
 
   const formatTime = (s: number) => {
     const h = Math.floor(s / 3600)
@@ -106,6 +196,8 @@ export default function MockExam() {
         return
       }
 
+      clearSession(MOCK_SESSION_KEY)
+      setSavedSession(null)
       setQuestions(response.questions)
       setCurrentIndex(0)
       setAnswers({})
@@ -402,6 +494,23 @@ export default function MockExam() {
       {error && (
         <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700">
           {error}
+        </div>
+      )}
+
+      {savedSession && (
+        <div className="card-elevated flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">{t('mockExam.resumeTitle')}</h2>
+            <p className="text-sm text-gray-500">{t('mockExam.resumeDescription')}</p>
+          </div>
+          <div className="flex gap-3">
+            <button onClick={resumeSession} className="btn-primary px-5 py-2 text-sm">
+              {t('mockExam.resume')}
+            </button>
+            <button onClick={discardSession} className="btn-secondary px-5 py-2 text-sm">
+              {t('mockExam.discard')}
+            </button>
+          </div>
         </div>
       )}
 

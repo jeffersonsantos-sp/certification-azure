@@ -85,6 +85,12 @@ const pt: Translations = {
     accuracy: 'Precisão',
     practiceAgain: 'Praticar Novamente',
     backToDashboard: 'Voltar ao Painel',
+    resumeTitle: 'Retomar sua sessão de prática',
+    resumeDescription: 'Você tem uma sessão de prática não concluída salva neste navegador.',
+    resume: 'Retomar sessão',
+    discard: 'Descartar',
+    sessionReview: 'Revisão da sessão',
+
   },
   mockExam: {
     title: 'Simulado',
@@ -108,6 +114,10 @@ const pt: Translations = {
     minutesUsed: 'Minutos Utilizados',
     questionReview: 'Revisão das Questões',
     retakeExam: 'Refazer Simulado',
+    resumeTitle: 'Retomar seu simulado',
+    resumeDescription: 'Você tem um simulado não concluído salvo neste navegador. O cronômetro ficou pausado enquanto você esteve fora.',
+    resume: 'Retomar prova',
+    discard: 'Descartar',
     backToDashboard: 'Voltar ao Painel',
     performanceBySkill: 'Desempenho por Habilidade',
     previous: '← Anterior',

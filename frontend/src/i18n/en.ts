@@ -83,6 +83,12 @@ const en = {
     accuracy: 'Accuracy',
     practiceAgain: 'Practice Again',
     backToDashboard: 'Back to Dashboard',
+    resumeTitle: 'Resume your practice session',
+    resumeDescription: 'You have an unfinished practice session saved in this browser.',
+    resume: 'Resume session',
+    discard: 'Discard',
+    sessionReview: 'Session review',
+
   },
   mockExam: {
     title: 'Mock Exam',
@@ -106,6 +112,10 @@ const en = {
     minutesUsed: 'Minutes Used',
     questionReview: 'Question Review',
     retakeExam: 'Retake Exam',
+    resumeTitle: 'Resume your mock exam',
+    resumeDescription: 'You have an unfinished mock exam saved in this browser. The timer was paused while you were away.',
+    resume: 'Resume exam',
+    discard: 'Discard',
     backToDashboard: 'Back to Dashboard',
     performanceBySkill: 'Performance by Skill',
     previous: '← Previous',

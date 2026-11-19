@@ -5,6 +5,8 @@ import QuestionContent from '../components/QuestionContent'
 import { useLanguage } from '../context/LanguageContext'
 import QuestionLanguageToggle from '../components/QuestionLanguageToggle'
 import { translateQuestionTextAsync, translateExplanationAsync, translateDifficulty, translateOptionTextAsync } from '../i18n/questions'
+import { readSession, writeSession, clearSession } from '../utils/sessionStorage'
+import { formatAnswer } from '../utils/answers'
 
 const domainNameKeys: Record<string, string> = {
   'identity-governance': 'practice.identityGovernance',
@@ -18,6 +20,33 @@ interface TranslatedQuestion {
   questionText: string
   options: { label: string; text: string }[]
 }
+
+interface PracticeResult {
+  questionId: string
+  correct: boolean
+  selected: AnswerValue
+  correctAnswer?: AnswerValue
+  explanation?: string
+}
+
+interface PracticeSession {
+  version: 1
+  savedAt: number
+  selectedDomain: string | null
+  difficulty: string
+  questionCount: number
+  mode: string
+  sessionActive: boolean
+  questions: Question[]
+  currentIndex: number
+  selectedAnswer: AnswerValue | null
+  submitted: boolean
+  feedback: AnswerResponse | null
+  results: PracticeResult[]
+}
+
+const PRACTICE_SESSION_KEY = 'az104-practice-session-v1'
+const SESSION_MAX_AGE_MS = 24 * 60 * 60 * 1000
 
 export default function Practice() {
   const { t, questionLanguage } = useLanguage()
@@ -39,7 +68,72 @@ export default function Practice() {
   const [feedback, setFeedback] = useState<AnswerResponse | null>(null)
   const [translatedExplanation, setTranslatedExplanation] = useState<string | null>(null)
   const [translatedQuestions, setTranslatedQuestions] = useState<Map<number, TranslatedQuestion>>(new Map())
-  const [results, setResults] = useState<Array<{ questionId: string; correct: boolean; selected: AnswerValue }>>([])
+  const [results, setResults] = useState<PracticeResult[]>([])
+  const [savedSession, setSavedSession] = useState<PracticeSession | null>(null)
+  const [sessionReady, setSessionReady] = useState(false)
+
+  useEffect(() => {
+    const stored = readSession<PracticeSession>(PRACTICE_SESSION_KEY)
+    if (stored && stored.version === 1 && Date.now() - stored.savedAt < SESSION_MAX_AGE_MS) {
+      if (stored.sessionActive) {
+        setSavedSession(stored)
+      } else {
+        setResults(stored.results)
+        setSelectedDomain(stored.selectedDomain)
+        setMode(stored.mode)
+      }
+    } else if (stored) {
+      clearSession(PRACTICE_SESSION_KEY)
+    }
+    setSessionReady(true)
+  }, [])
+
+  useEffect(() => {
+    if (!sessionReady || savedSession) return
+
+    if (!sessionActive && results.length === 0) {
+      clearSession(PRACTICE_SESSION_KEY)
+      return
+    }
+
+    writeSession<PracticeSession>(PRACTICE_SESSION_KEY, {
+      version: 1,
+      savedAt: Date.now(),
+      selectedDomain,
+      difficulty,
+      questionCount,
+      mode,
+      sessionActive,
+      questions,
+      currentIndex,
+      selectedAnswer,
+      submitted,
+      feedback,
+      results,
+    })
+  }, [sessionReady, sessionActive, selectedDomain, difficulty, questionCount, mode, questions, currentIndex, selectedAnswer, submitted, feedback, results])
+
+  const resumeSession = () => {
+    if (!savedSession) return
+    setSelectedDomain(savedSession.selectedDomain)
+    setDifficulty(savedSession.difficulty)
+    setQuestionCount(savedSession.questionCount)
+    setMode(savedSession.mode)
+    setSessionActive(savedSession.sessionActive)
+    setQuestions(savedSession.questions)
+    setCurrentIndex(savedSession.currentIndex)
+    setSelectedAnswer(savedSession.selectedAnswer)
+    setSubmitted(savedSession.submitted)
+    setFeedback(savedSession.feedback)
+    setResults(savedSession.results)
+    setSavedSession(null)
+  }
+
+  const discardSession = () => {
+    clearSession(PRACTICE_SESSION_KEY)
+    setSavedSession(null)
+    setResults([])
+  }
 
   const startPractice = async () => {
     if (!selectedDomain) return
@@ -60,6 +154,8 @@ export default function Practice() {
         return
       }
 
+      clearSession(PRACTICE_SESSION_KEY)
+      setSavedSession(null)
       setQuestions(response.questions)
       setSessionActive(true)
       setCurrentIndex(0)
@@ -149,6 +245,8 @@ export default function Practice() {
         questionId: questions[currentIndex].id,
         correct: response.correct,
         selected: answer,
+        correctAnswer: response.correct_answer,
+        explanation: response.explanation,
       }])
     } catch (e) {
       setError(t('practice.submitFailed'))
@@ -170,7 +268,6 @@ export default function Practice() {
 
   const handleFinish = () => {
     setSessionActive(false)
-    setQuestions([])
     setFeedback(null)
     setTranslatedExplanation(null)
   }
@@ -220,9 +317,9 @@ export default function Practice() {
           <QuestionContent
             question={currentQuestion}
             selected={selectedAnswer}
-            onSelect={setSelectedAnswer}
-            submitted={submitted}
-            correctAnswer={feedback?.correct_answer}
+            onSelect={mode === 'exam' && submitted ? () => {} : setSelectedAnswer}
+            submitted={mode === 'exam' ? false : submitted}
+            correctAnswer={mode === 'exam' ? undefined : feedback?.correct_answer}
             translatedQuestionText={translated?.questionText}
             translatedOptions={translated?.options}
           />
@@ -252,7 +349,7 @@ export default function Practice() {
           </div>
         </div>
 
-        {submitted && (
+        {submitted && mode === 'learning' && (
           <div className="mt-6 card-elevated p-6 md:p-8 animate-fadeInUp">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
@@ -280,6 +377,23 @@ export default function Practice() {
       {error && (
         <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-700">
           {error}
+        </div>
+      )}
+
+      {savedSession && (
+        <div className="card-elevated flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">{t('practice.resumeTitle')}</h2>
+            <p className="text-sm text-gray-500">{t('practice.resumeDescription')}</p>
+          </div>
+          <div className="flex gap-3">
+            <button onClick={resumeSession} className="btn-primary px-5 py-2 text-sm">
+              {t('practice.resume')}
+            </button>
+            <button onClick={discardSession} className="btn-secondary px-5 py-2 text-sm">
+              {t('practice.discard')}
+            </button>
+          </div>
         </div>
       )}
 
@@ -313,6 +427,40 @@ export default function Practice() {
             <button onClick={() => navigate('/')} className="btn-secondary">
               {t('practice.backToDashboard')}
             </button>
+          </div>
+        </div>
+      )}
+
+      {results.length > 0 && (
+        <div className="card-elevated p-6 md:p-8">
+          <h2 className="mb-6 text-xl font-bold text-gray-900">{t('practice.sessionReview')}</h2>
+          <div className="space-y-4">
+            {results.map((result, index) => (
+              <div
+                key={`${result.questionId}-${index}`}
+                className={`rounded-xl border-2 p-4 ${result.correct ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50'}`}
+              >
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <span className="font-semibold text-gray-900">
+                    {t('practice.questionOf', { current: index + 1, total: results.length })}
+                  </span>
+                  <span className={`text-sm font-bold ${result.correct ? 'text-emerald-700' : 'text-rose-700'}`}>
+                    {result.correct ? t('practice.correct') : t('practice.incorrect')}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-700">
+                  {t('practice.yourAnswer')}: <span className="font-semibold">{formatAnswer(result.selected, questions.find((q) => q.id === result.questionId) || questions[0])}</span>
+                  {!result.correct && result.correctAnswer && (
+                    <>
+                      {' • '}{t('practice.correctAnswer')}: <span className="font-semibold">{formatAnswer(result.correctAnswer, questions.find((q) => q.id === result.questionId) || questions[0])}</span>
+                    </>
+                  )}
+                </p>
+                {result.explanation && (
+                  <p className="mt-2 whitespace-pre-line text-sm text-gray-600">{result.explanation}</p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       )}
