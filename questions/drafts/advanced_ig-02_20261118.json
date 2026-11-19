@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "skill_id": "ig-02",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-19T00:26:45.614133",
+    "count": 2,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "ig-02",
+      "question_type": "multiple_choice",
+      "question_text": "Which two settings are required for a security group to grant access to an Azure resource? (Choose two.)",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "The group must be a security group",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "A role assignment must target the group",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "The group must have a Microsoft Entra license",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "The group must be created in a different tenant",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "A security group must exist and an Azure RBAC role assignment must grant that group permissions at the intended scope. Licenses and cross-tenant placement are not RBAC requirements.",
+      "reference_url": "https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "multiple-choice"
+      ]
+    },
+    {
+      "skill_id": "ig-02",
+      "question_type": "drag_drop",
+      "question_text": "Order the steps to assign the Reader role to a user at resource group scope.",
+      "question_data": {
+        "instructions": "Place the items in the correct order."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "Open Access control (IAM) on the resource group",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Select Add role assignment",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Select Reader and choose the user",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Review and assign",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Role assignment starts in IAM, then adds the assignment, selects role and principal, and finishes with review and assign.",
+      "reference_url": "https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal",
+      "difficulty": "easy",
+      "tags": [
+        "advanced",
+        "drag-drop"
+      ]
+    }
+  ]
+}

@@ -78,6 +78,7 @@ async def main() -> None:
         pool = candidates.get(skill_id, [])
         pool.sort(
             key=lambda item: (
+                item.get("question_type") != "single_choice",
                 bool(item.get("reference_url")),
                 len(item.get("tags") or []),
                 len(item.get("explanation") or ""),

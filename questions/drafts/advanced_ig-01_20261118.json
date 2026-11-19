@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "skill_id": "ig-01",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-19T00:26:45.654119",
+    "count": 1,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "ig-01",
+      "question_type": "case_study",
+      "question_text": "An administrator must give a guest user access to review Azure resources without creating a new directory account. Which approach should they use?",
+      "question_data": {
+        "scenario": "The organization uses Microsoft Entra ID and wants collaborators from partner organizations to sign in with their own identities.",
+        "instructions": "Read the scenario, then select the best answer."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "Microsoft Entra B2B Collaboration",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Shared account credentials",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "A local admin account on each VM",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "An Azure Policy assignment",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Microsoft Entra B2B Collaboration lets external users sign in with their own identity while receiving access in the resource tenant.",
+      "reference_url": "https://learn.microsoft.com/azure/active-directory/external-identities/what-is-b2b",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "case-study"
+      ]
+    }
+  ]
+}

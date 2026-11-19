@@ -285,6 +285,7 @@ const pt: Translations = {
     correctArea: 'Área correta: {area}',
     diagramAlt: 'Diagrama da questão',
     caseStudy: 'Estudo de caso',
+    documentation: 'Documentação oficial',
   },
   footer: {
     skills: '13 Habilidades',

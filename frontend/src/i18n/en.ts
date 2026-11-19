@@ -283,6 +283,7 @@ const en = {
     correctArea: 'Correct area: {area}',
     diagramAlt: 'Question diagram',
     caseStudy: 'Case study',
+    documentation: 'Official documentation',
   },
   footer: {
     skills: '13 Skills',

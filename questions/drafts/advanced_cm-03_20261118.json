@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "skill_id": "cm-03",
+    "domain_id": "compute",
+    "generated_at": "2026-11-19T00:26:45.648569",
+    "count": 1,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "cm-03",
+      "question_type": "case_study",
+      "question_text": "A development team needs a private registry for container images with geo-replication. Which Azure service should they use?",
+      "question_data": {
+        "scenario": "Images must be stored centrally, replicated to other regions, and accessed with Entra ID identities where possible.",
+        "instructions": "Read the scenario, then select the best answer."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "Azure Container Registry",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Azure Blob Storage",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "App Service plans",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure Files",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Azure Container Registry stores container images, supports geo-replication, and integrates with Microsoft Entra ID.",
+      "reference_url": "https://learn.microsoft.com/azure/container-registry/container-registry-intro",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "case-study"
+      ]
+    }
+  ]
+}

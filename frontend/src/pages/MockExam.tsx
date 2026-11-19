@@ -19,6 +19,7 @@ interface ExamResult {
   correct: boolean
   correct_answer: AnswerValue
   explanation: string
+  reference_url?: string | null
 }
 
 interface MockSession {
@@ -147,6 +148,7 @@ export default function MockExam() {
           correct: result?.correct ?? false,
           correct_answer: result?.correct_answer ?? '',
           explanation: result?.explanation ?? '',
+          reference_url: result?.reference_url ?? q.reference_url ?? null,
         }
       }))
       setFinished(true)
@@ -320,6 +322,13 @@ export default function MockExam() {
                     <p className="font-medium text-gray-900 mb-1">
                       <span className="text-gray-400">Q{i + 1}.</span> {translatedQuestions.get(i)?.questionText || r.question.question_text}
                     </p>
+                    {r.reference_url && (
+                      <p className="mt-2 text-sm">
+                        <a href={r.reference_url} target="_blank" rel="noopener noreferrer" className="footer-link font-medium text-sky-600 underline underline-offset-2">
+                          {t('questionContent.documentation')}
+                        </a>
+                      </p>
+                    )}
                     {!r.correct && (
                       <p className="text-sm text-gray-600">
                         {t('practice.yourAnswer')}: <span className="font-semibold text-rose-600">{formatAnswer(r.selected, r.question)}</span>

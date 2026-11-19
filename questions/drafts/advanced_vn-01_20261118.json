@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "skill_id": "vn-01",
+    "domain_id": "networking",
+    "generated_at": "2026-11-19T00:26:45.647830",
+    "count": 1,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "vn-01",
+      "question_type": "case_study",
+      "question_text": "A virtual network must route all internet-bound traffic through a network virtual appliance. Which configuration is required?",
+      "question_data": {
+        "scenario": "The appliance has a private IP address. Subnets in the virtual network must send 0.0.0.0/0 to the appliance.",
+        "instructions": "Read the scenario, then select the best answer."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "A user-defined route with next hop set to the virtual appliance",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Only the default system route",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "VNet peering with global reach",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "A public IP on each VM",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "A UDR overrides the system default route and can point 0.0.0.0/0 to a network virtual appliance.",
+      "reference_url": "https://learn.microsoft.com/azure/virtual-network/virtual-networks-udr-overview",
+      "difficulty": "advanced",
+      "tags": [
+        "advanced",
+        "case-study"
+      ]
+    }
+  ]
+}

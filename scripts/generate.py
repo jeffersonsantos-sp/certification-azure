@@ -59,6 +59,104 @@ def get_skill_by_id(skills_data: dict, skill_id: str) -> Optional[dict]:
     return None
 
 
+FORMAT_EXAMPLES = {
+    "single_choice": """
+    {
+      "question_text": "...",
+      "question_type": "single_choice",
+      "question_data": {},
+      "options": [
+        {"label": "A", "text": "...", "is_correct": false},
+        {"label": "B", "text": "...", "is_correct": true},
+        {"label": "C", "text": "...", "is_correct": false},
+        {"label": "D", "text": "...", "is_correct": false}
+      ],
+      "correct_answer": "B",
+      "explanation": "...",
+      "reference_url": "https://learn.microsoft.com/...",
+      "difficulty": "intermediate",
+      "tags": ["tag1", "tag2"]
+    }""",
+    "multiple_choice": """
+    {
+      "question_text": "... (Choose two.)",
+      "question_type": "multiple_choice",
+      "question_data": {},
+      "options": [
+        {"label": "A", "text": "...", "is_correct": true},
+        {"label": "B", "text": "...", "is_correct": true},
+        {"label": "C", "text": "...", "is_correct": false},
+        {"label": "D", "text": "...", "is_correct": false}
+      ],
+      "correct_answer": ["A", "B"],
+      "explanation": "...",
+      "reference_url": "https://learn.microsoft.com/...",
+      "difficulty": "intermediate",
+      "tags": ["tag1", "tag2"]
+    }""",
+    "case_study": """
+    {
+      "question_text": "...",
+      "question_type": "case_study",
+      "question_data": {
+        "scenario": "...",
+        "instructions": "Read the scenario, then select the best answer."
+      },
+      "options": [
+        {"label": "A", "text": "...", "is_correct": true},
+        {"label": "B", "text": "...", "is_correct": false},
+        {"label": "C", "text": "...", "is_correct": false},
+        {"label": "D", "text": "...", "is_correct": false}
+      ],
+      "correct_answer": "A",
+      "explanation": "...",
+      "reference_url": "https://learn.microsoft.com/...",
+      "difficulty": "intermediate",
+      "tags": ["tag1", "tag2"]
+    }""",
+    "drag_drop": """
+    {
+      "question_text": "Order the steps to ...",
+      "question_type": "drag_drop",
+      "question_data": {
+        "instructions": "Place the items in the correct order."
+      },
+      "options": [
+        {"label": "A", "text": "...", "is_correct": false},
+        {"label": "B", "text": "...", "is_correct": false},
+        {"label": "C", "text": "...", "is_correct": false},
+        {"label": "D", "text": "...", "is_correct": false}
+      ],
+      "correct_answer": ["B", "A", "D", "C"],
+      "explanation": "...",
+      "reference_url": "https://learn.microsoft.com/...",
+      "difficulty": "intermediate",
+      "tags": ["tag1", "tag2"]
+    }""",
+    "hotspot": """
+    {
+      "question_text": "Click the correct area in the diagram.",
+      "question_type": "hotspot",
+      "question_data": {
+        "image_url": "/hotspot-storage.svg",
+        "instructions": "Click the correct area of the diagram.",
+        "regions": [
+          {"id": "public-endpoint", "label": "Public endpoint", "x": 37.5, "y": 9.52, "width": 25, "height": 14.29},
+          {"id": "service-endpoint", "label": "Service endpoint", "x": 37.5, "y": 28.57, "width": 25, "height": 14.29},
+          {"id": "private-endpoint", "label": "Private endpoint", "x": 37.5, "y": 47.62, "width": 25, "height": 14.29},
+          {"id": "azure-firewall", "label": "Azure Firewall", "x": 37.5, "y": 66.67, "width": 25, "height": 14.29}
+        ]
+      },
+      "options": [],
+      "correct_answer": "private-endpoint",
+      "explanation": "...",
+      "reference_url": "https://learn.microsoft.com/...",
+      "difficulty": "intermediate",
+      "tags": ["tag1", "tag2"]
+    }""",
+}
+
+
 def build_prompt(
     domain_name: str,
     skill_name: str,
@@ -66,26 +164,17 @@ def build_prompt(
     count: int,
     question_type: str = "single_choice",
 ) -> str:
-    """Build the generation prompt for a specific skill."""
+    """Build the generation prompt for a specific skill and question format."""
     items_text = "\n".join(f"  - {item}" for item in skill_items)
+    format_rules = {
+        "single_choice": "Exactly four options A-D, one correct label, correct_answer is a string.",
+        "multiple_choice": "Exactly four options A-D, at least two correct labels, correct_answer is an array and must match is_correct flags.",
+        "case_study": "Exactly four options A-D, one correct label, question_data.scenario is required.",
+        "drag_drop": "At least two options, question_data.instructions is required, correct_answer lists every option label exactly once in the correct order.",
+        "hotspot": "No options. question_data must include image_url, instructions and regions with id, label, x, y, width, height. correct_answer is one region id.",
+    }
 
-    type_rule = (
-        "Set question_type to single_choice with exactly four options A-D and one correct label."
-        if question_type == "single_choice"
-        else f"Set question_type to {question_type} and follow the format rules below."
-    )
-
-    advanced_rules = ""
-    if question_type == "multiple_choice":
-        advanced_rules = "multiple_choice: 4 options; at least two correct labels; correct_answer is an array."
-    elif question_type == "case_study":
-        advanced_rules = "case_study: 4 options; put the scenario in question_data.scenario; correct_answer is one label."
-    elif question_type == "drag_drop":
-        advanced_rules = "drag_drop: at least 2 options; correct_answer lists every option label exactly once in order."
-    elif question_type == "hotspot":
-        advanced_rules = "hotspot: no options; provide question_data.image_url and question_data.regions; correct_answer is a region ID."
-
-    return f"""You are a Microsoft Azure certification expert creating practice questions
+    return f"""You are a Microsoft Azure certification expert creating advanced practice questions
 for the AZ-104 exam.
 
 Generate {count} questions for the following skill:
@@ -96,38 +185,23 @@ Specific items:
 {items_text}
 
 Requirements:
-1. {type_rule}
-2. Difficulty must be exactly one of: easy, intermediate, advanced.
-3. Include real-world administrative scenarios when possible.
-4. Every explanation must reference at least one official Microsoft Learn page in `reference_url`.
-5. Do NOT use "All of the above" or "None of the above" as options.
-6. Avoid absolute terms such as "always", "never" as standalone claims.
-7. "read-only" and "only allow" are valid technical phrases and must not be avoided.
-8. Use current terminology: Microsoft Entra ID (not Azure AD).
-9. Keep Azure names, SKUs, cmdlets and CLI commands in English.
-10. Provide 2-5 short tags.
-11. Vary the correct answer label across questions; do not make B the answer every time.
-{advanced_rules}
+1. Set question_type to "{question_type}".
+2. Format rule: {format_rules[question_type]}
+3. Every question MUST include a valid official Microsoft Learn URL in `reference_url`. Do not invent URLs.
+4. Difficulty must be exactly one of: easy, intermediate, advanced.
+5. Use real-world administrative scenarios.
+6. Do NOT use "All of the above" or "None of the above" as options.
+7. Avoid absolute terms such as "always", "never" as standalone claims.
+8. "read-only" and "only allow" are valid technical phrases and must not be avoided.
+9. Use current terminology: Microsoft Entra ID (not Azure AD).
+10. Keep Azure names, SKUs, cmdlets and CLI commands in English.
+11. Provide 2-5 short tags.
+12. Vary the correct answer label across questions.
 
-Return in this exact JSON format:
+Return only valid JSON in this exact format:
 {{
   "questions": [
-    {{
-      "question_text": "...",
-      "question_type": "{question_type}",
-      "question_data": {{}},
-      "options": [
-        {{"label": "A", "text": "...", "is_correct": false}},
-        {{"label": "B", "text": "...", "is_correct": true}},
-        {{"label": "C", "text": "...", "is_correct": false}},
-        {{"label": "D", "text": "...", "is_correct": false}}
-      ],
-      "correct_answer": "B",
-      "explanation": "...",
-      "reference_url": "https://learn.microsoft.com/...",
-      "difficulty": "intermediate",
-      "tags": ["tag1", "tag2"]
-    }}
+{FORMAT_EXAMPLES[question_type]}
   ]
 }}"""
 
@@ -261,6 +335,7 @@ def save_questions(
     skill_id: str,
     domain_id: str,
     output_dir: str = "questions/drafts",
+    question_type: str = "single_choice",
 ) -> str:
     """Save generated questions to a JSON file."""
     Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -274,7 +349,7 @@ def save_questions(
         return ""
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{output_dir}/{domain_id}_{skill_id}_{timestamp}.json"
+    filename = f"{output_dir}/{domain_id}_{skill_id}_{question_type}_{timestamp}.json"
 
     data = {
         "metadata": {
@@ -283,6 +358,7 @@ def save_questions(
             "generated_at": datetime.now().isoformat(),
             "count": len(questions),
             "status": "draft",
+            "question_type": question_type,
         },
         "questions": [asdict(question) for question in questions],
     }
@@ -341,6 +417,7 @@ def main():
     parser.add_argument("--count", type=int, default=10, help="Questions per skill")
     parser.add_argument("--batch-size", type=int, default=12, help="Max questions per generation call")
     parser.add_argument("--question-type", default="single_choice", choices=VALID_TYPES)
+    parser.add_argument("--all-formats", action="store_true", help="Generate all advanced formats per skill")
     parser.add_argument("--model", default=os.getenv("OPENAI_MODEL", "openai/gpt-4o"), help="Model to use")
     parser.add_argument("--skills-file", default="skills-measured/az104-skills.json")
     parser.add_argument("--targets-file", default="skills-measured/question-targets.json")
@@ -356,7 +433,8 @@ def main():
     targets = load_targets(args.targets_file) if args.balance else {}
     current = count_drafts(args.output_dir) if args.balance else {}
 
-    plan: list[tuple[str, dict, dict, int]] = []
+    formats = ["multiple_choice", "case_study", "drag_drop", "hotspot"] if args.all_formats else [args.question_type]
+    plan: list[tuple[str, dict, dict, int, str]] = []
     for domain in skills_data["domains"]:
         for skill in domain["skills"]:
             skill_id = skill["id"]
@@ -370,15 +448,16 @@ def main():
                 need = args.count
             else:
                 need = args.count
-            plan.append((skill_id, domain, skill, need))
+            for question_format in formats:
+                plan.append((skill_id, domain, skill, need, question_format))
 
     if not plan:
         print("No skills need generation.")
         return
 
     print("Generation plan:")
-    for skill_id, _, _, need in plan:
-        print(f"  {skill_id}: {current.get(skill_id, 0)} -> {targets.get(skill_id, '?')} (generate {need})")
+    for skill_id, _, _, need, question_format in plan:
+        print(f"  {skill_id}/{question_format}: {current.get(skill_id, 0)} -> {targets.get(skill_id, '?')} (generate {need})")
 
     if args.dry_run:
         return
@@ -388,7 +467,7 @@ def main():
 
     total = 0
     calls_since_cooldown = 0
-    for skill_id, domain, skill, need in plan:
+    for skill_id, domain, skill, need, question_format in plan:
         while need > 0:
             if calls_since_cooldown >= 4:
                 print("Cooldown 130s (OpenRouter in-flight budget)...")
@@ -402,9 +481,9 @@ def main():
                 skill["name"],
                 skill["items"],
                 batch,
-                args.question_type,
+                question_format,
             )
-            saved = save_questions(questions, skill_id, domain["id"], args.output_dir)
+            saved = save_questions(questions, skill_id, domain["id"], args.output_dir, question_format)
             if saved:
                 saved_count = len(json.loads(Path(saved).read_text())["questions"])
                 total += saved_count

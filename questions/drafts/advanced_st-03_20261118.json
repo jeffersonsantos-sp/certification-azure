@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "skill_id": "st-03",
+    "domain_id": "storage",
+    "generated_at": "2026-11-19T00:26:45.657164",
+    "count": 1,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "st-03",
+      "question_type": "hotspot",
+      "question_text": "Which option should be selected to connect the virtual machine privately to the Blob container shown in the diagram?",
+      "question_data": {
+        "image_url": "/hotspot-storage.svg",
+        "instructions": "Click the correct area of the diagram.",
+        "regions": [
+          {
+            "id": "public-endpoint",
+            "label": "Public endpoint",
+            "x": 37.5,
+            "y": 9.52,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "service-endpoint",
+            "label": "Service endpoint",
+            "x": 37.5,
+            "y": 28.57,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "private-endpoint",
+            "label": "Private endpoint",
+            "x": 37.5,
+            "y": 47.62,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "azure-firewall",
+            "label": "Azure Firewall",
+            "x": 37.5,
+            "y": 66.67,
+            "width": 25,
+            "height": 14.29
+          }
+        ]
+      },
+      "options": [],
+      "correct_answer": "private-endpoint",
+      "explanation": "The private endpoint is the correct target because it brings the storage service into the virtual network with a private IP address.",
+      "reference_url": "https://learn.microsoft.com/azure/storage/common/storage-private-endpoints",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "hotspot"
+      ]
+    }
+  ]
+}

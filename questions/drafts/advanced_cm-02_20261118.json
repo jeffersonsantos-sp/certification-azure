@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "skill_id": "cm-02",
+    "domain_id": "compute",
+    "generated_at": "2026-11-19T00:26:45.621057",
+    "count": 1,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "cm-02",
+      "question_type": "multiple_choice",
+      "question_text": "Which two options can provide high availability for Azure virtual machines? (Choose two.)",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Availability sets",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Availability zones",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "A single public IP",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Boot diagnostics",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Availability sets protect against rack-level failures within a datacenter, while availability zones protect against datacenter failures within a region.",
+      "reference_url": "https://learn.microsoft.com/azure/virtual-machines/availability",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "multiple-choice"
+      ]
+    }
+  ]
+}

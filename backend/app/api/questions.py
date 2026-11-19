@@ -84,6 +84,7 @@ def _question_payload(question: Question) -> dict:
         "options": options,
         "difficulty": question.difficulty.value if question.difficulty else "intermediate",
         "tags": question.tags or [],
+        "reference_url": question.reference_url,
     }
 
 
@@ -238,6 +239,7 @@ async def submit_exam(
             "correct": is_correct,
             "correct_answer": question.correct_answer,
             "explanation": question.explanation,
+            "reference_url": question.reference_url,
         })
 
     if current_user:
@@ -294,4 +296,5 @@ async def submit_answer(
         "question_type": question.question_type or "single_choice",
         "correct_answer": question.correct_answer,
         "explanation": question.explanation,
+        "reference_url": question.reference_url,
     }

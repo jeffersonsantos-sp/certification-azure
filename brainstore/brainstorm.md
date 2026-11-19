@@ -302,7 +302,7 @@ Regras:
 | Métrica | Valor |
 |---|---|
 | Questões aprovadas | 350 no banco local (balanceadas) |
-| Formatos de questão | 5 |
+| Formatos de questão | 5 (26 questões avançadas) |
 | Domínios | 5 |
 | Skills | 15 |
 | Labs | 23 |

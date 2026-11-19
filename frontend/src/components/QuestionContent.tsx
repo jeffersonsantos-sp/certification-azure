@@ -8,6 +8,7 @@ interface QuestionContentProps {
   onSelect: (value: AnswerValue) => void
   submitted?: boolean
   correctAnswer?: AnswerValue | null
+  showFeedback?: boolean
   translatedQuestionText?: string
   translatedOptions?: { label: string; text: string }[]
 }
@@ -23,6 +24,7 @@ export default function QuestionContent({
   onSelect,
   submitted = false,
   correctAnswer,
+  showFeedback = submitted,
   translatedQuestionText,
   translatedOptions,
 }: QuestionContentProps) {
@@ -269,6 +271,20 @@ export default function QuestionContent({
         : questionType === 'drag_drop'
         ? renderDragDrop()
         : renderOptions()}
+
+      {showFeedback && question.reference_url && (
+        <div className="rounded-xl border border-sky-200 bg-sky-50/60 p-4 text-sm">
+          <span className="font-semibold text-sky-800">{t('questionContent.documentation')}:</span>{' '}
+          <a
+            href={question.reference_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link font-medium text-sky-700 underline underline-offset-2"
+          >
+            learn.microsoft.com
+          </a>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "skill_id": "st-02",
+    "domain_id": "storage",
+    "generated_at": "2026-11-19T00:26:45.617317",
+    "count": 4,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "st-02",
+      "question_type": "multiple_choice",
+      "question_text": "Which two statements about Azure Storage redundancy are correct? (Choose two.)",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "LRS keeps three copies within a single region",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "GRS replicates data to a secondary region",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "ZRS replicates data only to a paired region",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "RA-GRS prevents all data loss",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "LRS keeps three synchronous copies in one region. GRS replicates to a secondary region. ZRS spans availability zones in one region, and RA-GRS adds read access to the secondary.",
+      "reference_url": "https://learn.microsoft.com/azure/storage/common/storage-redundancy",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "multiple-choice"
+      ]
+    },
+    {
+      "skill_id": "st-02",
+      "question_type": "drag_drop",
+      "question_text": "Order the steps to create a Storage Account in the Azure portal.",
+      "question_data": {
+        "instructions": "Place the items in the correct order."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "Select Storage accounts and Create",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Choose subscription and resource group",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Configure name, region, performance and redundancy",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Review and create",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "The portal flow starts from the Storage accounts service, then selects placement, configures settings, and reviews before creation.",
+      "reference_url": "https://learn.microsoft.com/azure/storage/common/storage-account-create",
+      "difficulty": "easy",
+      "tags": [
+        "advanced",
+        "drag-drop"
+      ]
+    },
+    {
+      "skill_id": "st-02",
+      "question_type": "hotspot",
+      "question_text": "Which option exposes the storage account over a public endpoint?",
+      "question_data": {
+        "image_url": "/hotspot-storage.svg",
+        "instructions": "Click the correct area of the diagram.",
+        "regions": [
+          {
+            "id": "public-endpoint",
+            "label": "Public endpoint",
+            "x": 37.5,
+            "y": 9.52,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "service-endpoint",
+            "label": "Service endpoint",
+            "x": 37.5,
+            "y": 28.57,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "private-endpoint",
+            "label": "Private endpoint",
+            "x": 37.5,
+            "y": 47.62,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "azure-firewall",
+            "label": "Azure Firewall",
+            "x": 37.5,
+            "y": 66.67,
+            "width": 25,
+            "height": 14.29
+          }
+        ]
+      },
+      "options": [],
+      "correct_answer": "public-endpoint",
+      "explanation": "The public endpoint is reachable over the public network and can be restricted with firewalls or private alternatives.",
+      "reference_url": "https://learn.microsoft.com/azure/storage/common/storage-network-security",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "hotspot"
+      ]
+    },
+    {
+      "skill_id": "st-02",
+      "question_type": "hotspot",
+      "question_text": "Which option should be selected when the requirement is to avoid public network access to Storage?",
+      "question_data": {
+        "image_url": "/hotspot-storage.svg",
+        "instructions": "Click the correct area of the diagram.",
+        "regions": [
+          {
+            "id": "public-endpoint",
+            "label": "Public endpoint",
+            "x": 37.5,
+            "y": 9.52,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "service-endpoint",
+            "label": "Service endpoint",
+            "x": 37.5,
+            "y": 28.57,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "private-endpoint",
+            "label": "Private endpoint",
+            "x": 37.5,
+            "y": 47.62,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "azure-firewall",
+            "label": "Azure Firewall",
+            "x": 37.5,
+            "y": 66.67,
+            "width": 25,
+            "height": 14.29
+          }
+        ]
+      },
+      "options": [],
+      "correct_answer": "private-endpoint",
+      "explanation": "A private endpoint provides a private IP address for the storage service and supports designs that block public network access.",
+      "reference_url": "https://learn.microsoft.com/azure/storage/common/storage-private-endpoints",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "hotspot"
+      ]
+    }
+  ]
+}

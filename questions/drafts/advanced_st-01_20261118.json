@@ -1,0 +1,237 @@
+{
+  "metadata": {
+    "skill_id": "st-01",
+    "domain_id": "storage",
+    "generated_at": "2026-11-19T00:26:45.641603",
+    "count": 5,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "st-01",
+      "question_type": "multiple_choice",
+      "question_text": "Which two controls can limit access to an Azure Storage account? (Choose two.)",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Network rules and virtual network endpoints",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Shared access signatures",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Route tables on subnets",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Management groups",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Storage firewalls restrict source networks and SAS tokens provide scoped, time-limited access. Route tables and management groups do not grant or restrict Storage data access.",
+      "reference_url": "https://learn.microsoft.com/azure/storage/common/storage-network-security",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "multiple-choice"
+      ]
+    },
+    {
+      "skill_id": "st-01",
+      "question_type": "case_study",
+      "question_text": "A partner needs temporary read access to one Blob container without storage account keys. Which option should you choose?",
+      "question_data": {
+        "scenario": "The partner needs read-only access for five days. Access must be revocable and scoped to a single container. The company does not want to create an Entra account for the partner.",
+        "instructions": "Read the scenario, then select the best answer."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "A user delegation SAS scoped to the container",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "The storage account access keys",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Public access on the storage account",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "A resource lock on the container",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "A user delegation SAS provides time-limited delegated access to a container and can be revoked. Account keys are too broad, public access is not scoped, and locks do not grant access.",
+      "reference_url": "https://learn.microsoft.com/azure/storage/common/storage-sas-overview",
+      "difficulty": "advanced",
+      "tags": [
+        "advanced",
+        "case-study"
+      ]
+    },
+    {
+      "skill_id": "st-01",
+      "question_type": "drag_drop",
+      "question_text": "Order the steps to generate a SAS token for a Blob container with CLI.",
+      "question_data": {
+        "instructions": "Place the items in the correct order."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "Create or select a storage account",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Create the Blob container",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Run az storage container generate-sas",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Use the SAS URI within its expiry",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "The storage account and container must exist before generating a SAS token, which is then used before it expires.",
+      "reference_url": "https://learn.microsoft.com/azure/storage/common/storage-sas-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "drag-drop"
+      ]
+    },
+    {
+      "skill_id": "st-01",
+      "question_type": "hotspot",
+      "question_text": "Which option provides private IP-based access from the virtual network to the storage account?",
+      "question_data": {
+        "image_url": "/hotspot-storage.svg",
+        "instructions": "Click the correct area of the diagram.",
+        "regions": [
+          {
+            "id": "public-endpoint",
+            "label": "Public endpoint",
+            "x": 37.5,
+            "y": 9.52,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "service-endpoint",
+            "label": "Service endpoint",
+            "x": 37.5,
+            "y": 28.57,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "private-endpoint",
+            "label": "Private endpoint",
+            "x": 37.5,
+            "y": 47.62,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "azure-firewall",
+            "label": "Azure Firewall",
+            "x": 37.5,
+            "y": 66.67,
+            "width": 25,
+            "height": 14.29
+          }
+        ]
+      },
+      "options": [],
+      "correct_answer": "private-endpoint",
+      "explanation": "A private endpoint maps the storage service to a private IP address in the virtual network, so traffic uses the private address space.",
+      "reference_url": "https://learn.microsoft.com/azure/storage/common/storage-private-endpoints",
+      "difficulty": "advanced",
+      "tags": [
+        "advanced",
+        "hotspot"
+      ]
+    },
+    {
+      "skill_id": "st-01",
+      "question_type": "hotspot",
+      "question_text": "Which option keeps storage traffic on the Azure backbone while the account still uses a public endpoint?",
+      "question_data": {
+        "image_url": "/hotspot-storage.svg",
+        "instructions": "Click the correct area of the diagram.",
+        "regions": [
+          {
+            "id": "public-endpoint",
+            "label": "Public endpoint",
+            "x": 37.5,
+            "y": 9.52,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "service-endpoint",
+            "label": "Service endpoint",
+            "x": 37.5,
+            "y": 28.57,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "private-endpoint",
+            "label": "Private endpoint",
+            "x": 37.5,
+            "y": 47.62,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "azure-firewall",
+            "label": "Azure Firewall",
+            "x": 37.5,
+            "y": 66.67,
+            "width": 25,
+            "height": 14.29
+          }
+        ]
+      },
+      "options": [],
+      "correct_answer": "service-endpoint",
+      "explanation": "A service endpoint secures storage access over the Azure backbone but does not assign a private IP address to the storage account.",
+      "reference_url": "https://learn.microsoft.com/azure/virtual-network/virtual-network-service-endpoints-overview",
+      "difficulty": "advanced",
+      "tags": [
+        "advanced",
+        "hotspot"
+      ]
+    }
+  ]
+}

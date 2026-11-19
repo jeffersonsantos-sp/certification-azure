@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "skill_id": "mn-02",
+    "domain_id": "monitoring",
+    "generated_at": "2026-11-19T00:26:45.651547",
+    "count": 1,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "mn-02",
+      "question_type": "case_study",
+      "question_text": "A company must recover a deleted Azure VM backup item within the retention window. What protects the backup item from immediate deletion?",
+      "question_data": {
+        "scenario": "An administrator accidentally removed a protected VM from backup. Backup data should remain recoverable for a short period.",
+        "instructions": "Read the scenario, then select the best answer."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "Soft delete for Recovery Services vaults",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "A resource lock on the VM only",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Public network access",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Diagnostic settings",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "Soft delete retains deleted backup items for a configured period so they can be recovered or undeleted.",
+      "reference_url": "https://learn.microsoft.com/azure/backup/soft-delete-overview",
+      "difficulty": "advanced",
+      "tags": [
+        "advanced",
+        "case-study"
+      ]
+    }
+  ]
+}

@@ -73,7 +73,7 @@ cd certification-azure
 - Banco atual com **350 questões aprovadas** (número dinâmico: `GET /api/v1/questions/stats`).
 - 5 domínios oficiais do AZ-104.
 - 3 níveis de dificuldade: `easy`, `intermediate`, `advanced`.
-- 5 formatos:
+- 5 formatos, com 26 questões avançadas aprovadas (8 `multiple_choice`, 6 `case_study`, 6 `drag_drop`, 6 `hotspot`):
   - `single_choice`
   - `multiple_choice`
   - `case_study`

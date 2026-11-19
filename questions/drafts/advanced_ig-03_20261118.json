@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "skill_id": "ig-03",
+    "domain_id": "identity-governance",
+    "generated_at": "2026-11-19T00:26:45.615795",
+    "count": 1,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "ig-03",
+      "question_type": "multiple_choice",
+      "question_text": "Which two actions help enforce governance requirements in Azure? (Choose two.)",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Assign Azure Policy definitions",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Apply resource locks to critical resources",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Remove all tags from resources",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Disable Activity Log",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Azure Policy enforces rules and effects such as deny or audit, while resource locks protect resources from accidental deletion or modification.",
+      "reference_url": "https://learn.microsoft.com/azure/governance/policy/overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "multiple-choice"
+      ]
+    }
+  ]
+}

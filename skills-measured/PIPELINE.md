@@ -183,8 +183,9 @@ O importador legado continua disponível com `--include-drafts` e `--approve`, m
 `rebalance_questions.py` é a etapa canônica: ele deduplica, seleciona por skill,
 preserva IDs usados em respostas e marca excedentes como `review`.
 
-O gerador agora exige `reference_url`, `difficulty` valido, `tags` e metadados completos.
-O validador trata `reference_url` ausente em drafts antigos como aviso, nao como erro bloqueante.
+O gerador agora exige `reference_url`, `difficulty` valido, `tags`, formatos avancados e metadados completos.
+Use `--all-formats` para gerar `multiple_choice`, `case_study`, `drag_drop` e `hotspot` por skill.
+O validador trata `reference_url` ausente em drafts antigos `single_choice` como aviso; para formatos avancados, ausencia e erro bloqueante.
 
 ## Execução
 

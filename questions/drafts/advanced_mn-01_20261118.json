@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "skill_id": "mn-01",
+    "domain_id": "monitoring",
+    "generated_at": "2026-11-19T00:26:45.635564",
+    "count": 2,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "mn-01",
+      "question_type": "multiple_choice",
+      "question_text": "Which two resources can be created in Azure Monitor? (Choose two.)",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Metric alerts",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Action groups",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Storage account keys",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Route tables",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Metric alerts evaluate conditions and action groups define notifications or automated actions used by alerts.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/alerts/alerts-overview",
+      "difficulty": "easy",
+      "tags": [
+        "advanced",
+        "multiple-choice"
+      ]
+    },
+    {
+      "skill_id": "mn-01",
+      "question_type": "drag_drop",
+      "question_text": "Order the steps to create a metric alert in Azure Monitor.",
+      "question_data": {
+        "instructions": "Place the items in the correct order."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "Choose the target resource",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Create or select an action group",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Define the alert condition",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Create the alert rule",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Metric alerts are created by targeting a resource, selecting notification actions, defining conditions, and saving the rule.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-monitor/alerts/alerts-metric",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "drag-drop"
+      ]
+    }
+  ]
+}

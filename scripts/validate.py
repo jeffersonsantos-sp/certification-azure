@@ -56,20 +56,36 @@ def validate_structure(data: dict) -> list[str]:
             ]
             if invalid:
                 issues.append(f"{prefix}: Invalid correct_answer '{invalid}'")
+            if question_type == "multiple_choice":
+                correct_flags = [
+                    option.get("label") for option in options if option.get("is_correct")
+                ]
+                if len(correct_flags) < 2:
+                    issues.append(f"{prefix}: Multiple-choice needs at least two correct options")
+                if sorted(correct_flags) != sorted(correct_answer or []):
+                    issues.append(f"{prefix}: correct_answer must match is_correct flags")
+        elif question_type == "case_study":
+            if not (q.get("question_data") or {}).get("scenario"):
+                issues.append(f"{prefix}: Case study requires question_data.scenario")
         elif question_type == "drag_drop":
             if len(options) < 2:
                 issues.append(f"{prefix}: Drag-drop questions need at least 2 items")
             if not isinstance(correct_answer, list) or sorted(correct_answer) != sorted(
                 option.get("label") for option in options
-            ):
-                issues.append(f"{prefix}: Drag-drop correct_answer must list every option label")
+            ) or len(set(correct_answer)) != len(correct_answer):
+                issues.append(f"{prefix}: Drag-drop correct_answer must list every option label once")
         elif question_type == "hotspot":
             question_data = q.get("question_data", {})
             if not question_data.get("image_url") or not question_data.get("regions"):
                 issues.append(f"{prefix}: Hotspot requires image_url and regions")
-            region_ids = {region.get("id") for region in question_data.get("regions", [])}
+            regions = question_data.get("regions", [])
+            region_ids = {region.get("id") for region in regions}
             if correct_answer not in region_ids:
                 issues.append(f"{prefix}: Hotspot correct_answer must be a region id")
+            for region in regions:
+                for field in ("x", "y", "width", "height"):
+                    if not isinstance(region.get(field), (int, float)):
+                        issues.append(f"{prefix}: Hotspot region {region.get('id')} needs numeric {field}")
         else:
             issues.append(f"{prefix}: Unknown question_type '{question_type}'")
 
@@ -85,6 +101,7 @@ def validate_content(data: dict) -> list[str]:
     for i, q in enumerate(data.get("questions", [])):
         prefix = f"Question {i+1}"
         text = q.get("question_text", "")
+        question_type = q.get("question_type", "single_choice")
 
         # Check for forbidden patterns
         forbidden = ["all of the above", "none of the above"]
@@ -110,7 +127,10 @@ def validate_content(data: dict) -> list[str]:
         if len(explanation) < 20:
             issues.append(f"{prefix}: Explanation too short ({len(explanation)} chars)")
         if not q.get("reference_url"):
-            warnings.append(f"{prefix}: Missing reference_url (legacy draft)")
+            if question_type == "single_choice":
+                warnings.append(f"{prefix}: Missing reference_url (legacy single-choice draft)")
+            else:
+                issues.append(f"{prefix}: Advanced formats require reference_url")
 
     data.setdefault("_warnings", warnings)
     return issues

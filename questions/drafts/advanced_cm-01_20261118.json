@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "skill_id": "cm-01",
+    "domain_id": "compute",
+    "generated_at": "2026-11-19T00:26:45.643584",
+    "count": 2,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "cm-01",
+      "question_type": "case_study",
+      "question_text": "A team needs repeatable infrastructure deployments with parameters and rollback history. Which approach should they use?",
+      "question_data": {
+        "scenario": "The team wants to store infrastructure definitions in Git, deploy to multiple environments, and track deployment history in Azure.",
+        "instructions": "Read the scenario, then select the best answer."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "ARM template deployments",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Manual portal configuration",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Virtual machine snapshots",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Azure DNS records",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "ARM templates are declarative, support parameter files, and are recorded as deployment history in a resource group or subscription.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-resource-manager/templates/overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "case-study"
+      ]
+    },
+    {
+      "skill_id": "cm-01",
+      "question_type": "drag_drop",
+      "question_text": "Order the steps to deploy an ARM template with Azure CLI.",
+      "question_data": {
+        "instructions": "Place the items in the correct order."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a resource group",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Validate the template",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Deploy the template",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Check deployment history",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Create the target scope first, validate the template, deploy it, and then inspect deployment history.",
+      "reference_url": "https://learn.microsoft.com/azure/azure-resource-manager/templates/deploy-cli",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "drag-drop"
+      ]
+    }
+  ]
+}

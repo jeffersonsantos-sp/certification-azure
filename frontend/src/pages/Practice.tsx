@@ -27,6 +27,7 @@ interface PracticeResult {
   selected: AnswerValue
   correctAnswer?: AnswerValue
   explanation?: string
+  referenceUrl?: string | null
 }
 
 interface PracticeSession {
@@ -247,6 +248,7 @@ export default function Practice() {
         selected: answer,
         correctAnswer: response.correct_answer,
         explanation: response.explanation,
+        referenceUrl: response.reference_url,
       }])
     } catch (e) {
       setError(t('practice.submitFailed'))
@@ -458,6 +460,13 @@ export default function Practice() {
                 </p>
                 {result.explanation && (
                   <p className="mt-2 whitespace-pre-line text-sm text-gray-600">{result.explanation}</p>
+                )}
+                {result.referenceUrl && (
+                  <p className="mt-2 text-sm">
+                    <a href={result.referenceUrl} target="_blank" rel="noopener noreferrer" className="footer-link font-medium text-sky-600 underline underline-offset-2">
+                      {t('questionContent.documentation')}
+                    </a>
+                  </p>
                 )}
               </div>
             ))}

@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "skill_id": "vn-03",
+    "domain_id": "networking",
+    "generated_at": "2026-11-19T00:26:45.656148",
+    "count": 1,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "vn-03",
+      "question_type": "drag_drop",
+      "question_text": "Order the steps to create an internal Load Balancer with a health probe.",
+      "question_data": {
+        "instructions": "Place the items in the correct order."
+      },
+      "options": [
+        {
+          "label": "A",
+          "text": "Create a virtual network and backend subnet",
+          "is_correct": false
+        },
+        {
+          "label": "B",
+          "text": "Create the internal Load Balancer with frontend IP",
+          "is_correct": false
+        },
+        {
+          "label": "C",
+          "text": "Add backend pool and health probe",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Add a load balancing rule",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Networking and backend subnet come first, then the load balancer, backend pool/probe, and finally the load balancing rule.",
+      "reference_url": "https://learn.microsoft.com/azure/load-balancer/quickstart-load-balancer-standard-internal-portal",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "drag-drop"
+      ]
+    }
+  ]
+}

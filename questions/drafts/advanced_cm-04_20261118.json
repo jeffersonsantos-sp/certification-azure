@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "skill_id": "cm-04",
+    "domain_id": "compute",
+    "generated_at": "2026-11-19T00:26:45.640522",
+    "count": 1,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "cm-04",
+      "question_type": "multiple_choice",
+      "question_text": "Which two App Service features support production deployment patterns? (Choose two.)",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Deployment slots",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Autoscale",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Resource locks",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "VNet peering",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Deployment slots support staged releases and swaps, while autoscale adjusts capacity based on rules or schedules.",
+      "reference_url": "https://learn.microsoft.com/azure/app-service/deploy-staging-slots",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "multiple-choice"
+      ]
+    }
+  ]
+}

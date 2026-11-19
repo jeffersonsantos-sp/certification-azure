@@ -67,6 +67,7 @@ export interface Question {
   options: Array<{ label: string; text: string }>
   difficulty: string
   tags: string[]
+  reference_url?: string | null
 }
 
 export interface ExamResult {
@@ -76,6 +77,7 @@ export interface ExamResult {
   correct: boolean
   correct_answer: AnswerValue
   explanation: string
+  reference_url?: string | null
 }
 
 export interface ExamSubmitResponse {
@@ -109,6 +111,7 @@ export interface AnswerResponse {
   question_type: QuestionType
   correct_answer: AnswerValue
   explanation: string
+  reference_url?: string | null
 }
 
 export interface User {

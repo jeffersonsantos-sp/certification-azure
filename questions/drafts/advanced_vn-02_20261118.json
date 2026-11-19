@@ -1,0 +1,103 @@
+{
+  "metadata": {
+    "skill_id": "vn-02",
+    "domain_id": "networking",
+    "generated_at": "2026-11-19T00:26:45.628243",
+    "count": 2,
+    "status": "draft",
+    "generated_by": "deterministic_advanced_bank"
+  },
+  "questions": [
+    {
+      "skill_id": "vn-02",
+      "question_type": "multiple_choice",
+      "question_text": "Which two configuration items can restrict network traffic to Azure resources? (Choose two.)",
+      "question_data": {},
+      "options": [
+        {
+          "label": "A",
+          "text": "Network security groups",
+          "is_correct": true
+        },
+        {
+          "label": "B",
+          "text": "Private endpoints",
+          "is_correct": true
+        },
+        {
+          "label": "C",
+          "text": "Azure Policy tags",
+          "is_correct": false
+        },
+        {
+          "label": "D",
+          "text": "Resource locks",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "NSGs filter traffic at layer 3/4 and private endpoints map a PaaS service into a virtual network with a private IP address.",
+      "reference_url": "https://learn.microsoft.com/azure/virtual-network/network-security-groups-overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "multiple-choice"
+      ]
+    },
+    {
+      "skill_id": "vn-02",
+      "question_type": "hotspot",
+      "question_text": "Which option filters and inspects network traffic at the network boundary?",
+      "question_data": {
+        "image_url": "/hotspot-storage.svg",
+        "instructions": "Click the correct area of the diagram.",
+        "regions": [
+          {
+            "id": "public-endpoint",
+            "label": "Public endpoint",
+            "x": 37.5,
+            "y": 9.52,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "service-endpoint",
+            "label": "Service endpoint",
+            "x": 37.5,
+            "y": 28.57,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "private-endpoint",
+            "label": "Private endpoint",
+            "x": 37.5,
+            "y": 47.62,
+            "width": 25,
+            "height": 14.29
+          },
+          {
+            "id": "azure-firewall",
+            "label": "Azure Firewall",
+            "x": 37.5,
+            "y": 66.67,
+            "width": 25,
+            "height": 14.29
+          }
+        ]
+      },
+      "options": [],
+      "correct_answer": "azure-firewall",
+      "explanation": "Azure Firewall is a managed network security service that filters inbound and outbound traffic.",
+      "reference_url": "https://learn.microsoft.com/azure/firewall/overview",
+      "difficulty": "intermediate",
+      "tags": [
+        "advanced",
+        "hotspot"
+      ]
+    }
+  ]
+}

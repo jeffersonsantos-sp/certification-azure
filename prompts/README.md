@@ -50,6 +50,32 @@ Return in this exact JSON format:
 
 ---
 
+## Geração avançada em escala
+
+O gerador suporta os cinco formatos e pode gerar todos os formatos avançados por skill:
+
+```bash
+# Ver plano sem consumir créditos
+python3 scripts/generate.py --all-formats --all --count 2 --dry-run
+
+# Gerar lotes avançados para todos os skills
+python3 scripts/generate.py --all-formats --all --count 2 --batch-size 4
+
+# Validar todos os drafts
+python3 scripts/validate.py review --dir questions/drafts
+
+# Aplicar a distribuição equilibrada ao banco
+docker compose exec backend python scripts/rebalance_questions.py
+```
+
+Regras obrigatórias do gerador/validador para formatos avançados:
+
+- `multiple_choice`: quatro opções e pelo menos duas respostas corretas.
+- `case_study`: `question_data.scenario` obrigatório.
+- `drag_drop`: `correct_answer` lista todos os rótulos exatamente uma vez.
+- `hotspot`: `image_url` e regiões com `id`, `label`, `x`, `y`, `width`, `height`.
+- Todos os formatos avançados exigem `reference_url` oficial da Microsoft Learn.
+
 ## Prompt de Geração de Formatos Avançados
 
 ```
