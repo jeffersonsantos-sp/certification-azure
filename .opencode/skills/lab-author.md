@@ -13,6 +13,7 @@ Create and review bilingual AZ-104 Trainer labs in `labs/*.yaml`.
 5. Keep Portal and CLI paths functionally identical.
 6. Use deterministic step/check keys; never reuse a key with different meaning.
 7. Use only supported check types from `.claude/skills/azure-labs-expert.md`, including `backup_policy_exists`.
+8. Remember that reset endpoints remove only app progress, never Azure resources.
 8. Prefer low-cost resources and include cleanup.
 9. Keep Azure names, SKUs, cmdlets and CLI syntax in English.
 10. Validate YAML before finishing: `python3 -c "import yaml,pathlib; yaml.safe_load(pathlib.Path('labs/<slug>.yaml').read_text())"`.

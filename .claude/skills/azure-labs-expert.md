@@ -135,3 +135,10 @@ Capstone labs should combine multiple domains in one scenario. Prefer 6-10 steps
 one resource group, low-cost resources and checks from at least four domains.
 Current capstone: `labs/capstone-contoso-foundations.yaml`.
 Current troubleshooting labs: route, NSG, policy compliance and missing backup policy.
+
+## Reset Semantics
+
+The reset endpoint removes `LabProgress`, `LabStepProgress` and `LabValidationRun`
+rows for the current user and lab. It returns a `not_started` progress payload with
+zero completed steps and zero best score. It never calls ARM and never deletes
+Azure resources; cleanup remains a separate manual operation.

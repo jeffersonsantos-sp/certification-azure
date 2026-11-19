@@ -78,6 +78,7 @@ Profissionais de TI precisam de:
 - Histórico de validações em `lab_validation_runs`.
 - Tokens Azure nunca persistidos.
 - Inclui 4 labs de troubleshooting e 1 capstone multidomínio.
+- Reset por usuário/lab redefine progresso, steps e histórico de validação; recursos Azure não são excluídos.
 
 ---
 
@@ -281,6 +282,7 @@ Regras:
 - [x] OAuth Microsoft.
 - [x] Portal + CLI nos labs.
 - [x] 28 labs cobrindo 15 skills.
+- [x] Reset de labs para começar do zero.
 - [x] Sessões de Practice/Mock Exam retomáveis.
 - [x] 26 questões avançadas com documentação oficial.
 - [x] Labs de troubleshooting e capstone multidomínio.

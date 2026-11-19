@@ -123,6 +123,7 @@ python scripts/import_labs.py
 - All lab/Azure settings endpoints require the app JWT; Azure data endpoints additionally require `X-Azure-Authorization: Bearer <azure_access_token>`
 - Azure tokens are validated from claims and allowlists, never persisted or logged; frontend MSAL tokens stay in memory/sessionStorage only
 - Practice and MockExam sessions persist in `sessionStorage` with resume/discard controls; exam timer uses savedAt to pause while away
+- Lab reset is app-state only: it removes LabProgress, LabStepProgress and LabValidationRun rows; it never deletes Azure resources
 
 ## Database Schema
 - **users**: User accounts

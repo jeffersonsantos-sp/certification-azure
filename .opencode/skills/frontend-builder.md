@@ -122,3 +122,12 @@ export default function Component({ }: ComponentProps) {
 - Dark theme with glass surfaces and Azure blue/cyan accents.
 - Footer shows real counters and author credit.
 - Header lab progress comes from `/api/v1/labs/progress/summary`.
+
+## Lab Reset Flow
+
+- `resetLabProgress(slug)` calls `POST /labs/{slug}/reset` with the app JWT.
+- Show the reset button only when progress is not `not_started`.
+- Use a confirmation before calling the destructive endpoint.
+- After reset, set all local step `completed` flags to false and remount the
+  validation panel so old results disappear.
+- Reset affects app progress only; Azure resources must be deleted by cleanup.

@@ -608,3 +608,23 @@ Requirements:
 6. Footer must include "Developed by Jefferson Santos" and the LinkedIn URL.
 7. Replace hardcoded readiness values with API-backed lab progress.
 ```
+
+---
+
+## Prompt de Reset de Laboratório
+
+```
+Implement a lab reset flow for the AZ-104 Trainer.
+
+Requirements:
+1. Add POST /api/v1/labs/{slug}/reset requiring the application JWT.
+2. Delete only app state for the current user and lab: LabProgress,
+   LabStepProgress and LabValidationRun.
+3. Never delete Azure resources; cleanup remains a separate explicit command.
+4. Return a not_started LabProgress payload with zero steps and zero best score.
+5. Add a resetLabProgress API client function.
+6. Add a Reset button in the lab detail hero while progress is not not_started.
+7. Require confirmation with localized EN/PT-BR text.
+8. Remount or clear the validation panel so stale results do not remain visible.
+9. Update README, brainstorm and agent skills with the reset semantics.
+```

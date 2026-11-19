@@ -381,6 +381,12 @@ docker compose up -d frontend backend
    - execute os passos no Portal/CLI;
    - clique em **Validar laboratório**;
    - se aprovado, os passos são marcados como concluídos.
+7. Para recomeçar um lab:
+   - clique em **Reset lab / Reiniciar lab** no topo do detalhe;
+   - confirme a ação quando solicitado;
+   - progresso, steps concluídos e histórico de validação são removidos.
+
+> **Importante:** resetar o lab não exclui recursos Azure. Para excluí-los, use o comando de cleanup do resource group.
 
 Dica: use o portal exatamente em `http://localhost:3000`, pois o redirect URI cadastrado precisa conferir.
 
@@ -692,6 +698,7 @@ Fases concluídas:
 - [x] Questões avançadas em escala com links de documentação.
 - [x] Labs de troubleshooting e capstone multidomínio.
 - [x] Tema escuro, footer com contadores reais e progresso real de labs.
+- [x] Reset de labs para recomeçar do zero.
 - [x] Secret scan local e CI.
 
 Próximos possíveis passos:
