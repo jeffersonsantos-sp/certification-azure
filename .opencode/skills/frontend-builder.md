@@ -108,3 +108,17 @@ export default function Component({ }: ComponentProps) {
 - Avoid unnecessary re-renders
 - Use Web Vitals for performance tracking
 - Optimize images and assets
+
+## Study Session Persistence
+
+- Practice and MockExam sessions live in `sessionStorage`.
+- Use `src/utils/sessionStorage.ts` for safe read/write/clear operations.
+- Show resume/discard controls for saved sessions.
+- Exam timer is based on `savedAt` and pauses while the page is closed.
+- Exam mode delays answers, explanations and documentation links until final review.
+
+## Current UI Notes
+
+- Dark theme with glass surfaces and Azure blue/cyan accents.
+- Footer shows real counters and author credit.
+- Header lab progress comes from `/api/v1/labs/progress/summary`.

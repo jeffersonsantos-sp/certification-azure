@@ -570,3 +570,41 @@ Requirements:
 6. Make the final validation prove that the whole environment is consistent.
 7. Return only valid YAML.
 ```
+
+---
+
+## Prompt de Persistência de Sessão de Estudo
+
+```
+Implement resilient study sessions for an AZ-104 trainer React app.
+
+Requirements:
+1. Store Practice progress in sessionStorage: selected domain, difficulty, count,
+   mode, questions, current index, selected answer, submitted state and feedback.
+2. Store MockExam progress in sessionStorage: config, questions, current index,
+   answers, timeLeft and results.
+3. Show resume/discard controls when a saved session exists.
+4. Adjust the exam timer using savedAt so time does not keep running while away.
+5. Guard double submissions with a ref.
+6. In exam mode, reveal answers, explanations and documentation links only in the
+   final review, never during the session.
+7. Respect the 24-hour maximum session age.
+8. Add EN/PT-BR labels for resume and discard.
+```
+
+---
+
+## Prompt de UI Moderna com Tema Escuro
+
+```
+Modernize the AZ-104 Trainer frontend with a dark Azure-inspired theme.
+
+Requirements:
+1. Use deep navy surfaces, sky/cyan accents, glass effect and subtle radial gradients.
+2. Restyle cards, buttons, inputs, badges, progress bars, nav and code blocks.
+3. Keep strong contrast for readable text.
+4. Add responsive focus states and avoid losing keyboard accessibility.
+5. Footer must show real counts: 15 skills, 350 questions, 5 domains, 28 labs.
+6. Footer must include "Developed by Jefferson Santos" and the LinkedIn URL.
+7. Replace hardcoded readiness values with API-backed lab progress.
+```

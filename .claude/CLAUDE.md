@@ -18,7 +18,7 @@ Question formats: `single_choice`, `multiple_choice`, `case_study`, `drag_drop`,
 ├── frontend/          # React application
 ├── backend/           # FastAPI application
 ├── scripts/           # Utility and migration scripts
-├── labs/              # Bilingual Azure lab definitions (YAML, 23 labs)
+├── labs/              # Bilingual Azure lab definitions (YAML, 28 labs)
 ├── skills-measured/   # AZ-104 exam data
 ├── questions/         # Generated questions
 ├── brainstore/        # Brainstorm documents
@@ -122,10 +122,11 @@ python scripts/import_labs.py
 - Azure endpoints: `GET /azure/subscriptions`, `GET /azure/settings`, `PUT /azure/settings`
 - All lab/Azure settings endpoints require the app JWT; Azure data endpoints additionally require `X-Azure-Authorization: Bearer <azure_access_token>`
 - Azure tokens are validated from claims and allowlists, never persisted or logged; frontend MSAL tokens stay in memory/sessionStorage only
+- Practice and MockExam sessions persist in `sessionStorage` with resume/discard controls; exam timer uses savedAt to pause while away
 
 ## Database Schema
 - **users**: User accounts
-- **questions**: Question bank with `question_type` (`single_choice`, `multiple_choice`, `case_study`, `drag_drop`, `hotspot`), JSONB `question_data`, and JSONB `correct_answer`
+- **questions**: Question bank with `question_type` (`single_choice`, `multiple_choice`, `case_study`, `drag_drop`, `hotspot`), JSONB `question_data`, JSONB `correct_answer`, and `reference_url`
 - **user_answers**: User answers with JSONB `selected_answer`
 - **domains**: Certification domains
 - **skills**: Specific skills within domains
@@ -137,7 +138,7 @@ python scripts/import_labs.py
 - **lab_validation_runs**: Validation history and per-check results
 - **azure_settings**: Selected tenant/subscription metadata; never stores tokens
 
-For multiple-choice and drag-and-drop questions, `correct_answer` is a JSON array. For single-choice, case study, and hotspot questions, it is a string. Hotspot region definitions live in `question_data.regions`; the correct value is a region ID.
+Advanced questions require `reference_url`, which is exposed in answer/exam responses and rendered in the UI. For multiple-choice and drag-and-drop questions, `correct_answer` is a JSON array. For single-choice, case study, and hotspot questions, it is a string. Hotspot region definitions live in `question_data.regions`; the correct value is a region ID.
 
 Lab content is bilingual: `title`, `description`, `objectives`, `prerequisites`, step text and check metadata are keyed by `en` and `pt-BR`. Commands and Azure resource names are never translated. Lab YAML is the source of truth; `scripts/import_labs.py` upserts by stable keys and preserves step/check IDs.
 
@@ -152,7 +153,7 @@ Lab content is bilingual: `title`, `description`, `objectives`, `prerequisites`,
 - Use parameterized queries
 - Keep `bcrypt==4.0.1` pinned for compatibility with `passlib` 1.7.4
 - Azure labs use Portal + Azure CLI instructions in `portal_steps` and `commands` respectively; all localized fields use `en` and `pt-BR`
-- Current lab coverage: 23 labs, 101 steps, 99 checks, all 15 AZ-104 skills
+- Current lab coverage: 28 labs, 129 steps, 121 checks, all 15 AZ-104 skills
 - Lab authoring guidance lives in `.claude/skills/azure-labs-expert.md`; prompts live in `prompts/README.md`
 - Azure lab validation must be read-only (`Reader`), use short-lived tokens, never log authorization headers, and never persist Azure tokens
 - Azure app registration is single-tenant SPA with delegated `user_impersonation` on Azure Service Management

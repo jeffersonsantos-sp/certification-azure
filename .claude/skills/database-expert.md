@@ -77,7 +77,7 @@ The Azure labs feature adds:
 
 `scripts/import_labs.py` reads `labs/*.yaml` and upserts using deterministic UUIDs based on lab/step/check keys, so re-imports are idempotent and preserve progress references.
 
-Lab check types currently supported: `resource_exists`, `resource_count`, `property_equals`, `tag_equals`, `role_assignment_exists`, `group_role_assignment_exists`, `nsg_rule_exists`, `subnet_exists`, `policy_assignment_exists`, `resource_lock_exists`, `virtual_network_peering_exists`, `load_balancer_probe_exists`, `app_service_slot_exists`, `backup_protected_vm_exists`, `file_share_exists`, `route_exists`, `manual`.
+Lab check types currently supported (including `backup_policy_exists`): `resource_exists`, `resource_count`, `property_equals`, `tag_equals`, `role_assignment_exists`, `group_role_assignment_exists`, `nsg_rule_exists`, `subnet_exists`, `policy_assignment_exists`, `resource_lock_exists`, `virtual_network_peering_exists`, `load_balancer_probe_exists`, `app_service_slot_exists`, `backup_protected_vm_exists`, `file_share_exists`, `route_exists`, `manual`.
 
 For existing databases, run:
 

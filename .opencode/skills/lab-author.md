@@ -12,7 +12,7 @@ Create and review bilingual AZ-104 Trainer labs in `labs/*.yaml`.
 4. Provide both `commands` (Azure CLI) and `portal_steps` (Portal do Azure) for every step.
 5. Keep Portal and CLI paths functionally identical.
 6. Use deterministic step/check keys; never reuse a key with different meaning.
-7. Use only supported check types from `.claude/skills/azure-labs-expert.md`.
+7. Use only supported check types from `.claude/skills/azure-labs-expert.md`, including `backup_policy_exists`.
 8. Prefer low-cost resources and include cleanup.
 9. Keep Azure names, SKUs, cmdlets and CLI syntax in English.
 10. Validate YAML before finishing: `python3 -c "import yaml,pathlib; yaml.safe_load(pathlib.Path('labs/<slug>.yaml').read_text())"`.
@@ -43,3 +43,11 @@ When asked to review a lab, report:
   "suggested_fixes": []
 }
 ```
+
+## Troubleshooting and Capstone Labs
+
+Troubleshooting labs create a broken environment first, add a diagnosis step with
+Portal instructions, then fix the configuration. Checks validate only the final state.
+
+Capstone labs combine at least four domains in one scenario, use one tagged resource
+group and validate the full environment.

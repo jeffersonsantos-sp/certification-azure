@@ -1,7 +1,7 @@
 # Brainstorm - AZ-104 Trainer
 
 > Documento de brainstorm, decisões e roadmap do projeto AZ-104 Trainer.
-> Última atualização: laboratórios Azure Fases 0–2 concluídos, 28 labs publicados.
+> Última atualização: Fases 0–4 concluídas, 28 labs publicados, 350 questões balanceadas e 26 questões avançadas.
 
 ---
 
@@ -35,15 +35,19 @@ Profissionais de TI precisam de:
 - Banco local atual: **350 questões aprovadas**, com distribuição equilibrada por domínio/skill.
 - 5 domínios e 15 skills.
 - 5 formatos: `single_choice`, `multiple_choice`, `case_study`, `drag_drop`, `hotspot`.
+- 26 questões avançadas aprovadas (8 multiple, 6 case, 6 drag, 6 hotspot), todas com `reference_url`.
+- Distribuição por domínio: Identity 85, Storage 70, Compute 75, Networking 65, Monitoring 55.
 - Explicações, referências e tags.
 - Leitura sanitizada: gabarito não aparece em consultas.
 
 ### 2. Practice e Mock Exam
 
 - Practice por domínio, dificuldade e quantidade.
-- Modo aprendizado e modo prova.
+- Modo aprendizado e modo prova; no modo prova o gabarito aparece só no resumo final.
 - Simulado com cronômetro e navegação entre questões.
-- Correção no servidor, com persistência opcional de respostas.
+- Sessões persistidas em `sessionStorage` com retomar/descartar; cronômetro ajustado pelo tempo real.
+- Correção no servidor, com persistência opcional de respostas e links de documentação.
+- Revisão final com resposta do aluno, gabarito, explicação e referência oficial.
 
 ### 3. Dashboard
 
@@ -73,6 +77,7 @@ Profissionais de TI precisam de:
 - Validação somente leitura via Resource Graph + ARM.
 - Histórico de validações em `lab_validation_runs`.
 - Tokens Azure nunca persistidos.
+- Inclui 4 labs de troubleshooting e 1 capstone multidomínio.
 
 ---
 
@@ -157,11 +162,12 @@ Profissionais de TI precisam de:
 | cm-02 | `compute-vm`, `compute-vm-disks-availability` |
 | cm-03 | `compute-aci`, `compute-container-registry` |
 | cm-04 | `compute-app-service`, `compute-app-service-slots` |
-| vn-01 | `networking-vnet-peering`, `networking-udr` |
-| vn-02 | `networking-vnet-nsg` |
+| vn-01 | `networking-vnet-peering`, `networking-udr`, `networking-troubleshooting-route` |
+| vn-02 | `networking-vnet-nsg`, `networking-troubleshooting-nsg` |
 | vn-03 | `networking-load-balancer`, `networking-private-endpoint` |
 | mn-01 | `monitoring-observability`, `monitoring-metric-alerts` |
-| mn-02 | `monitoring-backup`, `monitoring-vm-backup` |
+| mn-02 | `monitoring-backup`, `monitoring-vm-backup`, `monitoring-troubleshooting-backup` |
+| multidomínio | `capstone-contoso-foundations` |
 
 ---
 
@@ -182,6 +188,7 @@ virtual_network_peering_exists
 load_balancer_probe_exists
 app_service_slot_exists
 backup_protected_vm_exists
+backup_policy_exists
 file_share_exists
 route_exists
 manual
@@ -250,6 +257,11 @@ Regras:
 | 2 | OAuth Azure, validação read-only e lab piloto | Concluída |
 | P1 | 5 labs para cobrir skills restantes | Concluída |
 | P2 | 5 labs avançados e novos checks | Concluída |
+| Estudo 1 | Distribuição do banco rebalanceada | Concluída |
+| Estudo 2 | Sessões persistidas e modo Exam corrigido | Concluída |
+| Estudo 3 | Formatos avançados e links de documentação | Concluída |
+| Estudo 4 | Troubleshooting labs e capstone | Concluída |
+| UI | Tema escuro, footer real e progresso real de labs | Concluída |
 | Segurança | Secret scan local + CI | Concluída |
 | Documentação | README, prompts, skills, brainstorm | Concluída |
 
@@ -268,6 +280,10 @@ Regras:
 - [x] OAuth Microsoft.
 - [x] Portal + CLI nos labs.
 - [x] 28 labs cobrindo 15 skills.
+- [x] Sessões de Practice/Mock Exam retomáveis.
+- [x] 26 questões avançadas com documentação oficial.
+- [x] Labs de troubleshooting e capstone multidomínio.
+- [x] Tema escuro, footer com contadores reais e progresso real de labs.
 - [x] Segredos e CI de segurança.
 
 ### Pendente / futuro
@@ -305,8 +321,8 @@ Regras:
 | Formatos de questão | 5 (26 questões avançadas) |
 | Domínios | 5 |
 | Skills | 15 |
-| Labs | 23 |
-| Passos de labs | 101 |
-| Checks | 99 |
+| Labs | 28 |
+| Passos de labs | 129 |
+| Checks | 121 |
 | Idiomas | EN, PT-BR |
 | Secret scan | pre-commit + CI |

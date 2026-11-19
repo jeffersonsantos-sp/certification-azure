@@ -49,7 +49,7 @@ Each check must include bilingual `name`/`description`, a supported `check_type`
 - Identity: `role_assignment_exists`, `group_role_assignment_exists`
 - Networking: `subnet_exists`, `nsg_rule_exists`, `virtual_network_peering_exists`, `load_balancer_probe_exists`, `route_exists`
 - Governance: `policy_assignment_exists`, `resource_lock_exists`
-- Workloads: `app_service_slot_exists`, `backup_protected_vm_exists`, `file_share_exists`
+- Workloads: `app_service_slot_exists`, `backup_protected_vm_exists`, `backup_policy_exists`, `file_share_exists`
 - Non-automatable verification: `manual`
 
 ## Check Design Rules
@@ -72,15 +72,15 @@ Each check must include bilingual `name`/`description`, a supported `check_type`
 
 ## Current Coverage
 
-23 labs cover all 15 AZ-104 skills:
+28 labs cover all 15 AZ-104 skills:
 
 | Domain | Skills | Labs |
 |---|---|---|
-| Identity & Governance | ig-01, ig-02, ig-03 | 3 |
-| Networking | vn-01, vn-02, vn-03 | 5 |
+| Identity & Governance | ig-01, ig-02, ig-03 | 4 |
+| Networking | vn-01, vn-02, vn-03 | 7 |
 | Storage | st-01, st-02, st-03 | 4 |
-| Compute | cm-01, cm-02, cm-03, cm-04 | 6 |
-| Monitoring | mn-01, mn-02 | 4 |
+| Compute | cm-01, cm-02, cm-03, cm-04 | 7 (incl. capstone) |
+| Monitoring | mn-01, mn-02 | 5 |
 
 ## Validation Flow
 
@@ -134,3 +134,4 @@ Troubleshooting labs should:
 Capstone labs should combine multiple domains in one scenario. Prefer 6-10 steps,
 one resource group, low-cost resources and checks from at least four domains.
 Current capstone: `labs/capstone-contoso-foundations.yaml`.
+Current troubleshooting labs: route, NSG, policy compliance and missing backup policy.

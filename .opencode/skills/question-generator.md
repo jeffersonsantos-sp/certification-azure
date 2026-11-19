@@ -132,3 +132,13 @@ Generate high-quality AZ-104 certification practice questions using AI.
 - [ ] `correct_answer` shape matches `question_type`
 - [ ] Drag-and-drop lists every option label exactly once
 - [ ] Hotspot regions are valid and the correct ID exists
+
+## Advanced Format Rules
+
+- `multiple_choice`: 4 options, at least two correct answers, `correct_answer` as array.
+- `case_study`: `question_data.scenario` required.
+- `drag_drop`: `correct_answer` lists every option label once in the correct order.
+- `hotspot`: `question_data.image_url` and regions with numeric x/y/width/height.
+- Every advanced question requires an official `reference_url`.
+
+Use `python3 scripts/generate.py --all-formats --all --count 2 --batch-size 4` to generate advanced drafts at scale.

@@ -70,24 +70,31 @@ cd certification-azure
 
 ### Banco de questões
 
-- Banco atual com **350 questões aprovadas** (número dinâmico: `GET /api/v1/questions/stats`).
-- 5 domínios oficiais do AZ-104.
+- Banco atual com **350 questões aprovadas**, rebalanceado pelos pesos oficiais do exame:
+  - Identity & Governance: 85
+  - Storage: 70
+  - Compute: 75
+  - Networking: 65
+  - Monitoring: 55
+- 5 domínios oficiais e 15 skills.
 - 3 níveis de dificuldade: `easy`, `intermediate`, `advanced`.
-- 5 formatos, com 26 questões avançadas aprovadas (8 `multiple_choice`, 6 `case_study`, 6 `drag_drop`, 6 `hotspot`):
-  - `single_choice`
-  - `multiple_choice`
-  - `case_study`
-  - `drag_drop`
-  - `hotspot`
-- Explicações detalhadas e referências para documentação oficial.
+- 5 formatos, com **26 questões avançadas aprovadas**:
+  - 8 `multiple_choice`
+  - 6 `case_study`
+  - 6 `drag_drop`
+  - 6 `hotspot`
+- Todas as questões avançadas possuem `reference_url` válido; a correção exibe link para a documentação oficial.
 - Leitura sanitizada: `correct_answer`, `explanation` e `is_correct` não vazam em endpoints de consulta.
 
 ### Prática e simulado
 
 - Practice por domínio/skill, dificuldade e quantidade de questões.
-- Modo aprendizado (feedback imediato) e modo prova.
+- Modo aprendizado (feedback imediato) e modo prova (gabarito somente no resumo final).
+- **Sessões persistidas em `sessionStorage`**: respostas, índice da questão e cronômetro sobrevivem a refresh, com opção de retomar ou descartar.
+- Cronômetro do simulado ajustado pelo tempo real fora da página; expiração finaliza automaticamente a prova.
 - Simulado com 40/50/60 questões e cronômetro de 60/90/120 minutos.
 - Correção no servidor, com histórico opcional quando o usuário está autenticado.
+- Revisão pós-sessão mostra resposta do aluno, resposta correta, explicação e link de documentação.
 - Relatório por domínio e skill.
 
 ### Laboratórios Azure
@@ -95,16 +102,19 @@ cd certification-azure
 - **28 labs** cobrindo **todas as 15 skills** do AZ-104.
 - **129 passos** e **121 checks** automatizados.
 - Cada passo traz abas **Portal** e **Azure CLI**, nos idiomas EN e PT-BR.
+- Inclui labs de criação, **labs de troubleshooting** e um **capstone multidomínio**.
 - Validação automática via **Azure Resource Graph + ARM**, sem modificar recursos.
 - Progresso por usuário, melhor score, histórico de validações e marcação automática de passos após aprovação.
 - Tokens Azure nunca são gravados no banco.
 
 ### Internacionalização
 
-- Interface em inglês e português.
+- Interface em inglês e português, com tema escuro moderno.
 - Idioma da interface e idioma das questões são independentes.
 - Nomes de produtos Azure, cmdlets, comandos CLI e acrônimos permanecem em inglês com grafia canônica.
 - Tradução sob demanda com cache em memória e `localStorage`.
+- Footer exibe contadores reais: 15 Skills, 350 Questions, 5 Domains, 28 Labs e crédito ao autor.
+- Header mostra progresso real de labs para usuários autenticados (substitui o indicador fixo antigo).
 
 ---
 
@@ -179,12 +189,12 @@ certification-azure/
 ├── frontend/
 │   ├── src/
 │   │   ├── azure/                 # Config MSAL e instância do cliente
-│   │   ├── components/            # CommandList, StepMethodTabs, RequireAuth, etc.
+│   │   ├── components/            # QuestionContent, CommandList, StepMethodTabs, etc.
 │   │   ├── context/               # AuthContext, AzureContext, LanguageContext
 │   │   ├── i18n/                  # en.ts, pt.ts, questions.ts, azureTerms.ts
 │   │   ├── pages/                 # Dashboard, Practice, MockExam, Labs, LabDetail, etc.
 │   │   ├── services/api.ts        # Cliente Axios + tipos
-│   │   └── utils/                 #_domains, answers
+│   │   └── utils/                 # answers, domains, sessionStorage
 │   ├── Dockerfile
 │   └── nginx.conf
 ├── backend/
@@ -194,8 +204,8 @@ certification-azure/
 │       ├── models/models.py       # Todas as tabelas
 │       ├── services/azure.py      # AzureClient + LabValidator
 │       └── main.py
-├── labs/                          # 23 arquivos YAML bilíngues
-├── scripts/                       # Importadores, migrações e scanner de segredos
+├── labs/                          # 28 arquivos YAML bilíngues
+├── scripts/                       # Gerador, importadores, rebalanceador, migrações e scanner
 ├── prompts/README.md              # Prompts de IA
 ├── .claude/                       # CLAUDE.md + skills
 ├── .opencode/skills/              # Skills do OpenCode
@@ -404,6 +414,11 @@ Dica: use o portal exatamente em `http://localhost:3000`, pois o redirect URI ca
 | `monitoring-metric-alerts` | Monitoring | mn-01 | intermediate | 20 min |
 | `monitoring-backup` | Monitoring | mn-02 | intermediate | 15 min |
 | `monitoring-vm-backup` | Monitoring | mn-02 | advanced | 30 min |
+| `networking-troubleshooting-route` | Networking | vn-01 | intermediate | 25 min |
+| `networking-troubleshooting-nsg` | Networking | vn-02 | intermediate | 25 min |
+| `identity-troubleshooting-policy` | Identity & Governance | ig-03 | intermediate | 20 min |
+| `monitoring-troubleshooting-backup` | Monitoring | mn-02 | advanced | 25 min |
+| `capstone-contoso-foundations` | Compute / multidomínio | cm-01 | advanced | 60 min |
 
 ### Como a validação funciona
 
@@ -429,6 +444,7 @@ virtual_network_peering_exists
 load_balancer_probe_exists
 app_service_slot_exists
 backup_protected_vm_exists
+backup_policy_exists
 file_share_exists
 route_exists
 manual
@@ -455,7 +471,9 @@ Sempre apague os grupos após o estudo para evitar custos.
 ## 📥 Importação e migrações
 
 ```bash
-# Questões — etapa canônica de distribuição
+# Questões — geração avançada e distribuição
+python3 scripts/generate.py --all-formats --all --count 2 --batch-size 4
+python3 scripts/validate.py review --dir questions/drafts
 docker compose exec backend python scripts/rebalance_questions.py
 
 # Labs
@@ -493,6 +511,8 @@ Documentação interativa:
 | `GET` | `/api/v1/questions/{id}` | Detalhe sanitizado |
 | `POST` | `/api/v1/questions/{id}/answer` | Responder uma questão |
 | `POST` | `/api/v1/questions/submit-exam` | Corrigir simulado |
+
+`_question_payload`, `submit_answer` e `submit_exam` incluem `reference_url` quando disponível. As respostas continuam sem expor o campo bruto `correct_answer` em leituras sanitizadas.
 
 ### Labs
 
@@ -564,8 +584,8 @@ Para camada extra, habilite **GitHub Secret Scanning** em **Settings > Code secu
 O arquivo [`prompts/README.md`](prompts/README.md) contém prompts para:
 
 - Geração de questões `single_choice`.
-- Geração de formatos avançados.
-- Validação de questões.
+- Geração de formatos avançados em escala (`--all-formats`).
+- Validação de questões com regras por formato e `reference_url` obrigatório.
 - Explicações com IA.
 - Plano de estudo.
 - Análise de desempenho.
@@ -575,8 +595,12 @@ O arquivo [`prompts/README.md`](prompts/README.md) contém prompts para:
 - Documentação.
 - Testes.
 - Autoria de labs Azure.
+- Labs de troubleshooting com cenário quebrado.
+- Capstone multidomínio.
 - Criação de checks de validação.
 - Revisão de segurança.
+- Persistência de sessão de estudo.
+- UI moderna com tema escuro.
 
 ### Skills
 
@@ -662,6 +686,10 @@ Fases concluídas:
 - [x] Validação read-only via Resource Graph/ARM.
 - [x] Portal + CLI em todos os labs.
 - [x] Cobertura das 15 skills com 28 labs.
+- [x] Sessões de Practice/Mock Exam persistidas e retomáveis.
+- [x] Questões avançadas em escala com links de documentação.
+- [x] Labs de troubleshooting e capstone multidomínio.
+- [x] Tema escuro, footer com contadores reais e progresso real de labs.
 - [x] Secret scan local e CI.
 
 Próximos possíveis passos:
