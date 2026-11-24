@@ -105,6 +105,7 @@ cd certification-azure
 - Inclui labs de criação, **labs de troubleshooting** e um **capstone multidomínio**.
 - Validação automática via **Azure Resource Graph + ARM**, sem modificar recursos.
 - Progresso por usuário, melhor score, histórico de validações e marcação automática de passos após aprovação.
+- Catálogo separado por **categorias/domínios**: Identity & Governance, Storage, Compute, Networking e Monitoring, com filtros rápidos e contagem por domínio.
 - Botão **Reset lab / Reiniciar lab** no detalhe do lab: redefine progresso, steps e histórico de validação para começar do zero.
 - Tokens Azure nunca são gravados no banco.
 

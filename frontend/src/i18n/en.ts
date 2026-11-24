@@ -166,6 +166,7 @@ const en = {
     totalLabs: 'Total labs',
     inProgress: 'In progress',
     stepsCompleted: 'Steps completed',
+    categoryProgress: 'Passed: {passed}/{total}',
     statuses: {
       notStarted: 'Not started',
       inProgress: 'In progress',

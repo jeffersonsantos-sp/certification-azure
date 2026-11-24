@@ -6,6 +6,22 @@ const domainNameKeys: Record<string, string> = {
   monitoring: 'practice.monitoring',
 }
 
+export const DOMAIN_ORDER = [
+  'identity-governance',
+  'storage',
+  'compute',
+  'networking',
+  'monitoring',
+]
+
+const domainAccents: Record<string, string> = {
+  'identity-governance': 'border-sky-400',
+  storage: 'border-emerald-400',
+  compute: 'border-orange-400',
+  networking: 'border-violet-400',
+  monitoring: 'border-teal-400',
+}
+
 const domainColors: Record<string, string> = {
   'identity-governance': 'bg-blue-50 text-blue-700 border-blue-200',
   storage: 'bg-emerald-50 text-emerald-700 border-emerald-200',
@@ -21,4 +37,8 @@ export function domainLabel(id: string, translate: (key: string) => string): str
 
 export function domainColor(id: string): string {
   return domainColors[id] || 'bg-gray-50 text-gray-600 border-gray-200'
+}
+
+export function domainAccent(id: string): string {
+  return domainAccents[id] || 'border-gray-400'
 }

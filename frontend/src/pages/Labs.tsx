@@ -9,7 +9,12 @@ import {
   LocalizedString,
 } from '../services/api'
 import { useLanguage } from '../context/LanguageContext'
-import { domainColor, domainLabel } from '../utils/domains'
+import {
+  DOMAIN_ORDER,
+  domainAccent,
+  domainColor,
+  domainLabel,
+} from '../utils/domains'
 
 const statusStyles: Record<LabProgressStatus, string> = {
   not_started: 'bg-gray-100 text-gray-600',
@@ -61,7 +66,9 @@ export default function Labs() {
     load()
   }, [language])
 
-  const domains = Array.from(new Set(labs.map((lab) => lab.domain_id)))
+  const domains = DOMAIN_ORDER.filter((domain) =>
+    labs.some((lab) => lab.domain_id === domain)
+  )
   const query = search.trim().toLowerCase()
   const filteredLabs = labs.filter((lab) => {
     if (domainFilter !== 'all' && lab.domain_id !== domainFilter) return false
@@ -77,6 +84,10 @@ export default function Labs() {
       .toLowerCase()
     return haystack.includes(query)
   })
+  const groupedLabs = DOMAIN_ORDER.map((domain) => ({
+    domain,
+    labs: filteredLabs.filter((lab) => lab.domain_id === domain),
+  })).filter((group) => group.labs.length > 0)
 
   return (
     <div className="space-y-8">
@@ -112,27 +123,14 @@ export default function Labs() {
       )}
 
       <div className="card-elevated p-4 md:p-5">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           <input
             type="search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
             placeholder={t('labs.searchPlaceholder')}
-            className="input md:col-span-1"
-          />
-          <select
-            value={domainFilter}
-            onChange={(event) => setDomainFilter(event.target.value)}
             className="input"
-            aria-label={t('labs.domain')}
-          >
-            <option value="all">{t('labs.allDomains')}</option>
-            {domains.map((domain) => (
-              <option key={domain} value={domain}>
-                {domainLabel(domain, t)}
-              </option>
-            ))}
-          </select>
+          />
           <select
             value={statusFilter}
             onChange={(event) => setStatusFilter(event.target.value)}
@@ -146,6 +144,34 @@ export default function Labs() {
             <option value="failed">{t('labs.statuses.failed')}</option>
           </select>
         </div>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setDomainFilter('all')}
+            className={`badge border transition-colors ${
+              domainFilter === 'all'
+                ? 'border-blue-400 bg-blue-500/15 text-blue-200'
+                : 'border-white/10 text-gray-400 hover:text-white'
+            }`}
+          >
+            {t('labs.allDomains')} ({labs.length})
+          </button>
+          {domains.map((domain) => (
+            <button
+              key={domain}
+              type="button"
+              onClick={() => setDomainFilter(domain)}
+              className={`badge border transition-colors ${
+                domainFilter === domain
+                  ? domainColor(domain)
+                  : 'border-white/10 text-gray-400 hover:text-white'
+              }`}
+            >
+              {domainLabel(domain, t)} ({labs.filter((lab) => lab.domain_id === domain).length})
+            </button>
+          ))}
+        </div>
       </div>
 
       {loading ? (
@@ -157,65 +183,96 @@ export default function Labs() {
       ) : filteredLabs.length === 0 ? (
         <div className="card-elevated p-10 text-center text-gray-500">{t('labs.noResults')}</div>
       ) : (
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          {filteredLabs.map((lab) => {
-            const progress = lab.progress
-            const status = progress.status
-            const buttonLabel =
-              status === 'not_started'
-                ? t('labs.startLab')
-                : status === 'passed'
-                  ? t('labs.reviewLab')
-                  : t('labs.continueLab')
+        <div className="space-y-10">
+          {groupedLabs.map((group) => {
+            const passedCount = group.labs.filter(
+              (lab) => lab.progress.status === 'passed'
+            ).length
 
             return (
-              <article key={lab.id} className="card-elevated flex flex-col p-6 card-hover">
-                <div className="mb-4 flex flex-wrap items-center gap-2">
-                  <span className={`badge border ${domainColor(lab.domain_id)}`}>
-                    {domainLabel(lab.domain_id, t)}
-                  </span>
-                  <span className={`badge badge-${lab.difficulty}`}>
-                    {t(`practice.${lab.difficulty}`)}
-                  </span>
-                  <span className={`badge ${statusStyles[status]}`}>{t(statusKeys[status])}</span>
-                  <span className="ml-auto text-sm text-gray-400">
-                    {t('labs.minutes', { count: lab.estimated_minutes })}
-                  </span>
-                </div>
-
-                <h2 className="mb-2 text-xl font-bold text-gray-900">
-                  {localized(lab.title, language)}
-                </h2>
-                <p className="mb-5 flex-1 text-sm leading-relaxed text-gray-500">
-                  {localized(lab.description, language)}
-                </p>
-
-                <div className="mb-2 flex items-center justify-between text-sm">
-                  <span className="font-medium text-gray-600">{t('labs.progress')}</span>
-                  <span className="text-gray-500">
-                    {t('labs.stepsCount', {
-                      completed: progress.completed_steps,
-                      total: progress.total_steps,
+              <section key={group.domain}>
+                <div
+                  className={`mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-white/5 px-4 py-3 border-l-4 ${domainAccent(group.domain)}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className={`badge border ${domainColor(group.domain)}`}>
+                      {domainLabel(group.domain, t)}
+                    </span>
+                    <h2 className="text-lg font-bold text-white">
+                      {domainLabel(group.domain, t)}
+                    </h2>
+                  </div>
+                  <span className="text-sm text-gray-400">
+                    {t('labs.categoryProgress', {
+                      passed: passedCount,
+                      total: group.labs.length,
                     })}
                   </span>
                 </div>
-                <div className="progress mb-5">
-                  <div
-                    className="progress-bar"
-                    style={{ width: `${progress.progress_percentage}%` }}
-                  />
-                </div>
 
-                <div className="flex items-center justify-between gap-4">
-                  <span className="font-mono text-xs text-gray-400">{lab.resource_group_name}</span>
-                  <Link
-                    to={`/labs/${lab.slug}`}
-                    className="btn-primary px-5 py-2.5 text-sm"
-                  >
-                    {buttonLabel}
-                  </Link>
+                <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                  {group.labs.map((lab) => {
+                    const progress = lab.progress
+                    const status = progress.status
+                    const buttonLabel =
+                      status === 'not_started'
+                        ? t('labs.startLab')
+                        : status === 'passed'
+                          ? t('labs.reviewLab')
+                          : t('labs.continueLab')
+
+                    return (
+                      <article key={lab.id} className="card-elevated flex flex-col p-6 card-hover">
+                        <div className="mb-4 flex flex-wrap items-center gap-2">
+                          <span className={`badge border ${domainColor(lab.domain_id)}`}>
+                            {domainLabel(lab.domain_id, t)}
+                          </span>
+                          <span className={`badge badge-${lab.difficulty}`}>
+                            {t(`practice.${lab.difficulty}`)}
+                          </span>
+                          <span className={`badge ${statusStyles[status]}`}>{t(statusKeys[status])}</span>
+                          <span className="ml-auto text-sm text-gray-400">
+                            {t('labs.minutes', { count: lab.estimated_minutes })}
+                          </span>
+                        </div>
+
+                        <h3 className="mb-2 text-xl font-bold text-gray-900">
+                          {localized(lab.title, language)}
+                        </h3>
+                        <p className="mb-5 flex-1 text-sm leading-relaxed text-gray-500">
+                          {localized(lab.description, language)}
+                        </p>
+
+                        <div className="mb-2 flex items-center justify-between text-sm">
+                          <span className="font-medium text-gray-600">{t('labs.progress')}</span>
+                          <span className="text-gray-500">
+                            {t('labs.stepsCount', {
+                              completed: progress.completed_steps,
+                              total: progress.total_steps,
+                            })}
+                          </span>
+                        </div>
+                        <div className="progress mb-5">
+                          <div
+                            className="progress-bar"
+                            style={{ width: `${progress.progress_percentage}%` }}
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between gap-4">
+                          <span className="font-mono text-xs text-gray-400">{lab.resource_group_name}</span>
+                          <Link
+                            to={`/labs/${lab.slug}`}
+                            className="btn-primary px-5 py-2.5 text-sm"
+                          >
+                            {buttonLabel}
+                          </Link>
+                        </div>
+                      </article>
+                    )
+                  })}
                 </div>
-              </article>
+              </section>
             )
           })}
         </div>

@@ -131,3 +131,10 @@ export default function Component({ }: ComponentProps) {
 - After reset, set all local step `completed` flags to false and remount the
   validation panel so old results disappear.
 - Reset affects app progress only; Azure resources must be deleted by cleanup.
+
+## Lab Catalog Grouping
+
+- Use `DOMAIN_ORDER` from `src/utils/domains.ts` for stable category order.
+- Show domain filter chips with counts and group `filteredLabs` by domain when rendering.
+- Each group header uses `domainColor` and `domainAccent` for consistent identity.
+- Status and search filters must still apply inside each group.

@@ -168,6 +168,7 @@ const pt: Translations = {
     totalLabs: 'Total de labs',
     inProgress: 'Em andamento',
     stepsCompleted: 'Passos concluídos',
+    categoryProgress: 'Aprovados: {passed}/{total}',
     statuses: {
       notStarted: 'Não iniciado',
       inProgress: 'Em andamento',

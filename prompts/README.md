@@ -628,3 +628,19 @@ Requirements:
 8. Remount or clear the validation panel so stale results do not remain visible.
 9. Update README, brainstorm and agent skills with the reset semantics.
 ```
+
+---
+
+## Prompt de Categorização de Labs
+
+```
+Organize the AZ-104 Trainer lab catalog by domain.
+
+Requirements:
+1. Use the fixed order: Identity & Governance, Storage, Compute, Networking, Monitoring.
+2. Add filter chips with lab counts.
+3. Group visible labs under domain section headers.
+4. Keep search and status filters working across all groups.
+5. Use existing domain colors/accents and bilingual i18n labels.
+6. Do not change lab data or progress semantics.
+```

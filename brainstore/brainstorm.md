@@ -73,6 +73,7 @@ Profissionais de TI precisam de:
 - **28 labs** cobrindo **todas as 15 skills**.
 - **129 passos**, **121 checks**.
 - Portal + Azure CLI em abas, em EN/PT-BR.
+- Catálogo agrupado por domínio com filtros rápidos e contagem por categoria.
 - OAuth Microsoft via MSAL.
 - Validação somente leitura via Resource Graph + ARM.
 - Histórico de validações em `lab_validation_runs`.
